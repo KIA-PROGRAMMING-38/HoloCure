@@ -9,10 +9,6 @@ public class Character : MonoBehaviour, IMoveable, IAttackable, ITakeDamageable
     {
         
     }
-    public virtual void Move(Vector2 moveVec)
-    {
-
-    }
     public virtual void Attack()
     {
 
