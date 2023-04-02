@@ -14,8 +14,7 @@ public class PlayerInput : MonoBehaviour
     }
     void Update()
     {
-        _moveVec.x = Input.GetAxisRaw(InputLiteral.HORIZONTAL);
-        _moveVec.y = Input.GetAxisRaw(InputLiteral.VERTICAL);
+        _moveVec.Set(Input.GetAxisRaw(InputLiteral.HORIZONTAL), Input.GetAxisRaw(InputLiteral.VERTICAL));
         MouseScreenPos = Input.mousePosition;
         MouseWorldPos = _mainCamera.ScreenToWorldPoint(MouseScreenPos);
     }
