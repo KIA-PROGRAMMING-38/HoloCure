@@ -21,7 +21,6 @@ public abstract class CharacterBase : MonoBehaviour, IMoveable, IAttackable, ITa
     }
     public virtual void TakeDamage(int damage)
     {
-        Debug.Log($"{gameObject.name} 공격받음, 현재 체력: {currentHealth}");
         currentHealth -= damage;
 
         if (currentHealth <= 0)
