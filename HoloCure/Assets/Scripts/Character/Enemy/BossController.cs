@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BossController : Character
+public class BossController : CharacterBase
 {
 
 }

@@ -1,4 +1,6 @@
-﻿public interface IAttackable
+﻿using UnityEngine;
+
+public interface IAttackable
 {
-    void Attack();
+    void Attack(CharacterBase target);
 }

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Grid
   - GridSensor
+  - VTuber
+  - Enemy
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -13,13 +16,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - VTuber
+  - Obstacle
+  - EnemyBody
+  - GridSensor
+  - Grid
+  - HEnemy
   - 
   - 
   - 
