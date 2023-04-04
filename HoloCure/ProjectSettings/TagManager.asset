@@ -22,7 +22,7 @@ TagManager:
   - EnemyBody
   - GridSensor
   - Grid
-  - HEnemy
+  - HaveRefEnemy
   - 
   - 
   - 

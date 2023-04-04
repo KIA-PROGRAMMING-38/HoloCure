@@ -1,6 +1,7 @@
 using StringLiterals;
 using System.Collections;
 using UnityEngine;
+using Util.Pool;
 
 public class Enemy : CharacterBase
 {
@@ -13,7 +14,11 @@ public class Enemy : CharacterBase
 
     private Transform _dieEffect;
 
-    private void Awake()
+    protected int exp;
+    public int SpawnStartTime { get; protected set; }
+    public int SpawnEndTime { get; protected set; }
+
+    protected virtual void Awake()
     {
         _body = transform.Find(GameObjectLiteral.BODY);
         _enemyAnimation = _body.GetComponent<EnemyAnimation>();
@@ -23,11 +28,6 @@ public class Enemy : CharacterBase
 
         GetComponent<CircleCollider2D>().isTrigger = true;
         GetComponent<Rigidbody2D>().freezeRotation = true;
-        maxHealth = 8;
-        atkPower = 2;
-        moveSpeed *= 0.35f;
-
-        
     }
     protected override void OnEnable()
     {
@@ -42,9 +42,8 @@ public class Enemy : CharacterBase
     {
         target.TakeDamage((int)atkPower);
     }
-    private void Spawn()
+    protected virtual void Spawn()
     {
-        moveSpeed = 80f * 0.35f;
         _dieEffect.gameObject.SetActive(false);
         _body.position = transform.position;
         _enemyAnimation.SetSpawn();
@@ -62,7 +61,7 @@ public class Enemy : CharacterBase
         _dieEffect.gameObject.SetActive(true);
     }
 
-    // 사망시 움직임
+    // 사망시 움직임 및 반환
     private float _elapsedTime;
     private IEnumerator _dyingMoveCoroutine;
     private IEnumerator DyingMove(Transform bodyTransform, Vector2 dyingPoint, Vector2 dir)
@@ -77,11 +76,15 @@ public class Enemy : CharacterBase
             if (_elapsedTime > 0.7f)
             {
                 _elapsedTime = 0f;
+                _pool.Release(this);
                 StopCoroutine(_dyingMoveCoroutine);
-                gameObject.SetActive(false);
             }
         }
     }
+
+    // 풀 참조 설정
+    private ObjectPool<Enemy> _pool;
+    public void SetPoolRef(ObjectPool<Enemy> pool) => _pool = pool;
 
     // 참조
     private void OnTriggerEnter2D(Collider2D collision)
