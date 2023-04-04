@@ -3,10 +3,10 @@ using UnityEngine;
 public abstract class CharacterBase : MonoBehaviour, IMoveable, IAttackable, ITakeDamageable
 {
     [SerializeField] protected int maxHealth;
-    protected int currentHealth;
-    [SerializeField] protected float atkPower = 1f;
-    [SerializeField] protected float moveSpeed = 80f;
-
+    [SerializeField] private int currentHealth;
+    [SerializeField] protected float atkPower;
+    [SerializeField] protected float moveSpeed;
+    protected const int DEFAULT_SPEED = 80;
     protected virtual void OnEnable()
     {
         currentHealth = maxHealth;
@@ -21,7 +21,6 @@ public abstract class CharacterBase : MonoBehaviour, IMoveable, IAttackable, ITa
     }
     public virtual void TakeDamage(int damage)
     {
-        Debug.Log($"{gameObject.name} 공격받음, 현재 체력: {currentHealth}");
         currentHealth -= damage;
 
         if (currentHealth <= 0)

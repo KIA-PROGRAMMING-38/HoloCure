@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private VTuber _VTuber;
-
     private void Awake()
     {
         _VTuber = GetComponent<VTuber>();
