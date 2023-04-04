@@ -83,11 +83,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3266031367701487875}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c10450eb0cf58e41bbef1dc0c454401, type: 3}
+  m_Script: {fileID: 11500000, guid: 39d30e8b1c450514c83391dbe5a2b8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
-  currentHealth: 0
+  maxHealth: 8
+  currentHealth: 2
   atkPower: 0
   moveSpeed: 80
 --- !u!114 &3266031367701487885

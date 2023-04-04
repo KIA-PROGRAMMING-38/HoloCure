@@ -33,6 +33,7 @@ namespace Util.Pool
                 throw new ArgumentException("Max size must be greater than 0");
             }
 
+            _pool = new Stack<T>(defaultCapacity);
             _createFunc = createFunc;
             _actionOnGet = actionOnGet;
             _actionOnRelease = actionOnRelease;

@@ -14,11 +14,13 @@ public class Enemy : CharacterBase
 
     private Transform _dieEffect;
 
-    protected int exp;
-    public int SpawnStartTime { get; protected set; }
-    public int SpawnEndTime { get; protected set; }
+    private int exp;
 
-    protected virtual void Awake()
+    // юс╫ц
+    public int SpawnStartTime  = 0;
+    public int SpawnEndTime  = 300;
+
+    private void Awake()
     {
         _body = transform.Find(GameObjectLiteral.BODY);
         _enemyAnimation = _body.GetComponent<EnemyAnimation>();
@@ -31,8 +33,10 @@ public class Enemy : CharacterBase
     }
     protected override void OnEnable()
     {
+        base.OnEnable();
         Spawn();
     }
+
     public override void Move()
     {
         Vector2 moveVec = _VTuberTransform.position - transform.position;
@@ -42,8 +46,10 @@ public class Enemy : CharacterBase
     {
         target.TakeDamage((int)atkPower);
     }
-    protected virtual void Spawn()
+    private void Spawn()
     {
+        moveSpeed = DEFAULT_SPEED;
+
         _dieEffect.gameObject.SetActive(false);
         _body.position = transform.position;
         _enemyAnimation.SetSpawn();
