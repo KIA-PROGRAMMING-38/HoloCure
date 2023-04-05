@@ -86,10 +86,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d30e8b1c450514c83391dbe5a2b8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 8
-  currentHealth: 2
-  atkPower: 0
-  moveSpeed: 80
 --- !u!114 &3266031367701487885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,7 +280,7 @@ Animator:
   m_GameObject: {fileID: 3266031368903748026}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: f7a8b04f0d260ca44a5a297d7956f34a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1f67f3a15f318274abcfb82e0a9e30ef, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

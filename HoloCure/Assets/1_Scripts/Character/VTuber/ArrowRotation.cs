@@ -4,9 +4,10 @@ public class ArrowRotation : MonoBehaviour
 {
     private PlayerInput _input;
 
-    private void Awake()
+    private void OnEnable()
     {
         _input = transform.root.GetComponent<PlayerInput>();
+
     }
     void Update()
     {

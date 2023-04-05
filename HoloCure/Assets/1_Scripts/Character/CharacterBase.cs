@@ -2,14 +2,15 @@ using UnityEngine;
 
 public abstract class CharacterBase : MonoBehaviour, IMoveable, IAttackable, ITakeDamageable
 {
-    [SerializeField] protected int maxHealth;
-    [SerializeField] private int currentHealth;
-    [SerializeField] protected float atkPower;
-    [SerializeField] protected float moveSpeed;
-    protected const int DEFAULT_SPEED = 80;
+    protected CharacterStat baseStat = new CharacterStat();
+    [SerializeField]protected int currentHealth;
+    protected float moveSpeed;
+    protected const int DEFAULT_MOVE_SPEED = 80;
+
     protected virtual void OnEnable()
     {
-        currentHealth = maxHealth;
+        currentHealth = baseStat.MaxHealth;
+        moveSpeed = baseStat.MoveSpeedRate * DEFAULT_MOVE_SPEED;
     }
     public virtual void Move()
     {

@@ -4,44 +4,49 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    [SerializeField] private List<Enemy> _enemyPrefabs;
-    private Dictionary<string, EnemyPool> _enemyPools;
+    private GameManager _gameManager;
+    private DataTableManager _dataTableManager;
+    private EnemyDataTable _enemyDataTable;
 
-    private void Awake()
+    public GameManager GameManager
     {
-        _enemyPools = new Dictionary<string, EnemyPool>();
-        foreach (Enemy enemyPrefab in _enemyPrefabs)
+        private get => _gameManager;
+        set
         {
-            if (_enemyPools.ContainsKey(enemyPrefab.name))
+            _gameManager = value;
+            _dataTableManager = _gameManager.DataTableManager;
+            _enemyDataTable = _dataTableManager.EnemyDataTable;
+        }
+    }
+
+    private Dictionary<EnemyID, EnemyPool> _enemyPools;
+    private void Start()
+    {
+        _enemyPools = new Dictionary<EnemyID, EnemyPool>();
+        _spawnInterval = new WaitForSeconds(1);
+        foreach (KeyValuePair<EnemyID, Enemy> keyValuePair in _enemyDataTable.EnemyPrefabContainer)
+        {
+            if (_enemyPools.ContainsKey(keyValuePair.Key))
             {
                 continue;
             }
             EnemyPool enemyPool = new EnemyPool();
-            enemyPool.Initialize(enemyPrefab);
-            _enemyPools.Add(enemyPrefab.name, enemyPool);
-        }
-    }
-    private void Start()
-    {
-        _spawnInterval = new WaitForSeconds(1);
-        foreach (Enemy enemy in _enemyPrefabs)
-        {
-            IEnumerator spawnEnemyCoroutine = SpawnEnemy(enemy);
+            enemyPool.Initialize(keyValuePair.Value);
+            _enemyPools.Add(keyValuePair.Key, enemyPool);
+
+            IEnumerator spawnEnemyCoroutine = SpawnEnemy(keyValuePair.Key, keyValuePair.Value);
             StartCoroutine(spawnEnemyCoroutine);
         }
     }
 
     private WaitForSeconds _spawnInterval;
-    private IEnumerator SpawnEnemy(Enemy enemy)
+    private IEnumerator SpawnEnemy(EnemyID ID, Enemy enemy)
     {
         yield return new WaitForSeconds(enemy.SpawnStartTime);
-        Debug.Log(enemy.SpawnStartTime);
-        Debug.Log(enemy.SpawnEndTime);
-        while (Time.time <  enemy.SpawnEndTime)
-        {
-            Debug.Log("문제인거야?");
 
-            Enemy enemyInstance = _enemyPools[enemy.name].GetEnemyFromPool();
+        while (Time.time < enemy.SpawnEndTime)
+        {
+            Enemy enemyInstance = _enemyPools[ID].GetEnemyFromPool();
             enemyInstance.transform.position = Camera.main.transform.position + Vector3.right * 100;
 
             yield return _spawnInterval;

@@ -14,19 +14,12 @@ public class Enemy : CharacterBase
 
     private Transform _dieEffect;
 
-    private int exp;
-
-    // 임시
-    public int SpawnStartTime  = 0;
-    public int SpawnEndTime  = 300;
-
+    private EnemyFeature _enemyFeature;
+    public int EXP => _enemyFeature.Exp;
+    public int SpawnStartTime => _enemyFeature.SpawnStartTime;
+    public int SpawnEndTime => _enemyFeature.SpawnEndTime;
     private void Awake()
     {
-        _body = transform.Find(GameObjectLiteral.BODY);
-        _enemyAnimation = _body.GetComponent<EnemyAnimation>();
-        _spriteRenderer = _body.GetComponent<SpriteRenderer>();
-
-        _dieEffect = transform.Find(GameObjectLiteral.DIE_EFFECT);
 
         GetComponent<CircleCollider2D>().isTrigger = true;
         GetComponent<Rigidbody2D>().freezeRotation = true;
@@ -44,12 +37,10 @@ public class Enemy : CharacterBase
     }
     public override void Attack(CharacterBase target)
     {
-        target.TakeDamage((int)atkPower);
+        target.TakeDamage((int)baseStat.ATKPower);
     }
     private void Spawn()
     {
-        moveSpeed = DEFAULT_SPEED;
-
         _dieEffect.gameObject.SetActive(false);
         _body.position = transform.position;
         _enemyAnimation.SetSpawn();
@@ -88,21 +79,24 @@ public class Enemy : CharacterBase
         }
     }
 
-    // 풀 참조 설정
-    private ObjectPool<Enemy> _pool;
-    public void SetPoolRef(ObjectPool<Enemy> pool) => _pool = pool;
-
-    // 참조
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void InitializePrefab(CharacterStat stat, EnemyFeature feature, EnemyRender render)
     {
-        if (collision.CompareTag(TagLiteral.GRID_SENSOR))
-        {
-            if (_VTuberTransform != null)
-            {
-                return;
-            }
-            _VTuberTransform = collision.transform.root.GetComponent<Transform>();
-            gameObject.layer = LayerNum.HAVE_REF_ENEMY;
-        }
+        _VTuberTransform = Camera.main.transform;
+        _body = transform.Find(GameObjectLiteral.BODY);
+        _enemyAnimation = _body.GetComponent<EnemyAnimation>();
+        _spriteRenderer = _body.GetComponent<SpriteRenderer>();
+
+        _dieEffect = transform.Find(GameObjectLiteral.DIE_EFFECT);
+
+        _enemyAnimation.SetEnemyRender(render);
+        baseStat = stat;
+        _enemyFeature = feature;
     }
+
+    private ObjectPool<Enemy> _pool;
+    /// <summary>
+    /// 반환되어야할 풀의 주소를 설정합니다.
+    /// </summary>
+    /// <param name="pool"></param>
+    public void SetPoolRef(ObjectPool<Enemy> pool) => _pool = pool;
 }
