@@ -5,19 +5,19 @@ using UnityEngine;
 
 public class EnemyDataTable
 {
-    private Dictionary<EnemyID, EnemyData> _EnemyDataContainer = new Dictionary<EnemyID, EnemyData>();
-    private Dictionary<EnemyID, CharacterStat> _EnemyStatContainer = new Dictionary<EnemyID, CharacterStat>();
-    private Dictionary<EnemyID, EnemyFeature> _EnemyFeatureContainer = new Dictionary<EnemyID, EnemyFeature>();
+    private Dictionary<EnemyID, EnemyData> _enemyDataContainer = new Dictionary<EnemyID, EnemyData>();
+    private Dictionary<EnemyID, CharacterStat> _enemyStatContainer = new Dictionary<EnemyID, CharacterStat>();
+    private Dictionary<EnemyID, EnemyFeature> _enemyFeatureContainer = new Dictionary<EnemyID, EnemyFeature>();
 
-    private Dictionary<EnemyID, Enemy> _EnemyPrefabContainer = new Dictionary<EnemyID, Enemy>();
+    private Dictionary<EnemyID, Enemy> _enemyPrefabContainer = new Dictionary<EnemyID, Enemy>();
 
-    private Dictionary<EnemyID, EnemyRender> _EnemyRenderContainer = new Dictionary<EnemyID, EnemyRender>();
+    private Dictionary<EnemyID, EnemyRender> _enemyRenderContainer = new Dictionary<EnemyID, EnemyRender>();
 
-    public Dictionary<EnemyID, EnemyData> EnemyDataContainer => _EnemyDataContainer;
-    public Dictionary<EnemyID, CharacterStat> EnemyStatContainer => _EnemyStatContainer;
-    public Dictionary<EnemyID, EnemyFeature> EnemyFeatureContainer => _EnemyFeatureContainer;
-    public Dictionary<EnemyID, Enemy> EnemyPrefabContainer => _EnemyPrefabContainer;
-    public Dictionary<EnemyID, EnemyRender> EnemyRenderContainer => _EnemyRenderContainer;
+    public Dictionary<EnemyID, EnemyData> EnemyDataContainer => _enemyDataContainer;
+    public Dictionary<EnemyID, CharacterStat> EnemyStatContainer => _enemyStatContainer;
+    public Dictionary<EnemyID, EnemyFeature> EnemyFeatureContainer => _enemyFeatureContainer;
+    public Dictionary<EnemyID, Enemy> EnemyPrefabContainer => _enemyPrefabContainer;
+    public Dictionary<EnemyID, EnemyRender> EnemyRenderContainer => _enemyRenderContainer;
 
     public EnemyDataTable()
     {
@@ -27,6 +27,8 @@ public class EnemyDataTable
     {
         TextAsset csvFile = Resources.Load<TextAsset>(Path.Combine(PathLiteral.DATA_TABLE, FileNameLiteral.ENEMY));
         string[] rows = csvFile.text.Split('\n');
+
+        Enemy defaultPrefab = Resources.Load<Enemy>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.ENEMY)).GetComponent<Enemy>();
 
         for (int i = 1; i < rows.Length; ++i)
         {
@@ -47,20 +49,23 @@ public class EnemyDataTable
             feature.SpawnStartTime = int.Parse(columns[7]);
             feature.SpawnEndTime = int.Parse(columns[8]);
 
-            _EnemyDataContainer.Add(data.ID, data);
-            _EnemyStatContainer.Add(data.ID, stat);
-            _EnemyFeatureContainer.Add(data.ID, feature);
+            _enemyDataContainer.Add(data.ID, data);
+            _enemyStatContainer.Add(data.ID, stat);
+            _enemyFeatureContainer.Add(data.ID, feature);
 
             render.Sprite = Resources.Load<Sprite>(Path.Combine(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.SpriteName));
-            render.MoveClip = Resources.Load<AnimationClip>(Path.Combine(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.Name, FileNameLiteral.MOVE));
+            render.MoveClip = Resources.Load<AnimationClip>(Path.Combine(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.Name + FileNameLiteral.MOVE));
 
-            _EnemyRenderContainer.Add(data.ID, render);
+            _enemyRenderContainer.Add(data.ID, render);
+            
+            Enemy prefab = Object.Instantiate(defaultPrefab);
 
-            Enemy prefab = Resources.Load<Enemy>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.ENEMY)).GetComponent<Enemy>();
+            prefab.InitializeStatus(data.ID, this);
+            prefab.SetEnemyRender(render);
 
-            prefab.InitializePrefab(stat, feature, render);
+            _enemyPrefabContainer.Add(data.ID, prefab);
 
-            _EnemyPrefabContainer.Add(data.ID, prefab);
+            prefab.gameObject.SetActive(false);
         }
     }
 }

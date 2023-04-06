@@ -9,6 +9,12 @@ public class VTuberAnimation : MonoBehaviour
 
     private float _midX;
 
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _midX = Screen.width / 2;
+    }
     private void LateUpdate()
     {
         _animator.SetBool(AnimParameterLiteral.IS_RUNNING, _input.MoveVec.magnitude > 0);
@@ -18,10 +24,6 @@ public class VTuberAnimation : MonoBehaviour
 
     public void SetVTuberRender(VTuberRender render)
     {
-        _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _midX = Screen.width / 2;
-
         _spriteRenderer.sprite = render.Sprite;
         AnimatorOverrideController overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
 

@@ -20,25 +20,36 @@ public class EnemyManager : MonoBehaviour
     }
 
     private Dictionary<EnemyID, EnemyPool> _enemyPools;
+    private Dictionary<EnemyID, IEnumerator> _spawnEnemyCoroutines;
     private void Start()
     {
         _enemyPools = new Dictionary<EnemyID, EnemyPool>();
+        _spawnEnemyCoroutines = new Dictionary<EnemyID, IEnumerator>();
         _spawnInterval = new WaitForSeconds(1);
         foreach (KeyValuePair<EnemyID, Enemy> keyValuePair in _enemyDataTable.EnemyPrefabContainer)
         {
-            if (_enemyPools.ContainsKey(keyValuePair.Key))
+            EnemyID enemyID = keyValuePair.Key;
+            Enemy enemy = keyValuePair.Value;
+
+            if (_enemyPools.ContainsKey(enemyID))
             {
                 continue;
             }
             EnemyPool enemyPool = new EnemyPool();
-            enemyPool.Initialize(keyValuePair.Value);
-            _enemyPools.Add(keyValuePair.Key, enemyPool);
+            enemyPool.Initialize(enemyID, enemy, GameManager.VTuberManager.VTuber, _enemyDataTable);
+            _enemyPools.Add(enemyID, enemyPool);
 
-            IEnumerator spawnEnemyCoroutine = SpawnEnemy(keyValuePair.Key, keyValuePair.Value);
+            IEnumerator spawnEnemyCoroutine = SpawnEnemy(enemyID, enemy);
             StartCoroutine(spawnEnemyCoroutine);
+            _spawnEnemyCoroutines.Add(enemyID, spawnEnemyCoroutine);
         }
     }
 
+    const int ReverseWidth = -480;
+    const int Width = 480;
+    const int ReverseHeight = -270;
+    const int Height = 270;
+    private Vector2 _spawnPos;
     private WaitForSeconds _spawnInterval;
     private IEnumerator SpawnEnemy(EnemyID ID, Enemy enemy)
     {
@@ -46,10 +57,24 @@ public class EnemyManager : MonoBehaviour
 
         while (Time.time < enemy.SpawnEndTime)
         {
+            int x, y;
+            if (Random.Range(0, Width) > Height)
+            {
+                x = Random.Range(ReverseWidth, Width);
+                y = Random.Range(0, 2) == 0 ? Height : ReverseHeight;
+            }
+            else
+            {
+                x = Random.Range(0, 2) == 0 ? Width : ReverseWidth;
+                y = Random.Range(ReverseHeight, Height);
+            }
+            _spawnPos.Set(x, y);
             Enemy enemyInstance = _enemyPools[ID].GetEnemyFromPool();
-            enemyInstance.transform.position = Camera.main.transform.position + Vector3.right * 100;
+            enemyInstance.transform.position = (Vector2)enemyInstance.VTuberTransform.position + _spawnPos;
 
             yield return _spawnInterval;
         }
+
+        StopCoroutine(_spawnEnemyCoroutines[ID]);
     }
 }

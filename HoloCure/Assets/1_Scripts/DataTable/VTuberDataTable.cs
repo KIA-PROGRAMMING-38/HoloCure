@@ -28,6 +28,7 @@ public class VTuberDataTable
         TextAsset csvFile = Resources.Load<TextAsset>(Path.Combine(PathLiteral.DATA_TABLE, FileNameLiteral.VTUBER));
         string[] rows = csvFile.text.Split('\n');
 
+        VTuber defaultPrefab = Resources.Load<VTuber>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.VTUBER)).GetComponent<VTuber>();
         for (int i = 1; i < rows.Length; ++i)
         {
             string[] columns = rows[i].Split(',');
@@ -59,11 +60,9 @@ public class VTuberDataTable
 
             _VTuberRenderContainer.Add(data.ID, render);
 
-            VTuber prefab = Resources.Load<VTuber>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.VTUBER)).GetComponent<VTuber>();
-
-            prefab = Object.Instantiate(prefab);
+            VTuber prefab = Object.Instantiate(defaultPrefab);
             
-            prefab.InitializePrefab(stat, feature, render);
+            prefab.Initialize(stat, feature, render);
 
             _VTuberPrefabContainer.Add(data.ID, prefab);
         }

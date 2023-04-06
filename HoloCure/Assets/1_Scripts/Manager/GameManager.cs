@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
         SetupManager();
         
     }
-
     private void SetupManager()
     {
         GameObject gameObject;
