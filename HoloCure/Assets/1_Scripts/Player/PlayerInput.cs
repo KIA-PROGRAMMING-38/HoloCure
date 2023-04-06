@@ -11,6 +11,7 @@ public class PlayerInput : MonoBehaviour
     private void Awake()
     {
         _mainCamera = Camera.main;
+        _mainCamera.transform.parent = transform;
     }
     void Update()
     {

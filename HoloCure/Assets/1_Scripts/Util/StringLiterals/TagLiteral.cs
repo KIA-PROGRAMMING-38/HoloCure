@@ -4,5 +4,6 @@
     {
         public const string GRID_SENSOR = "GridSensor";
         public const string VTUBER = "VTuber";
+        public const string ENEMY = "Enemy";
     }
 }
