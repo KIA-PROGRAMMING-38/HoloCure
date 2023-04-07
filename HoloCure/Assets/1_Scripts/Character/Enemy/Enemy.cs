@@ -51,9 +51,9 @@ public class Enemy : CharacterBase
         Vector2 moveVec = _VTuberTransform.position - transform.position;
         _rigidbody.MovePosition(_rigidbody.position + moveVec.normalized * (moveSpeed * Time.fixedDeltaTime));
     }
-    public override void Attack(CharacterBase target)
+    public override void SetDamage(CharacterBase target)
     {
-        target.TakeDamage((int)baseStat.ATKPower);
+        target.GetDamage((int)baseStat.ATKPower);
     }
     private void Spawn()
     {
