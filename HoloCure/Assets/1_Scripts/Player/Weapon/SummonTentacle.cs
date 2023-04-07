@@ -1,4 +1,6 @@
-﻿public class SummonTentacle : Weapon
+﻿using UnityEngine;
+
+public class SummonTentacle : Weapon
 {
 
 }
