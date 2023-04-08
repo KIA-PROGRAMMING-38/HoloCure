@@ -40,14 +40,10 @@ public class VTuber : CharacterBase
         gameObject.SetActive(false);
     }
 
-    public void IsSelected()
+    public void IsSelected(VTuberID VTuberID, WeaponDataTable weaponDataTable)
     {
-        GameObject newGameObject = new GameObject(nameof(Inventory));
-        newGameObject.transform.parent = transform;
-        Inventory inventory = newGameObject.AddComponent<Inventory>();
-
         _input = transform.AddComponent<PlayerInput>();
-        transform.AddComponent<PlayerController>().Inisialize(this, inventory);
+        transform.AddComponent<PlayerController>().Inisialize(this, VTuberID, weaponDataTable);
 
         _VTuberAnimation.SetInputRef();
 

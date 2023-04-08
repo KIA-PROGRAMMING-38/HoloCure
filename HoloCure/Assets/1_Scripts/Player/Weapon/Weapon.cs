@@ -4,13 +4,12 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     protected WeaponStat weaponStat = new WeaponStat();
-    protected WaitForSeconds attackSequenceTime;
-    protected PlayerInput input;
+    protected WaitForSeconds AttackDurationTime;
+    protected WaitForSeconds AttackRemainTime;
     protected VTuber VTuber;
 
     protected virtual void Awake()
     {
-        input = transform.root.GetComponent<PlayerInput>();
         VTuber = transform.root.GetComponent<VTuber>();
     }
 
@@ -25,17 +24,15 @@ public abstract class Weapon : MonoBehaviour
     /// <param name="enemy">데미지를 받을 적</param>
     protected virtual void SetDamage(Enemy enemy)
     {
-        enemy.GetDamage(10 * VTuber.AtkPower * weaponStat.DamageRate * Random.Range(0, 100) < VTuber.CriticalRate ? 2 : 1);
+        int damage = (int)(VTuber.AtkPower * weaponStat.DamageRate * (Random.Range(0, 100) < VTuber.CriticalRate ? 2 : 1));
+        Debug.Log($"{enemy} 에게 {damage} 피해를 입힘");      
+        enemy.GetDamage(damage);
     }
-    protected abstract IEnumerator ActivateAttackSequence();
-    protected virtual void Deactivate()
-    {
-
-    }
+    public abstract IEnumerator AttackSequence();
 
     /// <summary>
     /// 무기의 동작을 시작합니다
     /// </summary>
-    public abstract void Initialize();
+    public abstract void Initialize(WeaponData weaponData, WeaponStat weaponStat);
     //protected abstract void LevelUp();
 }
