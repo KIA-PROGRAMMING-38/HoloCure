@@ -3,9 +3,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private VTuber _VTuber;
-    private void Awake()
+    private Inventory _inventory;
+
+    public void Inisialize(VTuber VTuber, Inventory inventory)
     {
-        _VTuber = GetComponent<VTuber>();
+        _VTuber = VTuber;
+        _inventory = inventory;
     }
     private void FixedUpdate()
     {
