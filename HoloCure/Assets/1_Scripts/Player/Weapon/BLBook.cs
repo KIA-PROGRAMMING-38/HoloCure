@@ -1,21 +1,18 @@
-﻿using StringLiterals;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class BLBook : Weapon
 {
-    private Vector2 _initPos;
     private Transform[] _books;
+    private Vector2[] _booksPos;
+    private BoxCollider2D _collider;
     protected override void Awake()
     {
         base.Awake();
-        _initPos = transform.position;
+        _collider = GetComponent<BoxCollider2D>();
+        _collider.enabled = false;
     }
-    private void Update()
-    {
-        Move();
-    }
-    protected override void Move()
+    protected override void Operate()
     {
         transform.Rotate(Vector3.back, weaponStat.ProjectileSpeed);
         for (int i = 0; i < _books.Length; ++i)
@@ -23,26 +20,32 @@ public class BLBook : Weapon
             _books[i].transform.Rotate(Vector3.forward, weaponStat.ProjectileSpeed);
         }
     }
-
-    private IEnumerator _attackSequenceCoroutine;
     public override IEnumerator AttackSequence()
     {
         while (true)
         {
             gameObject.SetActive(true);
 
-            yield return AttackDurationTime;
+            for (int i = 0; i < _books.Length; ++i)
+            {
+                _books[i].transform.position = (Vector2)transform.position + _booksPos[i];
+            }
 
+            yield return attackDurationTime;
 
             gameObject.SetActive(false);
 
-            yield return AttackRemainTime;
+            yield return attackRemainTime;
         }
     }
     public override void Initialize(WeaponData weaponData, WeaponStat weaponStat)
     {
-        GameObject newBook;
+        base.Initialize(weaponData, weaponStat);
+
         _books = new Transform[weaponStat.ProjectileCount];
+        _booksPos = new Vector2[weaponStat.ProjectileCount];
+
+        GameObject newBook;
         for (int i = 0; i < weaponStat.ProjectileCount; ++i)
         {
             newBook = new GameObject(nameof(BLBook));
@@ -51,40 +54,15 @@ public class BLBook : Weapon
 
             BoxCollider2D collider = newBook.AddComponent<BoxCollider2D>();
             collider.isTrigger = true;
-            collider.size *= 20;
+            collider.size *= _collider.size;
 
             newBook.AddComponent<SpriteRenderer>().sprite = weaponData.Display;
 
+            float angle = (i * 360 / weaponStat.ProjectileCount) * Mathf.Deg2Rad;
+            _booksPos[i] = (Vector2.right * Mathf.Cos(angle) + Vector2.up * Mathf.Sin(angle)) * 50;
+            newBook.transform.position = (Vector2)transform.position + _booksPos[i];
+
             _books[i] = newBook.GetComponent<Transform>();
         }
-
-        switch (weaponStat.ProjectileCount)
-        {
-            case 3:
-                _books[0].transform.position = _initPos+ Vector2.up * 50;
-                _books[1].transform.position = _initPos+ Vector2.left * 50 * Mathf.Sqrt(3) / 2 + Vector2.down * 50 / 2;
-                _books[2].transform.position = _initPos+ Vector2.right * 50 * Mathf.Sqrt(3) / 2 + Vector2.down * 50 / 2;
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-        }
-
-        this.weaponStat = weaponStat;
-        AttackDurationTime = new WaitForSeconds(this.weaponStat.AttackDurationTime);
-        AttackRemainTime = new WaitForSeconds(this.weaponStat.BaseAttackSequenceTime - this.weaponStat.AttackDurationTime);
-        transform.localScale *= weaponStat.Size;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag(TagLiteral.ENEMY))
-        {
-            Enemy enemy = collision.GetComponent<Enemy>();
-            SetDamage(enemy);
-        }
-    }
-
 }

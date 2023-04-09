@@ -5,6 +5,10 @@ public class PlayerController : MonoBehaviour
     private VTuber _VTuber;
     private Inventory _inventory;
 
+    private void Start()
+    {
+        _inventory.EquipWeapon(WeaponID.FanBeam);
+    }
     public void Inisialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable)
     {
         _VTuber = VTuber;
