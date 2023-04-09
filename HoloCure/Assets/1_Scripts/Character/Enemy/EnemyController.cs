@@ -42,7 +42,7 @@ public class EnemyController : MonoBehaviour
         {
             yield return _attackCoolTime;
 
-            _enemy.Attack(VTuber);
+            _enemy.SetDamage(VTuber);
         }
     }
 }

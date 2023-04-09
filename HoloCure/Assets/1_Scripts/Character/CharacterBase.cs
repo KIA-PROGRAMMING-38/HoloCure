@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class CharacterBase : MonoBehaviour, IMoveable, IAttackable, ITakeDamageable
+public abstract class CharacterBase : MonoBehaviour, IMoveable, ISetDamageable, IGetDamageable
 {
     protected CharacterStat baseStat = new CharacterStat();
     [SerializeField]protected int currentHealth;
@@ -16,11 +16,11 @@ public abstract class CharacterBase : MonoBehaviour, IMoveable, IAttackable, ITa
     {
 
     }
-    public virtual void Attack(CharacterBase target)
+    public virtual void SetDamage(CharacterBase target)
     {
 
     }
-    public virtual void TakeDamage(int damage)
+    public virtual void GetDamage(int damage)
     {
         currentHealth -= damage;
 

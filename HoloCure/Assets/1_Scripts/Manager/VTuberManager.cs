@@ -20,7 +20,8 @@ public class VTuberManager : MonoBehaviour
     public VTuber VTuber { get;private set; }
     private void Start()
     {
+        // 캐릭터 선택창과 연동해야 하는부분
         VTuber = _VTuberDataTable.VTuberPrefabContainer[VTuberID.Ninomae_Inanis];
-        VTuber.IsSelected();
+        VTuber.IsSelected(VTuberID.Ninomae_Inanis, _dataTableManager.WeaponDataTable);
     }
 }

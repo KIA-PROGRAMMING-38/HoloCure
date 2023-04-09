@@ -9,6 +9,7 @@ TagManager:
   - VTuber
   - Enemy
   - Obstacle
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - EnemyBody
   - GridSensor
   - Grid
-  - HaveRefEnemy
+  - Weapon
   - 
   - 
   - 

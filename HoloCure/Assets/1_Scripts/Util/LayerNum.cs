@@ -6,5 +6,5 @@
     public const int ENEMY_BODY = 9;
     public const int GRID_SENSOR = 10;
     public const int GRID = 11;
-    public const int HAVE_REF_ENEMY = 12;
+    public const int WEAPON = 12;
 }

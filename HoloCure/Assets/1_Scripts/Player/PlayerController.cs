@@ -3,9 +3,20 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private VTuber _VTuber;
-    private void Awake()
+    private Inventory _inventory;
+
+    private void Start()
     {
-        _VTuber = GetComponent<VTuber>();
+        _inventory.EquipWeapon(WeaponID.FanBeam);
+    }
+    public void Inisialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable)
+    {
+        _VTuber = VTuber;
+
+        GameObject newGameObject = new GameObject(nameof(Inventory));
+        newGameObject.transform.parent = transform;
+        _inventory = newGameObject.AddComponent<Inventory>();
+        _inventory.Initialize(weaponDataTable, WeaponID.BLBook);
     }
     private void FixedUpdate()
     {

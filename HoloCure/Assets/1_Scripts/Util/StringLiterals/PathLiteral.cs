@@ -10,5 +10,6 @@
         public const string CHARACTER = "Character";
         public const string VTUBER = "VTuber";
         public const string ENEMY = "Enemy";
+        public const string WEAPON = "Weapon";
     }
 }
