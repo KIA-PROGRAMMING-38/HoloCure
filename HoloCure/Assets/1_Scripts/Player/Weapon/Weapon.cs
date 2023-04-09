@@ -49,7 +49,7 @@ public abstract class Weapon : MonoBehaviour
     /// <summary>
     /// 무기의 동작을 시작하기위한 코루틴입니다.
     /// </summary>
-    public abstract IEnumerator AttackSequence();
+    public abstract IEnumerator OperateSequence();
 
     /// <summary>
     /// 무기를 초기화합니다.

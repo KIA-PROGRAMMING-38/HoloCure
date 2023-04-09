@@ -27,7 +27,7 @@ public class FanBeam : Weapon
             _elapsedTime = 0f;
         }
     }
-    public override IEnumerator AttackSequence()
+    public override IEnumerator OperateSequence()
     {
         while (true)
         {

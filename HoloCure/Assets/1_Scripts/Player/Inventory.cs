@@ -38,7 +38,7 @@ public class Inventory : MonoBehaviour
         WeaponCount += 1;
 
         weapon.Initialize(_weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
-        IEnumerator attackSequenceCoroutine = weapon.AttackSequence();
-        StartCoroutine(attackSequenceCoroutine);
+        IEnumerator operateSequenceCoroutine = weapon.OperateSequence();
+        StartCoroutine(operateSequenceCoroutine);
     }
 }

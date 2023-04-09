@@ -20,7 +20,7 @@ public class BLBook : Weapon
             _books[i].transform.Rotate(Vector3.forward, weaponStat.ProjectileSpeed);
         }
     }
-    public override IEnumerator AttackSequence()
+    public override IEnumerator OperateSequence()
     {
         while (true)
         {
