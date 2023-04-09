@@ -7,6 +7,7 @@
         public const string MINIBOSS = "Miniboss";
         public const string BOSS = "Boss";
         public const string WEAPON = "Weapon";
+        public const string HIT_MATERIAL = "HitMaterial";
 
         public const string IDLE = "Idle";
         public const string RUN = "Run";
