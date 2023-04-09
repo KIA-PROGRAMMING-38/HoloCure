@@ -55,10 +55,18 @@ public class Enemy : CharacterBase
     {
         target.GetDamage((int)baseStat.ATKPower);
     }
+    public override void GetDamage(int damage)
+    {
+        _enemyAnimation.GetDamageEffect();
+
+        base.GetDamage(damage);
+    }
     private void Spawn()
     {
         _dieEffect.gameObject.SetActive(false);
         _body.position = transform.position;
+
+        gameObject.layer = LayerNum.ENEMY;
     }
     public override void Die()
     {
@@ -71,6 +79,8 @@ public class Enemy : CharacterBase
 
         _enemyAnimation.SetDie();
         _dieEffect.gameObject.SetActive(true);
+
+        gameObject.layer = LayerNum.DEAD_ENEMY;
     }
 
     // 사망시 움직임 및 반환
@@ -78,20 +88,18 @@ public class Enemy : CharacterBase
     private IEnumerator _dyingMoveCoroutine;
     private IEnumerator DyingMove(Transform bodyTransform, Vector2 dyingPoint, Vector2 dir)
     {
-        while (true)
+        while (_elapsedTime < 0.7f)
         {
-            yield return null;
-
             bodyTransform.position = Vector2.Lerp(dyingPoint, dyingPoint + dir * 100, _elapsedTime / 0.7f);
 
             _elapsedTime += Time.deltaTime;
-            if (_elapsedTime > 0.7f)
-            {
-                _elapsedTime = 0f;
-                _pool.Release(this);
-                StopCoroutine(_dyingMoveCoroutine);
-            }
+
+            yield return null;
         }
+
+        _elapsedTime = 0f;
+
+        _pool.Release(this);
     }
 
 

@@ -60,6 +60,7 @@ public class FanBeam : Weapon
 
         _beamCollider = newBeam.AddComponent<BoxCollider2D>();
         _beamCollider.isTrigger = true;
+        _beamCollider.offset = _collider.offset;
         _beamCollider.size = _collider.size;
 
         newBeam.AddComponent<SpriteRenderer>();

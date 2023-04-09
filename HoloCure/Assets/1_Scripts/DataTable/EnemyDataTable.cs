@@ -30,6 +30,8 @@ public class EnemyDataTable
 
         Enemy defaultPrefab = Resources.Load<Enemy>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.ENEMY)).GetComponent<Enemy>();
 
+        EnemyRender.HitMaterial = Resources.Load<Material>(Path.Combine(PathLiteral.MATERIAL, FileNameLiteral.HIT_MATERIAL));
+
         for (int i = 1; i < rows.Length; ++i)
         {
             string[] columns = rows[i].Split(',');

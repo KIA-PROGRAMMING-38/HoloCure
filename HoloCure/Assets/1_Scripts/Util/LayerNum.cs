@@ -1,5 +1,6 @@
 ﻿public static class LayerNum
 {
+    public const int DEAD_ENEMY = 3;
     public const int ENEMY = 6;
     public const int VTUBER = 7;
     public const int OBSTACLE = 8;
