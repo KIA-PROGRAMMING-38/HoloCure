@@ -5,10 +5,6 @@ public class PlayerController : MonoBehaviour
     private VTuber _VTuber;
     private Inventory _inventory;
 
-    private void Start()
-    {
-        _inventory.EquipWeapon(WeaponID.FanBeam);
-    }
     public void Inisialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable)
     {
         _VTuber = VTuber;
@@ -16,7 +12,7 @@ public class PlayerController : MonoBehaviour
         GameObject newGameObject = new GameObject(nameof(Inventory));
         newGameObject.transform.parent = transform;
         _inventory = newGameObject.AddComponent<Inventory>();
-        _inventory.Initialize(weaponDataTable, WeaponID.BLBook);
+        _inventory.Initialize(weaponDataTable, WeaponID.SummonTentacle);
     }
     private void FixedUpdate()
     {

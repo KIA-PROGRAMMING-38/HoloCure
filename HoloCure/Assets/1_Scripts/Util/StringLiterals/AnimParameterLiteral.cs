@@ -1,4 +1,6 @@
-﻿namespace StringLiterals
+﻿using UnityEngine;
+
+namespace StringLiterals
 {
     public static class AnimParameterLiteral
     {
