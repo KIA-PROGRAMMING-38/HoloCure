@@ -32,12 +32,12 @@ public class Inventory : MonoBehaviour
     /// <param name="weapon">장착할 무기</param>
     public void EquipWeapon(WeaponID ID)
     {
-        Weapon weapon = Instantiate(_weaponDataTable.WeaponPrefabContainer[ID], transform);
-        
+        Weapon weapon = Instantiate(_weaponDataTable.WeaponPrefabContainer[ID]);
+
         Weapons[WeaponCount] = weapon;
         WeaponCount += 1;
 
-        weapon.Initialize(_weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
+        weapon.Initialize(transform.root.GetComponent<VTuber>(), _weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
         IEnumerator operateSequenceCoroutine = weapon.OperateSequence();
         StartCoroutine(operateSequenceCoroutine);
     }
