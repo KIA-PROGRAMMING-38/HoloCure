@@ -17,10 +17,9 @@ public abstract class Weapon : MonoBehaviour
 
     protected Projectile[] projectiles;
 
+    protected Vector2 initPos;
     protected virtual void Awake()
     {
-        VTuber = transform.root.GetComponent<VTuber>();
-
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
         weaponSpriteRenderer.enabled = false;
 
@@ -32,6 +31,8 @@ public abstract class Weapon : MonoBehaviour
 
         weaponAnimator = GetComponent<Animator>();
         weaponAnimator.enabled = false;
+
+        initPos = transform.position;
     }
     private void Update()
     {
@@ -93,8 +94,9 @@ public abstract class Weapon : MonoBehaviour
     /// </summary>
     /// <param name="weaponData">무기의 정보</param>
     /// <param name="weaponStat">무기의 스탯</param>
-    public virtual void Initialize(WeaponData weaponData, WeaponStat weaponStat)
+    public virtual void Initialize(VTuber VTuber,WeaponData weaponData, WeaponStat weaponStat)
     {
+        this.VTuber = VTuber;
         this.weaponStat = weaponStat;
 
         float durationTime = this.weaponStat.AttackDurationTime > weaponData.ProjectileClip.length + weaponData.EffectClip.length ?
@@ -103,36 +105,39 @@ public abstract class Weapon : MonoBehaviour
         attackDurationTime = WaitTimeStore.GetWaitForSeconds(durationTime);
         attackRemainTime = WaitTimeStore.GetWaitForSeconds(this.weaponStat.BaseAttackSequenceTime - durationTime);
         transform.localScale *= this.weaponStat.Size;
-      
+
         projectiles = new Projectile[weaponStat.ProjectileCount];
-        GameObject gameObject;
         for (int i = 0; i < weaponStat.ProjectileCount; ++i)
         {
-            gameObject = new GameObject(nameof(Projectile));
-            gameObject.transform.parent = transform;
-            gameObject.layer = LayerNum.WEAPON;
-
-            Projectile projectile = gameObject.AddComponent<Projectile>();
-
-            Collider2D collider = SetCollider(projectile);
-
-            projectile.Initialize(collider, weaponStat.HitLimit);
-
-            projectile.AddComponent<SpriteRenderer>().sprite = weaponData.Display;
-
-            AnimatorOverrideController overrideController = new AnimatorOverrideController(weaponAnimator.runtimeAnimatorController);
-
-            overrideController[AnimClipLiteral.PROJECTILE] = weaponData.ProjectileClip;
-            overrideController[AnimClipLiteral.EFFECT] = weaponData.EffectClip;
-
-            projectile.AddComponent<Animator>().runtimeAnimatorController = overrideController;
-
-            projectile.transform.localScale = Vector3.one;
-
-            projectiles[i] = projectile;
+            projectiles[i] = CreateProjectile(weaponData);
         }
-
     }
+    protected Projectile CreateProjectile(WeaponData weaponData)
+    {
+        GameObject gameObject = new GameObject(nameof(Projectile));
+        gameObject.transform.parent = transform;
+        gameObject.layer = LayerNum.WEAPON;
+
+        Projectile projectile = gameObject.AddComponent<Projectile>();
+
+        Collider2D collider = SetCollider(projectile);
+
+        projectile.Initialize(collider, weaponStat.HitLimit);
+
+        SetSpriteRenderer(projectile, weaponData.Display);
+
+        AnimatorOverrideController overrideController = new AnimatorOverrideController(weaponAnimator.runtimeAnimatorController);
+
+        overrideController[AnimClipLiteral.PROJECTILE] = weaponData.ProjectileClip;
+        overrideController[AnimClipLiteral.EFFECT] = weaponData.EffectClip;
+
+        projectile.AddComponent<Animator>().runtimeAnimatorController = overrideController;
+
+        projectile.transform.localScale = Vector3.one;
+
+        return projectile;
+    }
+    protected virtual void SetSpriteRenderer(Projectile projectile, Sprite display) => projectile.AddComponent<SpriteRenderer>();
     protected abstract Collider2D SetCollider(Projectile projectile);
     protected CircleCollider2D SetCircleCollider(Projectile projectile)
     {
@@ -162,7 +167,7 @@ public abstract class Weapon : MonoBehaviour
 
         return collider;
     }
-
+    protected void SetPosition() => transform.position = (Vector2)VTuber.transform.position + initPos;
     //protected abstract void LevelUp();
 
     private void OnTriggerEnter2D(Collider2D collision)
