@@ -5,13 +5,14 @@ public class Projectile : MonoBehaviour
 {
     private int _hitLimit;
     private int _curHit;
-    private PolygonCollider2D _collider;
+    private Collider2D _collider;
 
     /// <summary>
     /// 투사체를 초기화합니다.
     /// </summary>
-    /// <param name="hitLimit"></param>
-    public void Initialize(PolygonCollider2D collider, int hitLimit)
+    /// <param name="collider">콜라이더</param>
+    /// <param name="hitLimit">적중제한횟수</param>
+    public void Initialize(Collider2D collider, int hitLimit)
     {
         _collider = collider;
         _hitLimit = hitLimit;

@@ -29,4 +29,5 @@ public class BLBook : Weapon
             _booksInitPos[i] = (Vector2.right * Mathf.Cos(angle) + Vector2.up * Mathf.Sin(angle)) * 50;
         }
     }
+    protected override Collider2D SetCollider(Projectile projectile) => SetCircleCollider(projectile);
 }

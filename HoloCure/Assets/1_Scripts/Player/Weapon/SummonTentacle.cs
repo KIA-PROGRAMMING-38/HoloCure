@@ -21,4 +21,5 @@ public class SummonTentacle : Weapon
         projectiles[0].transform.position = (Vector2)transform.position + direction.normalized * 20;
         projectiles[0].transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
+    protected override Collider2D SetCollider(Projectile projectile) => SetPolygonCollider(projectile);
 }

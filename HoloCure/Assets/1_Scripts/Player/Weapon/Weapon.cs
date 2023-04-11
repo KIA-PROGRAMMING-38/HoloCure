@@ -11,7 +11,7 @@ public abstract class Weapon : MonoBehaviour
     protected VTuber VTuber;
 
     protected SpriteRenderer weaponSpriteRenderer;
-    protected PolygonCollider2D weaponPolygonCollider;
+    protected Collider2D weaponCollider;
     protected Rigidbody2D weaponRigidbody;
     protected Animator weaponAnimator;
 
@@ -24,8 +24,8 @@ public abstract class Weapon : MonoBehaviour
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
         weaponSpriteRenderer.enabled = false;
 
-        weaponPolygonCollider = GetComponent<PolygonCollider2D>();
-        weaponPolygonCollider.enabled = false;
+        weaponCollider = GetComponent<Collider2D>();
+        weaponCollider.enabled = false;
 
         weaponRigidbody = GetComponent<Rigidbody2D>();
         weaponRigidbody.bodyType = RigidbodyType2D.Kinematic;
@@ -100,8 +100,8 @@ public abstract class Weapon : MonoBehaviour
         float durationTime = this.weaponStat.AttackDurationTime > weaponData.ProjectileClip.length + weaponData.EffectClip.length ?
             this.weaponStat.AttackDurationTime : weaponData.ProjectileClip.length + weaponData.EffectClip.length;
 
-        attackDurationTime = new WaitForSeconds(durationTime);
-        attackRemainTime = new WaitForSeconds(this.weaponStat.BaseAttackSequenceTime - durationTime);
+        attackDurationTime = WaitTimeStore.GetWaitForSeconds(durationTime);
+        attackRemainTime = WaitTimeStore.GetWaitForSeconds(this.weaponStat.BaseAttackSequenceTime - durationTime);
         transform.localScale *= this.weaponStat.Size;
       
         projectiles = new Projectile[weaponStat.ProjectileCount];
@@ -114,9 +114,7 @@ public abstract class Weapon : MonoBehaviour
 
             Projectile projectile = gameObject.AddComponent<Projectile>();
 
-            PolygonCollider2D collider = projectile.AddComponent<PolygonCollider2D>();
-            collider.isTrigger = true;
-            collider.points = weaponPolygonCollider.points;
+            Collider2D collider = SetCollider(projectile);
 
             projectile.Initialize(collider, weaponStat.HitLimit);
 
@@ -135,6 +133,36 @@ public abstract class Weapon : MonoBehaviour
         }
 
     }
+    protected abstract Collider2D SetCollider(Projectile projectile);
+    protected CircleCollider2D SetCircleCollider(Projectile projectile)
+    {
+        CircleCollider2D mainCollider = (CircleCollider2D)weaponCollider;
+        CircleCollider2D collider = projectile.AddComponent<CircleCollider2D>();
+        collider.offset = mainCollider.offset;
+        collider.radius = mainCollider.radius;
+
+        return collider;
+    }
+    protected BoxCollider2D SetBoxCollider(Projectile projectile)
+    {
+        BoxCollider2D mainCollider = (BoxCollider2D)weaponCollider;
+        BoxCollider2D collider = projectile.AddComponent<BoxCollider2D>();
+        collider.isTrigger = true;
+        collider.offset = mainCollider.offset;
+        collider.size = mainCollider.size;
+
+        return collider;
+    }
+    protected PolygonCollider2D SetPolygonCollider(Projectile projectile)
+    {
+        PolygonCollider2D mainCollider = (PolygonCollider2D)weaponCollider;
+        PolygonCollider2D collider = projectile.AddComponent<PolygonCollider2D>();
+        collider.isTrigger = true;
+        collider.points = mainCollider.points;
+
+        return collider;
+    }
+
     //protected abstract void LevelUp();
 
     private void OnTriggerEnter2D(Collider2D collision)
