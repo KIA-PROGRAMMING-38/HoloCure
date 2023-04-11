@@ -1,5 +1,6 @@
 using StringLiterals;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
@@ -10,8 +11,11 @@ public abstract class Weapon : MonoBehaviour
     protected VTuber VTuber;
 
     protected SpriteRenderer weaponSpriteRenderer;
+    protected Collider2D weaponCollider;
     protected Rigidbody2D weaponRigidbody;
     protected Animator weaponAnimator;
+
+    protected Projectile[] projectiles;
 
     protected virtual void Awake()
     {
@@ -19,6 +23,9 @@ public abstract class Weapon : MonoBehaviour
 
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
         weaponSpriteRenderer.enabled = false;
+
+        weaponCollider = GetComponent<Collider2D>();
+        weaponCollider.enabled = false;
 
         weaponRigidbody = GetComponent<Rigidbody2D>();
         weaponRigidbody.bodyType = RigidbodyType2D.Kinematic;
@@ -33,7 +40,7 @@ public abstract class Weapon : MonoBehaviour
     /// <summary>
     /// 무기의 동작 방식입니다.
     /// </summary>
-    protected abstract void Operate();
+    protected virtual void Operate() { }
 
     /// <summary>
     /// 적에게 데미지를 줍니다.
@@ -49,7 +56,37 @@ public abstract class Weapon : MonoBehaviour
     /// <summary>
     /// 무기의 동작을 시작하기위한 코루틴입니다.
     /// </summary>
-    public abstract IEnumerator OperateSequence();
+    public IEnumerator OperateSequence()
+    {
+        while (true)
+        {
+            gameObject.SetActive(true);
+
+            for (int i = 0; i < weaponStat.ProjectileCount; ++i)
+            {
+                projectiles[i].gameObject.SetActive(true);
+            }
+
+            BeforeOperate();
+
+            yield return attackDurationTime;
+
+            AfterOperate();
+
+            gameObject.SetActive(false);
+
+            yield return attackRemainTime;
+        }
+    }
+
+    /// <summary>
+    /// 무기가 활성화 되어 동작을 시작하기 전에 해둘 세팅입니다.
+    /// </summary>
+    protected abstract void BeforeOperate();
+    /// <summary>
+    /// 무기가 비활성화 되어 동작을 종료하기 전 해둘 세팅입니다.
+    /// </summary>
+    protected virtual void AfterOperate() { }
 
     /// <summary>
     /// 무기를 초기화합니다.
@@ -59,18 +96,73 @@ public abstract class Weapon : MonoBehaviour
     public virtual void Initialize(WeaponData weaponData, WeaponStat weaponStat)
     {
         this.weaponStat = weaponStat;
-        
-        float durationTime = this.weaponStat.AttackDurationTime > weaponData.ProjectileClip.length + weaponData.EffectClip.length ? 
+
+        float durationTime = this.weaponStat.AttackDurationTime > weaponData.ProjectileClip.length + weaponData.EffectClip.length ?
             this.weaponStat.AttackDurationTime : weaponData.ProjectileClip.length + weaponData.EffectClip.length;
-        if (weaponData.ProjectileClip.frameRate + weaponData.ProjectileClip.frameRate == 200)
+
+        attackDurationTime = WaitTimeStore.GetWaitForSeconds(durationTime);
+        attackRemainTime = WaitTimeStore.GetWaitForSeconds(this.weaponStat.BaseAttackSequenceTime - durationTime);
+        transform.localScale *= this.weaponStat.Size;
+      
+        projectiles = new Projectile[weaponStat.ProjectileCount];
+        GameObject gameObject;
+        for (int i = 0; i < weaponStat.ProjectileCount; ++i)
         {
-            durationTime = this.weaponStat.AttackDurationTime;
+            gameObject = new GameObject(nameof(Projectile));
+            gameObject.transform.parent = transform;
+            gameObject.layer = LayerNum.WEAPON;
+
+            Projectile projectile = gameObject.AddComponent<Projectile>();
+
+            Collider2D collider = SetCollider(projectile);
+
+            projectile.Initialize(collider, weaponStat.HitLimit);
+
+            projectile.AddComponent<SpriteRenderer>().sprite = weaponData.Display;
+
+            AnimatorOverrideController overrideController = new AnimatorOverrideController(weaponAnimator.runtimeAnimatorController);
+
+            overrideController[AnimClipLiteral.PROJECTILE] = weaponData.ProjectileClip;
+            overrideController[AnimClipLiteral.EFFECT] = weaponData.EffectClip;
+
+            projectile.AddComponent<Animator>().runtimeAnimatorController = overrideController;
+
+            projectile.transform.localScale = Vector3.one;
+
+            projectiles[i] = projectile;
         }
 
-        attackDurationTime = new WaitForSeconds(durationTime);
-        attackRemainTime = new WaitForSeconds(this.weaponStat.BaseAttackSequenceTime - durationTime);
-        transform.localScale *= this.weaponStat.Size;
     }
+    protected abstract Collider2D SetCollider(Projectile projectile);
+    protected CircleCollider2D SetCircleCollider(Projectile projectile)
+    {
+        CircleCollider2D mainCollider = (CircleCollider2D)weaponCollider;
+        CircleCollider2D collider = projectile.AddComponent<CircleCollider2D>();
+        collider.offset = mainCollider.offset;
+        collider.radius = mainCollider.radius;
+
+        return collider;
+    }
+    protected BoxCollider2D SetBoxCollider(Projectile projectile)
+    {
+        BoxCollider2D mainCollider = (BoxCollider2D)weaponCollider;
+        BoxCollider2D collider = projectile.AddComponent<BoxCollider2D>();
+        collider.isTrigger = true;
+        collider.offset = mainCollider.offset;
+        collider.size = mainCollider.size;
+
+        return collider;
+    }
+    protected PolygonCollider2D SetPolygonCollider(Projectile projectile)
+    {
+        PolygonCollider2D mainCollider = (PolygonCollider2D)weaponCollider;
+        PolygonCollider2D collider = projectile.AddComponent<PolygonCollider2D>();
+        collider.isTrigger = true;
+        collider.points = mainCollider.points;
+
+        return collider;
+    }
+
     //protected abstract void LevelUp();
 
     private void OnTriggerEnter2D(Collider2D collision)
