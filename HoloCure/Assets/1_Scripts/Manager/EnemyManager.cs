@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
                 continue;
             }
             EnemyPool enemyPool = new EnemyPool();
-            enemyPool.Initialize(enemyID, enemy, GameManager.VTuberManager.VTuber, _enemyDataTable);
+            enemyPool.Initialize(enemyID, enemy, _enemyDataTable);
             _enemyPools.Add(enemyID, enemyPool);
 
             IEnumerator spawnEnemyCoroutine = SpawnEnemy(enemyID, enemy);
@@ -70,7 +70,7 @@ public class EnemyManager : MonoBehaviour
             }
             _spawnPos.Set(x, y);
             Enemy enemyInstance = _enemyPools[ID].GetEnemyFromPool();
-            enemyInstance.transform.position = (Vector2)enemyInstance.VTuberTransform.position + _spawnPos;
+            enemyInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
 
             yield return _spawnInterval;
         }

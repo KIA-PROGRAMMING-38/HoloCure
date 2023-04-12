@@ -12,7 +12,7 @@ public class VTuber : CharacterBase
 
     // 임시 코드
     public float AtkPower { get; private set; }
-    public float CriticalRate { get; private set; }
+    public int CriticalRate { get; private set; }
 
 
     private void Awake()
@@ -43,7 +43,7 @@ public class VTuber : CharacterBase
     public void IsSelected(VTuberID VTuberID, WeaponDataTable weaponDataTable)
     {
         _input = transform.AddComponent<PlayerInput>();
-        transform.AddComponent<PlayerController>().Inisialize(this, VTuberID, weaponDataTable);
+        transform.AddComponent<PlayerController>().Initialize(this, VTuberID, weaponDataTable);
 
         _VTuberAnimation.SetInputRef();
 

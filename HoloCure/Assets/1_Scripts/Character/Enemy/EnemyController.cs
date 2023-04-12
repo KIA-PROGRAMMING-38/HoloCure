@@ -40,9 +40,9 @@ public class EnemyController : MonoBehaviour
     {
         while (true)
         {
-            yield return _attackCoolTime;
-
             _enemy.SetDamage(VTuber);
+
+            yield return _attackCoolTime;
         }
     }
 }

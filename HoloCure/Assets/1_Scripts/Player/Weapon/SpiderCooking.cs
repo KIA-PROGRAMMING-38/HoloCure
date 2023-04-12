@@ -1,38 +1,20 @@
-using System.Collections;
 using UnityEngine;
 
 public class SpiderCooking : Weapon
 {
-    protected override void Operate()
+    protected override void Shoot()
     {
-        SetPosition();
+        _projectilePool.GetProjectileFromPool();
     }
-    protected override void BeforeOperate()
+    private float _elapsedTime;
+    protected override void ProjectileOperate(Projectile projectile)
     {
-        SetPosition();
-        projectiles[0].transform.position = transform.position;
-
-        StartCoroutine(_colliderResetCoroutine);
-    }
-    protected override void AfterOperate()
-    {
-        StopCoroutine(_colliderResetCoroutine);
-    }
-    private IEnumerator _colliderResetCoroutine;
-    private IEnumerator ColliderResetCoroutine()
-    {
-        while (true)
+        _elapsedTime += Time.deltaTime;
+        if (_elapsedTime > weaponStat.HitCooltime)
         {
-            projectiles[0].ResetCollider();
-
-            yield return WaitTimeStore.GetWaitForSeconds(weaponStat.HitCooltime);
+            _elapsedTime = 0f;
+            projectile.ResetCollider();
         }
-    }
-    public override void Initialize(VTuber VTuber, WeaponData weaponData, WeaponStat weaponStat)
-    {
-        base.Initialize(VTuber, weaponData, weaponStat);
-
-        _colliderResetCoroutine = ColliderResetCoroutine();
     }
     protected override Collider2D SetCollider(Projectile projectile) => SetCircleCollider(projectile);
 }

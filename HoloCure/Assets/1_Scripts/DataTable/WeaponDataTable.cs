@@ -34,8 +34,8 @@ public class WeaponDataTable
             data.IconName = columns[3];
             data.Display = Resources.Load<Sprite>(Path.Combine(PathLiteral.SPRITE, PathLiteral.WEAPON, data.DisplayName));
             data.Icon = Resources.Load<Sprite>(Path.Combine(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconName));
-            data.ProjectileClip = Resources.Load<AnimationClip>(Path.Combine(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name + FileNameLiteral.PROJECTILE));
-            data.EffectClip = Resources.Load<AnimationClip>(Path.Combine(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name + FileNameLiteral.EFFECT));
+            data.ProjectileClip = Resources.Load<AnimationClip>(Path.Combine(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name + FileNameLiteral._PROJECTILE));
+            data.EffectClip = Resources.Load<AnimationClip>(Path.Combine(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name + FileNameLiteral._EFFECT));
             _weaponDataContainer.Add(data.ID, data);
 
             stat.BaseAttackSequenceTime = float.Parse(columns[4]);

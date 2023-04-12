@@ -2,16 +2,27 @@ using UnityEngine;
 
 public class PsychoAxe : Weapon
 {
-    protected override void Operate()
+    private Vector2 _offset;
+    private float _angle;
+    private float _radius;
+    private readonly int _radiusSpeed = 40;
+    protected override void Shoot()
     {
-        transform.RotateAround(transform.position, Vector3.back, weaponStat.ProjectileSpeed / 5);
-        projectiles[0].transform.Translate(Vector2.right * (5 * weaponStat.ProjectileSpeed * Time.deltaTime));
+        Projectile projectile = _projectilePool.GetProjectileFromPool();
+        projectile.SetPositionWithWeapon(transform.position);
+        _angle = 0f;
+        _radius = 0f;
     }
-    protected override void BeforeOperate()
+    protected override void OperateWeapon()
     {
-        SetPosition();
-        transform.rotation = default;
-        projectiles[0].transform.position = (Vector2)transform.position + Vector2.right * 20;
+
+    }
+    protected override void ProjectileOperate(Projectile projectile)
+    {
+        _angle += weaponStat.ProjectileSpeed * Time.deltaTime * Time.deltaTime * Mathf.Rad2Deg;
+        _radius += _radiusSpeed * Time.deltaTime;
+        _offset.Set(Mathf.Sin(_angle), Mathf.Cos(_angle));
+        projectile.transform.position = (Vector2)transform.position + _offset * _radius;
     }
     protected override Collider2D SetCollider(Projectile projectile) => SetCircleCollider(projectile);
 }

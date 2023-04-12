@@ -7,9 +7,6 @@ public class Enemy : CharacterBase
 {
     private Rigidbody2D _rigidbody;
 
-    public Transform VTuberTransform => _VTuberTransform;
-    private Transform _VTuberTransform;
-
     private Transform _body;
     private EnemyAnimation _enemyAnimation;
 
@@ -29,7 +26,6 @@ public class Enemy : CharacterBase
         _rigidbody = GetComponent<Rigidbody2D>();
         _rigidbody.freezeRotation = true;
         GetComponent<Rigidbody2D>().freezeRotation = true;
-
     }
 
     protected override void OnEnable()
@@ -44,16 +40,23 @@ public class Enemy : CharacterBase
         _enemyFeature = enemyDataTable.EnemyFeatureContainer[enemyID];
     }
     public void SetEnemyRender(EnemyRender render) => _enemyAnimation.SetEnemyRender(render);
-    public void SetTarget(Transform VTuberTransform) => _VTuberTransform = VTuberTransform;
-
     public override void Move()
     {
-        Vector2 moveVec = _VTuberTransform.position - transform.position;
+        Vector2 moveVec = Util.Caching.CenterWorldPos - (Vector2)transform.position;
         _rigidbody.MovePosition(_rigidbody.position + moveVec.normalized * (moveSpeed * Time.fixedDeltaTime));
     }
     public override void SetDamage(CharacterBase target)
     {
         target.GetDamage((int)baseStat.ATKPower);
+    }
+    public void GetCriticalDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
     public override void GetDamage(int damage)
     {

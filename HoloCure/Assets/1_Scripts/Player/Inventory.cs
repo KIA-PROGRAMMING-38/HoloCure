@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
@@ -32,13 +31,11 @@ public class Inventory : MonoBehaviour
     /// <param name="weapon">장착할 무기</param>
     public void EquipWeapon(WeaponID ID)
     {
-        Weapon weapon = Instantiate(_weaponDataTable.WeaponPrefabContainer[ID]);
+        Weapon weapon = Instantiate(_weaponDataTable.WeaponPrefabContainer[ID], transform);
+        weapon.Initialize(_weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
+        weapon.transform.parent = default;
 
         Weapons[WeaponCount] = weapon;
         WeaponCount += 1;
-
-        weapon.Initialize(transform.root.GetComponent<VTuber>(), _weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
-        IEnumerator operateSequenceCoroutine = weapon.OperateSequence();
-        StartCoroutine(operateSequenceCoroutine);
     }
 }
