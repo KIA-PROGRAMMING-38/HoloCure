@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
     public void OnCollider() => _collider.enabled = true;
 
     /// <summary>
-    /// 충돌을 다시하기 위한 함수입니다, 애니메이션 이벤트에서 호출됩니다.
+    /// 충돌을 다시하기 위한 함수입니다, 장판형 무기와 애니메이션 이벤트에서 호출됩니다.
     /// </summary>
     public void ResetCollider()
     {
