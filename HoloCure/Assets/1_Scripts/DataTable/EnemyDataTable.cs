@@ -56,7 +56,7 @@ public class EnemyDataTable
             _enemyFeatureContainer.Add(data.ID, feature);
 
             render.Sprite = Resources.Load<Sprite>(Path.Combine(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.SpriteName));
-            render.MoveClip = Resources.Load<AnimationClip>(Path.Combine(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.Name + FileNameLiteral.MOVE));
+            render.MoveClip = Resources.Load<AnimationClip>(Path.Combine(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.Name + FileNameLiteral._MOVE));
 
             _enemyRenderContainer.Add(data.ID, render);
             

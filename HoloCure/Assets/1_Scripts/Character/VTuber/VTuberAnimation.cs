@@ -19,7 +19,7 @@ public class VTuberAnimation : MonoBehaviour
     {
         _animator.SetBool(AnimParameterLiteral.IS_RUNNING, _input.MoveVec.magnitude > 0);
 
-        _spriteRenderer.flipX = _input.MouseScreenPos.x < _midX;
+        _spriteRenderer.flipX = Util.Caching.MouseScreenPos.x < _midX;
     }
 
     public void SetVTuberRender(VTuberRender render)

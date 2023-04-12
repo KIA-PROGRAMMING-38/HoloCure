@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     private VTuber _VTuber;
     private Inventory _inventory;
 
-    public void Inisialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable)
+    public void Initialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable)
     {
         _VTuber = VTuber;
 

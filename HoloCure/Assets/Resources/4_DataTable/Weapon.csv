@@ -5,5 +5,5 @@ ID,Name,Spriteofdisplay,SpriteofIcon,BaseAttackSequenceTime,Minimumattacktime,Pr
 7003,HoloBomb,spr_HoloBomb_0,spr_HoloBombIcon_0,2,0.02,1,1.7,-1,0.33,1.44,10.5,7,0,0
 7004,PsychoAxe,spr_PsychoAxe_0,spr_PsychoAxeIcon_0,4,0.02,1,1.2,10,0.83,1,3,10,0,0
 7005,BLBook,spr_BLBook_0,spr_BLBookIcon_0,6,5,3,1.4,7,0.33,1,2,2,0.08,2
-7006,FanBeam,spr_FanBeam_0,spr_FanBeamIcon_0,3,0.02,1,3.0,-1,1,1,0.1,0,0.17,15
+7006,FanBeam,spr_FanBeam_0,spr_FanBeamIcon_0,3,0.02,1,3.0,-1,1,1,0.833,0,0.17,15
 7007,GlowStick,spr_GlowStick_0,spr_GlowStickIcon_0,4,0.02,1,1.2,3,0.5,1,3,8,0,0

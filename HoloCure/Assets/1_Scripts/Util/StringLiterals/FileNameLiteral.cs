@@ -8,11 +8,12 @@
         public const string BOSS = "Boss";
         public const string WEAPON = "Weapon";
         public const string HIT_MATERIAL = "HitMaterial";
+        public const string PROJECTILE = "Projectile";
 
         public const string IDLE = "Idle";
         public const string RUN = "Run";
-        public const string MOVE = "_Move";
-        public const string PROJECTILE = "_Projectile";
-        public const string EFFECT = "_Effect";
+        public const string _MOVE = "_Move";
+        public const string _PROJECTILE = "_Projectile";
+        public const string _EFFECT = "_Effect";
     }
 }

@@ -3,7 +3,6 @@ using Util.Pool;
 
 public class EnemyPool
 {
-    private VTuber _VTuber;
     private Enemy _enemyPrefab;
     private EnemyID _enemyID;
     private EnemyDataTable _enemyDataTable;
@@ -11,11 +10,10 @@ public class EnemyPool
 
     public Enemy GetEnemyFromPool() => _enemyPool.Get();
 
-    public void Initialize(EnemyID enemyID, Enemy enemyPrefab, VTuber VTuber, EnemyDataTable enemyDataTable)
+    public void Initialize(EnemyID enemyID, Enemy enemyPrefab, EnemyDataTable enemyDataTable)
     {
         _enemyID = enemyID;
         _enemyPrefab = enemyPrefab;
-        _VTuber = VTuber;
         _enemyDataTable = enemyDataTable;
         InitializeEnemyPool();
     }
@@ -25,7 +23,6 @@ public class EnemyPool
         Enemy enemy = Object.Instantiate(_enemyPrefab);
         enemy.InitializeStatus(_enemyID, _enemyDataTable);
         enemy.SetPoolRef(_enemyPool);
-        enemy.SetTarget(_VTuber.transform);
 
         return enemy;
     }

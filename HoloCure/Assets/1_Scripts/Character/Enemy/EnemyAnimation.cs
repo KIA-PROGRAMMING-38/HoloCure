@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class EnemyAnimation : MonoBehaviour
 {
-    private Enemy _enemy;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     private Material _defaultMaterial;
 
     private void Awake()
     {
-        _enemy = transform.root.GetComponent<Enemy>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
     }
@@ -23,7 +21,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         SetSpawn();
     }
-    private void LateUpdate() => _spriteRenderer.flipX = _enemy.VTuberTransform.position.x - transform.root.position.x < 0;
+    private void LateUpdate() => _spriteRenderer.flipX = Util.Caching.CenterWorldPos.x - transform.root.position.x < 0;
     public bool IsFilp() => _spriteRenderer.flipX;
 
     private Color _spawnColor = new Color(1, 1, 1, 1);
@@ -43,7 +41,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         _spriteRenderer.material = EnemyRender.HitMaterial;
 
-        yield return WaitTimeStore.GetWaitForSeconds(0.1f);
+        yield return Util.TimeStore.GetWaitForSeconds(0.1f);
 
         _spriteRenderer.material = _defaultMaterial;
     }
