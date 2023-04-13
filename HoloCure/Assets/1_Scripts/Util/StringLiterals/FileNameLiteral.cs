@@ -9,6 +9,7 @@
         public const string WEAPON = "Weapon";
         public const string HIT_MATERIAL = "HitMaterial";
         public const string PROJECTILE = "Projectile";
+        public const string EXP = "Exp";
 
         public const string IDLE = "Idle";
         public const string RUN = "Run";

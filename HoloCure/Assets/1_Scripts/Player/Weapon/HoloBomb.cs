@@ -21,8 +21,8 @@ public class HoloBomb : Weapon
         collider.radius = _projectileRadius;
         projectile.SetEffectRadius(_effectRadius);
         projectile.ElaspedTime = 0;
-        projectile.InitPoint = projectile.transform.position;
-        projectile.MovePoint = projectile.InitPoint +  Util.Caching.MouseWorldPos.normalized * 50;
+        projectile.InitPoint = transform.position;
+        projectile.MovePoint = projectile.InitPoint + Util.Caching.MouseWorldPos.normalized * 50;
 
         projectile.transform.parent = default;
     }
