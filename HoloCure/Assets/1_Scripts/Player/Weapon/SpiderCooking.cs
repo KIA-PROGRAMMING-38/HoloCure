@@ -4,15 +4,15 @@ public class SpiderCooking : Weapon
 {
     protected override void Shoot()
     {
-        _projectilePool.GetProjectileFromPool();
+        Projectile projectile = _projectilePool.GetProjectileFromPool();
+        projectile.ElaspedTime = 0;
     }
-    private float _elapsedTime;
     protected override void ProjectileOperate(Projectile projectile)
     {
-        _elapsedTime += Time.deltaTime;
-        if (_elapsedTime > weaponStat.HitCooltime)
+        projectile.ElaspedTime += Time.deltaTime;
+        if (projectile.ElaspedTime > weaponStat.HitCooltime)
         {
-            _elapsedTime = 0f;
+            projectile.ElaspedTime = 0f;
             projectile.ResetCollider();
         }
     }

@@ -9,6 +9,9 @@ public class Projectile : MonoBehaviour
 {
     private Animator _animator;
 
+    public float ElaspedTime;
+    public Vector2 InitPoint;
+    public Vector2 MovePoint;
     private float _damage;
     private float _durationTime;
     private int _criticalRate;
@@ -20,7 +23,9 @@ public class Projectile : MonoBehaviour
         _animator = GetComponent<Animator>();
         _projectileOperateSequenceCoroutine = ProjectileOperateSequenceCoroutine();
     }
+
     private void OnEnable() => StartCoroutine(_projectileOperateSequenceCoroutine);
+
     private void Update()
     {
         _operate.Invoke(this);
@@ -89,7 +94,18 @@ public class Projectile : MonoBehaviour
     /// </summary>
     public void OffCollider() => _collider.enabled = false;
 
-
+    /// <summary>
+    /// 애니메이션이 이펙트로 전환하기 위한 함수입니다, OnTriggerEnter2D와 애니메이션 이벤트에서 호출됩니다.
+    /// </summary>
+    public void SetAnimToEffect()
+    {
+        gameObject.layer = LayerNum.WEAPON;
+        GetComponent<Animator>().SetTrigger(AnimParameterHash.ON_EFFECT);
+        CircleCollider2D collier = (CircleCollider2D)_collider;
+        collier.radius = _effectRadius;
+    }
+    private float _effectRadius;
+    public void SetEffectRadius(float radius) => _effectRadius = radius;
     /// <summary>
     /// 적에게 데미지를 줍니다.
     /// </summary>
@@ -110,6 +126,10 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (gameObject.layer == LayerNum.BEFORE_EFFECT && collision.CompareTag(TagLiteral.ENEMY))
+        {
+            SetAnimToEffect();
+        }
         if (collision.CompareTag(TagLiteral.ENEMY))
         {
             Enemy enemy = collision.GetComponent<Enemy>();
