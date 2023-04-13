@@ -8,4 +8,5 @@
     public const int GRID_SENSOR = 10;
     public const int GRID = 11;
     public const int WEAPON = 12;
+    public const int BEFORE_EFFECT = 13;
 }

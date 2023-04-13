@@ -37,7 +37,7 @@ public abstract class Weapon : MonoBehaviour
 
         initPos = transform.position;
 
-        _projectilePool = new();
+        _projectilePool = new(); 
         _projectilePool.Initialize(this);
 
         _projectilePool.OnCreate -= CreateProjectile;

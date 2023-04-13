@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
         GameObject newGameObject = new GameObject(nameof(Inventory));
         newGameObject.transform.parent = transform;
         _inventory = newGameObject.AddComponent<Inventory>();
-        _inventory.Initialize(weaponDataTable, WeaponID.SpiderCooking);
+        _inventory.Initialize(weaponDataTable, WeaponID.HoloBomb);
     }
     private void FixedUpdate()
     {
