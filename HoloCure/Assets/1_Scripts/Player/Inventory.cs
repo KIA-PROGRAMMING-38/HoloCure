@@ -15,6 +15,11 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         EquipWeapon(_startingWeaponID);
+        EquipWeapon(WeaponID.SpiderCooking);
+        EquipWeapon(WeaponID.PsychoAxe);
+        EquipWeapon(WeaponID.BLBook);
+        EquipWeapon(WeaponID.HoloBomb);
+        EquipWeapon(WeaponID.FanBeam);
     }
     public void Initialize(WeaponDataTable weaponDataTable, WeaponID startingWeaponID)
     {
