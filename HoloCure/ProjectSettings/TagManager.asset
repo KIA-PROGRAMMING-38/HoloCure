@@ -10,6 +10,9 @@ TagManager:
   - Enemy
   - Obstacle
   - Weapon
+  - ObjectSensor
+  - Exp
+  - Coin
   layers:
   - Default
   - TransparentFX
@@ -25,9 +28,9 @@ TagManager:
   - Grid
   - Weapon
   - BeforeEffect
-  - 
-  - 
-  - 
+  - ObjectSensor
+  - Exp
+  - Coin
   - 
   - 
   - 

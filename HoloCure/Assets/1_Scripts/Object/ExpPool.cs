@@ -19,7 +19,7 @@ public class ExpPool
 {
     private Exp _expDefaultPrefab;
     private ObjectPool<Exp> _expPool;
-    public Exp GetExpFromPool(int expAmount)
+    public Exp GetExpFromPool(Vector2 pos,int expAmount)
     {
         Exp exp = _expPool.Get();
         exp.SetExp(expAmount);
@@ -33,7 +33,8 @@ public class ExpPool
                 _ => ExpAnimHash.EXPs[6],
         };
         exp.GetComponent<Animator>().Play(hash);
-
+        exp.SetReleasedFalse();
+        exp.transform.position = pos;
         return exp;
     }
 
@@ -48,6 +49,9 @@ public class ExpPool
     {
         Exp exp = UnityEngine.Object.Instantiate(_expDefaultPrefab);
         exp.SetPoolRef(_expPool);
+
+        exp.OnTriggerWithExp -= GetExpFromPool;
+        exp.OnTriggerWithExp += GetExpFromPool;
 
         return exp;
     }

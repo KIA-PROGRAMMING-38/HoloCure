@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviour
     {
         _enemyPools = new Dictionary<EnemyID, EnemyPool>();
         _spawnEnemyCoroutines = new Dictionary<EnemyID, IEnumerator>();
-        _spawnInterval = new WaitForSeconds(1);
+        _spawnInterval = Util.TimeStore.GetWaitForSeconds(1);
         foreach (KeyValuePair<EnemyID, Enemy> keyValuePair in _enemyDataTable.EnemyPrefabContainer)
         {
             EnemyID enemyID = keyValuePair.Key;
@@ -53,7 +53,7 @@ public class EnemyManager : MonoBehaviour
     private WaitForSeconds _spawnInterval;
     private IEnumerator SpawnEnemy(EnemyID ID, Enemy enemy)
     {
-        yield return new WaitForSeconds(enemy.SpawnStartTime);
+        yield return Util.TimeStore.GetWaitForSeconds(enemy.SpawnStartTime);
 
         while (Time.time < enemy.SpawnEndTime)
         {
@@ -71,6 +71,9 @@ public class EnemyManager : MonoBehaviour
             _spawnPos.Set(x, y);
             Enemy enemyInstance = _enemyPools[ID].GetEnemyFromPool();
             enemyInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
+
+            enemyInstance.OnDie -= _gameManager.ObjectManager.SpawnEXP;
+            enemyInstance.OnDie += _gameManager.ObjectManager.SpawnEXP;
 
             yield return _spawnInterval;
         }

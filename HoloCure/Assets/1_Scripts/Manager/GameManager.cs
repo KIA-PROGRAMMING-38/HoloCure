@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     public DataTableManager DataTableManager { get; private set; }
     public VTuberManager VTuberManager { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
+    public ObjectManager ObjectManager { get; private set; }
 
     private void Awake()
     {
@@ -27,7 +28,12 @@ public class GameManager : MonoBehaviour
         gameObject.transform.parent = transform;
         EnemyManager = gameObject.AddComponent<EnemyManager>();
 
+        gameObject = new GameObject(nameof(ObjectManager));
+        gameObject.transform.parent = transform;
+        ObjectManager = gameObject.AddComponent<ObjectManager>();
+
         VTuberManager.GameManager = this;
         EnemyManager.GameManager = this;
+        ObjectManager.GameManager = this;
     }
 }

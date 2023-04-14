@@ -1,10 +1,13 @@
 using StringLiterals;
+using System;
 using System.Collections;
 using UnityEngine;
 using Util.Pool;
 
 public class Enemy : CharacterBase
 {
+    public event Action<Vector2,int> OnDie;
+
     private Rigidbody2D _rigidbody;
 
     private Transform _body;
@@ -13,7 +16,6 @@ public class Enemy : CharacterBase
     private Transform _dieEffect;
 
     private EnemyFeature _enemyFeature;
-    public int EXP => _enemyFeature.Exp;
     public int SpawnStartTime => _enemyFeature.SpawnStartTime;
     public int SpawnEndTime => _enemyFeature.SpawnEndTime;
     private void Awake()
@@ -84,6 +86,8 @@ public class Enemy : CharacterBase
         _dieEffect.gameObject.SetActive(true);
 
         gameObject.layer = LayerNum.DEAD_ENEMY;
+
+        OnDie?.Invoke(transform.position, _enemyFeature.Exp);
     }
 
     // 사망시 움직임 및 반환
