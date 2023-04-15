@@ -42,8 +42,9 @@ public class VTuber : CharacterBase
 
     public void IsSelected(VTuberID VTuberID, WeaponDataTable weaponDataTable)
     {
+        transform.AddComponent<Player>().Initialize(this, VTuberID, weaponDataTable);
         _input = transform.AddComponent<PlayerInput>();
-        transform.AddComponent<PlayerController>().Initialize(this, VTuberID, weaponDataTable);
+        transform.AddComponent<PlayerController>().Initialize(this);
 
         _VTuberAnimation.SetInputRef();
 

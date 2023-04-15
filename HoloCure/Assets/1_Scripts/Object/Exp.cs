@@ -24,7 +24,7 @@ public class Exp : MonoBehaviour
 
         if (collision.CompareTag(TagLiteral.VTUBER))
         {
-            PlayerController player = collision.GetComponent<PlayerController>();
+            Player player = collision.GetComponent<Player>();
 
             player.GetExp(_exp);
 

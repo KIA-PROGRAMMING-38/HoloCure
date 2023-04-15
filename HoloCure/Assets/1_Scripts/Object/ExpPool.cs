@@ -25,9 +25,9 @@ public class ExpPool
         exp.SetExp(expAmount);
         int hash = expAmount switch
         {
-            < 10 => ExpAnimHash.EXPs[1],
-            < 20 => ExpAnimHash.EXPs[2],
-            < 50 => ExpAnimHash.EXPs[3],
+            < 10  => ExpAnimHash.EXPs[1],
+            < 20  => ExpAnimHash.EXPs[2],
+            < 50  => ExpAnimHash.EXPs[3],
             < 100 => ExpAnimHash.EXPs[4],
             < 200 => ExpAnimHash.EXPs[5],
                 _ => ExpAnimHash.EXPs[6],
