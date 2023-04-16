@@ -14,12 +14,34 @@ public class Inventory : MonoBehaviour
     public static int WeaponCount { get; private set; }
     private void Start()
     {
-        EquipWeapon(_startingWeaponID);
-        EquipWeapon(WeaponID.SpiderCooking);
-        EquipWeapon(WeaponID.PsychoAxe);
-        EquipWeapon(WeaponID.BLBook);
-        EquipWeapon(WeaponID.HoloBomb);
-        EquipWeapon(WeaponID.FanBeam);
+        //EquipWeapon(_startingWeaponID);
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            EquipWeapon(_startingWeaponID);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            EquipWeapon(WeaponID.PsychoAxe);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            EquipWeapon(WeaponID.BLBook);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            EquipWeapon(WeaponID.HoloBomb);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            EquipWeapon(WeaponID.FanBeam);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            EquipWeapon(WeaponID.SpiderCooking);
+        }
     }
     public void Initialize(WeaponDataTable weaponDataTable, WeaponID startingWeaponID)
     {

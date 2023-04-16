@@ -9,9 +9,5 @@ public class ExpGauge : UIBase
         PresenterManager.ExpPresenter.OnUpdateExpGauge -= UpdateExpGauge;
         PresenterManager.ExpPresenter.OnUpdateExpGauge += UpdateExpGauge;
     }
-    private void UpdateExpGauge(float expRate)
-    {
-        UnityEngine.Debug.Log(expRate);
-        _image.fillAmount = expRate;
-    }
+    private void UpdateExpGauge(float expRate) => _image.fillAmount = expRate;
 }

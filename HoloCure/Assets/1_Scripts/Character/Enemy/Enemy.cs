@@ -6,7 +6,8 @@ using Util.Pool;
 
 public class Enemy : CharacterBase
 {
-    public event Action<Vector2,int> OnDie;
+    public event Action<Vector2,int> OnDieForSpawnEXP;
+    public event Action OnDieForUpdateCount;
 
     private Rigidbody2D _rigidbody;
 
@@ -87,7 +88,8 @@ public class Enemy : CharacterBase
 
         gameObject.layer = LayerNum.DEAD_ENEMY;
 
-        OnDie?.Invoke(transform.position, _enemyFeature.Exp);
+        OnDieForSpawnEXP?.Invoke(transform.position, _enemyFeature.Exp);
+        OnDieForUpdateCount?.Invoke();
     }
 
     // 사망시 움직임 및 반환

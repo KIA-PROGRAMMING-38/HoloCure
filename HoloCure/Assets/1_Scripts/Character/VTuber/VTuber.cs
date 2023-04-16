@@ -1,9 +1,19 @@
 using StringLiterals;
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class VTuber : CharacterBase
 {
+    public event Action<int> OnGetDamage;
+    public event Action<int> OnChangeMaxHp;
+    public void InitializeEvent()
+    {
+        OnChangeMaxHp?.Invoke(baseStat.MaxHealth);
+        OnGetDamage?.Invoke(currentHealth);
+    }
+
+
     private PlayerInput _input;
     private Rigidbody2D _rigidbody;
     private VTuberAnimation _VTuberAnimation;
@@ -39,7 +49,6 @@ public class VTuber : CharacterBase
 
         gameObject.SetActive(false);
     }
-
     public void IsSelected(VTuberID VTuberID, WeaponDataTable weaponDataTable)
     {
         transform.AddComponent<Player>().Initialize(this, VTuberID, weaponDataTable);
@@ -49,5 +58,12 @@ public class VTuber : CharacterBase
         _VTuberAnimation.SetInputRef();
 
         gameObject.SetActive(true);
+    }
+
+    public override void GetDamage(int damage)
+    {
+        base.GetDamage(damage);
+
+        OnGetDamage?.Invoke(currentHealth);
     }
 }

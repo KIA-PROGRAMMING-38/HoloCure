@@ -35,7 +35,7 @@ public abstract class Weapon : MonoBehaviour
         weaponAnimator = GetComponent<Animator>();
         weaponAnimator.enabled = false;
 
-        initPos = transform.position;
+        initPos = transform.localPosition;
 
         _projectilePool = new(); 
         _projectilePool.Initialize(this);
