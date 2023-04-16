@@ -72,8 +72,11 @@ public class EnemyManager : MonoBehaviour
             Enemy enemyInstance = _enemyPools[ID].GetEnemyFromPool();
             enemyInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
 
-            enemyInstance.OnDie -= _gameManager.ObjectManager.SpawnEXP;
-            enemyInstance.OnDie += _gameManager.ObjectManager.SpawnEXP;
+            enemyInstance.OnDieForSpawnEXP -= GameManager.ObjectManager.SpawnEXP;
+            enemyInstance.OnDieForSpawnEXP += GameManager.ObjectManager.SpawnEXP;
+
+            enemyInstance.OnDieForUpdateCount -= GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
+            enemyInstance.OnDieForUpdateCount += GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
 
             yield return _spawnInterval;
         }

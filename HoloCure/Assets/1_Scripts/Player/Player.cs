@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public event Action<int> OnLevelUp;
+    public event Action OnLevelUp;
     public event Action<float> OnGetExp;
+    public void InitializeEvent()
+    {
+        OnLevelUp?.Invoke();
+        OnGetExp?.Invoke(_curExp / _maxExp);
+    }
 
     private VTuber _VTuber;
     private Inventory _inventory;
@@ -33,7 +38,7 @@ public class Player : MonoBehaviour
         _maxExp = (int)(Mathf.Round(Mathf.Pow(4 * (_level + 1), 2.1f)) - Mathf.Round(Mathf.Pow(4 * _level, 2.1f)));
         _level += 1;
 
-        OnLevelUp?.Invoke(_level);
+        OnLevelUp?.Invoke();
     }
     public void GetExp(int exp)
     {
