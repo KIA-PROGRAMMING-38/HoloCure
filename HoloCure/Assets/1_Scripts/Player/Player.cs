@@ -5,11 +5,6 @@ public class Player : MonoBehaviour
 {
     public event Action OnLevelUp;
     public event Action<float> OnGetExp;
-    public void InitializeEvent()
-    {
-        OnLevelUp?.Invoke();
-        OnGetExp?.Invoke(_curExp / _maxExp);
-    }
 
     private VTuber _VTuber;
     private Inventory _inventory;

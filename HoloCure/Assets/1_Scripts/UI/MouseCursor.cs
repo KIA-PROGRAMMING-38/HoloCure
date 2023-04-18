@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MouseCursor : UIBase
 {
@@ -8,7 +9,15 @@ public class MouseCursor : UIBase
     private Vector2 _cusorUIInitPos;
     private Vector2 _cusorInGameInitPos;
 
-    private void Awake() => Cursor.visible = false;
+    private CanvasScaler _canvasScaler;
+
+    private void Awake()
+    {
+        Cursor.visible = false;
+        _canvasScaler = GetComponent<CanvasScaler>();
+        _canvasScaler.referenceResolution.Set(Screen.width, Screen.height);
+    }
+
     private void Start()
     {
         Cursor.visible = false;
@@ -20,11 +29,11 @@ public class MouseCursor : UIBase
         _UICursorMoveCoroutine = UICursorMoveCoroutine();
         _InGameCursorMoveCoroutine = InGameCursorMoveCoroutine();
 
-        PresenterManager.TriggerPresenter.OnPause -= ActivateUICursor;
-        PresenterManager.TriggerPresenter.OnPause += ActivateUICursor;
+        PresenterManager.TriggerUIPresenter.OnActivateStatUI -= ActivateUICursor;
+        PresenterManager.TriggerUIPresenter.OnActivateStatUI += ActivateUICursor;
 
-        PresenterManager.TriggerPresenter.OnResume -= ActivateInGameCursor;
-        PresenterManager.TriggerPresenter.OnResume += ActivateInGameCursor;
+        PresenterManager.TriggerUIPresenter.OnResume -= ActivateInGameCursor;
+        PresenterManager.TriggerUIPresenter.OnResume += ActivateInGameCursor;
 
         StartCoroutine(_UICursorMoveCoroutine);
         StartCoroutine(_InGameCursorMoveCoroutine);
