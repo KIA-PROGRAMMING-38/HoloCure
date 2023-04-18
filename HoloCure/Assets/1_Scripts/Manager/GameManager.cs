@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
         gameObject = new GameObject(nameof(PresenterManager));
         gameObject.transform.parent = transform;
         PresenterManager = gameObject.AddComponent<PresenterManager>();
-        PresenterManager.GameManager = this;
 
         gameObject = new GameObject(nameof(PlayerManager));
         gameObject.transform.parent = transform;

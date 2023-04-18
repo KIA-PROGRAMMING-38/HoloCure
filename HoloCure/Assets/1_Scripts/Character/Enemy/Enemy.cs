@@ -118,4 +118,6 @@ public class Enemy : CharacterBase
     /// </summary>
     /// <param name="pool"></param>
     public void SetPoolRef(ObjectPool<Enemy> pool) => _pool = pool;
+
+    public void SetFilpX() => _enemyAnimation.SetFlipX();
 }

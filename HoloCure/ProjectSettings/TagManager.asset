@@ -13,6 +13,9 @@ TagManager:
   - ObjectSensor
   - Exp
   - Coin
+  - FilpSensor
+  - MouseCursor
+  - EnemyBody
   layers:
   - Default
   - TransparentFX
@@ -31,8 +34,8 @@ TagManager:
   - ObjectSensor
   - Exp
   - Coin
-  - 
-  - 
+  - FilpSensor
+  - MouseCursor
   - 
   - 
   - 
