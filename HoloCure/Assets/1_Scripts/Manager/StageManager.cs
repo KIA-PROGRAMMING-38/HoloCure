@@ -1,45 +1,57 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
     public event Action OnOneSecondPassed;
-
+    public event Action OnPause;
+    public event Action OnResume;
     public GameManager GameManager { private get; set; }
-    private void Start()
+
+    private float _elapsedTime;
+    private int _elapsedSecond;
+    private bool _isOnLevelUp;
+    private bool _isOnPause;
+    private void OnEnable()
     {
-        _stageTimerCoroutine = StageTimerCoroutine();
+        _elapsedTime = 0f;
+        _elapsedSecond = 0;
     }
-    public void StartStage()
+    private void Start()
     {
         OnOneSecondPassed -= GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
         OnOneSecondPassed += GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
 
-        _elapsedTime = 0f;
-        _elapsedSecond = 0;
-        StartCoroutine(_stageTimerCoroutine);
+        OnPause -= GameManager.PresenterManager.TriggerPresenter.ActivateStatUI;
+        OnPause += GameManager.PresenterManager.TriggerPresenter.ActivateStatUI;
+
+        OnResume -= GameManager.PresenterManager.TriggerPresenter.DeActivateStatUI;
+        OnResume += GameManager.PresenterManager.TriggerPresenter.DeActivateStatUI;
+
+        OnResume?.Invoke();
     }
-    public void StopStage()
+    private void Update()
     {
-        StopCoroutine(_stageTimerCoroutine);
-    }
-    private float _elapsedTime;
-    private int _elapsedSecond;
-    private IEnumerator _stageTimerCoroutine;
-    private IEnumerator StageTimerCoroutine()
-    {
-        while(true)
+        _elapsedTime += Time.deltaTime;
+
+        if (_elapsedTime >= _elapsedSecond + 1)
         {
-            _elapsedTime += Time.deltaTime;
+            _elapsedSecond += 1;
 
-            if (_elapsedTime >= _elapsedSecond + 1)
-            {
-                _elapsedSecond += 1;
+            OnOneSecondPassed?.Invoke();
+        }
 
-                OnOneSecondPassed?.Invoke();
-            }
-            yield return null;
+        if (false == _isOnLevelUp && false == _isOnPause && Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0f;
+            _isOnPause = true;
+            OnPause?.Invoke();
+        }
+        else if (false == _isOnLevelUp && true == _isOnPause && Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 1f;
+            _isOnPause = false;
+            OnResume?.Invoke();
         }
     }
 }

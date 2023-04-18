@@ -11,8 +11,5 @@ public class PlayerInput : MonoBehaviour
         _mainCamera = Camera.main;
         _mainCamera.transform.parent = transform;
     }
-    private void Update()
-    {
-        _moveVec.Set(Input.GetAxisRaw(InputLiteral.HORIZONTAL), Input.GetAxisRaw(InputLiteral.VERTICAL));
-    }
+    private void Update() => _moveVec.Set(Input.GetAxisRaw(InputLiteral.HORIZONTAL), Input.GetAxisRaw(InputLiteral.VERTICAL));
 }

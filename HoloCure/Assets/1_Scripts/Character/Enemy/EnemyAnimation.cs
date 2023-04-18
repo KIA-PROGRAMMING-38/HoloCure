@@ -21,7 +21,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         SetSpawn();
     }
-    private void LateUpdate() => _spriteRenderer.flipX = Util.Caching.CenterWorldPos.x - transform.root.position.x < 0;
+    public void SetFlipX() => _spriteRenderer.flipX = Util.Caching.CenterWorldPos.x - transform.root.position.x < 0;
     public bool IsFilp() => _spriteRenderer.flipX;
 
     private Color _spawnColor = new Color(1, 1, 1, 1);

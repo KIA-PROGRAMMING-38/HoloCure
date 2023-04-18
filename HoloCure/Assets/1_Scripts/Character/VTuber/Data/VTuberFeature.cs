@@ -1,6 +1,8 @@
 ﻿public class VTuberFeature
 {
-    public int CrticalRate;
-    public int PickupSize;
-    public int Haste;
+    public int ATKRate;
+    public int SPDRate;
+    public int CRTRate;
+    public int PickupRate;
+    public int HasteRate;
 }

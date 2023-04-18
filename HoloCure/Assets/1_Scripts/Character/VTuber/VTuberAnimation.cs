@@ -11,29 +11,29 @@ public class VTuberAnimation : MonoBehaviour
 
     private void Awake()
     {
+        _input = transform.root.GetComponent<PlayerInput>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _midX = Screen.width / 2;
     }
     private void LateUpdate()
     {
-        _animator.SetBool(AnimParameterLiteral.IS_RUNNING, _input.MoveVec.magnitude > 0);
+        _animator.SetBool(AnimParameterLiteral.IS_RUNNING, _input?.MoveVec.magnitude > 0);
 
-        _spriteRenderer.flipX = Util.Caching.MouseScreenPos.x < _midX;
+        if (Time.timeScale != 0)
+        {
+            _spriteRenderer.flipX = Util.Caching.MouseScreenPos.x < _midX;
+        }
     }
 
-    public void SetVTuberRender(VTuberRender render)
+    public void SetVTuberRender(VTuberData data)
     {
-        _spriteRenderer.sprite = render.Sprite;
+        _spriteRenderer.sprite = data.Display;
         AnimatorOverrideController overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
 
-        overrideController[AnimClipLiteral.IDLE] = render.IdleClip;
-        overrideController[AnimClipLiteral.RUN] = render.RunClip;
+        overrideController[AnimClipLiteral.IDLE] = data.IdleClip;
+        overrideController[AnimClipLiteral.RUN] = data.RunClip;
 
         _animator.runtimeAnimatorController = overrideController;
-    }
-    public void SetInputRef()
-    {
-        _input = transform.root.GetComponent<PlayerInput>();
     }
 }

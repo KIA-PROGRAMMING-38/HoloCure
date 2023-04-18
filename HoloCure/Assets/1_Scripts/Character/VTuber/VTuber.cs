@@ -7,10 +7,22 @@ public class VTuber : CharacterBase
 {
     public event Action<int> OnGetDamage;
     public event Action<int> OnChangeMaxHp;
+
+    public event Action<int> OnChangeATKRate;
+    public event Action<int> OnChangeSPDRate;
+    public event Action<int> OnChangeCRTRate;
+    public event Action<int> OnChangePickupRate;
+    public event Action<int> OnChangeHasteRate;
     public void InitializeEvent()
     {
         OnChangeMaxHp?.Invoke(baseStat.MaxHealth);
         OnGetDamage?.Invoke(currentHealth);
+
+        OnChangeATKRate?.Invoke(_VTuberFeature.ATKRate);
+        OnChangeSPDRate?.Invoke(_VTuberFeature.SPDRate);
+        OnChangeCRTRate?.Invoke(_VTuberFeature.CRTRate);
+        OnChangePickupRate?.Invoke(_VTuberFeature.PickupRate);
+        OnChangeHasteRate?.Invoke(_VTuberFeature.HasteRate);
     }
 
 
@@ -36,16 +48,16 @@ public class VTuber : CharacterBase
     {
         _rigidbody.MovePosition(_rigidbody.position + _input.MoveVec.normalized * (moveSpeed * Time.fixedDeltaTime));
     }
-    public void Initialize(CharacterStat stat, VTuberFeature feature, VTuberRender render)
+    public void Initialize(CharacterStat stat, VTuberFeature feature, VTuberData data)
     {
-        _VTuberAnimation.SetVTuberRender(render);
+        _VTuberAnimation.SetVTuberRender(data);
 
         baseStat = stat;
         _VTuberFeature = feature;
 
         // 임시 코드
         AtkPower = stat.ATKPower * 10;
-        CriticalRate = feature.CrticalRate;
+        CriticalRate = feature.CRTRate;
 
         gameObject.SetActive(false);
     }
@@ -54,8 +66,6 @@ public class VTuber : CharacterBase
         transform.AddComponent<Player>().Initialize(this, VTuberID, weaponDataTable);
         _input = transform.AddComponent<PlayerInput>();
         transform.AddComponent<PlayerController>().Initialize(this);
-
-        _VTuberAnimation.SetInputRef();
 
         gameObject.SetActive(true);
     }

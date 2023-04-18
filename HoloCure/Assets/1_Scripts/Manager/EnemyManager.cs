@@ -71,6 +71,7 @@ public class EnemyManager : MonoBehaviour
             _spawnPos.Set(x, y);
             Enemy enemyInstance = _enemyPools[ID].GetEnemyFromPool();
             enemyInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
+            enemyInstance.SetFilpX();
 
             enemyInstance.OnDieForSpawnEXP -= GameManager.ObjectManager.SpawnEXP;
             enemyInstance.OnDieForSpawnEXP += GameManager.ObjectManager.SpawnEXP;

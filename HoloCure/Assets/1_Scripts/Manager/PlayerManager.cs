@@ -5,6 +5,7 @@ public class PlayerManager : MonoBehaviour
     private GameManager _gameManager;
     private DataTableManager _dataTableManager;
     private VTuberDataTable _VTuberDataTable;
+    private PresenterManager _presenterManager;
 
     public GameManager GameManager
     {
@@ -14,6 +15,7 @@ public class PlayerManager : MonoBehaviour
             _gameManager = value;
             _dataTableManager = _gameManager.DataTableManager;
             _VTuberDataTable = _dataTableManager.VTuberDataTable;
+            _presenterManager = _gameManager.PresenterManager;
 
         }
     }
@@ -22,7 +24,6 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             SelectVTuber(VTuberID.Ninomae_Inanis);
-            GameManager.StageManager.StartStage();
         }
     }
     public Player Player { get; private set; }
@@ -35,17 +36,37 @@ public class PlayerManager : MonoBehaviour
         VTuber.IsSelected(ID, _dataTableManager.WeaponDataTable);
         Player = VTuber.GetComponent<Player>();
 
-        Player.OnGetExp -= GameManager.PresenterManager.ExpPresenter.UpdateExpGauge;
-        Player.OnGetExp += GameManager.PresenterManager.ExpPresenter.UpdateExpGauge;
+        _presenterManager.InitPresenter.GetInitData(_VTuberDataTable.VTuberDataContainer[ID]);
 
-        Player.OnLevelUp -= GameManager.PresenterManager.CountPresenter.UpdatePlayerLevelCount;
-        Player.OnLevelUp += GameManager.PresenterManager.CountPresenter.UpdatePlayerLevelCount;
+        Player.OnGetExp -= _presenterManager.ExpPresenter.UpdateExpGauge;
+        Player.OnGetExp += _presenterManager.ExpPresenter.UpdateExpGauge;
 
-        VTuber.OnChangeMaxHp -= GameManager.PresenterManager.HPPresenter.UpdateMaxHp;
-        VTuber.OnChangeMaxHp += GameManager.PresenterManager.HPPresenter.UpdateMaxHp;
+        Player.OnLevelUp -= _presenterManager.CountPresenter.UpdatePlayerLevelCount;
+        Player.OnLevelUp += _presenterManager.CountPresenter.UpdatePlayerLevelCount;
 
-        VTuber.OnGetDamage -= GameManager.PresenterManager.HPPresenter.UpdateCurHp;
-        VTuber.OnGetDamage += GameManager.PresenterManager.HPPresenter.UpdateCurHp;
+        VTuber.OnChangeMaxHp -= _presenterManager.HPPresenter.UpdateMaxHp;
+        VTuber.OnChangeMaxHp += _presenterManager.HPPresenter.UpdateMaxHp;
+
+        VTuber.OnGetDamage -= _presenterManager.HPPresenter.UpdateCurHp;
+        VTuber.OnGetDamage += _presenterManager.HPPresenter.UpdateCurHp;
+
+        VTuber.OnChangeATKRate -= _presenterManager.StatPresenter.UpdateATK;
+        VTuber.OnChangeATKRate += _presenterManager.StatPresenter.UpdateATK;
+
+        VTuber.OnChangeATKRate -= _presenterManager.StatPresenter.UpdateATK;
+        VTuber.OnChangeATKRate += _presenterManager.StatPresenter.UpdateATK;
+
+        VTuber.OnChangeSPDRate -= _presenterManager.StatPresenter.UpdateSPD;
+        VTuber.OnChangeSPDRate += _presenterManager.StatPresenter.UpdateSPD;
+
+        VTuber.OnChangeCRTRate -= _presenterManager.StatPresenter.UpdateCRT;
+        VTuber.OnChangeCRTRate += _presenterManager.StatPresenter.UpdateCRT;
+
+        VTuber.OnChangePickupRate -= _presenterManager.StatPresenter.UpdatePickup;
+        VTuber.OnChangePickupRate += _presenterManager.StatPresenter.UpdatePickup;
+
+        VTuber.OnChangeHasteRate -= _presenterManager.StatPresenter.UpdateHaste;
+        VTuber.OnChangeHasteRate += _presenterManager.StatPresenter.UpdateHaste;
 
         Player.InitializeEvent();
         VTuber.InitializeEvent();
