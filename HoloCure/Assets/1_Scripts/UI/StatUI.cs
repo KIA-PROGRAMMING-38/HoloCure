@@ -6,11 +6,11 @@ public class StatUI : UIBase
     private void Awake() => _canvas = GetComponent<Canvas>();
     private void Start()
     {
-        PresenterManager.TriggerPresenter.OnPause -= ActivateStatUI;
-        PresenterManager.TriggerPresenter.OnPause += ActivateStatUI;
+        PresenterManager.TriggerUIPresenter.OnActivateStatUI -= ActivateStatUI;
+        PresenterManager.TriggerUIPresenter.OnActivateStatUI += ActivateStatUI;
 
-        PresenterManager.TriggerPresenter.OnResume -= DeActivateStatUI;
-        PresenterManager.TriggerPresenter.OnResume += DeActivateStatUI;
+        PresenterManager.TriggerUIPresenter.OnResume -= DeActivateStatUI;
+        PresenterManager.TriggerUIPresenter.OnResume += DeActivateStatUI;
     }
     private void ActivateStatUI() => _canvas.enabled = true;
     private void DeActivateStatUI() => _canvas.enabled = false;

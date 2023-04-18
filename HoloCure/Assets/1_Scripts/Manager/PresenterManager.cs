@@ -2,7 +2,7 @@
 
 public class PresenterManager : MonoBehaviour
 {
-    public TriggerPresenter TriggerPresenter { get; private set; }
+    public TriggerUIPresenter TriggerUIPresenter { get; private set; }
     public ExpPresenter ExpPresenter {get; private set;}
     public CountPresenter CountPresenter { get; private set;}
     public HPPresenter HPPresenter { get; private set;}
@@ -14,7 +14,7 @@ public class PresenterManager : MonoBehaviour
     {
         UIBase.PresenterManager = this;
 
-        TriggerPresenter = new();
+        TriggerUIPresenter = new();
         ExpPresenter = new();
         CountPresenter = new();
         HPPresenter = new();

@@ -22,11 +22,17 @@ public class StageManager : MonoBehaviour
         OnOneSecondPassed -= GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
         OnOneSecondPassed += GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
 
-        OnPause -= GameManager.PresenterManager.TriggerPresenter.ActivateStatUI;
-        OnPause += GameManager.PresenterManager.TriggerPresenter.ActivateStatUI;
+        OnPause -= GameManager.PresenterManager.TriggerUIPresenter.ActivatePauseUI;
+        OnPause += GameManager.PresenterManager.TriggerUIPresenter.ActivatePauseUI;
 
-        OnResume -= GameManager.PresenterManager.TriggerPresenter.DeActivateStatUI;
-        OnResume += GameManager.PresenterManager.TriggerPresenter.DeActivateStatUI;
+        OnResume -= GameManager.PresenterManager.TriggerUIPresenter.DeActivatePauseUI;
+        OnResume += GameManager.PresenterManager.TriggerUIPresenter.DeActivatePauseUI;
+
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= SetBoolOnLevelUpTrue;
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += SetBoolOnLevelUpTrue;
+
+        GameManager.PresenterManager.TriggerUIPresenter.OnSelectForManager -= SetBoolOnLevelUpFalse;
+        GameManager.PresenterManager.TriggerUIPresenter.OnSelectForManager += SetBoolOnLevelUpFalse;
 
         OnResume?.Invoke();
     }
@@ -43,15 +49,15 @@ public class StageManager : MonoBehaviour
 
         if (false == _isOnLevelUp && false == _isOnPause && Input.GetKeyDown(KeyCode.Escape))
         {
-            Time.timeScale = 0f;
             _isOnPause = true;
             OnPause?.Invoke();
         }
         else if (false == _isOnLevelUp && true == _isOnPause && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Time.timeScale = 1f;
+        {   
             _isOnPause = false;
             OnResume?.Invoke();
         }
     }
+    private void SetBoolOnLevelUpTrue() => _isOnLevelUp = true;
+    private void SetBoolOnLevelUpFalse() => _isOnLevelUp = false;
 }

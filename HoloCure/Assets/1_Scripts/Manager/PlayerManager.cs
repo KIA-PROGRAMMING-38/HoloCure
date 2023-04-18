@@ -43,6 +43,8 @@ public class PlayerManager : MonoBehaviour
 
         Player.OnLevelUp -= _presenterManager.CountPresenter.UpdatePlayerLevelCount;
         Player.OnLevelUp += _presenterManager.CountPresenter.UpdatePlayerLevelCount;
+        Player.OnLevelUp -= _presenterManager.TriggerUIPresenter.ActivateLevelUpUI;
+        Player.OnLevelUp += _presenterManager.TriggerUIPresenter.ActivateLevelUpUI;
 
         VTuber.OnChangeMaxHp -= _presenterManager.HPPresenter.UpdateMaxHp;
         VTuber.OnChangeMaxHp += _presenterManager.HPPresenter.UpdateMaxHp;
@@ -68,7 +70,6 @@ public class PlayerManager : MonoBehaviour
         VTuber.OnChangeHasteRate -= _presenterManager.StatPresenter.UpdateHaste;
         VTuber.OnChangeHasteRate += _presenterManager.StatPresenter.UpdateHaste;
 
-        Player.InitializeEvent();
         VTuber.InitializeEvent();
     }
 

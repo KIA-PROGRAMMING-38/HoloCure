@@ -1,13 +1,14 @@
+using System;
 using UnityEngine;
 
-public class LevelUpListController : MonoBehaviour
+public class LevelUpListController : UIBase
 {
+    public event Action OnClick;
+    public event Action<WeaponID> OnSelectWeapon;
+
     [SerializeField] private LevelUpList[] _lists;
+    private WeaponID[] _weaponLists;
     
-    private void Awake()
-    {
-        
-    }
     private void Start()
     {
         for (int i = 0; i < _lists.Length; ++i)
@@ -41,8 +42,14 @@ public class LevelUpListController : MonoBehaviour
             break;
         }
 
-        
+        SelectWeapon(index);
     }
-
-    
+    private void GetWeaponList(WeaponID[] weaponLists)
+    {
+        _weaponLists = weaponLists;
+    }
+    private void SelectWeapon(int index)
+    {
+        OnSelectWeapon?.Invoke(_weaponLists[index]);
+    }    
 }
