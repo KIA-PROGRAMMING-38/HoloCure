@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     public event Action<float> OnGetExp;
 
     private VTuber _VTuber;
+
+    public Inventory Inventory => _inventory;
     private Inventory _inventory;
 
     private int _curExp;
@@ -25,7 +27,7 @@ public class Player : MonoBehaviour
         GameObject newGameObject = new GameObject(nameof(Inventory));
         newGameObject.transform.parent = transform;
         _inventory = newGameObject.AddComponent<Inventory>();
-        _inventory.Initialize(weaponDataTable, WeaponID.SummonTentacle);
+        _inventory.Initialize(weaponDataTable, StartingWeaponID.SummonTentacle);
     }
     private void LevelUp()
     {
@@ -33,17 +35,18 @@ public class Player : MonoBehaviour
         _maxExp = (int)(Mathf.Round(Mathf.Pow(4 * (_level + 1), 2.1f)) - Mathf.Round(Mathf.Pow(4 * _level, 2.1f)));
         _level += 1;
 
+        OnGetExp?.Invoke((float)_curExp / _maxExp);
         OnLevelUp?.Invoke();
     }
     public void GetExp(int exp)
     {
         _curExp += exp;
 
+        OnGetExp?.Invoke((float)_curExp / _maxExp);
+
         if (_curExp >= _maxExp)
         {
             LevelUp();
         }
-
-        OnGetExp?.Invoke((float)_curExp / _maxExp);
     }
 }

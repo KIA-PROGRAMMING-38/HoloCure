@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class LevelUpListController : UIBase
 {
-    public event Action OnClick;
-    public event Action<WeaponID> OnSelectWeapon;
+    public event Action OnSelect;
+    public event Action<int> OnSelectWeapon;
 
     [SerializeField] private LevelUpList[] _lists;
-    private WeaponID[] _weaponLists;
+    private WeaponData[] _weaponLists;
     
     private void Start()
     {
@@ -27,6 +27,14 @@ public class LevelUpListController : UIBase
             _lists[i].OnClickForController -= TriggerEventByClick;
             _lists[i].OnClickForController += TriggerEventByClick;
         }
+
+        OnSelect -= PresenterManager.TriggerUIPresenter.DeActivateLevelUpUI;
+        OnSelect += PresenterManager.TriggerUIPresenter.DeActivateLevelUpUI;
+        OnSelectWeapon -= PresenterManager.TriggerUIPresenter.SendSelectedID;
+        OnSelectWeapon += PresenterManager.TriggerUIPresenter.SendSelectedID;
+
+        PresenterManager.TriggerUIPresenter.OnGetWeaponDatas -= GetWeaponList;
+        PresenterManager.TriggerUIPresenter.OnGetWeaponDatas += GetWeaponList;
     }
     private void TriggerEventByClick(LevelUpList list)
     {
@@ -44,12 +52,19 @@ public class LevelUpListController : UIBase
 
         SelectWeapon(index);
     }
-    private void GetWeaponList(WeaponID[] weaponLists)
+    private void GetWeaponList(WeaponData[] weaponLists)
     {
         _weaponLists = weaponLists;
+
+        for (int i = 0; i < 4; ++i)
+        {
+            _lists[i].GetWeaponData(_weaponLists[i]);
+        }
     }
+
     private void SelectWeapon(int index)
     {
-        OnSelectWeapon?.Invoke(_weaponLists[index]);
+        OnSelectWeapon?.Invoke(_weaponLists[index].ID);
+        OnSelect?.Invoke();
     }    
 }

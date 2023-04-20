@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using Util;
 using Util.Pool;
 
 public class Projectile : MonoBehaviour
@@ -15,6 +14,8 @@ public class Projectile : MonoBehaviour
     private float _damage;
     private float _durationTime;
     private int _criticalRate;
+    private float _knockBackDurationTime;
+    private float _knockBackSpeed;
     private ObjectPool<Projectile> _pool;
     public void SetPoolRef(ObjectPool<Projectile> pool) => _pool = pool;
 
@@ -25,7 +26,6 @@ public class Projectile : MonoBehaviour
     }
 
     private void OnEnable() => StartCoroutine(_projectileOperateSequenceCoroutine);
-
     private void Update()
     {
         _operate.Invoke(this);
@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
 
         while (true)
         {
-            yield return TimeStore.GetWaitForSeconds(_durationTime);
+            yield return Util.TimeStore.GetWaitForSeconds(_durationTime);
 
             _pool.Release(this);
 
@@ -47,11 +47,13 @@ public class Projectile : MonoBehaviour
     }
     private Action<Projectile> _operate;
     public void SetProjectileOperate(Action<Projectile> operate) => _operate = operate;
-    public void SetProjectileStat(float damage, float durationTime, int criticalRate)
+    public void SetProjectileStat(float damage, float durationTime, int criticalRate, float knockbackDurationTime, float knockbackSpeed)
     {
         _damage = damage;
         _durationTime = durationTime;
         _criticalRate = criticalRate;
+        _knockBackDurationTime = knockbackDurationTime;
+        _knockBackSpeed = knockbackSpeed;
     }
 
     public void SetPositionWithWeapon(Vector2 weaponPos, Vector2 projectileInitPos = default)
@@ -123,6 +125,23 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    private IEnumerator SetKnockBackCoroutine(Enemy enemy)
+    {
+        while (true)
+        {
+            enemy.KnockBacked(_knockBackSpeed);
+
+            yield return null;
+        }
+    }
+    private IEnumerator KnockBackCoroutine(IEnumerator setKnockBackCoroutine)
+    {
+        StartCoroutine(setKnockBackCoroutine);
+
+        yield return Util.TimeStore.GetWaitForSeconds(_knockBackDurationTime);
+
+        StopCoroutine(setKnockBackCoroutine);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -134,6 +153,16 @@ public class Projectile : MonoBehaviour
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             SetDamage(enemy);
+
+            if (_knockBackDurationTime == 0 || _knockBackSpeed == 0)
+            {
+                return;
+            }
+
+            // 최적화 고려해야함 IEnumerator의 쓰레기값이 계속 생성되는지 확인해야함
+            IEnumerator setKnockBackCoroutine = SetKnockBackCoroutine(enemy);
+            IEnumerator knockBackCoroutine = KnockBackCoroutine(setKnockBackCoroutine);
+            StartCoroutine(knockBackCoroutine);
         }
     }
 }

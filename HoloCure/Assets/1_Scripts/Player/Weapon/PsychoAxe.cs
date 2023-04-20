@@ -6,7 +6,7 @@ public class PsychoAxe : Weapon
     private float _angle;
     private float _radius;
     private readonly int _radiusSpeed = 40;
-    protected override void Shoot()
+    protected override void Shoot(int index)
     {
         Projectile projectile = _projectilePool.GetProjectileFromPool();
         projectile.SetPositionWithWeapon(transform.position);
@@ -19,7 +19,7 @@ public class PsychoAxe : Weapon
     }
     protected override void ProjectileOperate(Projectile projectile)
     {
-        _angle += weaponStat.ProjectileSpeed * Time.deltaTime * Time.deltaTime * Mathf.Rad2Deg;
+        _angle += weaponStat.ProjectileSpeed[WeaponData.CurrentLevel] * Time.deltaTime * Time.deltaTime * Mathf.Rad2Deg;
         _radius += _radiusSpeed * Time.deltaTime;
         _offset.Set(Mathf.Sin(_angle), Mathf.Cos(_angle));
         projectile.transform.position = (Vector2)transform.position + _offset * _radius;

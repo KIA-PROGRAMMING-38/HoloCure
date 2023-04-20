@@ -10,7 +10,7 @@ public class HoloBomb : Weapon
         _projectileRadius = GetComponent<CircleCollider2D>().radius;
         _effectRadius = _projectileRadius * 2.5f;
     }
-    protected override void Shoot()
+    protected override void Shoot(int index)
     {
         Projectile projectile = _projectilePool.GetProjectileFromPool();
         projectile.transform.parent = transform;
@@ -33,7 +33,7 @@ public class HoloBomb : Weapon
 
     protected override void ProjectileOperate(Projectile projectile)
     {
-        projectile.ElaspedTime += Time.deltaTime * weaponStat.ProjectileSpeed;
+        projectile.ElaspedTime += Time.deltaTime * weaponStat.ProjectileSpeed[WeaponData.CurrentLevel];
         projectile.transform.position = Vector2.Lerp(projectile.InitPoint, projectile.MovePoint, projectile.ElaspedTime);
     }
     protected override Collider2D SetCollider(Projectile projectile) => SetCircleCollider(projectile);

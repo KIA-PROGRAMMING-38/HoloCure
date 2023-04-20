@@ -2,7 +2,7 @@
 
 public class SummonTentacle : Weapon
 {
-    protected override void Shoot()
+    protected override void Shoot(int index)
     {
         Projectile projectile = _projectilePool.GetProjectileFromPool();
         SetProjectileRotWithMousePos(projectile);

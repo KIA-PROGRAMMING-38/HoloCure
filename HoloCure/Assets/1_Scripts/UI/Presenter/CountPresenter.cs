@@ -6,7 +6,7 @@ public class CountPresenter
     public event Action<int> OnUpdateCoinCount;
     public event Action<int> OnUpdateDefeatedEnemyCount;
 
-    private int _playerLevelCount;
+    private int _playerLevelCount = 1;
     private int _coinCount;
     private int _defeatedEnemyCount;
 
