@@ -4,10 +4,8 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    private WeaponData _weaponData = new();
+    public WeaponData WeaponData = new();
     protected WeaponStat weaponStat = new();
-    protected float attackSequenceTime;
-    protected float attackDurationTime;
 
     protected VTuber VTuber;
 
@@ -19,6 +17,7 @@ public abstract class Weapon : MonoBehaviour
     protected ProjectilePool _projectilePool;
 
     protected Vector2 initPos;
+
     protected virtual void Awake()
     {
         VTuber = transform.root.GetComponent<VTuber>();
@@ -37,7 +36,7 @@ public abstract class Weapon : MonoBehaviour
 
         initPos = transform.localPosition;
 
-        _projectilePool = new(); 
+        _projectilePool = new();
         _projectilePool.Initialize(this);
 
         _projectilePool.OnCreate -= CreateProjectile;
@@ -51,11 +50,28 @@ public abstract class Weapon : MonoBehaviour
     }
     private void Start()
     {
+        _shootCoroutine = ShootCoroutine();
         _operateWeaponCoroutine = OperateWeaponCoroutine();
         _attackSequenceCoroutine = AttackSequenceCoroutine();
         StartCoroutine(_attackSequenceCoroutine);
     }
-    protected abstract void Shoot();
+    protected abstract void Shoot(int index);
+    private int _index;
+    private IEnumerator _shootCoroutine;
+    private IEnumerator ShootCoroutine()
+    {
+        while (true)
+        {
+            while (_index < weaponStat.ProjectileCount[WeaponData.CurrentLevel])
+            {
+                Shoot(_index);
+                _index += 1;
+                yield return Util.TimeStore.GetWaitForSeconds(weaponStat.AttackDelay[WeaponData.CurrentLevel]);
+            }
+
+            yield return null;
+        }
+    }
 
     private IEnumerator _attackSequenceCoroutine;
     private IEnumerator AttackSequenceCoroutine()
@@ -64,9 +80,10 @@ public abstract class Weapon : MonoBehaviour
         {
             BeforeOperateWeapon();
             StartCoroutine(_operateWeaponCoroutine);
-            Shoot();
+            _index = 0;
+            StartCoroutine(_shootCoroutine);
 
-            yield return Util.TimeStore.GetWaitForSeconds(attackSequenceTime);
+            yield return Util.TimeStore.GetWaitForSeconds(weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel]);
         }
     }
 
@@ -94,7 +111,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void BeforeOperateProjectile(Projectile projectile)
     {
-        projectile.SetProjectileStat(weaponStat.DamageRate * VTuber.AtkPower, attackDurationTime, VTuber.CriticalRate);
+        projectile.SetProjectileStat(weaponStat.DamageRate[WeaponData.CurrentLevel] * VTuber.AtkPower, weaponStat.AttackDurationTime[WeaponData.CurrentLevel], VTuber.CriticalRate, weaponStat.KnockbackDurationTime[WeaponData.CurrentLevel], weaponStat.KnockbackSpeed[WeaponData.CurrentLevel]);
     }
     protected virtual void AfterOperateProjectile(Projectile projectile)
     {
@@ -107,13 +124,10 @@ public abstract class Weapon : MonoBehaviour
     /// </summary>
     public virtual void Initialize(WeaponData weaponData, WeaponStat weaponStat)
     {
-        _weaponData = weaponData;
+        this.WeaponData = weaponData;
         this.weaponStat = weaponStat;
 
-        attackSequenceTime = this.weaponStat.BaseAttackSequenceTime;
-        attackDurationTime = this.weaponStat.AttackDurationTime;
-
-        transform.localScale *= this.weaponStat.Size;
+        LevelUp();
     }
     private void CreateProjectile(Projectile projectile)
     {
@@ -122,7 +136,7 @@ public abstract class Weapon : MonoBehaviour
         Collider2D collider = SetCollider(projectile);
         projectile.SetCollider(collider);
 
-        projectile.SetAnimation(_weaponData.ProjectileClip, _weaponData.EffectClip);
+        projectile.SetAnimation(WeaponData.ProjectileClip, WeaponData.EffectClip);
 
         projectile.transform.localScale = Vector3.one;
 
@@ -159,8 +173,20 @@ public abstract class Weapon : MonoBehaviour
     }
     protected void SetWeaponPosWithPlayerPos() => transform.position = Util.Caching.CenterWorldPos + initPos;
     protected void SetProjectileRotWithMousePos(Projectile projectile) => projectile.transform.rotation = Quaternion.AngleAxis(Util.Caching.GetAngleToMouse(transform.position), Vector3.forward);
-    private void LevelUp()
+    public void LevelUp()
     {
+        WeaponData.CurrentLevel += 1;
 
+        SetSize();
+    }
+    private void SetSize()
+    {
+        if (weaponStat.Size[WeaponData.CurrentLevel] == weaponStat.Size[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        transform.localScale = Vector2.one;
+        transform.localScale *= weaponStat.Size[WeaponData.CurrentLevel];
     }
 }

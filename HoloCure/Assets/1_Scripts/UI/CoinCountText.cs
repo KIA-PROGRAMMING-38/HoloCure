@@ -1,7 +1,7 @@
 using StringLiterals;
 using TMPro;
 
-public class CountText : UIBase
+public class CoinCountText : UIBase
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();
@@ -10,5 +10,5 @@ public class CountText : UIBase
         PresenterManager.CountPresenter.OnUpdateCoinCount -= UpdateCoin;
         PresenterManager.CountPresenter.OnUpdateCoinCount += UpdateCoin;
     }
-    private void UpdateCoin(int level) => _text.text = NumLiteral.GetNumString(level);
+    private void UpdateCoin(int coin) => _text.text = NumLiteral.GetNumString(coin);
 }

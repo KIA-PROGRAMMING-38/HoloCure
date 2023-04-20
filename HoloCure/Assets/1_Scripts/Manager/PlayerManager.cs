@@ -19,10 +19,13 @@ public class PlayerManager : MonoBehaviour
 
         }
     }
+    
+    private bool _isSelected; // 테스트용 코드
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (false == _isSelected && Input.GetKeyDown(KeyCode.P))
         {
+            _isSelected = true;
             SelectVTuber(VTuberID.Ninomae_Inanis);
         }
     }
@@ -45,6 +48,15 @@ public class PlayerManager : MonoBehaviour
         Player.OnLevelUp += _presenterManager.CountPresenter.UpdatePlayerLevelCount;
         Player.OnLevelUp -= _presenterManager.TriggerUIPresenter.ActivateLevelUpUI;
         Player.OnLevelUp += _presenterManager.TriggerUIPresenter.ActivateLevelUpUI;
+
+        _presenterManager.TriggerUIPresenter.OnSendSelectedID -= Player.Inventory.EquipWeapon;
+        _presenterManager.TriggerUIPresenter.OnSendSelectedID += Player.Inventory.EquipWeapon;
+
+        Player.Inventory.OnNewEquipmentEquip -= _presenterManager.InventoryPresenter.UpdateNewEquipment;
+        Player.Inventory.OnNewEquipmentEquip += _presenterManager.InventoryPresenter.UpdateNewEquipment;
+
+        Player.Inventory.OnEquipmentLevelUp -= _presenterManager.InventoryPresenter.UpdateEquipmentLevel;
+        Player.Inventory.OnEquipmentLevelUp += _presenterManager.InventoryPresenter.UpdateEquipmentLevel;
 
         VTuber.OnChangeMaxHp -= _presenterManager.HPPresenter.UpdateMaxHp;
         VTuber.OnChangeMaxHp += _presenterManager.HPPresenter.UpdateMaxHp;
@@ -71,10 +83,5 @@ public class PlayerManager : MonoBehaviour
         VTuber.OnChangeHasteRate += _presenterManager.StatPresenter.UpdateHaste;
 
         VTuber.InitializeEvent();
-    }
-
-    private void Start()
-    {
-
     }
 }

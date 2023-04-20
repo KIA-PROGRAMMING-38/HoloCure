@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpiderCooking : Weapon
 {
-    protected override void Shoot()
+    protected override void Shoot(int index)
     {
         Projectile projectile = _projectilePool.GetProjectileFromPool();
         projectile.ElaspedTime = 0;
@@ -10,7 +10,7 @@ public class SpiderCooking : Weapon
     protected override void ProjectileOperate(Projectile projectile)
     {
         projectile.ElaspedTime += Time.deltaTime;
-        if (projectile.ElaspedTime > weaponStat.HitCooltime)
+        if (projectile.ElaspedTime > weaponStat.HitCooltime[WeaponData.CurrentLevel])
         {
             projectile.ElaspedTime = 0f;
             projectile.ResetCollider();

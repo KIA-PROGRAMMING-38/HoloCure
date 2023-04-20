@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public PresenterManager PresenterManager { get; private set; }
     public ObjectManager ObjectManager { get; private set; }
     public StageManager StageManager { get; private set; }
+    public LevelUpManager LevelUpManager { get; private set; }
 
     private void Awake()
     {
@@ -45,5 +46,10 @@ public class GameManager : MonoBehaviour
         gameObject.transform.parent = transform;
         StageManager = gameObject.AddComponent<StageManager>();
         StageManager.GameManager = this;
+
+        gameObject = new GameObject(nameof(LevelUpManager));
+        gameObject.transform.parent = transform;
+        LevelUpManager = gameObject.AddComponent<LevelUpManager>();
+        LevelUpManager.GameManager = this;
     }
 }

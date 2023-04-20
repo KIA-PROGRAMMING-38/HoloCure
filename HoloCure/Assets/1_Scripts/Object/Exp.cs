@@ -24,30 +24,29 @@ public class Exp : MonoBehaviour
 
         if (collision.CompareTag(TagLiteral.VTUBER))
         {
+            StopCoroutine(_moveToPlayerCoroutine);
+            _isMove = false;
+            _isReleased = true;
+            _pool.Release(this);
+
             Player player = collision.GetComponent<Player>();
 
             player.GetExp(_exp);
 
-            _isMove = false;
-            StopCoroutine(_moveToPlayerCoroutine);
-
-            _pool.Release(this);
-
             return;
-        }
-
-        if (collision.CompareTag(TagLiteral.OBJECT_SENSOR))
-        {
-            _elapsedTime = 0f;
-            _startingPos = transform.position;
-            _isMove = true;
-            StartCoroutine(_moveToPlayerCoroutine);
         }
 
         if (_isMove) { return; }
 
+        if (collision.CompareTag(TagLiteral.OBJECT_SENSOR))
+        {
+            _accumulatedSpeed = 100f;
+            _isMove = true;
+            StartCoroutine(_moveToPlayerCoroutine);
+        }
+
         if (_exp >= 200) { return; }
-        
+
         if (collision.CompareTag(TagLiteral.EXP))
         {
             Exp exp = collision.GetComponent<Exp>();
@@ -63,8 +62,7 @@ public class Exp : MonoBehaviour
             OnTriggerWithExp?.Invoke(transform.position, TriggerWithEXP(exp.GetExp()));
         }
     }
-    private Vector2 _startingPos;
-    private float _elapsedTime;
+    private float _accumulatedSpeed;
     private void Start() => _moveToPlayerCoroutine = MoveToPlayerCoroutine();
 
     private IEnumerator _moveToPlayerCoroutine;
@@ -72,9 +70,9 @@ public class Exp : MonoBehaviour
     {
         while (true)
         {
-            _elapsedTime += Time.deltaTime;
+            _accumulatedSpeed += _accumulatedSpeed * Time.deltaTime;
 
-            transform.position = Vector2.Lerp(_startingPos, Util.Caching.CenterWorldPos, _elapsedTime);
+            transform.Translate((Util.Caching.CenterWorldPos - (Vector2)transform.position).normalized * _accumulatedSpeed * Time.deltaTime);
 
             yield return null;
         }

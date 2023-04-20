@@ -9,6 +9,7 @@ public class PresenterManager : MonoBehaviour
     public TimePresenter TimePresenter { get; private set;}
     public InitPresenter InitPresenter { get; private set;}
     public StatPresenter StatPresenter { get; private set;}
+    public InventoryPresenter InventoryPresenter { get; private set;}
 
     private void Awake()
     {
@@ -21,5 +22,6 @@ public class PresenterManager : MonoBehaviour
         TimePresenter = new();
         InitPresenter = new();
         StatPresenter = new();
+        InventoryPresenter = new();
     }
 }

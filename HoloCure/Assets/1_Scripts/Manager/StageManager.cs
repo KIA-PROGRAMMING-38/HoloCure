@@ -31,8 +31,8 @@ public class StageManager : MonoBehaviour
         GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= SetBoolOnLevelUpTrue;
         GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += SetBoolOnLevelUpTrue;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnSelectForManager -= SetBoolOnLevelUpFalse;
-        GameManager.PresenterManager.TriggerUIPresenter.OnSelectForManager += SetBoolOnLevelUpFalse;
+        GameManager.PresenterManager.TriggerUIPresenter.OnSelectedForManager -= SetBoolOnLevelUpFalse;
+        GameManager.PresenterManager.TriggerUIPresenter.OnSelectedForManager += SetBoolOnLevelUpFalse;
 
         OnResume?.Invoke();
     }

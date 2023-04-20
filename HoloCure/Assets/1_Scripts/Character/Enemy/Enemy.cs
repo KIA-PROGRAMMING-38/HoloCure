@@ -48,6 +48,11 @@ public class Enemy : CharacterBase
         Vector2 moveVec = Util.Caching.CenterWorldPos - (Vector2)transform.position;
         _rigidbody.MovePosition(_rigidbody.position + moveVec.normalized * (moveSpeed * Time.fixedDeltaTime));
     }
+    public void KnockBacked(float knockBackSpeed)
+    {
+        Vector2 moveVec = Util.Caching.CenterWorldPos - (Vector2)transform.position;
+        _rigidbody.MovePosition(_rigidbody.position - moveVec.normalized * (20 * knockBackSpeed * Time.fixedDeltaTime));
+    }
     public override void SetDamage(CharacterBase target)
     {
         target.GetDamage((int)baseStat.ATKPower);

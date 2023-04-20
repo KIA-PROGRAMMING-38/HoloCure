@@ -1,0 +1,8 @@
+ID|Name|DisPlayName|Spriteofdisplay|SpriteofIcon|Type|Weight|Description|BaseAttackSequenceTime|Minimumattacktime|ProjectileCount|DamageRate|AttackDelay|HitCooltime|Size|AttackDurationTime|Projectilespeed|KnockbackDurationTime|Knockbackspeed
+8000|SummonTentacle|Summon Tentacle|spr_SummonTentacle_0|spr_SummonTentacleIcon_0|Melee|3|A tentacle shoots out in front.|1.5|0.02|1|1.2|0|0.33|1.5|1|0|0|0
+|||||||Increase damage by <color=green>20%</color>.|1.5|0.02|1|1.44|0|0.33|1.5|1|0|0|0
+|||||||Reduce the time between attacks by <color=green>20%</color>.|1.3|0.02|1|1.44|0|0.33|1.5|1|0|0|0
+|||||||Increase attack area by <color=green>20%</color>.|1.3|0.02|1|1.44|0|0.33|1.875|1|0|0|0
+|||||||Increase damage by <color=green>50%</color>.|1.3|0.02|1|2.16|0|0.33|1.875|1|0|0|0
+|||||||Adds small <color=yellow>knockback</color> on hit.|1.3|0.02|1|2.16|0|0.33|1.875|1|0|0.08|5
+|||||||Chain another <color=yellow>3 tentacles</color> in a chain at a random direction.|1.3|0.02|1|2.16|0|0.33|1.875|1|0|0.08|5

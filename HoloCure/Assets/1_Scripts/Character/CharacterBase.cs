@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class CharacterBase : MonoBehaviour, IMoveable, ISetDamageable, IGetDamageable
+public abstract class CharacterBase : MonoBehaviour
 {
     protected CharacterStat baseStat = new CharacterStat();
     [SerializeField]protected int currentHealth;
