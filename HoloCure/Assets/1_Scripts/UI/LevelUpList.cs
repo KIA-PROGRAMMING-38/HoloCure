@@ -48,22 +48,26 @@ public class LevelUpList : MonoBehaviour, IPointerEnterHandler, IPointerClickHan
     {
         _nameText.text = weaponData.DisplayName;
 
-        switch (weaponData.CurrentLevel)
+        if (weaponData.CurrentLevel == 0)
         {
-            case 0:
-                _levelText.enabled = false;
-                _levelNumText.enabled = false;
-                _newText.enabled = true;
-                break;
-            case 6:
+            _levelText.enabled = false;
+            _levelNumText.enabled = false;
+            _newText.enabled = true;
+        }
+        else
+        {
+            _levelText.enabled = true;
+            _levelNumText.enabled = true;
+            _newText.enabled = false;
+
+            if (weaponData.CurrentLevel == 6)
+            {
                 _levelNumText.text = weaponData.ID < 8000 ? ItemLiteral.MAX : ItemLiteral.AWAKENED;
-                break;
-            default:
-                _levelText.enabled = true;
-                _levelNumText.enabled = true;
-                _newText.enabled = false;
+            }
+            else
+            {
                 _levelNumText.text = NumLiteral.GetNumString(weaponData.CurrentLevel + 1);
-                break;
+            }
         }
 
         _descriptionText.text = weaponData.Description[weaponData.CurrentLevel + 1];

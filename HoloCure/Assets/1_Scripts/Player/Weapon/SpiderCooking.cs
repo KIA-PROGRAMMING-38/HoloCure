@@ -10,7 +10,7 @@ public class SpiderCooking : Weapon
     protected override void ProjectileOperate(Projectile projectile)
     {
         projectile.ElaspedTime += Time.deltaTime;
-        if (projectile.ElaspedTime > weaponStat.HitCooltime[WeaponData.CurrentLevel])
+        if (projectile.ElaspedTime > curHitCooltime)
         {
             projectile.ElaspedTime = 0f;
             projectile.ResetCollider();

@@ -57,6 +57,7 @@ public class WeaponDataTable
                 stat.ProjectileSpeed[j] = int.Parse(columns[16]);
                 stat.KnockbackDurationTime[j] = float.Parse(columns[17]);
                 stat.KnockbackSpeed[j] = float.Parse(columns[18]);
+                stat.Radius[j] = int.Parse(columns[19]);
             }
 
             _weaponDataContainer.Add(data.ID, data);
@@ -106,6 +107,7 @@ public class WeaponDataTable
                 stat.ProjectileSpeed[j] = int.Parse(columns[16]);
                 stat.KnockbackDurationTime[j] = float.Parse(columns[17]);
                 stat.KnockbackSpeed[j] = float.Parse(columns[18]);
+                stat.Radius[j] = int.Parse(columns[19]);
             }
 
             _weaponDataContainer.Add(data.ID, data);

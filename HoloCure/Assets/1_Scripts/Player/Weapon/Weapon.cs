@@ -62,12 +62,20 @@ public abstract class Weapon : MonoBehaviour
     {
         while (true)
         {
-            while (_index < weaponStat.ProjectileCount[WeaponData.CurrentLevel])
+            while (_index < curProjectileCount)
             {
                 Shoot(_index);
                 _index += 1;
-                yield return Util.TimeStore.GetWaitForSeconds(weaponStat.AttackDelay[WeaponData.CurrentLevel]);
+
+                if (_curAttackDelay == 0)
+                {
+                    continue;
+                }
+
+                yield return Util.TimeStore.GetWaitForSeconds(_curAttackDelay);
             }
+
+            StopCoroutine(_shootCoroutine);
 
             yield return null;
         }
@@ -83,7 +91,7 @@ public abstract class Weapon : MonoBehaviour
             _index = 0;
             StartCoroutine(_shootCoroutine);
 
-            yield return Util.TimeStore.GetWaitForSeconds(weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel]);
+            yield return Util.TimeStore.GetWaitForSeconds(_curAttackSequenceTime);
         }
     }
 
@@ -111,7 +119,8 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void BeforeOperateProjectile(Projectile projectile)
     {
-        projectile.SetProjectileStat(weaponStat.DamageRate[WeaponData.CurrentLevel] * VTuber.AtkPower, weaponStat.AttackDurationTime[WeaponData.CurrentLevel], VTuber.CriticalRate, weaponStat.KnockbackDurationTime[WeaponData.CurrentLevel], weaponStat.KnockbackSpeed[WeaponData.CurrentLevel]);
+        Debug.Log(_curAttackDurationTime);
+        projectile.SetProjectileStat(_curDamageRate * VTuber.AtkPower, _curSize, _curAttackDurationTime, _curProjectileSpeed, VTuber.CriticalRate, _curKnockbackDurationTime, _curKnockbackSpeed);
     }
     protected virtual void AfterOperateProjectile(Projectile projectile)
     {
@@ -138,7 +147,7 @@ public abstract class Weapon : MonoBehaviour
 
         projectile.SetAnimation(WeaponData.ProjectileClip, WeaponData.EffectClip);
 
-        projectile.transform.localScale = Vector3.one;
+        projectile.transform.localScale = Vector2.one;
 
         projectile.SetProjectileOperate(ProjectileOperate);
     }
@@ -173,12 +182,78 @@ public abstract class Weapon : MonoBehaviour
     }
     protected void SetWeaponPosWithPlayerPos() => transform.position = Util.Caching.CenterWorldPos + initPos;
     protected void SetProjectileRotWithMousePos(Projectile projectile) => projectile.transform.rotation = Quaternion.AngleAxis(Util.Caching.GetAngleToMouse(transform.position), Vector3.forward);
-    public void LevelUp()
+    public virtual void LevelUp()
     {
         WeaponData.CurrentLevel += 1;
 
+        SetAttackSequenceTime();
+        SetProjectileCount();
+        SetDamageRate();
+        SetAttackDelay();
+        SetHitCooltime();
         SetSize();
+        SetAttackDurationTime();
+        SetProjectileSpeed();
+        SetKnockbackDurationTime();
+        SetKnockbackSpeed();
+        SetRadius();
     }
+    private float _curAttackSequenceTime;
+    private void SetAttackSequenceTime()
+    {
+        if (weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel] == weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        _curAttackSequenceTime = weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel];
+    }
+
+    protected int curProjectileCount;
+    private void SetProjectileCount()
+    {
+        if (weaponStat.ProjectileCount[WeaponData.CurrentLevel] == weaponStat.ProjectileCount[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        curProjectileCount = weaponStat.ProjectileCount[WeaponData.CurrentLevel];
+    }
+
+    private float _curDamageRate;
+    private void SetDamageRate()
+    {
+        if (weaponStat.DamageRate[WeaponData.CurrentLevel] == weaponStat.DamageRate[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        _curDamageRate = weaponStat.DamageRate[WeaponData.CurrentLevel];
+    }
+
+    private float _curAttackDelay;
+    private void SetAttackDelay()
+    {
+        if (weaponStat.AttackDelay[WeaponData.CurrentLevel] == weaponStat.AttackDelay[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        _curAttackDelay = weaponStat.AttackDelay[WeaponData.CurrentLevel];
+    }
+
+    protected float curHitCooltime;
+    private void SetHitCooltime()
+    {
+        if (weaponStat.HitCooltime[WeaponData.CurrentLevel] == weaponStat.HitCooltime[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        curHitCooltime = weaponStat.HitCooltime[WeaponData.CurrentLevel];
+    }
+
+    private float _curSize;
     private void SetSize()
     {
         if (weaponStat.Size[WeaponData.CurrentLevel] == weaponStat.Size[WeaponData.CurrentLevel - 1])
@@ -186,7 +261,63 @@ public abstract class Weapon : MonoBehaviour
             return;
         }
 
-        transform.localScale = Vector2.one;
-        transform.localScale *= weaponStat.Size[WeaponData.CurrentLevel];
+        _curSize = weaponStat.Size[WeaponData.CurrentLevel];
+
+        transform.localScale = Vector2.one * _curSize;
+    }
+
+    private float _curAttackDurationTime;
+    private void SetAttackDurationTime()
+    {
+        if (weaponStat.AttackDurationTime[WeaponData.CurrentLevel] == weaponStat.AttackDurationTime[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        _curAttackDurationTime = weaponStat.AttackDurationTime[WeaponData.CurrentLevel];
+    }
+
+    private int _curProjectileSpeed;
+    private void SetProjectileSpeed()
+    {
+        if (weaponStat.ProjectileSpeed[WeaponData.CurrentLevel] == weaponStat.ProjectileSpeed[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        _curProjectileSpeed = weaponStat.ProjectileSpeed[WeaponData.CurrentLevel];
+    }
+
+    private float _curKnockbackDurationTime;
+    private void SetKnockbackDurationTime()
+    {
+        if (weaponStat.KnockbackDurationTime[WeaponData.CurrentLevel] == weaponStat.KnockbackDurationTime[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        _curKnockbackDurationTime = weaponStat.KnockbackDurationTime[WeaponData.CurrentLevel];
+    }
+
+    private float _curKnockbackSpeed;
+    private void SetKnockbackSpeed()
+    {
+        if (weaponStat.KnockbackSpeed[WeaponData.CurrentLevel] == weaponStat.KnockbackSpeed[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        _curKnockbackSpeed = weaponStat.KnockbackSpeed[WeaponData.CurrentLevel];
+    }
+
+    protected int curRadius;
+    private void SetRadius()
+    {
+        if (weaponStat.Radius[WeaponData.CurrentLevel] == weaponStat.Radius[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+
+        curRadius = weaponStat.Radius[WeaponData.CurrentLevel];
     }
 }

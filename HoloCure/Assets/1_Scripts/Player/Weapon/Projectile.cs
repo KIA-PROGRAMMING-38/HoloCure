@@ -8,10 +8,18 @@ public class Projectile : MonoBehaviour
 {
     private Animator _animator;
 
+    public int ProjectileSpeed;
+
     public float ElaspedTime;
     public Vector2 InitPoint;
     public Vector2 MovePoint;
+
+    public Vector2 Offset;
+    public float Angle;
+    public float Radius;
+
     private float _damage;
+    private float _size;
     private float _durationTime;
     private int _criticalRate;
     private float _knockBackDurationTime;
@@ -34,23 +42,27 @@ public class Projectile : MonoBehaviour
     private IEnumerator _projectileOperateSequenceCoroutine;
     private IEnumerator ProjectileOperateSequenceCoroutine()
     {
-        yield return null;
-
         while (true)
         {
+            yield return null;
+
             yield return Util.TimeStore.GetWaitForSeconds(_durationTime);
 
             _pool.Release(this);
+
+            StopCoroutine(_projectileOperateSequenceCoroutine);
 
             yield return null;
         }
     }
     private Action<Projectile> _operate;
     public void SetProjectileOperate(Action<Projectile> operate) => _operate = operate;
-    public void SetProjectileStat(float damage, float durationTime, int criticalRate, float knockbackDurationTime, float knockbackSpeed)
+    public void SetProjectileStat(float damage, float size ,float durationTime, int projectileSpeed, int criticalRate, float knockbackDurationTime, float knockbackSpeed)
     {
         _damage = damage;
+        _size = size;
         _durationTime = durationTime;
+        ProjectileSpeed = projectileSpeed;
         _criticalRate = criticalRate;
         _knockBackDurationTime = knockbackDurationTime;
         _knockBackSpeed = knockbackSpeed;
@@ -104,8 +116,16 @@ public class Projectile : MonoBehaviour
         gameObject.layer = LayerNum.WEAPON;
         GetComponent<Animator>().SetTrigger(AnimParameterHash.ON_EFFECT);
         CircleCollider2D collier = (CircleCollider2D)_collider;
+        collier.offset = _efffectColliderOffset;
         collier.radius = _effectRadius;
+        transform.localScale = Vector2.one * _size;
+        _isEffectOn = true;
     }
+    private bool _isEffectOn;
+    public bool GetIsEffectOn() => _isEffectOn;
+    public void SetEffectOff() => _isEffectOn = false;
+    private Vector2 _efffectColliderOffset;
+    public void SetEffectColliderOffset(Vector2 offset) => _efffectColliderOffset = offset;
     private float _effectRadius;
     public void SetEffectRadius(float radius) => _effectRadius = radius;
     /// <summary>
