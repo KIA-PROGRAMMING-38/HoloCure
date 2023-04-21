@@ -11,4 +11,5 @@
     public int[] ProjectileSpeed = new int[8];
     public float[] KnockbackDurationTime = new float[8];
     public float[] KnockbackSpeed = new float[8];
+    public int[] Radius = new int[8];
 }

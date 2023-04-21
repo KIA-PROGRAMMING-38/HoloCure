@@ -3,21 +3,21 @@
 public class BLBook : Weapon
 {
     private Vector2[] _booksInitPos;
-
-    public override void Initialize(WeaponData weaponData, WeaponStat weaponStat)
+    public override void LevelUp()
     {
-        base.Initialize(weaponData, weaponStat);
+        base.LevelUp();
 
-        GetBooksPos();
+        GetBooksInitPos();
     }
-    private void GetBooksPos()
+    private void GetBooksInitPos()
     {
-        _booksInitPos = new Vector2[weaponStat.ProjectileCount[WeaponData.CurrentLevel]];
-        int angleDivision = 360 / weaponStat.ProjectileCount[WeaponData.CurrentLevel];
-        for (int i = 0; i < weaponStat.ProjectileCount[WeaponData.CurrentLevel]; ++i)
+        _booksInitPos = new Vector2[curProjectileCount];
+        int angleDivision = 360 / curProjectileCount;
+        for (int i = 0; i < curProjectileCount; ++i)
         {
             float angle = i * angleDivision * Mathf.Deg2Rad;
-            _booksInitPos[i] = (Vector2.right * Mathf.Cos(angle) + Vector2.up * Mathf.Sin(angle)) * 50;
+
+            _booksInitPos[i] = (Vector2.right * Mathf.Cos(angle) + Vector2.up * Mathf.Sin(angle)) * curRadius;
         }
     }
     protected override void Shoot(int index)
@@ -27,8 +27,8 @@ public class BLBook : Weapon
     }
     protected override void ProjectileOperate(Projectile projectile)
     {
-        projectile.transform.RotateAround(transform.position, Vector3.back, weaponStat.ProjectileSpeed[WeaponData.CurrentLevel] * Time.deltaTime * 70);
-        projectile.transform.Rotate(Vector3.forward, weaponStat.ProjectileSpeed[WeaponData.CurrentLevel] * Time.deltaTime * 70);
+        projectile.transform.RotateAround(transform.position, Vector3.back, projectile.ProjectileSpeed * Time.deltaTime * 70);
+        projectile.transform.Rotate(Vector3.forward, projectile.ProjectileSpeed * Time.deltaTime * 70);
     }
     protected override Collider2D SetCollider(Projectile projectile) => SetCircleCollider(projectile);
 }
