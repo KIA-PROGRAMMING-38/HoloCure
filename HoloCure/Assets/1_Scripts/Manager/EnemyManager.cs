@@ -26,25 +26,33 @@ public class EnemyManager : MonoBehaviour
         _enemyPools = new Dictionary<EnemyID, EnemyPool>();
         _spawnEnemyCoroutines = new Dictionary<EnemyID, IEnumerator>();
         _spawnInterval = Util.TimeStore.GetWaitForSeconds(1);
-        foreach (KeyValuePair<EnemyID, Enemy> keyValuePair in _enemyDataTable.EnemyPrefabContainer)
-        {
-            EnemyID enemyID = keyValuePair.Key;
-            Enemy enemy = keyValuePair.Value;
-
-            if (_enemyPools.ContainsKey(enemyID))
-            {
-                continue;
-            }
-            EnemyPool enemyPool = new EnemyPool();
-            enemyPool.Initialize(enemyID, enemy, _enemyDataTable);
-            _enemyPools.Add(enemyID, enemyPool);
-
-            IEnumerator spawnEnemyCoroutine = SpawnEnemy(enemyID, enemy);
-            StartCoroutine(spawnEnemyCoroutine);
-            _spawnEnemyCoroutines.Add(enemyID, spawnEnemyCoroutine);
-        }
     }
 
+    private bool _isSelected; // 테스트용 코드
+    private void Update()
+    {
+        if (false == _isSelected && Input.GetKeyDown(KeyCode.P)) // 임시 코드
+        {
+            _isSelected = true;
+            foreach (KeyValuePair<EnemyID, Enemy> keyValuePair in _enemyDataTable.EnemyPrefabContainer)
+            {
+                EnemyID enemyID = keyValuePair.Key;
+                Enemy enemy = keyValuePair.Value;
+
+                if (_enemyPools.ContainsKey(enemyID))
+                {
+                    continue;
+                }
+                EnemyPool enemyPool = new EnemyPool();
+                enemyPool.Initialize(enemyID, enemy, _enemyDataTable);
+                _enemyPools.Add(enemyID, enemyPool);
+
+                IEnumerator spawnEnemyCoroutine = SpawnEnemy(enemyID, enemy);
+                StartCoroutine(spawnEnemyCoroutine);
+                _spawnEnemyCoroutines.Add(enemyID, spawnEnemyCoroutine);
+            }
+        }
+    }
     const int ReverseWidth = -480;
     const int Width = 480;
     const int ReverseHeight = -270;
@@ -55,7 +63,7 @@ public class EnemyManager : MonoBehaviour
     {
         yield return Util.TimeStore.GetWaitForSeconds(enemy.SpawnStartTime);
 
-        while (Time.time < enemy.SpawnEndTime)
+        while (GameManager.StageManager.CurrentStageTime < enemy.SpawnEndTime)
         {
             int x, y;
             if (Random.Range(0, Width) > Height)
