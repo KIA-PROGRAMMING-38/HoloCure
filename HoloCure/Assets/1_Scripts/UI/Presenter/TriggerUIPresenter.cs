@@ -9,7 +9,6 @@ public class TriggerUIPresenter
     public event Action<WeaponData[]> OnGetWeaponDatas;
     public event Action OnActivatePauseUI;
 
-
     public event Action OnResume;
 
     public event Action OnSelectedForManager;
@@ -18,6 +17,7 @@ public class TriggerUIPresenter
     public void ActivatePauseUI()
     {
         ActivateStatUI();
+        OnActivatePauseUI?.Invoke();
     }
     public void DeActivatePauseUI()
     {
@@ -49,4 +49,5 @@ public class TriggerUIPresenter
         Time.timeScale = 1f;
         OnResume?.Invoke();
     }
+    
 }

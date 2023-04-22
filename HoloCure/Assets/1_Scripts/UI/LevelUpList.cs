@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class LevelUpList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {
     public event Action OnHoverForOtherList;
+    public event Action<LevelUpList> OnHoverForController;
     public event Action<LevelUpList> OnClickForController;
     [Header("HoverCursor")]
     [SerializeField] private GameObject _defaultFrame;
@@ -27,9 +28,18 @@ public class LevelUpList : MonoBehaviour, IPointerEnterHandler, IPointerClickHan
     [Header("Sprites")]
     [SerializeField] private Sprite[] _itemTypeSprites;
     [SerializeField] private Sprite[] _iconFrameSprites;
+    public void HoveredByKey()
+    {
+        OnHoverForOtherList?.Invoke();
+        _defaultFrame.SetActive(false);
+        _hoveredFrame.SetActive(true);
+        _selectCursor.SetActive(true);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         OnHoverForOtherList?.Invoke();
+        OnHoverForController?.Invoke(this);
         _defaultFrame.SetActive(false);
         _hoveredFrame.SetActive(true);
         _selectCursor.SetActive(true);
