@@ -133,36 +133,17 @@ public class Projectile : MonoBehaviour
     /// </summary>
     private void SetDamage(Enemy enemy)
     {
-        if (UnityEngine.Random.Range(0, 100) < _criticalRate)
+        int damage = (int)_damage + UnityEngine.Random.Range(-2, 3);
+
+        if (UnityEngine.Random.Range(0, 2) < _criticalRate) // 임시 크리티컬 확률 절반
         {
-            enemy.GetCriticalDamage((int)(_damage * 2));
-            Debug.Log($"{enemy} 에게 {(int)_damage * 2} 크리티컬 피해를 입힘");
+            enemy.GetDamage(2 * damage, true);
         }
         else
         {
-            enemy.GetDamage((int)_damage);
-            Debug.Log($"{enemy} 에게 {(int)_damage} 피해를 입힘");
+            enemy.GetDamage(damage);
         }
     }
-
-    private IEnumerator SetKnockBackCoroutine(Enemy enemy)
-    {
-        while (true)
-        {
-            enemy.KnockBacked(_knockBackSpeed);
-
-            yield return null;
-        }
-    }
-    private IEnumerator KnockBackCoroutine(IEnumerator setKnockBackCoroutine)
-    {
-        StartCoroutine(setKnockBackCoroutine);
-
-        yield return Util.TimeStore.GetWaitForSeconds(_knockBackDurationTime);
-
-        StopCoroutine(setKnockBackCoroutine);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.layer == LayerNum.BEFORE_EFFECT && collision.CompareTag(TagLiteral.ENEMY))
@@ -179,10 +160,7 @@ public class Projectile : MonoBehaviour
                 return;
             }
 
-            // 최적화 고려해야함 IEnumerator의 쓰레기값이 계속 생성되는지 확인해야함
-            IEnumerator setKnockBackCoroutine = SetKnockBackCoroutine(enemy);
-            IEnumerator knockBackCoroutine = KnockBackCoroutine(setKnockBackCoroutine);
-            StartCoroutine(knockBackCoroutine);
+            enemy.KnockBacked(_knockBackSpeed, _knockBackDurationTime);
         }
     }
 }
