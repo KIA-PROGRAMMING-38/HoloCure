@@ -70,10 +70,14 @@ public class VTuber : CharacterBase
         gameObject.SetActive(true);
     }
 
-    public override void GetDamage(int damage)
+    public override void GetDamage(int damage, bool isCritical = false)
     {
         base.GetDamage(damage);
 
         OnGetDamage?.Invoke(currentHealth);
+    }
+    protected override void Die()
+    {
+        
     }
 }

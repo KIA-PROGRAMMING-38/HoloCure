@@ -12,6 +12,8 @@
         public const string HIT_MATERIAL = "HitMaterial";
         public const string PROJECTILE = "Projectile";
         public const string EXP = "Exp";
+        public const string DEFAULT_DAMAGE_TEXT = "DefaultDamageText";
+        public const string CRITICAL_DAMAGE_TEXT = "CriticalDamageText";
 
         public const string IDLE = "Idle";
         public const string RUN = "Run";

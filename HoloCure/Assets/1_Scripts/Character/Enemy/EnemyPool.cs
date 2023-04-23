@@ -21,7 +21,7 @@ public class EnemyPool
     private Enemy CreateEnemy()
     {
         Enemy enemy = Object.Instantiate(_enemyPrefab);
-        enemy.InitializeStatus(_enemyID, _enemyDataTable);
+        enemy.InitializeStatus(_enemyDataTable.EnemyStatContainer[_enemyID], _enemyDataTable.EnemyFeatureContainer[_enemyID]);
         enemy.SetPoolRef(_enemyPool);
 
         return enemy;
@@ -29,5 +29,4 @@ public class EnemyPool
     private void OnGetEnemyFromPool(Enemy enemy) => enemy.gameObject.SetActive(true);
     private void OnReleaseEnemyToPool(Enemy enemy) => enemy.gameObject.SetActive(false);
     private void OnDestroyEnemy(Enemy enemy) => Object.Destroy(enemy.gameObject);
-
 }

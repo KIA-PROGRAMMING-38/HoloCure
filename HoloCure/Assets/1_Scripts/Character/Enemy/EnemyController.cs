@@ -34,7 +34,6 @@ public class EnemyController : MonoBehaviour
     }
 
     // АјАн
-    private WaitForSeconds _attackCoolTime = new WaitForSeconds(0.2f);
     private IEnumerator _attackCoroutine;
     private IEnumerator AttackCoroutine(VTuber VTuber)
     {
@@ -42,7 +41,7 @@ public class EnemyController : MonoBehaviour
         {
             _enemy.SetDamage(VTuber);
 
-            yield return _attackCoolTime;
+            yield return Util.TimeStore.GetWaitForSeconds(0.2f);
         }
     }
 }

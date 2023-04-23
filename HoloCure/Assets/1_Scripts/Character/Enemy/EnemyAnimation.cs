@@ -4,48 +4,76 @@ using UnityEngine;
 
 public class EnemyAnimation : MonoBehaviour
 {
+    private Enemy _enemy;
+
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _shadowRenderer;
     private Material _defaultMaterial;
 
     private void Awake()
     {
+        _enemy = transform.root.GetComponent<Enemy>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _shadowRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
-    }
-    private void Start()
-    {
+
         _defaultMaterial = _spriteRenderer.material;
+
+        _getDamageEffectCoroutine = GetDamageEffectCoroutine();
+
+        _enemy.OnGetDamageForAnimation -= GetDamageEffect;
+        _enemy.OnGetDamageForAnimation += GetDamageEffect;
+
+        _enemy.OnDieForAnimation -= SetDie;
+        _enemy.OnDieForAnimation += SetDie;
+
+        _enemy.OnFilpX -= SetFlipX;
+        _enemy.OnFilpX += SetFlipX;
     }
-    private void OnEnable()
-    {
-        SetSpawn();
-    }
-    public void SetFlipX() => _spriteRenderer.flipX = Util.Caching.CenterWorldPos.x - transform.root.position.x < 0;
+    private void OnEnable() => SetSpawn();
+    /// <summary>
+    /// 적의 플립 여부를 반환합니다.
+    /// </summary>
     public bool IsFilp() => _spriteRenderer.flipX;
+    private void SetFlipX() => _spriteRenderer.flipX = Util.Caching.CenterWorldPos.x < transform.root.position.x;
 
     private Color _spawnColor = new Color(1, 1, 1, 1);
-    private void SetSpawn() => _spriteRenderer.color = _spawnColor;
-
-    private Color _dieColor = new Color(1, 1, 1, 0.3f);
-    public void SetDie() => _spriteRenderer.color = _dieColor;
-
-    public void GetDamageEffect()
+    private void SetSpawn()
     {
-        _getDamageEffectCoroutine = GetDamageEffectCoroutine();
-        StartCoroutine(_getDamageEffectCoroutine);
+        _spriteRenderer.color = _spawnColor;
+        _shadowRenderer.color = _spawnColor;
     }
+
+    private void SetDie(float rate)
+    {
+        Color color = new Color(1, 1, 1, rate);
+        _spriteRenderer.color = color;
+        _shadowRenderer.color = color;
+    }
+
+    private void GetDamageEffect() => StartCoroutine(_getDamageEffectCoroutine);
 
     private IEnumerator _getDamageEffectCoroutine;
     private IEnumerator GetDamageEffectCoroutine()
     {
-        _spriteRenderer.material = EnemyRender.HitMaterial;
+        while (true)
+        {
+            _spriteRenderer.material = EnemyRender.HitMaterial;
 
-        yield return Util.TimeStore.GetWaitForSeconds(0.1f);
+            yield return Util.TimeStore.GetWaitForSeconds(0.1f);
 
-        _spriteRenderer.material = _defaultMaterial;
+            _spriteRenderer.material = _defaultMaterial;
+
+            StopCoroutine(_getDamageEffectCoroutine);
+
+            yield return null;
+        }
     }
 
+    /// <summary>
+    /// 적의 스프라이트와 애니메이터와 애니메이션 클립을 설정합니다.
+    /// </summary>
     public void SetEnemyRender(EnemyRender render)
     {
         _spriteRenderer.sprite = render.Sprite;

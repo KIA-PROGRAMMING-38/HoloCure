@@ -28,7 +28,7 @@ public class EnemyDataTable
         TextAsset csvFile = Resources.Load<TextAsset>(Path.Combine(PathLiteral.DATA_TABLE, FileNameLiteral.ENEMY));
         string[] rows = csvFile.text.Split('\n');
 
-        Enemy defaultPrefab = Resources.Load<Enemy>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.ENEMY)).GetComponent<Enemy>();
+        Enemy defaultPrefab = Resources.Load<Enemy>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.ENEMY));
 
         EnemyRender.HitMaterial = Resources.Load<Material>(Path.Combine(PathLiteral.MATERIAL, FileNameLiteral.HIT_MATERIAL));
 
@@ -62,7 +62,7 @@ public class EnemyDataTable
             
             Enemy prefab = Object.Instantiate(defaultPrefab);
 
-            prefab.InitializeStatus(data.ID, this);
+            prefab.InitializeStatus(stat,feature);
             prefab.SetEnemyRender(render);
 
             _enemyPrefabContainer.Add(data.ID, prefab);
