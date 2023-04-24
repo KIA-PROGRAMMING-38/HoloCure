@@ -25,8 +25,6 @@ public class Enemy : CharacterBase
     private Transform _dieEffect;
 
     private EnemyFeature _enemyFeature;
-    public int SpawnStartTime => _enemyFeature.SpawnStartTime;
-    public int SpawnEndTime => _enemyFeature.SpawnEndTime;
     private void Awake()
     {
         _body = transform.Find(GameObjectLiteral.BODY);
@@ -57,12 +55,15 @@ public class Enemy : CharacterBase
     {
         baseStat = stat;
         _enemyFeature = feature;
+
+        currentHealth = baseStat.MaxHealth;
+        moveSpeed = baseStat.MoveSpeedRate * DEFAULT_MOVE_SPEED;
     }
     /// <summary>
     /// 적의 랜더를 초기화합니다.
     /// </summary>
     public void SetEnemyRender(EnemyRender render) => _enemyAnimation.SetEnemyRender(render);
-    private Vector2 _moveVec;
+    public Vector2 _moveVec;
     public override void Move()
     {
         _moveVec = Util.Caching.CenterWorldPos - (Vector2)transform.position;
@@ -191,7 +192,7 @@ public class Enemy : CharacterBase
 
             _elapsedTime = 0f;
 
-            _pool.Release(this);
+            ReleaseToPool();
 
             yield return null;
         }
@@ -203,6 +204,7 @@ public class Enemy : CharacterBase
     /// 반환되어야할 풀의 주소를 설정합니다.
     /// </summary>
     public void SetPoolRef(ObjectPool<Enemy> pool) => _pool = pool;
+    protected virtual void ReleaseToPool() => _pool.Release(this);
 
     /// <summary>
     /// 플레이어를 바라보는 방향으로 플립합니다.

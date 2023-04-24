@@ -132,7 +132,7 @@ public class Projectile : MonoBehaviour
         _isEffectOn = true;
     }
     private bool _isEffectOn;
-    public bool GetIsEffectOn() => _isEffectOn;
+    public bool IsEffectOn() => _isEffectOn;
     public void SetEffectOff() => _isEffectOn = false;
     private Vector2 _efffectColliderOffset;
     public void SetEffectColliderOffset(Vector2 offset) => _efffectColliderOffset = offset;

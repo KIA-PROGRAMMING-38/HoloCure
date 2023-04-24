@@ -26,3 +26,19 @@
     KromieKing,
     Bubba,
 }
+public enum MiniBossID
+{
+    Shrimp = 2000,
+    Takodachi,
+    ShrimpDark,
+    DeadbeatBatter,
+    KromieKing,
+    ShrimpGangA,
+    DeadbeatGangA,
+    SaplingKing,
+}
+public enum BossID
+{
+    Fubuzilla = 3000,
+    SmolAme,
+}

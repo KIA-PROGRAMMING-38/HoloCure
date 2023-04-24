@@ -4,7 +4,7 @@
     {
         public const string VTUBER = "VTuber";
         public const string ENEMY = "Enemy";
-        public const string MINIBOSS = "Miniboss";
+        public const string MINI_BOSS = "MiniBoss";
         public const string BOSS = "Boss";
         public const string WEAPON = "Weapon";
         public const string COMMON_WEAPON = "CommonWeapon";
