@@ -72,6 +72,9 @@ public class Exp : MonoBehaviour
             OnTriggerWithExp?.Invoke(transform.position, TriggerWithEXP(exp.GetExpAmount()));
         }
     }
+    /// <summary>
+    /// 플레이어를 향해 움직이는 코루틴을 실행시킵니다. 오브젝터 센서에 감지되면 호출됩니다.
+    /// </summary>
     private void MoveToPlayer()
     {
         _accumulatedSpeed = 100f;
@@ -93,6 +96,9 @@ public class Exp : MonoBehaviour
     }
     private Vector2 _initPos;
     private Vector2 _movePos;
+    /// <summary>
+    /// 랜덤한 위치로 움직이는 코루틴을 실행시킵니다. 적 사망시 호출됩니다.
+    /// </summary>
     public void SpawnMove(Vector2 pos)
     {
         _initPos = pos;
