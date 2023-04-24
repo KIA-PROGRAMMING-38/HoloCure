@@ -787,7 +787,7 @@ SpriteAtlas:
   - spr_EXP_10
   - spr_EXP2_6
   - spr_EXP3_1
-  - spr_InvestiGatorr_0
+  - spr_InvestiGator_0
   - spr_weaponTypes_1
   - spr_GlowStick_Red_2
   - spr_optionWeaponIcon_0
@@ -813,7 +813,7 @@ SpriteAtlas:
   - ui_digit_yellow_6
   - spr_KromieKing_2
   - spr_GlowStick_Purple_5
-  - spr_InvestiGatorr_2
+  - spr_InvestiGator_2
   - spr_EXP2_2
   - spr_Title_Fauna_0
   - spr_EXP5_9
@@ -946,7 +946,7 @@ SpriteAtlas:
   - spr_holoCoin_1
   - spr_GlowStickIcon_0
   - spr_LavaPoolStart_6
-  - spr_InvestiGatorr_1
+  - spr_InvestiGator_1
   - ui_digit_pink_6
   - ui_digit_white_0
   - spr_SaplingB_1

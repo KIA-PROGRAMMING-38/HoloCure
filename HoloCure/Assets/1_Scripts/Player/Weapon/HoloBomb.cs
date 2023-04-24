@@ -57,7 +57,7 @@ public class HoloBomb : Weapon
 
     protected override void ProjectileOperate(Projectile projectile)
     {
-        if (false == projectile.GetIsEffectOn())
+        if (false == projectile.IsEffectOn())
         {
             projectile.ElaspedTime += Time.deltaTime * projectile.ProjectileSpeed;
             projectile.transform.position = Vector2.Lerp(projectile.InitPoint, projectile.MovePoint, projectile.ElaspedTime);

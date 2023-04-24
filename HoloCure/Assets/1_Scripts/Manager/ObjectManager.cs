@@ -20,6 +20,11 @@ public class ObjectManager : MonoBehaviour
 
     public void SpawnEXP(Vector2 pos, int expAmount)
     {
-        _expPool.GetExpFromPool(pos,expAmount);
+        while (expAmount > 200)
+        {
+            _expPool.GetExpFromPool(pos, 200);
+            expAmount -= 200;
+        }
+        _expPool.GetExpFromPool(pos, expAmount);
     }
 }

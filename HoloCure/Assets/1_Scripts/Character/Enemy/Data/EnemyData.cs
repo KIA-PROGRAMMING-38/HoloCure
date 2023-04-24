@@ -1,6 +1,6 @@
 ﻿public class EnemyData
 {
-    public EnemyID ID;
+    public int ID;
     public string Name;
     public string SpriteName;
 }

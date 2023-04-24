@@ -3,8 +3,8 @@ using UnityEngine;
 public abstract class CharacterBase : MonoBehaviour
 {
     protected CharacterStat baseStat = new CharacterStat();
-    [SerializeField]protected int currentHealth;
-    protected float moveSpeed;
+    [SerializeField] protected int currentHealth;
+    [SerializeField] protected float moveSpeed;
     protected const int DEFAULT_MOVE_SPEED = 80;
 
     protected virtual void OnEnable()

@@ -21,23 +21,31 @@ public class ExpPool
     private ObjectPool<Exp> _expPool;
     public Exp GetExpFromPool(Vector2 pos,int expAmount)
     {
+        Exp exp = GetExp(pos, expAmount);
+
+        exp.SpawnMove(pos);
+
+        return exp;
+    }
+    private Exp GetExp(Vector2 pos, int expAmount)
+    {
         Exp exp = _expPool.Get();
         exp.SetExp(expAmount);
         int hash = expAmount switch
         {
-            < 10  => ExpAnimHash.EXPs[1],
-            < 20  => ExpAnimHash.EXPs[2],
-            < 50  => ExpAnimHash.EXPs[3],
+            < 10 => ExpAnimHash.EXPs[1],
+            < 20 => ExpAnimHash.EXPs[2],
+            < 50 => ExpAnimHash .EXPs[3],
             < 100 => ExpAnimHash.EXPs[4],
             < 200 => ExpAnimHash.EXPs[5],
-                _ => ExpAnimHash.EXPs[6],
+            _ => ExpAnimHash.EXPs[6],
         };
         exp.GetComponent<Animator>().Play(hash);
         exp.SetReleasedFalse();
         exp.transform.position = pos;
+
         return exp;
     }
-
     public void Initialize()
     {
         _expDefaultPrefab = Resources.Load<Exp>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.EXP));
@@ -47,15 +55,15 @@ public class ExpPool
     private void InitializeExpPool() => _expPool = new(CreateExp, OnGetExpFromPool, OnReleaseExpToPool, OnDestroyExp);
     private Exp CreateExp()
     {
-        Exp exp = UnityEngine.Object.Instantiate(_expDefaultPrefab);
+        Exp exp = Object.Instantiate(_expDefaultPrefab);
         exp.SetPoolRef(_expPool);
 
-        exp.OnTriggerWithExp -= GetExpFromPool;
-        exp.OnTriggerWithExp += GetExpFromPool;
+        exp.OnTriggerWithExp -= GetExp;
+        exp.OnTriggerWithExp += GetExp;
 
         return exp;
     }
     private void OnGetExpFromPool(Exp exp) => exp.gameObject.SetActive(true);
     private void OnReleaseExpToPool(Exp exp) => exp.gameObject.SetActive(false);
-    private void OnDestroyExp(Exp exp) => UnityEngine.Object.Destroy(exp.gameObject);
+    private void OnDestroyExp(Exp exp) => Object.Destroy(exp.gameObject);
 }

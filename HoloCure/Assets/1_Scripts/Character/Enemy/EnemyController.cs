@@ -5,14 +5,8 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     private Enemy _enemy;
-    private void Awake()
-    {
-        _enemy = GetComponent<Enemy>();
-    }
-    private void Update()
-    {
-        _enemy.Move();
-    }
+    private void Awake() => _enemy = GetComponent<Enemy>();
+    private void FixedUpdate() => _enemy.Move();
 
     // 공격 시작
     private void OnTriggerEnter2D(Collider2D collision)

@@ -22,7 +22,9 @@ public class EnemyManager : MonoBehaviour
     }
 
     private Dictionary<EnemyID, EnemyPool> _enemyPools;
+    private MiniBossPool _miniBossPool;
     private Dictionary<EnemyID, IEnumerator> _spawnEnemyCoroutines;
+    private Dictionary<MiniBossID, IEnumerator> _spawnMiniBossCoroutines;
     private DamageTextPool _defaultDamageTextPool;
     private DamageTextPool _criticalDamageTextPool;
     private void Start()
@@ -51,6 +53,11 @@ public class EnemyManager : MonoBehaviour
         _criticalDamageTextPool = new DamageTextPool();
         damageTextPrefab = Resources.Load<DamageText>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.CRITICAL_DAMAGE_TEXT));
         _criticalDamageTextPool.Initialize(damageTextPrefab);
+
+        _spawnMiniBossCoroutines = new Dictionary<MiniBossID, IEnumerator>();
+        _miniBossPool = new MiniBossPool();
+        MiniBoss miniBossDefaultPrefab = Resources.Load<MiniBoss>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.MINI_BOSS));
+        _miniBossPool.Initialize(miniBossDefaultPrefab);
     }
 
     private bool _isSelected; // 테스트용 코드
@@ -60,6 +67,7 @@ public class EnemyManager : MonoBehaviour
         {
             _isSelected = true;
             SpawnEnemy();
+            SpawnMiniBoss();
         }
     }
     private void SpawnEnemy()
@@ -77,7 +85,7 @@ public class EnemyManager : MonoBehaviour
             enemyPool.Initialize(enemyID, enemy, _enemyDataTable);
             _enemyPools.Add(enemyID, enemyPool);
 
-            IEnumerator spawnEnemyCoroutine = SpawnEnemyCoroutine(enemyID, enemy);
+            IEnumerator spawnEnemyCoroutine = SpawnEnemyCoroutine(enemyID);
             StartCoroutine(spawnEnemyCoroutine);
             _spawnEnemyCoroutines.Add(enemyID, spawnEnemyCoroutine);
         }
@@ -90,11 +98,11 @@ public class EnemyManager : MonoBehaviour
     private const int HEIGHT_RATE = 9;
     private Vector2 _spawnPos;
     private WaitForSeconds _spawnInterval;
-    private IEnumerator SpawnEnemyCoroutine(EnemyID ID, Enemy enemy)
+    private IEnumerator SpawnEnemyCoroutine(EnemyID ID)
     {
-        yield return Util.TimeStore.GetWaitForSeconds(enemy.SpawnStartTime);
+        yield return Util.TimeStore.GetWaitForSeconds(_enemyDataTable.EnemyFeatureContainer[ID].SpawnStartTime);
 
-        while (GameManager.StageManager.CurrentStageTime < enemy.SpawnEndTime)
+        while (GameManager.StageManager.CurrentStageTime < _enemyDataTable.EnemyFeatureContainer[ID].SpawnEndTime)
         {
             int x, y;
             if (Random.Range(0, WIDTH) < HEIGHT)
@@ -124,5 +132,48 @@ public class EnemyManager : MonoBehaviour
         }
 
         StopCoroutine(_spawnEnemyCoroutines[ID]);
+    }
+
+    private void SpawnMiniBoss()
+    {
+        foreach (MiniBossID ID in _enemyDataTable.StageOneMiniBossList)
+        {
+            IEnumerator spawnMiniBossCoroutine = SpawnMiniBossCoroutine(ID);
+            StartCoroutine(spawnMiniBossCoroutine);
+            _spawnMiniBossCoroutines.Add(ID, spawnMiniBossCoroutine);
+        }
+    }
+    private IEnumerator SpawnMiniBossCoroutine(MiniBossID ID)
+    {
+        yield return Util.TimeStore.GetWaitForSeconds(_enemyDataTable.MiniBossFeatureContainer[ID].SpawnStartTime);
+
+        int x, y;
+        if (Random.Range(0, WIDTH) < HEIGHT)
+        {
+            x = _widths[Random.Range(1, WIDTH_RATE)];
+            y = Random.Range(0, 2) == 0 ? _heights[1] : _heights[HEIGHT_RATE - 1];
+        }
+        else
+        {
+            x = Random.Range(0, 2) == 0 ? _widths[1] : _widths[WIDTH_RATE - 1];
+            y = _heights[Random.Range(1, HEIGHT_RATE)];
+        }
+        _spawnPos.Set(x, y);
+        MiniBoss miniBossInstance = _miniBossPool.GetMiniBossFromPool();
+        miniBossInstance.InitializeStatus(_enemyDataTable.MiniBossStatContainer[ID], _enemyDataTable.MiniBossFeatureContainer[ID]);
+        miniBossInstance.SetEnemyRender(_enemyDataTable.MiniBossRenderContainer[ID]);
+
+        miniBossInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
+        miniBossInstance.SetFilpX();
+        miniBossInstance.SetDefaultDamageTextPool(_defaultDamageTextPool);
+        miniBossInstance.SetCriticalDamageTextPool(_criticalDamageTextPool);
+
+        miniBossInstance.OnDieForSpawnEXP -= GameManager.ObjectManager.SpawnEXP;
+        miniBossInstance.OnDieForSpawnEXP += GameManager.ObjectManager.SpawnEXP;
+
+        miniBossInstance.OnDieForUpdateCount -= GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
+        miniBossInstance.OnDieForUpdateCount += GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
+
+        StopCoroutine(_spawnMiniBossCoroutines[ID]);
     }
 }
