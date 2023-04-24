@@ -2,6 +2,26 @@ using UnityEngine;
 
 public class SpiderCooking : Weapon
 {
+    private ParticleSystem _particleSystem;
+    protected override void Awake()
+    {
+        base.Awake();
+        _particleSystem = transform.GetChild(0).GetComponent<ParticleSystem>();
+    }
+    public override void LevelUp()
+    {
+        base.LevelUp();
+
+        SetParticleSize();
+    }
+    private void SetParticleSize()
+    {
+        if (weaponStat.Size[WeaponData.CurrentLevel] == weaponStat.Size[WeaponData.CurrentLevel - 1])
+        {
+            return;
+        }
+        _particleSystem.transform.localScale = transform.localScale;
+    }
     protected override void Shoot(int index)
     {
         Projectile projectile = _projectilePool.GetProjectileFromPool();

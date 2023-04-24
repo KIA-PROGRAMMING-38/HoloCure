@@ -13,6 +13,7 @@ public class Enemy : CharacterBase
     public event Action<float> OnDieForAnimation;
     public event Action<Vector2, int> OnDieForSpawnEXP;
     public event Action OnDieForUpdateCount;
+    public event Action<Enemy> OnDieForProjectile;
 
     public event Action OnFilpX;
 
@@ -159,6 +160,7 @@ public class Enemy : CharacterBase
 
         OnDieForSpawnEXP?.Invoke(transform.position, _enemyFeature.Exp);
         OnDieForUpdateCount?.Invoke();
+        OnDieForProjectile?.Invoke(this);
     }
 
     private float _elapsedTime;
