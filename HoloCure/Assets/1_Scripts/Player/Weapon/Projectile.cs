@@ -169,12 +169,21 @@ public class Projectile : MonoBehaviour
         enemy.KnockBacked(_knockBackSpeed, _knockBackDurationTime);
     }
 
+    /// <summary>
+    /// 피격받은 적의 피격받은 시간을 저장할 컨테이너입니다. 
+    /// </summary>
     private Dictionary<Enemy, float> _damagedEnemyContainer = new();
+    /// <summary>
+    /// 컨테이너에서 적을 제거하고 구독을 해지합니다.
+    /// </summary>
     private void RemoveFromDictionary(Enemy enemy)
     {
         _damagedEnemyContainer.Remove(enemy);
         enemy.OnDieForProjectile -= RemoveFromDictionary;
     }
+    /// <summary>
+    /// 투사체가 풀에 반환되기 전 컨테이너에 저장된 모든 적의 구독을 해지하고 컨테이너를 비웁니다.
+    /// </summary>
     private void RemoveEvent()
     {
         foreach (Enemy enemy in _damagedEnemyContainer.Keys)
@@ -196,7 +205,7 @@ public class Projectile : MonoBehaviour
 
             if (_damagedEnemyContainer.ContainsKey(enemy) && Time.time - _damagedEnemyContainer[enemy] >= _hitCoolTime)
             {
-                _damagedEnemyContainer.Remove(enemy);
+                RemoveFromDictionary(enemy);
             }
 
             if (_damagedEnemyContainer.ContainsKey(enemy))
