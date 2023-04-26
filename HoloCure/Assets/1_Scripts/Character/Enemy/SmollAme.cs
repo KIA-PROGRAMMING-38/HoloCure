@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEditorInternal.ReorderableList;
 
 public class SmollAme : Boss
 {
@@ -9,10 +10,12 @@ public class SmollAme : Boss
     private CapsuleCollider2D _attackCollider;
 
     [SerializeField] private GameObject[] Shadows;
-    private readonly Vector3 START_SHADOW_SCALE = new Vector3(26, 15.6f, 1);
-    private readonly Vector3 END_SHADOW_SCALE = new Vector3(130, 78, 1);
+    private enum ShadowID { Default = 0, Jump = 1 }
+    private readonly Vector3 START_SHADOW_SCALE = new(26, 15.6f, 1);
+    private readonly Vector3 END_SHADOW_SCALE = new(130, 78, 1);
 
     [SerializeField] private GameObject _attackPointer;
+
     protected override void Awake()
     {
         base.Awake();
@@ -69,15 +72,15 @@ public class SmollAme : Boss
 
     private void ActivateJumpShadow()
     {
-        Shadows[0].SetActive(false);
-        Shadows[1].SetActive(true);
-        Shadows[1].transform.localScale = START_SHADOW_SCALE;
+        Shadows[(int)ShadowID.Default].SetActive(false);
+        Shadows[(int)ShadowID.Jump].SetActive(true);
+        Shadows[(int)ShadowID.Jump].transform.localScale = START_SHADOW_SCALE;
         Jump();
     }
     private void DeActivateJumpShadow()
     {
-        Shadows[0].SetActive(true);
-        Shadows[1].SetActive(false);
+        Shadows[(int)ShadowID.Default].SetActive(true);
+        Shadows[(int)ShadowID.Jump].SetActive(false);
     }
 
     private void ActivateBodyCollider() => _defaultBodyCollider.enabled = true;
@@ -101,7 +104,7 @@ public class SmollAme : Boss
             while (_moveTime < 1)
             {
                 _moveTime += Time.deltaTime;
-                Shadows[1].transform.localScale = Vector3.Lerp(START_SHADOW_SCALE, END_SHADOW_SCALE, _moveTime);
+                Shadows[(int)ShadowID.Jump].transform.localScale = Vector3.Lerp(START_SHADOW_SCALE, END_SHADOW_SCALE, _moveTime);
 
                 yield return null;
             }
@@ -141,6 +144,5 @@ public class SmollAme : Boss
         }
     }
 
-    private void ShakeCamera() => Util.CMCamera.Shake(1, 10);
+    private void ShakeCamera() => Util.CMCamera.Shake();
 }
- 
