@@ -2,11 +2,11 @@
 using Util.Pool;
 public class BossPool
 {
-    private BossID _bossID;
+    private int _bossID;
     private EnemyDataTable _enemyDataTable;
     private ObjectPool<Boss> _bossPool;
     public Boss GetBossFromPool() => _bossPool.Get();
-    public void Initialize(BossID bossID, EnemyDataTable enemyDataTable)
+    public void Initialize(int bossID, EnemyDataTable enemyDataTable)
     {
         _bossID = bossID;
         _enemyDataTable = enemyDataTable;
@@ -16,8 +16,8 @@ public class BossPool
     private void InitializeBossPool() => _bossPool = new ObjectPool<Boss>(CreateBoss, OnGetBossFromPool, OnReleaseBossToPool, OnDestroyBoss);
     private Boss CreateBoss()
     {
-        Boss boss = Object.Instantiate(_enemyDataTable.BossPrefabContainer[_bossID]);
-        boss.InitializeStatus(_enemyDataTable.BossStatContainer[_bossID], _enemyDataTable.BossFeatureContainer[_bossID]);
+        Boss boss = (Boss)Object.Instantiate(_enemyDataTable.EnemyPrefabContainer[_bossID]);
+        boss.InitializeStatus(_enemyDataTable.EnemyStatContainer[_bossID], _enemyDataTable.EnemyFeatureContainer[_bossID]);
 
         boss.SetPoolRef(_bossPool);
 

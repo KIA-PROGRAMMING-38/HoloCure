@@ -20,16 +20,18 @@ public class Enemy : CharacterBase
 
     private Rigidbody2D _rigidbody;
 
-    private Transform _body;
+    protected Transform body;
     protected EnemyAnimation enemyAnimation;
+    protected float defaultSpeed;
 
     private Transform _dieEffect;
 
     private EnemyFeature _enemyFeature;
+
     protected virtual void Awake()
     {
-        _body = transform.Find(GameObjectLiteral.BODY);
-        enemyAnimation = _body.GetComponent<EnemyAnimation>();
+        body = transform.Find(GameObjectLiteral.BODY);
+        enemyAnimation = body.GetComponent<EnemyAnimation>();
 
         _dieEffect = transform.Find(GameObjectLiteral.DIE_EFFECT);
 
@@ -43,7 +45,7 @@ public class Enemy : CharacterBase
         base.OnEnable();
         Spawn();
     }
-    private void Start()
+    protected virtual void Start()
     {
         _knockBackUpdateCoroutine = KnockBackUpdateCoroutine();
         _knockBackedCoroutine = KnockBackedCoroutine();
@@ -59,6 +61,7 @@ public class Enemy : CharacterBase
 
         currentHealth = baseStat.MaxHealth;
         moveSpeed = baseStat.MoveSpeedRate * DEFAULT_MOVE_SPEED;
+        defaultSpeed = moveSpeed;
     }
     /// <summary>
     /// 적의 랜더를 초기화합니다.
@@ -82,7 +85,7 @@ public class Enemy : CharacterBase
         _knockBackDurationTime = knockBackDurationTime;
         StartCoroutine(_knockBackedCoroutine);
     }
-    private void KnockBackedMove() => _rigidbody.MovePosition(_rigidbody.position - _moveVec.normalized * (20 * _knockBackSpeed * Time.fixedDeltaTime));
+    private void KnockBackedMove() => _rigidbody.MovePosition(_rigidbody.position - _moveVec.normalized * (30 * _knockBackSpeed * Time.fixedDeltaTime));
     private IEnumerator _knockBackUpdateCoroutine;
     private IEnumerator KnockBackUpdateCoroutine()
     {
@@ -98,6 +101,9 @@ public class Enemy : CharacterBase
     {
         while (true)
         {
+            float speed = moveSpeed;
+            moveSpeed = 0;
+
             StartCoroutine(_knockBackUpdateCoroutine);
 
             yield return Util.TimeStore.GetWaitForSeconds(_knockBackDurationTime);
@@ -105,6 +111,8 @@ public class Enemy : CharacterBase
             StopCoroutine(_knockBackUpdateCoroutine);
 
             StopCoroutine(_knockBackedCoroutine);
+
+            moveSpeed = speed;
 
             yield return null;
         }
@@ -142,7 +150,7 @@ public class Enemy : CharacterBase
     private void Spawn()
     {
         _dieEffect.gameObject.SetActive(false);
-        _body.position = transform.position;
+        body.position = transform.position;
 
         SetLayerOnSpawn();
     }
@@ -182,7 +190,7 @@ public class Enemy : CharacterBase
             {
                 float fadeRate = _elapsedTime / DYING_TIME;
 
-                _body.position = Vector2.Lerp(_dyingPoint, _dyingPoint + _effectDir * (DEFAULT_MOVE_SPEED * 2), fadeRate);
+                body.position = Vector2.Lerp(_dyingPoint, _dyingPoint + _effectDir * (DEFAULT_MOVE_SPEED * 2), fadeRate);
 
                 OnDieForAnimation?.Invoke(0.5f - fadeRate);
 

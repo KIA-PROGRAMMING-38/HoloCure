@@ -70,6 +70,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f2189780364955e498d88959aa96e279, type: 3}
   - {fileID: 21300000, guid: 78f71880f49036242928a652f49d9589, type: 3}
   - {fileID: 21300000, guid: be4daf901dd708b4ebf25d2e3fbdfa72, type: 3}
+  - {fileID: 21300000, guid: 61e0f9a0b69298e4daafcdc3c8ce45e2, type: 3}
   - {fileID: 21300000, guid: cf66e6b0dc8f7ab4aaf640d11686f3e3, type: 3}
   - {fileID: 21300000, guid: 51fa7fb05bc8629479c926aeed289955, type: 3}
   - {fileID: 21300000, guid: 8e5064c000fa82a48b2d7cc07bb69e92, type: 3}
@@ -129,6 +130,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 173928a2e391c124c82bfd33048519dd, type: 3}
   - {fileID: 21300000, guid: 1d4ceba2625dd25429474dbd0e258d8e, type: 3}
   - {fileID: 21300000, guid: 1418fda22bfd58d479f5924d82b5e83b, type: 3}
+  - {fileID: 21300000, guid: 52ec67b2c42db4e4b84a4793fbf85ae2, type: 3}
   - {fileID: 21300000, guid: 6456bdb2a6de85c44b1498e4cb1090be, type: 3}
   - {fileID: 21300000, guid: 824c02c237a628c42941157ad6d2678b, type: 3}
   - {fileID: 21300000, guid: 0a2172d2241d9f5479eb145c3e7d3fe2, type: 3}
@@ -138,6 +140,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 149964e28dd05984686800c289e2d488, type: 3}
   - {fileID: 21300000, guid: 11ee84e268bb69547bba8e7009ff7033, type: 3}
   - {fileID: 21300000, guid: 721337e2de5a7bf4fa8d1aa5f54e51bc, type: 3}
+  - {fileID: 21300000, guid: 04db3de26729df4418dd54c08b43f790, type: 3}
   - {fileID: 21300000, guid: c85fcde2b0beeb24788d95a2cc260ff2, type: 3}
   - {fileID: 21300000, guid: bffd1ee2800f19a43ab1f81d57a83022, type: 3}
   - {fileID: 21300000, guid: 84fc00f2346727f42a4ce7ce37d783c7, type: 3}
@@ -300,6 +303,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 724da46786a65a44c9fb9abc05481dc2, type: 3}
   - {fileID: 21300000, guid: e29a576795dbb4d45be1e05d686ab697, type: 3}
   - {fileID: 21300000, guid: f941c177d34bf9c45ba485087fa97e66, type: 3}
+  - {fileID: 21300000, guid: e7443677aee37184eb163b968df1ecd5, type: 3}
   - {fileID: 21300000, guid: ccbe5e775d2c14946a7789729b05391c, type: 3}
   - {fileID: 21300000, guid: f33c9b87c056ab34d903d0d234e6b690, type: 3}
   - {fileID: 21300000, guid: f8618c87e76ce164bb8ebcf95e8cca5c, type: 3}
@@ -395,6 +399,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b0f0ca1ad6918c345b5d0a4758c2caf0, type: 3}
   - {fileID: 21300000, guid: 686d6d1a3300a8c4aa1c006a0010b997, type: 3}
   - {fileID: 21300000, guid: c0fb182a655cbd040906cc36fcc9e9e6, type: 3}
+  - {fileID: 21300000, guid: 801bef2af57c41f40ba464a1ba1ee579, type: 3}
   - {fileID: 21300000, guid: 66b6683aa35c9e44d990efd12c12b4ac, type: 3}
   - {fileID: 21300000, guid: 9f651a3a6debde949832e9ee611e27c1, type: 3}
   - {fileID: 21300000, guid: a59d324acd655e64eaaed4ce6dd78bdb, type: 3}
@@ -609,6 +614,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 357a8c6ff1c80eb49bec658636ffa8d1, type: 3}
   - {fileID: 21300000, guid: 4170447fb681f0b489de2d5584945919, type: 3}
   - {fileID: 21300000, guid: 156d987f92ebd35408fd1cbd0077bdee, type: 3}
+  - {fileID: 21300000, guid: 3cb1508fc6f17d94f9f957fb21bc5706, type: 3}
   - {fileID: 21300000, guid: 2e10918fb12d0b946994dc0ff82e3237, type: 3}
   - {fileID: 21300000, guid: 13cb628fbf909994687811a634ab5c80, type: 3}
   - {fileID: 21300000, guid: adcb6b9f46300504d8b7ae7e13a29f13, type: 3}
@@ -646,6 +652,7 @@ SpriteAtlas:
   - spr_DeadbeatBatter_0
   - spr_EXP3_4
   - spr_GlowStick_White_2
+  - vfx_smoke_4
   - spr_GlowStick_Red_4
   - spr_Fubuzilla_7
   - spr_GlowStick_Pink_0
@@ -705,6 +712,7 @@ SpriteAtlas:
   - spr_PsychoAxe_4
   - spr_Title_Gura_0
   - spr_fubuLaser_19
+  - vfx_smoke_2
   - spr_SmollAme_groundpound_2
   - spr_GlowStick_Yellow_4
   - spr_GlowStick_Green_1
@@ -714,6 +722,7 @@ SpriteAtlas:
   - spr_saved_3
   - spr_Deadbeat_1
   - spr_EXP2_7
+  - vfx_smoke_0
   - spr_EXP3_10
   - spr_Fubuzilla_9
   - spr_optionItemIcon_0
@@ -876,6 +885,7 @@ SpriteAtlas:
   - spr_GlowStick_Orange_4
   - hud_new_HUDHP_0
   - spr_fubuLaser_1
+  - vfx_smoke_3
   - hud_cooldownicon_0
   - spr_bombExplode_12
   - spr_SmollAme_jump_16
@@ -971,6 +981,7 @@ SpriteAtlas:
   - spr_InvestiGator_2
   - spr_EXP2_2
   - spr_Title_Fauna_0
+  - vfx_smoke_5
   - spr_EXP5_9
   - spr_saved_6
   - spr_EXP3_8
@@ -1185,6 +1196,7 @@ SpriteAtlas:
   - spr_GlowStickExplode_7
   - ui_digit_white_2
   - spr_fubuLaser_26
+  - vfx_smoke_1
   - spr_bombExplode_5
   - ui_digit_pink_4
   - spr_EXP3_3

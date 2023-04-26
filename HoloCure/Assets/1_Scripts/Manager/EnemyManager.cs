@@ -21,9 +21,9 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private Dictionary<EnemyID, EnemyPool> _enemyPools;
+    private Dictionary<int, EnemyPool> _enemyPools;
     private MiniBossPool _miniBossPool;
-    private Dictionary<BossID, BossPool> _bossPools;
+    private Dictionary<int, BossPool> _bossPools;
     private Dictionary<int, IEnumerator> _spawnEnemyCoroutines;
     private DamageTextPool _defaultDamageTextPool;
     private DamageTextPool _criticalDamageTextPool;
@@ -42,11 +42,11 @@ public class EnemyManager : MonoBehaviour
             _heights[i] = i * heightDiv - HEIGHT / 2;
         }
 
-        _enemyPools = new Dictionary<EnemyID, EnemyPool>();
+        _enemyPools = new Dictionary<int, EnemyPool>();
         _miniBossPool = new MiniBossPool();
         MiniBoss miniBossDefaultPrefab = Resources.Load<MiniBoss>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.MINI_BOSS));
         _miniBossPool.Initialize(miniBossDefaultPrefab);
-        _bossPools = new Dictionary<BossID, BossPool>();
+        _bossPools = new Dictionary<int, BossPool>();
 
         _spawnEnemyCoroutines = new Dictionary<int, IEnumerator>();
 
@@ -74,22 +74,19 @@ public class EnemyManager : MonoBehaviour
     }
     private void SpawnEnemy()
     {
-        foreach (KeyValuePair<EnemyID, Enemy> keyValuePair in _enemyDataTable.EnemyPrefabContainer)
+        foreach (int ID in _enemyDataTable.StageOneEnemyList)
         {
-            EnemyID enemyID = keyValuePair.Key;
-            Enemy enemy = keyValuePair.Value;
-
-            if (_enemyPools.ContainsKey(enemyID))
+            if (_enemyPools.ContainsKey(ID))
             {
                 continue;
             }
             EnemyPool enemyPool = new();
-            enemyPool.Initialize(enemyID, enemy, _enemyDataTable);
-            _enemyPools.Add(enemyID, enemyPool);
+            enemyPool.Initialize(ID, _enemyDataTable);
+            _enemyPools.Add(ID, enemyPool);
 
-            IEnumerator spawnEnemyCoroutine = SpawnEnemyCoroutine(enemyID);
+            IEnumerator spawnEnemyCoroutine = SpawnEnemyCoroutine(ID);
             StartCoroutine(spawnEnemyCoroutine);
-            _spawnEnemyCoroutines.Add((int)enemyID, spawnEnemyCoroutine);
+            _spawnEnemyCoroutines.Add(ID, spawnEnemyCoroutine);
         }
     }
     private int[] _widths;
@@ -100,7 +97,7 @@ public class EnemyManager : MonoBehaviour
     private const int HEIGHT_RATE = 9;
     private Vector2 _spawnPos;
     private WaitForSeconds _spawnInterval;
-    private IEnumerator SpawnEnemyCoroutine(EnemyID ID)
+    private IEnumerator SpawnEnemyCoroutine(int ID)
     {
         yield return Util.TimeStore.GetWaitForSeconds(_enemyDataTable.EnemyFeatureContainer[ID].SpawnStartTime);
 
@@ -133,21 +130,21 @@ public class EnemyManager : MonoBehaviour
             yield return _spawnInterval;
         }
 
-        StopCoroutine(_spawnEnemyCoroutines[(int)ID]);
+        StopCoroutine(_spawnEnemyCoroutines[ID]);
     }
 
     private void SpawnMiniBoss()
     {
-        foreach (MiniBossID ID in _enemyDataTable.StageOneMiniBossList)
+        foreach (int ID in _enemyDataTable.StageOneMiniBossList)
         {
             IEnumerator spawnMiniBossCoroutine = SpawnMiniBossCoroutine(ID);
             StartCoroutine(spawnMiniBossCoroutine);
-            _spawnEnemyCoroutines.Add((int)ID, spawnMiniBossCoroutine);
+            _spawnEnemyCoroutines.Add(ID, spawnMiniBossCoroutine);
         }
     }
-    private IEnumerator SpawnMiniBossCoroutine(MiniBossID ID)
+    private IEnumerator SpawnMiniBossCoroutine(int ID)
     {
-        yield return Util.TimeStore.GetWaitForSeconds(_enemyDataTable.MiniBossFeatureContainer[ID].SpawnStartTime);
+        yield return Util.TimeStore.GetWaitForSeconds(_enemyDataTable.EnemyFeatureContainer[ID].SpawnStartTime);
 
         int x, y;
         if (Random.Range(0, WIDTH) < HEIGHT)
@@ -162,8 +159,8 @@ public class EnemyManager : MonoBehaviour
         }
         _spawnPos.Set(x, y);
         MiniBoss miniBossInstance = _miniBossPool.GetMiniBossFromPool();
-        miniBossInstance.InitializeStatus(_enemyDataTable.MiniBossStatContainer[ID], _enemyDataTable.MiniBossFeatureContainer[ID]);
-        miniBossInstance.SetEnemyRender(_enemyDataTable.MiniBossRenderContainer[ID]);
+        miniBossInstance.InitializeStatus(_enemyDataTable.EnemyStatContainer[ID], _enemyDataTable.EnemyFeatureContainer[ID]);
+        miniBossInstance.SetEnemyRender(_enemyDataTable.EnemyRenderContainer[ID]);
 
         miniBossInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
         miniBossInstance.SetFilpX();
@@ -176,12 +173,12 @@ public class EnemyManager : MonoBehaviour
         miniBossInstance.OnDieForUpdateCount -= GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
         miniBossInstance.OnDieForUpdateCount += GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
 
-        StopCoroutine(_spawnEnemyCoroutines[(int)ID]);
+        StopCoroutine(_spawnEnemyCoroutines[ID]);
     }
 
     private void SpawnBoss()
     {
-        foreach (BossID ID in _enemyDataTable.StageOneBossList)
+        foreach (int ID in _enemyDataTable.StageOneBossList)
         {
             if (_bossPools.ContainsKey(ID))
             {
@@ -193,12 +190,12 @@ public class EnemyManager : MonoBehaviour
 
             IEnumerator spawnBossCoroutine = SpawnBossCoroutine(ID);
             StartCoroutine(spawnBossCoroutine);
-            _spawnEnemyCoroutines.Add((int)ID, spawnBossCoroutine);
+            _spawnEnemyCoroutines.Add(ID, spawnBossCoroutine);
         }
     }
-    private IEnumerator SpawnBossCoroutine(BossID ID)
+    private IEnumerator SpawnBossCoroutine(int ID)
     {
-        yield return Util.TimeStore.GetWaitForSeconds(_enemyDataTable.BossFeatureContainer[ID].SpawnStartTime);
+        yield return Util.TimeStore.GetWaitForSeconds(_enemyDataTable.EnemyFeatureContainer[ID].SpawnStartTime);
 
         int x, y;
         if (Random.Range(0, WIDTH) < HEIGHT)
@@ -224,6 +221,7 @@ public class EnemyManager : MonoBehaviour
         bossInstance.OnDieForUpdateCount -= GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
         bossInstance.OnDieForUpdateCount += GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
 
-        StopCoroutine(_spawnEnemyCoroutines[(int)ID]);
+        StopCoroutine(_spawnEnemyCoroutines[ID]);
     }
 }
+
