@@ -8,9 +8,11 @@ public class EnemyDataTable
     #region 스테이지 1
     private List<EnemyID> _stageOneEnemyList = new();
     private List<MiniBossID> _stageOneMiniBossList = new();
+    private List<BossID> _stageOneBossList = new();
 
     public List<EnemyID> StageOneEnemyList => _stageOneEnemyList;
     public List<MiniBossID> StageOneMiniBossList => _stageOneMiniBossList;
+    public List<BossID> StageOneBossList => _stageOneBossList;
     #endregion
 
     #region 일반 적
@@ -42,10 +44,24 @@ public class EnemyDataTable
     public Dictionary<MiniBossID, EnemyRender> MiniBossRenderContainer => _miniBossRenderContainer;
     #endregion
 
+    #region 보스
+    private Dictionary<BossID, EnemyData> _bossDataContainer = new();
+    private Dictionary<BossID, CharacterStat> _bossStatContainer = new();
+    private Dictionary<BossID, EnemyFeature> _bossFeatureContainer = new();
+
+    private Dictionary<BossID, Boss> _bossPrefabContainer = new();
+
+    public Dictionary<BossID, EnemyData> BossDataContainer => _bossDataContainer;
+    public Dictionary<BossID, CharacterStat> BossStatContainer => _bossStatContainer;
+    public Dictionary<BossID, EnemyFeature> BossFeatureContainer => _bossFeatureContainer;
+    public Dictionary<BossID, Boss> BossPrefabContainer => _bossPrefabContainer;
+    #endregion
+
     public EnemyDataTable()
     {
         SetEnemyData();
         SetMiniBossData();
+        SetBossData();
     }
     private void SetEnemyData()
     {
@@ -101,8 +117,6 @@ public class EnemyDataTable
         TextAsset csvFile = Resources.Load<TextAsset>(Path.Combine(PathLiteral.DATA_TABLE, FileNameLiteral.MINI_BOSS));
         string[] rows = csvFile.text.Split('\n');
 
-        EnemyRender.HitMaterial = Resources.Load<Material>(Path.Combine(PathLiteral.MATERIAL, FileNameLiteral.HIT_MATERIAL));
-
         for (int i = 1; i < rows.Length; ++i)
         {
             string[] columns = rows[i].Split(',');
@@ -131,6 +145,39 @@ public class EnemyDataTable
             _miniBossRenderContainer.Add((MiniBossID)data.ID, render);
 
             _stageOneMiniBossList.Add((MiniBossID)data.ID);
+        }
+    }
+    private void SetBossData()
+    {
+        TextAsset csvFile = Resources.Load<TextAsset>(Path.Combine(PathLiteral.DATA_TABLE, FileNameLiteral.BOSS));
+        string[] rows = csvFile.text.Split('\n');
+
+        for (int i = 1; i < rows.Length; ++i)
+        {
+            string[] columns = rows[i].Split(',');
+            EnemyData data = new();
+            CharacterStat stat = new();
+            EnemyFeature feature = new();
+
+            data.ID = int.Parse(columns[0]);
+            data.Name = columns[1];
+            data.SpriteName = columns[2];
+
+            stat.MaxHealth = int.Parse(columns[3]);
+            stat.ATKPower = int.Parse(columns[4]);
+            stat.MoveSpeedRate = float.Parse(columns[5]);
+            feature.Exp = int.Parse(columns[6]);
+            feature.SpawnStartTime = int.Parse(columns[7]);
+
+            _bossDataContainer.Add((BossID)data.ID, data);
+            _bossStatContainer.Add((BossID)data.ID, stat);
+            _bossFeatureContainer.Add((BossID)data.ID, feature);
+
+            Boss prefab = Resources.Load<Boss>(Path.Combine(PathLiteral.PREFAB, data.Name));
+
+            _bossPrefabContainer.Add((BossID)data.ID, prefab);
+
+            _stageOneBossList.Add((BossID)data.ID);
         }
     }
 }

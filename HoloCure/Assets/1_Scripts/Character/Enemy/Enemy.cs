@@ -16,19 +16,20 @@ public class Enemy : CharacterBase
     public event Action<Enemy> OnDieForProjectile;
 
     public event Action OnFilpX;
+    public event Action<bool> OnFilp;
 
     private Rigidbody2D _rigidbody;
 
     private Transform _body;
-    private EnemyAnimation _enemyAnimation;
+    protected EnemyAnimation enemyAnimation;
 
     private Transform _dieEffect;
 
     private EnemyFeature _enemyFeature;
-    private void Awake()
+    protected virtual void Awake()
     {
         _body = transform.Find(GameObjectLiteral.BODY);
-        _enemyAnimation = _body.GetComponent<EnemyAnimation>();
+        enemyAnimation = _body.GetComponent<EnemyAnimation>();
 
         _dieEffect = transform.Find(GameObjectLiteral.DIE_EFFECT);
 
@@ -62,7 +63,7 @@ public class Enemy : CharacterBase
     /// <summary>
     /// 적의 랜더를 초기화합니다.
     /// </summary>
-    public void SetEnemyRender(EnemyRender render) => _enemyAnimation.SetEnemyRender(render);
+    public void SetEnemyRender(EnemyRender render) => enemyAnimation.SetEnemyRender(render);
     public Vector2 _moveVec;
     public override void Move()
     {
@@ -119,7 +120,7 @@ public class Enemy : CharacterBase
     /// </summary>
     public override void GetDamage(int damage, bool isCritical = false)
     {
-        _effectDir = _enemyAnimation.IsFilp() == true ? Vector2.right : Vector2.left;
+        _effectDir = enemyAnimation.IsFilp() == true ? Vector2.right : Vector2.left;
 
         if (isCritical)
         {
@@ -143,8 +144,10 @@ public class Enemy : CharacterBase
         _dieEffect.gameObject.SetActive(false);
         _body.position = transform.position;
 
-        gameObject.layer = LayerNum.ENEMY;
+        SetLayerOnSpawn();
     }
+    protected virtual void SetLayerOnSpawn() => gameObject.layer = LayerNum.ENEMY;
+    protected virtual void SetLayerOnDie() => gameObject.layer = LayerNum.DEAD_ENEMY;
 
     /// <summary>
     /// 적의 사망입니다. GetDamage에서 호출됩니다.
@@ -157,7 +160,7 @@ public class Enemy : CharacterBase
 
         _dieEffect.gameObject.SetActive(true);
 
-        gameObject.layer = LayerNum.DEAD_ENEMY;
+        SetLayerOnDie();
 
         OnDieForSpawnEXP?.Invoke(transform.position, _enemyFeature.Exp);
         OnDieForUpdateCount?.Invoke();
@@ -209,8 +212,11 @@ public class Enemy : CharacterBase
     /// <summary>
     /// 플레이어를 바라보는 방향으로 플립합니다.
     /// </summary>
-    public void SetFilpX() => OnFilpX?.Invoke();
-
+    public void SetFilpX()
+    {
+        OnFilpX?.Invoke();
+        OnFilp?.Invoke(enemyAnimation.IsFilp());
+    }
 
     [SerializeField] private DamageTextController _damageTextController;
     public void SetDefaultDamageTextPool(DamageTextPool pool) => _damageTextController.SetDefaultDamageTextPool(pool);
