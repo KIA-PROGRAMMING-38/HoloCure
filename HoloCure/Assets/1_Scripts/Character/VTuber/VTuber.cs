@@ -66,6 +66,7 @@ public class VTuber : CharacterBase
         transform.AddComponent<Player>().Initialize(this, VTuberID, weaponDataTable);
         _input = transform.AddComponent<PlayerInput>();
         transform.AddComponent<PlayerController>().Initialize(this);
+        Util.CMCamera.SetCameraFollow(transform);
 
         gameObject.SetActive(true);
     }

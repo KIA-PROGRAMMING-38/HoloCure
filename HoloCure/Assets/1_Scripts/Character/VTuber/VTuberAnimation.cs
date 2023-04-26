@@ -18,7 +18,7 @@ public class VTuberAnimation : MonoBehaviour
     private void Start() => _input = transform.root.GetComponent<PlayerInput>();
     private void LateUpdate()
     {
-        _animator.SetBool(AnimParameterLiteral.IS_RUNNING, Time.timeScale != 0 && _input.MoveVec.magnitude > 0);
+        _animator.SetBool(AnimParameterHash.IS_RUNNING, Time.timeScale != 0 && _input.MoveVec.magnitude > 0);
 
         if (Time.timeScale != 0)
         {

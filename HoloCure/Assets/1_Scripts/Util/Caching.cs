@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 namespace Util
 {
@@ -22,7 +23,7 @@ namespace Util
         private void Update()
         {
             _mouseScreenPos = Input.mousePosition;
-            _mouseWorldPos =_mainCamera.ScreenToWorldPoint(_mouseScreenPos);
+            _mouseWorldPos = _mainCamera.ScreenToWorldPoint(_mouseScreenPos);
             _centerWorldPos = _mainCamera.ScreenToWorldPoint(_centerScreenPos);
         }
         public static float GetAngleToMouse(Vector2 position)

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3266031367701487886}
   - component: {fileID: -6124820680771215865}
   - component: {fileID: 3266031367701487885}
-  m_Layer: 6
+  m_Layer: 19
   m_Name: MiniBoss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -88,6 +88,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+  moveSpeed: 0
+  _moveVec: {x: 0, y: 0}
   _damageTextController: {fileID: 9101788789431489761}
 --- !u!114 &3266031367701487885
 MonoBehaviour:
@@ -198,7 +200,7 @@ GameObject:
   - component: {fileID: 3266031368903748006}
   - component: {fileID: 3266031368903748007}
   - component: {fileID: 3266031368903748001}
-  m_Layer: 9
+  m_Layer: 20
   m_Name: Body
   m_TagString: EnemyBody
   m_Icon: {fileID: 0}

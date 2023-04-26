@@ -2,6 +2,8 @@
 
 public class MiniBoss : Enemy
 {
+    protected override void SetLayerOnSpawn() => gameObject.layer = LayerNum.MY_BOSS;
+    protected override void SetLayerOnDie() => gameObject.layer = LayerNum.DEAD_MY_BOSS;
     protected override void ReleaseToPool() => _pool.Release(this);
     private ObjectPool<MiniBoss> _pool;
     /// <summary>
