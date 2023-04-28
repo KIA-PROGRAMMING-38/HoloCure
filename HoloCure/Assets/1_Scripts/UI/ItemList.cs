@@ -19,7 +19,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _levelNumText;
     [SerializeField] private TextMeshProUGUI _newText;
-    [SerializeField] private TextMeshProUGUI _typeText; // 추후 추가 구현
+    [SerializeField] private TextMeshProUGUI _typeText;
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [Header("Image")]
     [SerializeField] private Image _itemTypeImage;
@@ -54,14 +54,41 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     {
         OnClickForController?.Invoke(this);
     }
-    public void GetWeaponData(WeaponData weaponData)
+    public void GetItemData(ItemData data)
     {
-        _nameText.text = weaponData.DisplayName;
+        SetCommonData(data);
+
+        switch ((ItemDataKindID)data.DataKind)
+        {
+            case ItemDataKindID.Weapon:
+                SetWeaponData((WeaponData)data);
+                break;
+            case ItemDataKindID.Equipment:
+                break;
+            case ItemDataKindID.Stat:
+                GetStatData((Stat)data);
+                break;
+        }
+    }
+    private void SetCommonData(ItemData data)
+    {
+        _nameText.text = data.DisplayName;
+        
+        _levelText.enabled = false;
+        _levelNumText.enabled = false;
+        _newText.enabled = false;
+        _itemTypeImage.enabled = false;
+
+        _iconFrameImage.sprite = _iconFrameSprites[data.DataKind - 1];
+        _iconImage.sprite = data.Icon;
+    }
+    private const string WEAPON = "Weapon";
+    private void SetWeaponData(WeaponData weaponData)
+    {
+        _typeText.text = WEAPON;
 
         if (weaponData.CurrentLevel == 0)
         {
-            _levelText.enabled = false;
-            _levelNumText.enabled = false;
             _newText.enabled = true;
         }
         else
@@ -72,7 +99,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
 
             if (weaponData.CurrentLevel == 6)
             {
-                _levelNumText.text = weaponData.ID < 8000 ? ItemLiteral.MAX : ItemLiteral.AWAKENED;
+                _levelNumText.text = weaponData.ID < (int)StartingWeaponID.None ? ItemLiteral.MAX : ItemLiteral.AWAKENED;
             }
             else
             {
@@ -82,6 +109,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
 
         _descriptionText.text = weaponData.Description[weaponData.CurrentLevel + 1];
 
+        _itemTypeImage.enabled = true;
         switch (weaponData.Type)
         {
             case ItemLiteral.MELEE:
@@ -96,5 +124,12 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         }
 
         _iconImage.sprite = weaponData.Icon;
+    }
+    private const string STAT_UP = "StatUp";
+    private void GetStatData(Stat statData)
+    {
+        _typeText.text = STAT_UP;
+
+        _descriptionText.text = statData.Description;
     }
 }

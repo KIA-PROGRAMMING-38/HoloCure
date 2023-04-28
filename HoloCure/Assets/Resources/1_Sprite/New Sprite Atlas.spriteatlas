@@ -257,6 +257,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 602fd795a53775b42b29c3474791b59c, type: 3}
   - {fileID: 21300000, guid: 7714f0a52dad60a4e902dfbb6cd7de7f, type: 3}
   - {fileID: 21300000, guid: c825a4a553a7bcb4d8e646fd6a5a63bb, type: 3}
+  - {fileID: 21300000, guid: f7ad79a5d9e2cbd4c8a628d98a0eb6d0, type: 3}
   - {fileID: 21300000, guid: 3da9fca576b9d4d4f97fdf4d64cc6d07, type: 3}
   - {fileID: 21300000, guid: 4d9850f5139e20e40ab9acc85369256e, type: 3}
   - {fileID: 21300000, guid: 986217f5b20ae3a4499f1556da14b3d5, type: 3}
@@ -885,6 +886,7 @@ SpriteAtlas:
   - spr_PsychoAxe_1
   - spr_SummonTentacle_2
   - spr_Title_Aki_0
+  - spr_optionStatIcon_0
   - hud_optionsmenu_0
   - spr_BreadDog_1
   - spr_GlowStick_Red_5

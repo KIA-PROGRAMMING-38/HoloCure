@@ -15,8 +15,7 @@ public class VTuberDataTable
     public Dictionary<VTuberID, CharacterStat> VTuberStatContainer => _VTuberStatContainer;
     public Dictionary<VTuberID, VTuberFeature> VTuberFeatureContainer => _VTuberFeatureContainer;
     public Dictionary<VTuberID, VTuber> VTuberPrefabContainer => _VTuberPrefabContainer;
-
-    public VTuberDataTable()
+    public void SetDataTable()
     {
         SetVTuberData();
     }

@@ -16,8 +16,8 @@ public class GetBoxEndUI : UIBase
         PresenterManager.TriggerUIPresenter.OnResume -= DeActivateGetBoxUI;
         PresenterManager.TriggerUIPresenter.OnResume += DeActivateGetBoxUI;
 
-        PresenterManager.TriggerUIPresenter.OnGetWeaponDatasForBox -= GetWeaponList;
-        PresenterManager.TriggerUIPresenter.OnGetWeaponDatasForBox += GetWeaponList;
+        PresenterManager.TriggerUIPresenter.OnGetItemDatasForBox -= GetWeaponList;
+        PresenterManager.TriggerUIPresenter.OnGetItemDatasForBox += GetWeaponList;
 
         _controller.OnSelectTake -= SelectTake;
         _controller.OnSelectTake += SelectTake;
@@ -34,9 +34,23 @@ public class GetBoxEndUI : UIBase
     }
 
     [SerializeField] private ItemList _list;
-    private WeaponData _data;
-    private void GetWeaponList(WeaponData[] weaponLists)
+    private ItemData _data;
+    private void GetWeaponList(ItemData[] itemLists)
     {
+        for (int i = 0; i < itemLists.Length; ++i)
+        {
+            switch ((ItemDataKindID)itemLists[i].DataKind)
+            {
+                case ItemDataKindID.Weapon:
+                    break;
+                case ItemDataKindID.Equipment:
+                    break;
+                case ItemDataKindID.Stat:
+                    break;
+            }
+        }
+
+
         for (int i = 0; i < Inventory.WeaponCount; ++i)
         {
             WeaponData weapon = Inventory.Weapons[i].WeaponData;
@@ -45,14 +59,14 @@ public class GetBoxEndUI : UIBase
                 continue;
             }
 
-            for (int j = 0; j < weaponLists.Length; ++j)
+            for (int j = 0; j < itemLists.Length; ++j)
             {
-                if (weaponLists[j] == null) // 널방지 임시코드
+                if (itemLists[j] == null) // 널방지 임시코드
                 {
                     continue;
                 }
 
-                if (weapon != weaponLists[j])
+                if (weapon != itemLists[j])
                 {
                     continue;
                 }
@@ -66,14 +80,14 @@ public class GetBoxEndUI : UIBase
         }
         while (true) // 널방지 임시코드
         {
-            int randNum = UnityEngine.Random.Range(0, weaponLists.Length);
+            int randNum = UnityEngine.Random.Range(0, itemLists.Length);
 
-            if (weaponLists[randNum] == null) // 널방지 임시코드
+            if (itemLists[randNum] == null) // 널방지 임시코드
             {
                 continue;
             }
 
-            _data = weaponLists[randNum];
+            _data = itemLists[randNum];
 
             SetWeapon();
 
@@ -86,7 +100,7 @@ public class GetBoxEndUI : UIBase
     [SerializeField] private GameObject _particles;
     private void SetWeapon()
     {
-        _list.GetWeaponData(_data);
+        _list.GetItemData(_data);
         _icons[1].sprite = _icons[0].sprite;
         _iconLights.SetActive(true);
         _particles.SetActive(true);

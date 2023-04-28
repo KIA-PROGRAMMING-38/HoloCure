@@ -1,47 +1,47 @@
 ID|Name|DisplayName|Spriteofdisplay|SpriteofIcon|Type|Weight|Description|BaseAttackSequenceTime|Minimumattacktime|ProjectileCount|DamageRate|AttackDelay|HitCooltime|Size|AttackDurationTime|Projectilespeed|KnockbackDurationTime|Knockbackspeed|Radius
-7000|SpiderCooking|Spider Cooking|spr_SpiderCooking_0|spr_SpiderCookingIcon_0|Melee|4|Create an area of miasma around, dealing slow damage to enemies inside.|10|10|1|0.9|0|0.75|1.1|10.02|0|0|0|0
+5001|SpiderCooking|Spider Cooking|spr_SpiderCooking_0|spr_SpiderCookingIcon_0|Melee|4|Create an area of miasma around, dealing slow damage to enemies inside.|10|10|1|0.9|0|0.75|1.1|10.02|0|0|0|0
 |||||||Increase area by <color=green>15%</color>.|10|10|1|0.9|0|0.75|1.265|10.02|0|0|0|0
 |||||||Increase damage by <color=green>30%</color>.|10|10|1|1.17|0|0.75|1.265|10.02|0|0|0|0
 |||||||Increase area by <color=green>25%</color>.|10|10|1|1.17|0|0.75|1.58125|10.02|0|0|0|0
 |||||||Increase frequency of hits by <color=green>20%</color>.|10|10|1|1.17|0|0.6|1.58125|10.02|0|0|0|0
 |||||||Increase damage by <color=green>60%</color>.|10|10|1|1.404|0|0.6|1.58125|10.02|0|0|0|0
 |||||||Add small knockback on hit.|10|10|1|1.404|0|0.6|1.58125|10.02|0|0.13|3|0
-7001|EliteLavaBucket|Elite Lava Bucket|spr_EliteLavaBucket_0|spr_EliteLavaBucketIcon_0|Multishot|3|Drop lava on the ground, burning targets slowly.|5|0.02|1|0.8|0|0.75|0.9|3|6|0|0|0
+5002|EliteLavaBucket|Elite Lava Bucket|spr_EliteLavaBucket_0|spr_EliteLavaBucketIcon_0|Multishot|3|Drop lava on the ground, burning targets slowly.|5|0.02|1|0.8|0|0.75|0.9|3|6|0|0|0
 |||||||Increase lava area by <color=green>20%</color>.|5|0.02|1|0.8|0|0.75|1.1|3|6|0|0|0
 |||||||Throw <color=green>2</color> lava buckets.|5|0.02|2|0.8|0.08|0.75|1.1|3|6|0|0|0
 |||||||Increase damage by <color=green>30%</color> and increase duration of lava by <color=green>1</color> second.|5|0.02|2|1.2|0.08|0.75|1.1|4.5|6|0|0|0
 |||||||Increase damage by <color=green>30%</color>|5|0.02|2|1.56|0.08|0.6|1.1|4.5|6|0|0|0
 |||||||Throw <color=green>3</color> lava buckets|5|0.02|3|1.56|0.08|0.6|1.1|4.5|6|0|0|0
 |||||||Throw 4 lava buckets and increase lava size by <color=green>20%</color>|5|0.02|4|1.56|0.08|0.6|1.32|4.5|6|0|0|0
-7002|HoloBomb|Holo Bomb|spr_HoloBomb_0|spr_HoloBombIcon_0|Multishot|3|A bomb that explodes, dealing damage to all nearby targets.|2|0.02|1|1.7|0|0.33|1.44|10.5|7|0|0|0
+5003|HoloBomb|Holo Bomb|spr_HoloBomb_0|spr_HoloBombIcon_0|Multishot|3|A bomb that explodes, dealing damage to all nearby targets.|2|0.02|1|1.7|0|0.33|1.44|10.5|7|0|0|0
 |||||||Increase explosion size by <color=green>15%</color>.|2|0.02|1|1.7|0|0.33|1.656|10.5|7|0|0|0
 |||||||Increase damage by <color=green>20%</color>.|2|0.02|1|1.7|0|0.33|2.04|10.5|7|0|0|0
 |||||||Throw <color=green>2</color> bombs.|2|0.02|2|1.7|0.08|0.33|2.04|10.5|7|0|0|0
 |||||||Reduce the time between attacks by <color=green>20%</color>.|1.6|0.02|2|1.7|0.08|0.33|2.04|10.5|7|0|0|0
 |||||||Increase explosion size by <color=green>20%</color>.|1.6|0.02|2|1.9872|0.08|0.33|2.04|10.5|7|0|0|0
 |||||||Throw <color=green>3</color> bombs.|1.6|0.02|3|1.9872|0.08|0.33|2.04|10.5|7|0|0|0
-7003|PsychoAxe|Psycho Axe|spr_PsychoAxe_0|spr_PsychoAxeIcon_0|Ranged|3|Throw an axe that spirals outward from the player.|4|0.02|1|1.2|0|0.83|1|3|10|0|0|0
+5004|PsychoAxe|Psycho Axe|spr_PsychoAxe_0|spr_PsychoAxeIcon_0|Ranged|3|Throw an axe that spirals outward from the player.|4|0.02|1|1.2|0|0.83|1|3|10|0|0|0
 |||||||Increase size of axe by <color=green>20%</color>. Increase damage of axe by <color=green>20%</color>.|4|0.02|1|1.56|0|0.83|1.2|3|10|0|0|0
 |||||||Reduce delay between attacks by <color=green>20%</color>.|3.2|0.02|1|1.56|0|0.83|1.2|3|10|0|0|0
 |||||||Increase damage by <color=green>33%</color>, and size by <color=green>20%</color>.|3.2|0.02|1|2.07|0|0.83|1.44|3|10|0|0|0
 |||||||Lasts <color=green>1</color> second longer.|3.2|0.02|1|2.07|0|0.83|1.44|4|10|0|0|0
 |||||||Increase attack size by <color=green>50%</color>.|3.2|0.02|1|2.07|0|0.83|2.16|4|10|0|0|0
 |||||||Increase damage by <color=green>50%</color>.|3.2|0.02|1|3.11|0|0.83|2.16|4|10|0|0|0
-7004|BLBook|BL Book|spr_BLBook_0|spr_BLBookIcon_0|Multishot|3|Repels targets with orbiting BL Books.|6|5|3|1.4|0|0.33|1|2|3|0.08|2|50
+5005|BLBook|BL Book|spr_BLBook_0|spr_BLBookIcon_0|Multishot|3|Repels targets with orbiting BL Books.|6|5|3|1.4|0|0.33|1|2|3|0.08|2|50
 |||||||Add <color=green>1</color> additional book.|6|5|4|1.4|0|0.33|1|2|3|0.08|2|50
 |||||||Increase damage by <color=green>30%</color> and increase duration by <color=green>1</color> second.|6|5|4|1.82|0|0.33|1|5|3|0.08|2|50
 |||||||Add <color=green>1</color> additional book.|6|5|5|1.82|0|0.33|1|5|3|0.08|2|50
 |||||||Increase radius and spinning speed by <color=green>25%</color>.|6|5|5|1.82|0|0.33|1|5|5|0.08|2|75
 |||||||Add <color=green>1</color> additional book.|6|5|6|1.82|0|0.33|1|5|5|0.08|2|75
 |||||||Increase damage by <color=green>40%</color>.|6|5|6|2.548|0|0.33|1|5|5|0.08|2|75
-7005|FanBeam|Fan Beam|spr_FanBeam_0|spr_FanBeamIcon_0|Ranged|3|Shoot a powerful laser beam from the microphone.|3|0.02|1|3.0|0|1|1|0.833|0|0.17|15|0
+5006|FanBeam|Fan Beam|spr_FanBeam_0|spr_FanBeamIcon_0|Ranged|3|Shoot a powerful laser beam from the microphone.|3|0.02|1|3.0|0|1|1|0.833|0|0.17|15|0
 |||||||Increase size by <color=green>30%</color>.|3|0.02|1|3.0|0|1|1.3|0.833|0|0.17|15|0
 |||||||Reduce attack cooldown by <color=green>0.5</color> seconds.|2.5|0.02|1|3.0|0|1|1.3|0.833|0|0.17|15|0
 |||||||Increase damage by <color=green>50%</color>.|2.5|0.02|1|4.0|0|1|1.3|0.833|0|0.17|15|0
 |||||||Reduce attack cooldown by <color=green>0.5</color> seconds.|2|0.02|1|4.0|0|1|1.3|0.833|0|0.17|15|0
 |||||||Increase size by <color=green>50%</color>.|2|0.02|1|4.0|0|1|2|0.833|0|0.17|15|0
 |||||||Fire an additional beam from behind|2|0.02|2|4.0|0|1|2|0.833|0|0.17|15|0
-7006|GlowStick|Glow Stick|spr_GlowStick_0|spr_GlowStickIcon_0|Multishot|4|Throw a glowstick to a nearby target and then spins back to player.|4|0.02|1|1.2|0|0.5|1|3|8|0|0|0
+5007|GlowStick|Glow Stick|spr_GlowStick_0|spr_GlowStickIcon_0|Multishot|4|Throw a glowstick to a nearby target and then spins back to player.|4|0.02|1|1.2|0|0.5|1|3|8|0|0|0
 |||||||Increases damage by <color=green>20%</color>.|4|0.02|1|1.44|0|0.5|1|3|8|0|0|0
 |||||||Throw <color=green>1</color> additional glowstick|4|0.02|2|1.44|0.08|0.5|1|3|8|0|0|0
 |||||||Increase size of glowstick by <color=green>25%</color>.|4|0.02|2|1.44|0.08|0.5|1.25|3|8|0|0|0

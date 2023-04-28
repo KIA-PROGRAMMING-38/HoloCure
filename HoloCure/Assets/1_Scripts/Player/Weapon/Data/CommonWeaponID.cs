@@ -1,6 +1,7 @@
 ﻿public enum CommonWeaponID
 {
-    SpiderCooking = 7000,
+    None = 5000,
+    SpiderCooking,
     EliteLavaBucket,
     HoloBomb,
     PsychoAxe,

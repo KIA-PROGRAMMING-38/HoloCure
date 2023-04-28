@@ -6,9 +6,9 @@ public class TriggerUIPresenter
     public event Action OnActivateDefaultUI;
     public event Action OnActivateStatUI;
     public event Action OnActivateLevelUpUI;
-    public event Func<WeaponData[]> OnWeaponDatasGeted;
-    public event Action<WeaponData[]> OnGetWeaponDatasForLevelUp;
-    public event Action<WeaponData[]> OnGetWeaponDatasForBox;
+    public event Func<ItemData[]> OnItemDatasGeted;
+    public event Action<ItemData[]> OnGetItemDatasForLevelUp;
+    public event Action<ItemData[]> OnGetItemDatasForBox;
     public event Action OnActivatePauseUI;
     public event Action OnActivateGetBoxStartUI;
     public event Action OnActivateGetBoxUI;
@@ -39,8 +39,8 @@ public class TriggerUIPresenter
         ActivateDefaultUI();
         ActivateStatUI();
         OnActivateLevelUpUI?.Invoke();
-        WeaponData[] weaponDatas = OnWeaponDatasGeted?.Invoke();
-        OnGetWeaponDatasForLevelUp?.Invoke(weaponDatas);
+        ItemData[] itemDatas = OnItemDatasGeted?.Invoke();
+        OnGetItemDatasForLevelUp?.Invoke(itemDatas);
     }
     public void ActivateGetBoxStartUI()
     {
@@ -55,12 +55,12 @@ public class TriggerUIPresenter
     {
         ActivateStatUI();
         OnActivateGetBoxEndUI?.Invoke();
-        WeaponData[] weaponDatas = OnWeaponDatasGeted?.Invoke();
-        OnGetWeaponDatasForBox?.Invoke(weaponDatas);
+        ItemData[] itemDatas = OnItemDatasGeted?.Invoke();
+        OnGetItemDatasForBox?.Invoke(itemDatas);
     }
-    public void SendSelectedID(int weaponID)
+    public void SendSelectedID(int ID) //
     {
-        OnSendSelectedID?.Invoke(weaponID);
+        OnSendSelectedID?.Invoke(ID);
     }
     public void DeActivateUI()
     {

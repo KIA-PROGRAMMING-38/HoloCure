@@ -1,2 +1,2 @@
 id,Name,DisplayName,DisplaySpriteName,PortraitSpriteName,TitleSpriteName,health,atk,spd,crt,pickup,haste
-10000,NinomaeInanis,NINOMAE INANIS,spr_Ina_idle_0,spr_InaPortrait_0,spr_Title_Ina_0,75,0.9,1.5,1,0,0
+10001,NinomaeInanis,NINOMAE INANIS,spr_Ina_idle_0,spr_InaPortrait_0,spr_Title_Ina_0,75,0.9,1.5,1,0,0

@@ -1,4 +1,5 @@
 ﻿public enum StartingWeaponID
 {
-    SummonTentacle = 8000,
+    None = 6000,
+    SummonTentacle
 }

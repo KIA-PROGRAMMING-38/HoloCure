@@ -1,4 +1,5 @@
 ﻿public enum VTuberID
 {
-    Ninomae_Inanis = 10000,
+    None = 10000,
+    Ninomae_Inanis
 }

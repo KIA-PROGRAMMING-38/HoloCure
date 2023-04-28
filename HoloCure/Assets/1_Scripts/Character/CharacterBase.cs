@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class CharacterBase : MonoBehaviour
 {
-    protected CharacterStat baseStat = new CharacterStat();
+    protected CharacterStat baseStat = new();
     [SerializeField] protected int currentHealth;
     [SerializeField] protected float moveSpeed;
     protected const int DEFAULT_MOVE_SPEED = 80;

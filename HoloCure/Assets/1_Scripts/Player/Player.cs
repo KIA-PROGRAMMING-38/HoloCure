@@ -18,17 +18,17 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _curExp = 0;
-        _maxExp = 10000000;
+        _maxExp = 79;
         _level = 1;
     }
-    public void Initialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable)
+    public void Initialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable, StatDataTable statDataTable)
     {
         _VTuber = VTuber;
 
         GameObject newGameObject = new GameObject(nameof(Inventory));
         newGameObject.transform.parent = transform;
         _inventory = newGameObject.AddComponent<Inventory>();
-        _inventory.Initialize(weaponDataTable, StartingWeaponID.SummonTentacle);
+        _inventory.Initialize(_VTuber, VTuberID, weaponDataTable, statDataTable);
     }
     private void LevelUp()
     {

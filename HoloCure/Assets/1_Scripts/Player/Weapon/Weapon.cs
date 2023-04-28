@@ -119,7 +119,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void BeforeOperateProjectile(Projectile projectile)
     {
-        projectile.SetProjectileStat(_curDamageRate * VTuber.AtkPower,curHitCooltime , _curSize, _curAttackDurationTime, _curProjectileSpeed, VTuber.CriticalRate, _curKnockbackDurationTime, _curKnockbackSpeed);
+        projectile.SetProjectileStat(_curDamageRate * VTuber.AttackPower, curHitCooltime, _curSize, _curAttackDurationTime, _curProjectileSpeed, VTuber.CriticalRate, _curKnockbackDurationTime, _curKnockbackSpeed);
     }
     protected virtual void AfterOperateProjectile(Projectile projectile)
     {

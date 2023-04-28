@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class WeaponDataTable
 {
-    private Dictionary<int, WeaponData> _weaponDataContainer = new Dictionary<int, WeaponData>();
-    private Dictionary<int, WeaponStat> _weaponStatContainer = new Dictionary<int, WeaponStat>();
-    private Dictionary<int, Weapon> _weaponPrefabContainer = new Dictionary<int, Weapon>();
+    private Dictionary<int, WeaponData> _weaponDataContainer = new();
+    private Dictionary<int, WeaponStat> _weaponStatContainer = new();
+    private Dictionary<int, Weapon> _weaponPrefabContainer = new();
 
     public Dictionary<int, WeaponData> WeaponDataContainer => _weaponDataContainer;
     public Dictionary<int, WeaponStat> WeaponStatContainer => _weaponStatContainer;
     public Dictionary<int, Weapon> WeaponPrefabContainer => _weaponPrefabContainer;
-
-    public WeaponDataTable()
+    public void SetDataTable()
     {
         SetCommonWeaponData();
         SetStartingWeaponData();
@@ -26,8 +25,10 @@ public class WeaponDataTable
         for (int i = 1; i < rows.Length; i += 7)
         {
             string[] columns = rows[i].Split('|');
-            WeaponData data = new WeaponData();
-            WeaponStat stat = new WeaponStat();
+            WeaponData data = new();
+            WeaponStat stat = new();
+
+            data.DataKind = 1;
 
             data.ID = int.Parse(columns[0]);
             data.Name = columns[1];
@@ -76,8 +77,10 @@ public class WeaponDataTable
         for (int i = 1; i < rows.Length; i += 7)
         {
             string[] columns = rows[i].Split('|');
-            WeaponData data = new WeaponData();
-            WeaponStat stat = new WeaponStat();
+            WeaponData data = new();
+            WeaponStat stat = new();
+
+            data.DataKind = 1;
 
             data.ID = int.Parse(columns[0]);
             data.Name = columns[1];
@@ -117,4 +120,5 @@ public class WeaponDataTable
             _weaponPrefabContainer.Add(data.ID, prefab);
         }
     }
+
 }
