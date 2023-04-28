@@ -36,7 +36,7 @@ public class PlayerManager : MonoBehaviour
     private void SelectVTuber(VTuberID ID)
     {
         VTuber = _VTuberDataTable.VTuberPrefabContainer[ID];
-        VTuber.IsSelected(ID, _dataTableManager.WeaponDataTable);
+        VTuber.IsSelected(ID, _dataTableManager.WeaponDataTable, _dataTableManager.StatDataTable);
         Player = VTuber.GetComponent<Player>();
 
         _presenterManager.InitPresenter.GetInitData(_VTuberDataTable.VTuberDataContainer[ID]);
@@ -52,8 +52,8 @@ public class PlayerManager : MonoBehaviour
         Player.OnLevelUp -= _presenterManager.TriggerUIPresenter.ActivateLevelUpUI;
         Player.OnLevelUp += _presenterManager.TriggerUIPresenter.ActivateLevelUpUI;
 
-        _presenterManager.TriggerUIPresenter.OnSendSelectedID -= Player.Inventory.EquipWeapon;
-        _presenterManager.TriggerUIPresenter.OnSendSelectedID += Player.Inventory.EquipWeapon;
+        _presenterManager.TriggerUIPresenter.OnSendSelectedID -= Player.Inventory.GetItem;
+        _presenterManager.TriggerUIPresenter.OnSendSelectedID += Player.Inventory.GetItem;
 
         Player.Inventory.OnNewEquipmentEquip -= _presenterManager.InventoryPresenter.UpdateNewEquipment;
         Player.Inventory.OnNewEquipmentEquip += _presenterManager.InventoryPresenter.UpdateNewEquipment;
@@ -64,8 +64,8 @@ public class PlayerManager : MonoBehaviour
         VTuber.OnChangeMaxHp -= _presenterManager.HPPresenter.UpdateMaxHp;
         VTuber.OnChangeMaxHp += _presenterManager.HPPresenter.UpdateMaxHp;
 
-        VTuber.OnGetDamage -= _presenterManager.HPPresenter.UpdateCurHp;
-        VTuber.OnGetDamage += _presenterManager.HPPresenter.UpdateCurHp;
+        VTuber.OnChangeCurHP -= _presenterManager.HPPresenter.UpdateCurHp;
+        VTuber.OnChangeCurHP += _presenterManager.HPPresenter.UpdateCurHp;
 
         VTuber.OnChangeATKRate -= _presenterManager.StatPresenter.UpdateATK;
         VTuber.OnChangeATKRate += _presenterManager.StatPresenter.UpdateATK;

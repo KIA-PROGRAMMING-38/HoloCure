@@ -9,6 +9,7 @@
         public const string WEAPON = "Weapon";
         public const string COMMON_WEAPON = "CommonWeapon";
         public const string STARTING_WEAPON = "StartingWeapon";
+        public const string STAT = "Stat";
         public const string HIT_MATERIAL = "HitMaterial";
         public const string PROJECTILE = "Projectile";
         public const string EXP = "Exp";

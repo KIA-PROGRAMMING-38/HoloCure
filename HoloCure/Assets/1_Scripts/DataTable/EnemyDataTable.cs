@@ -30,8 +30,7 @@ public class EnemyDataTable
     public Dictionary<int, Enemy> EnemyPrefabContainer => _enemyPrefabContainer;
     public Dictionary<int, EnemyRender> EnemyRenderContainer => _enemyRenderContainer;
     #endregion
-
-    public EnemyDataTable()
+    public void SetDataTable()
     {
         SetEnemyData();
         SetMiniBossData();

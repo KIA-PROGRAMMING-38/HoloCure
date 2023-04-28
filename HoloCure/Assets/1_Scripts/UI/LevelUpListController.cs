@@ -6,11 +6,11 @@ using UnityEngine;
 public class LevelUpListController : UIBase
 {
     public event Action OnSelect;
-    public event Action<int> OnSelectWeapon;
+    public event Action<int> OnSelectItem;
 
     [SerializeField] private ItemList[] _lists;
     private int _hoveredListIndex;
-    private WeaponData[] _weaponLists;
+    private ItemData[] _itemLists;
     
     private void Start()
     {
@@ -41,11 +41,11 @@ public class LevelUpListController : UIBase
 
         OnSelect -= PresenterManager.TriggerUIPresenter.DeActivateUI;
         OnSelect += PresenterManager.TriggerUIPresenter.DeActivateUI;
-        OnSelectWeapon -= PresenterManager.TriggerUIPresenter.SendSelectedID;
-        OnSelectWeapon += PresenterManager.TriggerUIPresenter.SendSelectedID;
+        OnSelectItem -= PresenterManager.TriggerUIPresenter.SendSelectedID;
+        OnSelectItem += PresenterManager.TriggerUIPresenter.SendSelectedID;
 
-        PresenterManager.TriggerUIPresenter.OnGetWeaponDatasForLevelUp -= GetWeaponList;
-        PresenterManager.TriggerUIPresenter.OnGetWeaponDatasForLevelUp += GetWeaponList;
+        PresenterManager.TriggerUIPresenter.OnGetItemDatasForLevelUp -= GetItemList;
+        PresenterManager.TriggerUIPresenter.OnGetItemDatasForLevelUp += GetItemList;
     }
     private void StartGetKeyCoroutine() => StartCoroutine(_getKeyCoroutine);
     private IEnumerator _getKeyCoroutine;
@@ -90,7 +90,7 @@ public class LevelUpListController : UIBase
             break;
         }
     }
-    private void TriggerEventByKey() => SelectWeapon(_hoveredListIndex);
+    private void TriggerEventByKey() => SelectItem(_hoveredListIndex);
     private void TriggerEventByClick(ItemList list)
     {
         int index = 0;
@@ -105,22 +105,22 @@ public class LevelUpListController : UIBase
             break;
         }
 
-        SelectWeapon(index);
+        SelectItem(index);
     }
-    private void GetWeaponList(WeaponData[] weaponLists)
+    private void GetItemList(ItemData[] itemLists)
     {
-        _weaponLists = weaponLists;
+        _itemLists = itemLists;
 
         for (int i = 0; i < 4; ++i)
         {
-            _lists[i].GetWeaponData(_weaponLists[i]);
+            _lists[i].GetItemData(_itemLists[i]);
         }
     }
 
-    private void SelectWeapon(int index)
+    private void SelectItem(int index)
     {
         StopCoroutine(_getKeyCoroutine);
-        OnSelectWeapon?.Invoke(_weaponLists[index].ID);
+        OnSelectItem?.Invoke(_itemLists[index].ID);
         OnSelect?.Invoke();
     }    
 }

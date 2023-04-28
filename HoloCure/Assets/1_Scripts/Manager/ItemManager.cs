@@ -6,6 +6,7 @@ public class ItemManager : MonoBehaviour
     private GameManager _gameManager;
     private DataTableManager _dataTableManager;
     private WeaponDataTable _weaponDataTable;
+    private StatDataTable _statDataTable;
     private PresenterManager _presenterManager;
 
     public GameManager GameManager
@@ -16,25 +17,31 @@ public class ItemManager : MonoBehaviour
             _gameManager = value;
             _dataTableManager = _gameManager.DataTableManager;
             _weaponDataTable = _dataTableManager.WeaponDataTable;
+            _statDataTable = _dataTableManager.StatDataTable;
             _presenterManager = _gameManager.PresenterManager;
         }
     }
 
     private void Start()
     {
-        _presenterManager.TriggerUIPresenter.OnWeaponDatasGeted -= GetWeaponDatas;
-        _presenterManager.TriggerUIPresenter.OnWeaponDatasGeted += GetWeaponDatas;
+        _presenterManager.TriggerUIPresenter.OnItemDatasGeted -= GetItemDatas;
+        _presenterManager.TriggerUIPresenter.OnItemDatasGeted += GetItemDatas;
 
         foreach (KeyValuePair<int, WeaponData> item in _weaponDataTable.WeaponDataContainer)
         {
-            _totalWeight += item.Value.Weight;
+            _totalWeaponWeight += item.Value.Weight;
+        }
+        foreach (KeyValuePair<int, Stat> item in _statDataTable.StatContainer)
+        {
+            _totalStatWeight += item.Value.Weight;
         }
     }
-    private int _totalWeight;
-    HashSet<WeaponData> _set = new();
-    private WeaponData[] GetWeaponDatas()
+    private int _totalWeaponWeight;
+    private int _totalStatWeight;
+    HashSet<ItemData> _set = new();
+    private ItemData[] GetItemDatas()
     {
-        WeaponData[] weaponDatas = new WeaponData[4];
+        ItemData[] itemDatas = new ItemData[4];
 
         _set.Clear();
 
@@ -43,27 +50,32 @@ public class ItemManager : MonoBehaviour
             GetWeaponDataFromTable();
         }
 
-        if (_set.Count < 4) // while로 바꿀예정
+        while (_set.Count < 4)
         {
             GetWeaponDataFromInventory();
 
             // 장비템 처리
 
-            // 그래도 카운트 못채우면 스탯 처리
+            GetStatFromTable();
         }
 
-        _set.CopyTo(weaponDatas);
+        _set.CopyTo(itemDatas);
 
-        return weaponDatas;
+        return itemDatas;
     }
     private void GetWeaponDataFromTable()
     {
-        if (Inventory.WeaponCount == 6)
+        if (_set.Count >= 4)
         {
             return;
         }
 
-        int randomNum = Random.Range(0, _totalWeight);
+        if (Inventory.WeaponCount >= 6)
+        {
+            return;
+        }
+
+        int randomNum = Random.Range(0, _totalWeaponWeight);
         int accumulatedWeight = 0;
         foreach (KeyValuePair<int, WeaponData> item in _weaponDataTable.WeaponDataContainer)
         {
@@ -76,7 +88,30 @@ public class ItemManager : MonoBehaviour
 
             if (item.Value.CurrentLevel == 7)
             {
-                break;
+                return;
+            }
+
+            _set.Add(item.Value);
+
+            return;
+        }
+    }
+    private void GetStatFromTable()
+    {
+        if (_set.Count >= 4)
+        {
+            return;
+        }
+
+        int randomNum = Random.Range(0, _totalStatWeight);
+        int accumulatedWeight = 0;
+        foreach (KeyValuePair<int, Stat> item in _statDataTable.StatContainer)
+        {
+            accumulatedWeight += item.Value.Weight;
+
+            if (randomNum >= accumulatedWeight)
+            {
+                continue;
             }
 
             _set.Add(item.Value);
@@ -88,7 +123,7 @@ public class ItemManager : MonoBehaviour
     {
         for (int i = 0; i < Inventory.WeaponCount; ++i)
         {
-            if (Inventory.Weapons[i].WeaponData.CurrentLevel == 7)
+            if (Inventory.Weapons[i].WeaponData.CurrentLevel >= 7)
             {
                 continue;
             }

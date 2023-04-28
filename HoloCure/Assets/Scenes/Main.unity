@@ -6118,7 +6118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 310980341}
   m_Layer: 0
-  m_Name: UI
+  m_Name: InGameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6455,6 +6455,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 753274854996f694484773e2995ab1a5, type: 3}
   _iconFrameSprites:
   - {fileID: 21300000, guid: 0b8e904956eb1c344986611ae7a251bf, type: 3}
+  - {fileID: 21300000, guid: 84fc00f2346727f42a4ce7ce37d783c7, type: 3}
+  - {fileID: 21300000, guid: f7ad79a5d9e2cbd4c8a628d98a0eb6d0, type: 3}
 --- !u!1 &356974865
 GameObject:
   m_ObjectHideFlags: 0
@@ -15663,7 +15665,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854195367}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
@@ -17523,6 +17525,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 753274854996f694484773e2995ab1a5, type: 3}
   _iconFrameSprites:
   - {fileID: 21300000, guid: 0b8e904956eb1c344986611ae7a251bf, type: 3}
+  - {fileID: 21300000, guid: 84fc00f2346727f42a4ce7ce37d783c7, type: 3}
+  - {fileID: 21300000, guid: f7ad79a5d9e2cbd4c8a628d98a0eb6d0, type: 3}
 --- !u!1 &943697143
 GameObject:
   m_ObjectHideFlags: 0
@@ -18688,6 +18692,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 753274854996f694484773e2995ab1a5, type: 3}
   _iconFrameSprites:
   - {fileID: 21300000, guid: 0b8e904956eb1c344986611ae7a251bf, type: 3}
+  - {fileID: 21300000, guid: 84fc00f2346727f42a4ce7ce37d783c7, type: 3}
+  - {fileID: 21300000, guid: f7ad79a5d9e2cbd4c8a628d98a0eb6d0, type: 3}
 --- !u!1 &977168607
 GameObject:
   m_ObjectHideFlags: 0
@@ -22540,6 +22546,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 753274854996f694484773e2995ab1a5, type: 3}
   _iconFrameSprites:
   - {fileID: 21300000, guid: 0b8e904956eb1c344986611ae7a251bf, type: 3}
+  - {fileID: 21300000, guid: 84fc00f2346727f42a4ce7ce37d783c7, type: 3}
+  - {fileID: 21300000, guid: f7ad79a5d9e2cbd4c8a628d98a0eb6d0, type: 3}
 --- !u!1 &1221936833
 GameObject:
   m_ObjectHideFlags: 0
@@ -23895,6 +23903,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 753274854996f694484773e2995ab1a5, type: 3}
   _iconFrameSprites:
   - {fileID: 21300000, guid: 0b8e904956eb1c344986611ae7a251bf, type: 3}
+  - {fileID: 21300000, guid: 84fc00f2346727f42a4ce7ce37d783c7, type: 3}
+  - {fileID: 21300000, guid: f7ad79a5d9e2cbd4c8a628d98a0eb6d0, type: 3}
 --- !u!1 &1329461871
 GameObject:
   m_ObjectHideFlags: 0
