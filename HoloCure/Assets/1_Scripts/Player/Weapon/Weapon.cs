@@ -198,6 +198,18 @@ public abstract class Weapon : MonoBehaviour
         SetRadius();
     }
     private float _curAttackSequenceTime;
+    private int _haste;
+    public void GetHaste(int haste)
+    {
+        _haste = haste;
+
+        _curAttackSequenceTime = Mathf.Round(weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel] / (1 + _haste / 100f));
+
+        if (_curAttackSequenceTime < weaponStat.MinAttackSequenceTime[WeaponData.CurrentLevel])
+        {
+            _curAttackSequenceTime = weaponStat.MinAttackSequenceTime[WeaponData.CurrentLevel];
+        }
+    }
     private void SetAttackSequenceTime()
     {
         if (weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel] == weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel - 1])
@@ -205,7 +217,11 @@ public abstract class Weapon : MonoBehaviour
             return;
         }
 
-        _curAttackSequenceTime = weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel];
+        _curAttackSequenceTime = Mathf.Round(weaponStat.BaseAttackSequenceTime[WeaponData.CurrentLevel] / (1 + _haste / 100f));
+        if (_curAttackSequenceTime < weaponStat.MinAttackSequenceTime[WeaponData.CurrentLevel])
+        {
+            _curAttackSequenceTime = weaponStat.MinAttackSequenceTime[WeaponData.CurrentLevel];
+        }
     }
 
     protected int curProjectileCount;

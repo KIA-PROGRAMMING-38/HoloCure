@@ -86,6 +86,9 @@ public class Inventory : MonoBehaviour
             weaponIDs.Add(ID);
             WeaponCount += 1;
 
+            _VTuber.OnChangeHasteRate -= weapon.GetHaste;
+            _VTuber.OnChangeHasteRate += weapon.GetHaste;
+
             OnNewEquipmentEquip?.Invoke(ID, weapon.WeaponData.Icon);
         }
         else
