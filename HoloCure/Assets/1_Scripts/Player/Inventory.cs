@@ -27,25 +27,29 @@ public class Inventory : MonoBehaviour
     }
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            GetItem((int)StatID.MaxHPUp);
+        }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            GetItem((int)CommonWeaponID.PsychoAxe);
+            GetItem((int)StatID.ATKUp);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            GetItem((int)CommonWeaponID.BLBook);
+            GetItem((int)StatID.SPDUp);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            GetItem((int)CommonWeaponID.HoloBomb);
+            GetItem((int)StatID.CRTUp);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            GetItem((int)CommonWeaponID.FanBeam);
+            GetItem((int)StatID.PickUpRangeUp);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            GetItem((int)CommonWeaponID.SpiderCooking);
+            GetItem((int)StatID.HasteUp);
         }
     }
     public void Initialize(VTuber VTuber,VTuberID VTuberID, WeaponDataTable weaponDataTable, StatDataTable statDataTable)
@@ -88,6 +92,7 @@ public class Inventory : MonoBehaviour
 
             _VTuber.OnChangeHasteRate -= weapon.GetHaste;
             _VTuber.OnChangeHasteRate += weapon.GetHaste;
+            weapon.GetHaste(_VTuber.HasteRate);
 
             OnNewEquipmentEquip?.Invoke(ID, weapon.WeaponData.Icon);
         }
