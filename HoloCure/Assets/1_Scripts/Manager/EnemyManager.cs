@@ -170,6 +170,9 @@ public class EnemyManager : MonoBehaviour
         miniBossInstance.OnDieForSpawnEXP -= GameManager.ObjectManager.SpawnEXP;
         miniBossInstance.OnDieForSpawnEXP += GameManager.ObjectManager.SpawnEXP;
 
+        miniBossInstance.OnDieForSpawnBox -= GameManager.ObjectManager.SpawnBox;
+        miniBossInstance.OnDieForSpawnBox += GameManager.ObjectManager.SpawnBox;
+
         miniBossInstance.OnDieForUpdateCount -= GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
         miniBossInstance.OnDieForUpdateCount += GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
 
@@ -217,6 +220,9 @@ public class EnemyManager : MonoBehaviour
 
         bossInstance.OnDieForSpawnEXP -= GameManager.ObjectManager.SpawnEXP;
         bossInstance.OnDieForSpawnEXP += GameManager.ObjectManager.SpawnEXP;
+
+        bossInstance.OnDieForSpawnBox -= GameManager.ObjectManager.SpawnBox;
+        bossInstance.OnDieForSpawnBox += GameManager.ObjectManager.SpawnBox;
 
         bossInstance.OnDieForUpdateCount -= GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
         bossInstance.OnDieForUpdateCount += GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;

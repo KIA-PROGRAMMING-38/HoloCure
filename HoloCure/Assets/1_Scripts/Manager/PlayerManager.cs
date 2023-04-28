@@ -44,6 +44,9 @@ public class PlayerManager : MonoBehaviour
         Player.OnGetExp -= _presenterManager.ExpPresenter.UpdateExpGauge;
         Player.OnGetExp += _presenterManager.ExpPresenter.UpdateExpGauge;
 
+        Player.OnGetBox -= _presenterManager.TriggerUIPresenter.ActivateGetBoxStartUI;
+        Player.OnGetBox += _presenterManager.TriggerUIPresenter.ActivateGetBoxStartUI;
+
         Player.OnLevelUp -= _presenterManager.CountPresenter.UpdatePlayerLevelCount;
         Player.OnLevelUp += _presenterManager.CountPresenter.UpdatePlayerLevelCount;
         Player.OnLevelUp -= _presenterManager.TriggerUIPresenter.ActivateLevelUpUI;

@@ -5,8 +5,7 @@ using static UnityEditorInternal.ReorderableList;
 public class SmollAme : Boss
 {
     private SmollAmeAnimation _animation;
-    private BoxCollider2D _defaultBodyCollider;
-    private BoxCollider2D _attackBodyCollider;
+    private BoxCollider2D _bodyCollider;
     private CapsuleCollider2D _attackCollider;
 
     [SerializeField] private GameObject[] Shadows;
@@ -14,16 +13,22 @@ public class SmollAme : Boss
     private readonly Vector3 START_SHADOW_SCALE = new(26, 15.6f, 1);
     private readonly Vector3 END_SHADOW_SCALE = new(130, 78, 1);
 
-    [SerializeField] private GameObject _attackPointer;
+    [SerializeField] private GameObject _attackEffect;
 
+    private Vector2 _defaultOffset;
+    private Vector2 _defaultSize;
+    private readonly Vector2 ATTACK_OFFSET = new(0, 33);
+    private readonly Vector2 ATTACK_SIZE = new(45, 65);
     protected override void Awake()
     {
         base.Awake();
 
         _animation = body.GetComponent<SmollAmeAnimation>();
-        _defaultBodyCollider = GetComponent<BoxCollider2D>();
-        _attackBodyCollider = _attackPointer.GetComponent<BoxCollider2D>();
-        _attackCollider = _attackPointer.GetComponent<CapsuleCollider2D>();
+        _bodyCollider = GetComponent<BoxCollider2D>();
+        _attackCollider = GetComponent<CapsuleCollider2D>();
+
+        _defaultOffset = _bodyCollider.offset;
+        _defaultSize = _bodyCollider.size;
     }
     protected override void Start()
     {
@@ -52,17 +57,17 @@ public class SmollAme : Boss
 
         _animation.OnAttackEnd -= DeActivateAttackCollider;
         _animation.OnAttackEnd += DeActivateAttackCollider;
-        _animation.OnAttackEnd -= ActivateAttackBodyCollider;
-        _animation.OnAttackEnd += ActivateAttackBodyCollider;
+        _animation.OnAttackEnd -= SetBodyColliderAttack;
+        _animation.OnAttackEnd += SetBodyColliderAttack;
+        _animation.OnAttackEnd -= ActivateBodyCollider;
+        _animation.OnAttackEnd += ActivateBodyCollider;
 
-        _animation.OnAttackRelease -= DeActivateAttackBodyCollider;
-        _animation.OnAttackRelease += DeActivateAttackBodyCollider;
+        _animation.OnAttackRelease -= SetBodyColliderDefault;
+        _animation.OnAttackRelease += SetBodyColliderDefault;
         _animation.OnAttackRelease -= DeActivateAttackEffect;
         _animation.OnAttackRelease += DeActivateAttackEffect;
         _animation.OnAttackRelease -= SetMoveSpeedBack;
         _animation.OnAttackRelease += SetMoveSpeedBack;
-        _animation.OnAttackRelease -= ActivateBodyCollider;
-        _animation.OnAttackRelease += ActivateBodyCollider;
 
         _jumpCoroutine = JumpCoroutine();
         _chaseCoroutine = ChaseCoroutine();
@@ -83,14 +88,22 @@ public class SmollAme : Boss
         Shadows[(int)ShadowID.Jump].SetActive(false);
     }
 
-    private void ActivateBodyCollider() => _defaultBodyCollider.enabled = true;
-    private void DeActivateBodyCollider() => _defaultBodyCollider.enabled = false;
+    private void SetBodyColliderAttack()
+    {
+        _bodyCollider.offset = ATTACK_OFFSET;
+        _bodyCollider.size = ATTACK_SIZE;
+    }
+    private void SetBodyColliderDefault()
+    {
+        _bodyCollider.offset = _defaultOffset;
+        _bodyCollider.size = _defaultSize;
+    }
+    private void ActivateBodyCollider() => _bodyCollider.enabled = true;
+    private void DeActivateBodyCollider() => _bodyCollider.enabled = false;
     private void ActivateAttackCollider() => _attackCollider.enabled = true;
     private void DeActivateAttackCollider() => _attackCollider.enabled = false;
-    private void ActivateAttackBodyCollider() => _attackBodyCollider.enabled = true;
-    private void DeActivateAttackBodyCollider() => _attackBodyCollider.enabled = false;
-    private void ActivateAttackEffect() => _attackPointer.SetActive(true);
-    private void DeActivateAttackEffect() => _attackPointer.SetActive(false);
+    private void ActivateAttackEffect() => _attackEffect.SetActive(true);
+    private void DeActivateAttackEffect() => _attackEffect.SetActive(false);
 
     private float _moveTime;
     private void Jump() => StartCoroutine(_jumpCoroutine);
@@ -101,10 +114,10 @@ public class SmollAme : Boss
         {
             _moveTime = 0;
 
-            while (_moveTime < 1)
+            while (_moveTime < 0.5f)
             {
                 _moveTime += Time.deltaTime;
-                Shadows[(int)ShadowID.Jump].transform.localScale = Vector3.Lerp(START_SHADOW_SCALE, END_SHADOW_SCALE, _moveTime);
+                Shadows[(int)ShadowID.Jump].transform.localScale = Vector3.Lerp(START_SHADOW_SCALE, END_SHADOW_SCALE, _moveTime / 0.5f);
 
                 yield return null;
             }
@@ -126,10 +139,10 @@ public class SmollAme : Boss
             _moveTime = 0;
             _startPoint = transform.position;
 
-            while (_moveTime < 1)
+            while (_moveTime < 0.5f)
             {
                 _moveTime += Time.deltaTime;
-                transform.position = Vector2.Lerp(_startPoint, Util.Caching.CenterWorldPos, _moveTime);
+                transform.position = Vector2.Lerp(_startPoint, Util.Caching.CenterWorldPos, _moveTime / 0.5f);
 
                 yield return null;
             }

@@ -102,8 +102,8 @@ public class PauseButtonController : UIBase
             _buttons[i].OnClickForController += TriggerEventByClick;
         }
 
-        OnResumeSelected -= PresenterManager.TriggerUIPresenter.DeActivatePauseUI;
-        OnResumeSelected += PresenterManager.TriggerUIPresenter.DeActivatePauseUI;
+        OnResumeSelected -= PresenterManager.TriggerUIPresenter.DeActivateUI;
+        OnResumeSelected += PresenterManager.TriggerUIPresenter.DeActivateUI;
     }
     private bool _isMainPauseUIOn;
     private void SetBoolIsMainPauseUIOnTrue() => _isMainPauseUIOn = true;
@@ -124,7 +124,7 @@ public class PauseButtonController : UIBase
                 }
                 else if (Input.GetButtonDown(InputLiteral.VERTICAL))
                 {
-                    bool upKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1 ? true : false;
+                    bool upKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
 
                     if (upKey && _hoveredButtonIndex != (int)PauseButtonID.Skill)
                     {

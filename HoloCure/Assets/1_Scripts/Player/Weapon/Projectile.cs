@@ -144,7 +144,7 @@ public class Projectile : MonoBehaviour
     /// </summary>
     private void SetDamage(Enemy enemy)
     {
-        int damage = (int)_damage + UnityEngine.Random.Range(-2, 3);
+        int damage = 10000* (int)_damage + UnityEngine.Random.Range(-2, 3);
 
         if (UnityEngine.Random.Range(0, 2) < _criticalRate) // 임시 크리티컬 확률 절반
         {

@@ -32,5 +32,6 @@ namespace Util
 
             return Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         }
+        public static void SetCameraRotationDefault() => _mainCamera.transform.rotation = default;
     }
 }

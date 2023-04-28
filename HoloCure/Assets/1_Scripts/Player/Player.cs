@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     public event Action OnLevelUp;
     public event Action<float> OnGetExp;
+    public event Action OnGetBox;
 
     private VTuber _VTuber;
 
@@ -17,7 +18,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _curExp = 0;
-        _maxExp = 79;
+        _maxExp = 10000000;
         _level = 1;
     }
     public void Initialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable)
@@ -48,5 +49,9 @@ public class Player : MonoBehaviour
         {
             LevelUp();
         }
+    }
+    public void GetBox()
+    {
+        OnGetBox?.Invoke();
     }
 }

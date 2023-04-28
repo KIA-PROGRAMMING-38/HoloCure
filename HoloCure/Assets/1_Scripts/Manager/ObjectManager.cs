@@ -11,11 +11,14 @@ public class ObjectManager : MonoBehaviour
     }
 
     private ExpPool _expPool;
+    private BoxPool _boxPool;
 
     private void Start()
     {
         _expPool = new ExpPool();
         _expPool.Initialize();
+        _boxPool = new BoxPool();
+        _boxPool.Initialize();
     }
 
     public void SpawnEXP(Vector2 pos, int expAmount)
@@ -26,5 +29,9 @@ public class ObjectManager : MonoBehaviour
             expAmount -= 200;
         }
         _expPool.GetExpFromPool(pos, expAmount);
+    }
+    public void SpawnBox(Vector2 pos)
+    {
+        _boxPool.GetBoxFromPool().transform.position = pos;
     }
 }
