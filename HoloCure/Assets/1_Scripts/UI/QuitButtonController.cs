@@ -4,8 +4,8 @@ using System.Collections;
 using UnityEngine;
 public enum QuitButtonID
 {
-    Yes,
-    No
+    Yes = 0,
+    No = 1
 }
 public class QuitButtonController : MonoBehaviour
 {
@@ -53,7 +53,7 @@ public class QuitButtonController : MonoBehaviour
             }
             else if (Input.GetButtonDown(InputLiteral.VERTICAL))
             {
-                bool upKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1 ? true : false;
+                bool upKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
 
                 if (upKey && _hoveredButtonIndex != (int)QuitButtonID.Yes)
                 {

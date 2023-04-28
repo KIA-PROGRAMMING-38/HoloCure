@@ -68,8 +68,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -88,6 +88,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+  moveSpeed: 0
+  _moveVec: {x: 0, y: 0}
   _damageTextController: {fileID: 9101788789431489761}
 --- !u!114 &3266031367701487885
 MonoBehaviour:

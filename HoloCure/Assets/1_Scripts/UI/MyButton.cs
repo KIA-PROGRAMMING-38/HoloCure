@@ -6,6 +6,7 @@ public class MyButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
 {
     public event Action OnHoverForOtherButton;
     public event Action<MyButton> OnHoverForController;
+    public event Action OnClick;
     public event Action<MyButton> OnClickForController;
     [SerializeField] private GameObject _defaultFrame;
     [SerializeField] private GameObject _hoveredFrame;
@@ -23,6 +24,7 @@ public class MyButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     public void DeActivateHoveredFrame() => _hoveredFrame.SetActive(false);
     public void OnPointerClick(PointerEventData eventData)
     {
+        OnClick?.Invoke();
         OnClickForController?.Invoke(this);
     }
 }

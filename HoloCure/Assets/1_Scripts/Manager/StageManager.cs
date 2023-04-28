@@ -9,7 +9,7 @@ public class StageManager : MonoBehaviour
 
     public float CurrentStageTime;
     private int _elapsedSecond;
-    private bool _isOnLevelUp;
+    private bool _isOnSelect;
     private bool _isOnPause;
     private void Start()
     {
@@ -23,12 +23,13 @@ public class StageManager : MonoBehaviour
 
         GameManager.PresenterManager.TriggerUIPresenter.OnResume -= SetBoolOnPauseFalse;
         GameManager.PresenterManager.TriggerUIPresenter.OnResume += SetBoolOnPauseFalse;
+        GameManager.PresenterManager.TriggerUIPresenter.OnResume -= SetBoolOnSelectFalse;
+        GameManager.PresenterManager.TriggerUIPresenter.OnResume += SetBoolOnSelectFalse;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= SetBoolOnLevelUpTrue;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += SetBoolOnLevelUpTrue;
-
-        GameManager.PresenterManager.TriggerUIPresenter.OnSelectedForManager -= SetBoolOnLevelUpFalse;
-        GameManager.PresenterManager.TriggerUIPresenter.OnSelectedForManager += SetBoolOnLevelUpFalse;
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= SetBoolOnSelectTrue;
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += SetBoolOnSelectTrue;
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI -= SetBoolOnSelectTrue;
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI += SetBoolOnSelectTrue;
     }
 
     private bool _isSelected; // 테스트용 코드
@@ -52,7 +53,7 @@ public class StageManager : MonoBehaviour
                 OnOneSecondPassed?.Invoke();
             }
 
-            if (false == _isOnLevelUp && false == _isOnPause && Input.GetKeyDown(KeyCode.Escape))
+            if (false == _isOnSelect && false == _isOnPause && Input.GetKeyDown(KeyCode.Escape))
             {
                 OnPause?.Invoke();
             }
@@ -60,6 +61,6 @@ public class StageManager : MonoBehaviour
     }
     private void SetBoolOnPauseTrue() => _isOnPause = true;
     private void SetBoolOnPauseFalse() => _isOnPause = false;
-    private void SetBoolOnLevelUpTrue() => _isOnLevelUp = true;
-    private void SetBoolOnLevelUpFalse() => _isOnLevelUp = false;
+    private void SetBoolOnSelectTrue() => _isOnSelect = true;
+    private void SetBoolOnSelectFalse() => _isOnSelect = false;
 }

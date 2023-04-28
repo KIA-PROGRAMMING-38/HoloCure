@@ -8,7 +8,7 @@ public class LevelUpListController : UIBase
     public event Action OnSelect;
     public event Action<int> OnSelectWeapon;
 
-    [SerializeField] private LevelUpList[] _lists;
+    [SerializeField] private ItemList[] _lists;
     private int _hoveredListIndex;
     private WeaponData[] _weaponLists;
     
@@ -18,9 +18,6 @@ public class LevelUpListController : UIBase
 
         PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= StartGetKeyCoroutine;
         PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += StartGetKeyCoroutine;
-
-        PresenterManager.TriggerUIPresenter.OnResume -= StopGetKeyCoroutine;
-        PresenterManager.TriggerUIPresenter.OnResume += StopGetKeyCoroutine;
 
         for (int i = 0; i < _lists.Length; ++i)
         {
@@ -42,16 +39,15 @@ public class LevelUpListController : UIBase
             _lists[i].OnClickForController += TriggerEventByClick;
         }
 
-        OnSelect -= PresenterManager.TriggerUIPresenter.DeActivateLevelUpUI;
-        OnSelect += PresenterManager.TriggerUIPresenter.DeActivateLevelUpUI;
+        OnSelect -= PresenterManager.TriggerUIPresenter.DeActivateUI;
+        OnSelect += PresenterManager.TriggerUIPresenter.DeActivateUI;
         OnSelectWeapon -= PresenterManager.TriggerUIPresenter.SendSelectedID;
         OnSelectWeapon += PresenterManager.TriggerUIPresenter.SendSelectedID;
 
-        PresenterManager.TriggerUIPresenter.OnGetWeaponDatas -= GetWeaponList;
-        PresenterManager.TriggerUIPresenter.OnGetWeaponDatas += GetWeaponList;
+        PresenterManager.TriggerUIPresenter.OnGetWeaponDatasForLevelUp -= GetWeaponList;
+        PresenterManager.TriggerUIPresenter.OnGetWeaponDatasForLevelUp += GetWeaponList;
     }
     private void StartGetKeyCoroutine() => StartCoroutine(_getKeyCoroutine);
-    private void StopGetKeyCoroutine() => StopCoroutine(_getKeyCoroutine);
     private IEnumerator _getKeyCoroutine;
     private IEnumerator GetKeyCoroutine()
     {
@@ -64,7 +60,7 @@ public class LevelUpListController : UIBase
             }
             else if (Input.GetButtonDown(InputLiteral.VERTICAL))
             {
-                bool upKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1 ? true : false;
+                bool upKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
 
                 if (upKey && _hoveredListIndex != 0)
                 {
@@ -81,7 +77,7 @@ public class LevelUpListController : UIBase
             yield return null;
         }
     }
-    private void GetHoveredList(LevelUpList list)
+    private void GetHoveredList(ItemList list)
     {
         for (int i = 0; i < _lists.Length; ++i)
         {
@@ -95,7 +91,7 @@ public class LevelUpListController : UIBase
         }
     }
     private void TriggerEventByKey() => SelectWeapon(_hoveredListIndex);
-    private void TriggerEventByClick(LevelUpList list)
+    private void TriggerEventByClick(ItemList list)
     {
         int index = 0;
         for (int i = 0; i < _lists.Length; ++i)
@@ -123,6 +119,7 @@ public class LevelUpListController : UIBase
 
     private void SelectWeapon(int index)
     {
+        StopCoroutine(_getKeyCoroutine);
         OnSelectWeapon?.Invoke(_weaponLists[index].ID);
         OnSelect?.Invoke();
     }    

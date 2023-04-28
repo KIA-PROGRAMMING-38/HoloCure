@@ -1,7 +1,16 @@
-﻿using Util.Pool;
+﻿using System;
+using UnityEngine;
+using Util.Pool;
 
 public class Boss : Enemy
 {
+    public event Action<Vector2> OnDieForSpawnBox;
+    protected override void Die()
+    {
+        base.Die();
+
+        OnDieForSpawnBox?.Invoke(transform.position);
+    }
     protected override void SetLayerOnSpawn() => gameObject.layer = LayerNum.MY_BOSS;
     protected override void SetLayerOnDie() => gameObject.layer = LayerNum.DEAD_MY_BOSS;
     protected override void ReleaseToPool() => _pool.Release(this);

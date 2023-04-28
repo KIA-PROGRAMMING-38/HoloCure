@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     /// 인벤토리에 장착된 무기들입니다.
     /// </summary>
     public static Weapon[] Weapons;
-    private HashSet<int> weaponIDs = new HashSet<int>();
+    private HashSet<int> weaponIDs = new();
     private WeaponDataTable _weaponDataTable;
     private StartingWeaponID _startingWeaponID;
     /// <summary>

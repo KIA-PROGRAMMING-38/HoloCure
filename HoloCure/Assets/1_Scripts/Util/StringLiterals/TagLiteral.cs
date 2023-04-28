@@ -11,5 +11,6 @@
         public const string FILP_SENSOR = "FilpSensor";
         public const string MOUSE_CURSOR = "MouseCursor";
         public const string ENEMY_BODY = "EnemyBody";
+        public const string SCREEN_SENSOR = "ScreenSensor";
     }
 }

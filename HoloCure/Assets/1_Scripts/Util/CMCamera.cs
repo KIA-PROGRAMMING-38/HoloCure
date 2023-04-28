@@ -28,7 +28,7 @@ namespace Util
         /// <summary>
         /// 카메라를 흔듭니다.
         /// </summary>
-        public static void Shake(float duration = 1, float intensity = 10)
+        public static void Shake(float duration = 0.5f, float intensity = 40)
         {
             _duration = duration;
             _intensity = intensity;
@@ -46,7 +46,7 @@ namespace Util
                 _cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0;
 
                 StopCoroutine(_shakeCoroutine);
-
+                
                 yield return null;
             }
         }

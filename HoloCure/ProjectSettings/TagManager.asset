@@ -16,6 +16,7 @@ TagManager:
   - FilpSensor
   - MouseCursor
   - EnemyBody
+  - ScreenSensor
   layers:
   - Default
   - TransparentFX
@@ -39,8 +40,8 @@ TagManager:
   - MyBoss
   - MyBossBody
   - DeadMyBoss
-  - 
-  - 
+  - Box
+  - ScreenSensor
   - 
   - 
   - 
