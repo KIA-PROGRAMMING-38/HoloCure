@@ -7,6 +7,11 @@ public class Player : MonoBehaviour
     public event Action<float> OnGetExp;
     public event Action OnGetBox;
 
+    public void InitializeEvent()
+    {
+        OnGetExp?.Invoke(0);
+    }
+
     private VTuber _VTuber;
 
     public Inventory Inventory => _inventory;
@@ -29,6 +34,10 @@ public class Player : MonoBehaviour
         newGameObject.transform.parent = transform;
         _inventory = newGameObject.AddComponent<Inventory>();
         _inventory.Initialize(_VTuber, VTuberID, weaponDataTable, statDataTable);
+
+        _curExp = 0;
+        _maxExp = 79;
+        _level = 1;
     }
     private void LevelUp()
     {

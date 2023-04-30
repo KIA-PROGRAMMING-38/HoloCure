@@ -72,6 +72,14 @@ public class Exp : MonoBehaviour
             OnTriggerWithExp?.Invoke(transform.position, TriggerWithEXP(exp.GetExpAmount()));
         }
     }
+    private void OnDisable()
+    {
+        if (false == transform.parent.gameObject.activeSelf && false == _isReleased)
+        {
+            _isReleased = true;
+            _pool.Release(this);
+        }
+    }
     /// <summary>
     /// 플레이어를 향해 움직이는 코루틴을 실행시킵니다. 오브젝터 센서에 감지되면 호출됩니다.
     /// </summary>

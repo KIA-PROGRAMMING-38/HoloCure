@@ -153,6 +153,8 @@ public class Enemy : CharacterBase
         body.position = transform.position;
 
         SetLayerOnSpawn();
+
+        _isReleased = false;
     }
     protected virtual void SetLayerOnSpawn() => gameObject.layer = LayerNum.ENEMY;
     protected virtual void SetLayerOnDie() => gameObject.layer = LayerNum.DEAD_ENEMY;
@@ -203,6 +205,8 @@ public class Enemy : CharacterBase
 
             _elapsedTime = 0f;
 
+            _isReleased = true;
+
             ReleaseToPool();
 
             yield return null;
@@ -216,6 +220,15 @@ public class Enemy : CharacterBase
     /// </summary>
     public void SetPoolRef(ObjectPool<Enemy> pool) => _pool = pool;
     protected virtual void ReleaseToPool() => _pool.Release(this);
+    private bool _isReleased;
+    private void OnDisable()
+    {
+        if (false == transform.parent.gameObject.activeSelf && false == _isReleased)
+        {
+            _isReleased = true;
+            _pool.Release(this);
+        }
+    }
 
     /// <summary>
     /// 플레이어를 바라보는 방향으로 플립합니다.

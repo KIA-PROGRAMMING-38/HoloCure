@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using UI.Presenter;
+using UnityEngine;
 
 public class PresenterManager : MonoBehaviour
 {
+    public TitleUIPresenter TitleUIPresenter { get; private set; }
     public TriggerUIPresenter TriggerUIPresenter { get; private set; }
     public ExpPresenter ExpPresenter {get; private set;}
     public CountPresenter CountPresenter { get; private set;}
@@ -15,6 +17,7 @@ public class PresenterManager : MonoBehaviour
     {
         UIBase.PresenterManager = this;
 
+        TitleUIPresenter = new();
         TriggerUIPresenter = new();
         ExpPresenter = new();
         CountPresenter = new();

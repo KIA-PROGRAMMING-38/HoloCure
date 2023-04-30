@@ -15,7 +15,7 @@ public class VTuberAnimation : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _midX = Screen.width / 2;
     }
-    private void Start() => _input = transform.root.GetComponent<PlayerInput>();
+    private void OnEnable() => _input = transform.root.GetComponent<PlayerInput>();
     private void LateUpdate()
     {
         _animator.SetBool(AnimParameterHash.IS_RUNNING, Time.timeScale != 0 && _input.MoveVec.magnitude > 0);

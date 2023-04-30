@@ -1,26 +1,29 @@
 ﻿using System;
 
-public class HPPresenter
+namespace UI.Presenter
 {
-    public Action<float> OnUpdateHPGauge;
-    public Action<int> OnUpdateMaxHP;
-    public Action<int> OnUpdateCurHP;
-
-    private int _maxHP;
-
-    public void UpdateCurHp(int curHP)
+    public class HPPresenter
     {
-        UnityEngine.Debug.Assert(_maxHP != 0);
+        public Action<float> OnUpdateHPGauge;
+        public Action<int> OnUpdateMaxHP;
+        public Action<int> OnUpdateCurHP;
 
-        OnUpdateCurHP?.Invoke(curHP);
+        private int _maxHP;
 
-        OnUpdateHPGauge?.Invoke((float)curHP / _maxHP);
-    }
+        public void UpdateCurHp(int curHP)
+        {
+            UnityEngine.Debug.Assert(_maxHP != 0);
 
-    public void UpdateMaxHp(int value)
-    {
-        _maxHP = value;
+            OnUpdateCurHP?.Invoke(curHP);
 
-        OnUpdateMaxHP?.Invoke(_maxHP);
+            OnUpdateHPGauge?.Invoke((float)curHP / _maxHP);
+        }
+
+        public void UpdateMaxHp(int value)
+        {
+            _maxHP = value;
+
+            OnUpdateMaxHP?.Invoke(_maxHP);
+        }
     }
 }

@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class ArrowRotation : MonoBehaviour
 {
-    private void Start()
+    private void OnEnable()
     {
         _lookAtMouseCursorCoroutine = LookAtMouseCursorCoroutine();
-        StartCoroutine( _lookAtMouseCursorCoroutine );
+        StartCoroutine(_lookAtMouseCursorCoroutine);
+    }
+    private void OnDisable()
+    {
+        StopCoroutine(_lookAtMouseCursorCoroutine);
     }
     private IEnumerator _lookAtMouseCursorCoroutine;
     private IEnumerator LookAtMouseCursorCoroutine()

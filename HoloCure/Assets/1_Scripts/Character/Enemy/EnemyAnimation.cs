@@ -13,7 +13,7 @@ public class EnemyAnimation : MonoBehaviour
 
     private void Awake()
     {
-        _enemy = transform.root.GetComponent<Enemy>();
+        _enemy = transform.parent.GetComponent<Enemy>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _shadowRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
@@ -36,7 +36,7 @@ public class EnemyAnimation : MonoBehaviour
     /// 적의 플립 여부를 반환합니다.
     /// </summary>
     public bool IsFilp() => _spriteRenderer.flipX;
-    private void SetFlipX() => _spriteRenderer.flipX = Util.Caching.CenterWorldPos.x < transform.root.position.x;
+    private void SetFlipX() => _spriteRenderer.flipX = Util.Caching.CenterWorldPos.x < transform.parent.position.x;
 
     private Color _spawnColor = new Color(1, 1, 1, 1);
     private void SetSpawn()

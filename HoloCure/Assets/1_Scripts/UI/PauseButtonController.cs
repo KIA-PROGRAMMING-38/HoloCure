@@ -44,12 +44,12 @@ public class PauseButtonController : UIBase
         OnQuitSelected += _quitController.StartGetKeyCoroutine;
 
         _onSelectedEvents = new Action[6];
-        _onSelectedEvents[0] = OnSkillSelected;
-        _onSelectedEvents[1] = OnStampSelected;
-        _onSelectedEvents[2] = OnCollabSelected;
-        _onSelectedEvents[3] = OnResumeSelected;
-        _onSelectedEvents[4] = OnSettingSelected;
-        _onSelectedEvents[5] = OnQuitSelected;
+        _onSelectedEvents[(int)PauseButtonID.Skill] = OnSkillSelected;
+        _onSelectedEvents[(int)PauseButtonID.Stamp] = OnStampSelected;
+        _onSelectedEvents[(int)PauseButtonID.Collab] = OnCollabSelected;
+        _onSelectedEvents[(int)PauseButtonID.Resume] = OnResumeSelected;
+        _onSelectedEvents[(int)PauseButtonID.Setting] = OnSettingSelected;
+        _onSelectedEvents[(int)PauseButtonID.Quit] = OnQuitSelected;
 
 
         OnQuitCanceled -= _quitController.StopGetKeyCoroutine;
@@ -58,12 +58,12 @@ public class PauseButtonController : UIBase
         OnQuitCanceled += StartGetKeyCoroutine;
 
         _onCanceledEvents = new Action[6];
-        _onCanceledEvents[0] = OnSkillCanceled;
-        _onCanceledEvents[1] = OnStampCanceled;
-        _onCanceledEvents[2] = OnCollabCanceled;
-        _onCanceledEvents[3] = null;
-        _onCanceledEvents[4] = OnSettingCanceled;
-        _onCanceledEvents[5] = OnQuitCanceled;
+        _onCanceledEvents[(int)PauseButtonID.Skill] = OnSkillCanceled;
+        _onCanceledEvents[(int)PauseButtonID.Stamp] = OnStampCanceled;
+        _onCanceledEvents[(int)PauseButtonID.Collab] = OnCollabCanceled;
+        _onCanceledEvents[(int)PauseButtonID.Resume] = null;
+        _onCanceledEvents[(int)PauseButtonID.Setting] = OnSettingCanceled;
+        _onCanceledEvents[(int)PauseButtonID.Quit] = OnQuitCanceled;
 
         _quitController.OnSelectNo -= ButtonCancel;
         _quitController.OnSelectNo += ButtonCancel;
@@ -108,13 +108,24 @@ public class PauseButtonController : UIBase
     private bool _isMainPauseUIOn;
     private void SetBoolIsMainPauseUIOnTrue() => _isMainPauseUIOn = true;
     private void SetBoolIsMainPauseUIOnFalse() => _isMainPauseUIOn = false;
-    private void StartGetKeyCoroutine() => StartCoroutine(_getKeyCoroutine);
+    public void StartGetKeyCoroutine()
+    {
+        _delayTime = 0;
+        StartCoroutine(_getKeyCoroutine);
+    }
     private void StopGetKeyCoroutine() => StopCoroutine(_getKeyCoroutine);
+    private float _delayTime;
     private IEnumerator _getKeyCoroutine;
     private IEnumerator GetKeyCoroutine()
     {
         while (true)
         {
+            while (_delayTime < 0.3f)
+            {
+                _delayTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
             if (_isMainPauseUIOn)
             {
                 if (Input.GetButtonDown(InputLiteral.CONFIRM))
@@ -129,12 +140,12 @@ public class PauseButtonController : UIBase
                     if (upKey && _hoveredButtonIndex != (int)PauseButtonID.Skill)
                     {
                         _hoveredButtonIndex -= 1;
-                        _buttons[_hoveredButtonIndex].HoveredByKey();
+                        _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
                     }
                     else if (false == upKey && _hoveredButtonIndex != (int)PauseButtonID.Quit)
                     {
                         _hoveredButtonIndex += 1;
-                        _buttons[_hoveredButtonIndex].HoveredByKey();
+                        _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
                     }
                 }
                 else if (Input.GetButtonDown(InputLiteral.CANCEL))
@@ -176,6 +187,11 @@ public class PauseButtonController : UIBase
     }
     private void ButtonSelect(PauseButtonID ID)
     {
+        if (ID == PauseButtonID.Setting)
+        {
+            return;
+        }
+
         SetBoolIsMainPauseUIOnFalse();
         _onSelectedEvents[(int)ID]?.Invoke();
         if (ID == PauseButtonID.Resume)
@@ -187,7 +203,7 @@ public class PauseButtonController : UIBase
     }
     private void ButtonCancel(PauseButtonID ID)
     {
-        if (ID == PauseButtonID.Resume)
+        if (ID == PauseButtonID.Resume || ID == PauseButtonID.Setting)
         {
             return;
         }

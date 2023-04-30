@@ -11,6 +11,9 @@ public class StatUI : UIBase
 
         PresenterManager.TriggerUIPresenter.OnResume -= DeActivateStatUI;
         PresenterManager.TriggerUIPresenter.OnResume += DeActivateStatUI;
+
+        PresenterManager.TriggerUIPresenter.OnGameEnd -= DeActivateStatUI;
+        PresenterManager.TriggerUIPresenter.OnGameEnd += DeActivateStatUI;
     }
     private void ActivateStatUI() => _canvas.enabled = true;
     private void DeActivateStatUI() => _canvas.enabled = false;

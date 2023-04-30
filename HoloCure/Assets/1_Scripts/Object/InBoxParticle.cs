@@ -9,6 +9,7 @@ public class InBoxParticle : MonoBehaviour
     private Vector2 _wayPos;
     private Vector2 _endPos;
     private Vector3 _rotAxis;
+    private bool _isReleased;
     public void Initialize()
     {
         float x = Random.Range(-115f, 115f);
@@ -21,6 +22,7 @@ public class InBoxParticle : MonoBehaviour
         _rectTransform.anchoredPosition = _startPos;
         _rectTransform.rotation = default;
         _rectTransform.localScale = Vector3.one * Random.Range(0.5f, 1.5f);
+        _isReleased = false;
     }
     private float _elapsedTime;
     private float _duration;
@@ -31,10 +33,18 @@ public class InBoxParticle : MonoBehaviour
         _rectTransform.Rotate(_rotAxis);
         if (_elapsedTime > _duration)
         {
+            _isReleased = true;
             _pool.Release(this);
         }
     }
-    private void OnDisable() => _pool.Release(this);
+    private void OnDisable()
+    {
+        if (false == transform.parent.gameObject.activeSelf && false == _isReleased)
+        {
+            _isReleased = true;
+            _pool.Release(this);
+        }
+    }
     private ObjectPool<InBoxParticle> _pool;
     public void SetPoolRef(ObjectPool<InBoxParticle> pool) => _pool = pool;
 }

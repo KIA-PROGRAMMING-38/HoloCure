@@ -1,7 +1,10 @@
 ﻿using System;
 
-public class ExpPresenter
+namespace UI.Presenter
 {
-    public event Action<float> OnUpdateExpGauge;
-    public void UpdateExpGauge(float expRate) => OnUpdateExpGauge?.Invoke(expRate);
+    public class ExpPresenter
+    {
+        public event Action<float> OnUpdateExpGauge;
+        public void UpdateExpGauge(float expRate) => OnUpdateExpGauge?.Invoke(expRate);
+    }
 }

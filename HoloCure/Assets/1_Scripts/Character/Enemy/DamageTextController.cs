@@ -5,7 +5,7 @@ using UnityEngine;
 public class DamageTextController : MonoBehaviour
 {
     private Enemy _enemy;
-    private void Awake() => _enemy = transform.root.GetComponent<Enemy>();
+    private void Awake() => _enemy = transform.parent.GetComponent<Enemy>();
     private void Start()
     {
         _enemy.OnGetDamage -= SetDefaultDamageText;

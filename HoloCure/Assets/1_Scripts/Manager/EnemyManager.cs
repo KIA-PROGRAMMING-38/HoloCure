@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour
     private GameManager _gameManager;
     private DataTableManager _dataTableManager;
     private EnemyDataTable _enemyDataTable;
-
+    private GameObject _spawnContainer;
     public GameManager GameManager
     {
         private get => _gameManager;
@@ -18,6 +18,8 @@ public class EnemyManager : MonoBehaviour
             _gameManager = value;
             _dataTableManager = _gameManager.DataTableManager;
             _enemyDataTable = _dataTableManager.EnemyDataTable;
+            _spawnContainer = _dataTableManager.SpawnContainer;
+            _spawnContainer.transform.parent = transform;
         }
     }
 
@@ -59,20 +61,50 @@ public class EnemyManager : MonoBehaviour
         _criticalDamageTextPool = new();
         damageTextPrefab = Resources.Load<DamageText>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.CRITICAL_DAMAGE_TEXT));
         _criticalDamageTextPool.Initialize(damageTextPrefab);
-    }
 
-    private bool _isSelected; // 테스트용 코드
-    private void Update()
+        GameManager.PresenterManager.TitleUIPresenter.OnPlayGame -= StartStageOne;
+        GameManager.PresenterManager.TitleUIPresenter.OnPlayGame += StartStageOne;
+
+        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd -= GameEnd;
+        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameEnd;
+
+        SetSpawn();
+    }
+    
+    private void SetSpawn()
     {
-        if (false == _isSelected && Input.GetKeyDown(KeyCode.P)) // 임시 코드
+        SetSpawnEnemy();
+        SetSpawnBoss();
+    }
+    private void GameEnd()
+    {
+        StopAllCoroutines();
+        _spawnContainer.SetActive(false);
+    }
+    private void StartStageOne()
+    {
+        _spawnContainer.SetActive(true);
+        _spawnEnemyCoroutines.Clear();
+        foreach (int ID in _enemyDataTable.StageOneEnemyList)
         {
-            _isSelected = true;
-            SpawnEnemy();
-            SpawnMiniBoss();
-            SpawnBoss();
+            IEnumerator spawnEnemyCoroutine = SpawnEnemyCoroutine(ID);
+            StartCoroutine(spawnEnemyCoroutine);
+            _spawnEnemyCoroutines.Add(ID, spawnEnemyCoroutine);
+        }
+        foreach (int ID in _enemyDataTable.StageOneMiniBossList)
+        {
+            IEnumerator spawnMiniBossCoroutine = SpawnMiniBossCoroutine(ID);
+            StartCoroutine(spawnMiniBossCoroutine);
+            _spawnEnemyCoroutines.Add(ID, spawnMiniBossCoroutine);
+        }
+        foreach (int ID in _enemyDataTable.StageOneBossList)
+        {
+            IEnumerator spawnBossCoroutine = SpawnBossCoroutine(ID);
+            StartCoroutine(spawnBossCoroutine);
+            _spawnEnemyCoroutines.Add(ID, spawnBossCoroutine);
         }
     }
-    private void SpawnEnemy()
+    private void SetSpawnEnemy()
     {
         foreach (int ID in _enemyDataTable.StageOneEnemyList)
         {
@@ -83,10 +115,6 @@ public class EnemyManager : MonoBehaviour
             EnemyPool enemyPool = new();
             enemyPool.Initialize(ID, _enemyDataTable);
             _enemyPools.Add(ID, enemyPool);
-
-            IEnumerator spawnEnemyCoroutine = SpawnEnemyCoroutine(ID);
-            StartCoroutine(spawnEnemyCoroutine);
-            _spawnEnemyCoroutines.Add(ID, spawnEnemyCoroutine);
         }
     }
     private int[] _widths;
@@ -116,6 +144,7 @@ public class EnemyManager : MonoBehaviour
             }
             _spawnPos.Set(x, y);
             Enemy enemyInstance = _enemyPools[ID].GetEnemyFromPool();
+            enemyInstance.transform.parent = _spawnContainer.transform;
             enemyInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
             enemyInstance.SetFilpX();
             enemyInstance.SetDefaultDamageTextPool(_defaultDamageTextPool);
@@ -131,16 +160,6 @@ public class EnemyManager : MonoBehaviour
         }
 
         StopCoroutine(_spawnEnemyCoroutines[ID]);
-    }
-
-    private void SpawnMiniBoss()
-    {
-        foreach (int ID in _enemyDataTable.StageOneMiniBossList)
-        {
-            IEnumerator spawnMiniBossCoroutine = SpawnMiniBossCoroutine(ID);
-            StartCoroutine(spawnMiniBossCoroutine);
-            _spawnEnemyCoroutines.Add(ID, spawnMiniBossCoroutine);
-        }
     }
     private IEnumerator SpawnMiniBossCoroutine(int ID)
     {
@@ -159,6 +178,7 @@ public class EnemyManager : MonoBehaviour
         }
         _spawnPos.Set(x, y);
         MiniBoss miniBossInstance = _miniBossPool.GetMiniBossFromPool();
+        miniBossInstance.transform.parent = _spawnContainer.transform;
         miniBossInstance.InitializeStatus(_enemyDataTable.EnemyStatContainer[ID], _enemyDataTable.EnemyFeatureContainer[ID]);
         miniBossInstance.SetEnemyRender(_enemyDataTable.EnemyRenderContainer[ID]);
 
@@ -179,7 +199,7 @@ public class EnemyManager : MonoBehaviour
         StopCoroutine(_spawnEnemyCoroutines[ID]);
     }
 
-    private void SpawnBoss()
+    private void SetSpawnBoss()
     {
         foreach (int ID in _enemyDataTable.StageOneBossList)
         {
@@ -190,10 +210,6 @@ public class EnemyManager : MonoBehaviour
             BossPool bossPool = new();
             bossPool.Initialize(ID, _enemyDataTable);
             _bossPools.Add(ID, bossPool);
-
-            IEnumerator spawnBossCoroutine = SpawnBossCoroutine(ID);
-            StartCoroutine(spawnBossCoroutine);
-            _spawnEnemyCoroutines.Add(ID, spawnBossCoroutine);
         }
     }
     private IEnumerator SpawnBossCoroutine(int ID)
@@ -213,6 +229,7 @@ public class EnemyManager : MonoBehaviour
         }
         _spawnPos.Set(x, y);
         Boss bossInstance = _bossPools[ID].GetBossFromPool();
+        bossInstance.transform.parent = _spawnContainer.transform;
         bossInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
         bossInstance.SetFilpX();
         bossInstance.SetDefaultDamageTextPool(_defaultDamageTextPool);
