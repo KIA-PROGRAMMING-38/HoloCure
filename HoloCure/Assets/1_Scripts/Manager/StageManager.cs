@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -13,6 +14,9 @@ public class StageManager : MonoBehaviour
     private bool _isOnPause;
     private void Start()
     {
+        _stageCoroutine = StageCoroutine();
+        _getKeyCoroutine = GetKeyCoroutine();
+
         OnOneSecondPassed -= GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
         OnOneSecondPassed += GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
 
@@ -25,24 +29,49 @@ public class StageManager : MonoBehaviour
         GameManager.PresenterManager.TriggerUIPresenter.OnResume += SetBoolOnPauseFalse;
         GameManager.PresenterManager.TriggerUIPresenter.OnResume -= SetBoolOnSelectFalse;
         GameManager.PresenterManager.TriggerUIPresenter.OnResume += SetBoolOnSelectFalse;
+        GameManager.PresenterManager.TriggerUIPresenter.OnResume -= StartGetKeyCoroutine;
+        GameManager.PresenterManager.TriggerUIPresenter.OnResume += StartGetKeyCoroutine;
 
         GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= SetBoolOnSelectTrue;
         GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += SetBoolOnSelectTrue;
         GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI -= SetBoolOnSelectTrue;
         GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI += SetBoolOnSelectTrue;
+
+        GameManager.PresenterManager.TitleUIPresenter.OnPlayGameForStage -= StartStage;
+        GameManager.PresenterManager.TitleUIPresenter.OnPlayGameForStage += StartStage;
+
+        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd -= StopStage;
+        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += StopStage;
+        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd -= GameManager.PresenterManager.TimePresenter.ResetTimer;
+        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameManager.PresenterManager.TimePresenter.ResetTimer;
+        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameManager.PresenterManager.TitleUIPresenter.ActivateMainTitleUI;
+        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameManager.PresenterManager.TitleUIPresenter.ActivateMainTitleUI;
     }
+    private void SetBoolOnPauseTrue() => _isOnPause = true;
+    private void SetBoolOnPauseFalse() => _isOnPause = false;
+    private void SetBoolOnSelectTrue() => _isOnSelect = true;
+    private void SetBoolOnSelectFalse() => _isOnSelect = false;
 
-    private bool _isSelected; // 테스트용 코드
-    private void Update()
+    private void StartStage()
     {
-        if (false == _isSelected && Input.GetKeyDown(KeyCode.P))
-        {
-            _isSelected = true;
-            CurrentStageTime = 0f;
-            _elapsedSecond = 0;
-        }
+        CurrentStageTime = 0f;
+        _elapsedSecond = 0;
+        Time.timeScale = 1;
+        _isOnPause = false;
+        _isOnSelect = false;
 
-        if (_isSelected)
+        StartCoroutine(_stageCoroutine);
+        StartGetKeyCoroutine();
+    }
+    private void StopStage()
+    {
+        StopCoroutine(_stageCoroutine);
+        StopGetKeyCoroutine();
+    }
+    private IEnumerator _stageCoroutine;
+    private IEnumerator StageCoroutine()
+    {
+        while (true)
         {
             CurrentStageTime += Time.deltaTime;
 
@@ -53,14 +82,35 @@ public class StageManager : MonoBehaviour
                 OnOneSecondPassed?.Invoke();
             }
 
-            if (false == _isOnSelect && false == _isOnPause && Input.GetKeyDown(KeyCode.Escape))
-            {
-                OnPause?.Invoke();
-            }
+            yield return null;
         }
     }
-    private void SetBoolOnPauseTrue() => _isOnPause = true;
-    private void SetBoolOnPauseFalse() => _isOnPause = false;
-    private void SetBoolOnSelectTrue() => _isOnSelect = true;
-    private void SetBoolOnSelectFalse() => _isOnSelect = false;
+    private void StartGetKeyCoroutine()
+    {
+        _delayTime = 0;
+        StartCoroutine(_getKeyCoroutine);
+    }
+    private void StopGetKeyCoroutine() => StopCoroutine(_getKeyCoroutine);
+    private float _delayTime;
+    private IEnumerator _getKeyCoroutine;
+    private IEnumerator GetKeyCoroutine()
+    {
+        while (true)
+        {
+            while (_delayTime < 0.3f)
+            {
+                _delayTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            if (false == _isOnSelect && false == _isOnPause && Input.GetKeyDown(KeyCode.Escape))
+            {
+                StopGetKeyCoroutine();
+                OnPause?.Invoke();
+                yield return null;
+            } 
+
+            yield return null;
+        }
+    }
 }

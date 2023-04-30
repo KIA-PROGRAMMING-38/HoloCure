@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemyDataTable
 {
+    private GameObject _spawnContainer;
+    public EnemyDataTable(GameObject spawnContainer) => _spawnContainer = spawnContainer;
     #region 스테이지 1
     private List<int> _stageOneEnemyList = new();
     private List<int> _stageOneMiniBossList = new();
@@ -73,7 +75,7 @@ public class EnemyDataTable
 
             _enemyRenderContainer.Add(data.ID, render);
 
-            Enemy prefab = Object.Instantiate(defaultPrefab);
+            Enemy prefab = Object.Instantiate(defaultPrefab, _spawnContainer.transform);
 
             prefab.InitializeStatus(stat, feature);
             prefab.SetEnemyRender(render);

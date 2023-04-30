@@ -21,38 +21,54 @@ public class Inventory : MonoBehaviour
 
     private VTuber _VTuber;
     private VTuberID _VTuberID;
-    private void Start()
-    {
-        GetItem((int)_VTuberID - 4000);
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            GetItem((int)StatID.MaxHPUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            GetItem((int)StatID.ATKUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            GetItem((int)StatID.SPDUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            GetItem((int)StatID.CRTUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            GetItem((int)StatID.PickUpRangeUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            GetItem((int)StatID.HasteUp);
-        }
-    }
-    public void Initialize(VTuber VTuber,VTuberID VTuberID, WeaponDataTable weaponDataTable, StatDataTable statDataTable)
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Alpha1))
+    //    {
+    //        GetItem((int)StatID.MaxHPUp);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha2))
+    //    {
+    //        GetItem((int)StatID.ATKUp);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha3))
+    //    {
+    //        GetItem((int)StatID.SPDUp);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha4))
+    //    {
+    //        GetItem((int)StatID.CRTUp);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha5))
+    //    {
+    //        GetItem((int)StatID.PickUpRangeUp);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha6))
+    //    {
+    //        GetItem((int)StatID.HasteUp);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Y))
+    //    {
+    //        GetItem((int)CommonWeaponID.FanBeam);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.U))
+    //    {
+    //        GetItem((int)CommonWeaponID.PsychoAxe);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.I))
+    //    {
+    //        GetItem((int)CommonWeaponID.BLBook);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.O))
+    //    {
+    //        GetItem((int)CommonWeaponID.HoloBomb);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        GetItem((int)CommonWeaponID.SpiderCooking);
+    //    }
+    //}
+    public void Initialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable, StatDataTable statDataTable)
     {
         _VTuber = VTuber;
         _VTuberID = VTuberID;
@@ -82,9 +98,9 @@ public class Inventory : MonoBehaviour
     {
         if (false == weaponIDs.Contains(ID))
         {
-            Weapon weapon = Instantiate(_weaponDataTable.WeaponPrefabContainer[ID], transform);
-            weapon.Initialize(_weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
-            weapon.transform.parent = default;
+            Weapon weapon = _weaponDataTable.WeaponPrefabContainer[ID];
+            weapon.Initialize(_VTuber, _weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
+            weapon.gameObject.SetActive(true);
 
             Weapons[WeaponCount] = weapon;
             weaponIDs.Add(ID);
@@ -135,6 +151,13 @@ public class Inventory : MonoBehaviour
             case StatID.HasteUp:
                 _VTuber.GetHasteRate(_statDataTable.StatContainer[ID].Value);
                 break;
+        }
+    }
+    private void OnDestroy()
+    {
+        for (int i = 0; i < WeaponCount; ++i)
+        {
+            Weapons[i].gameObject.SetActive(false);
         }
     }
 }

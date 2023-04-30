@@ -10,20 +10,30 @@ public class MyButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     public event Action<MyButton> OnClickForController;
     [SerializeField] private GameObject _defaultFrame;
     [SerializeField] private GameObject _hoveredFrame;
-    public void HoveredByKey()
+    public void ActivateHoveredFrame()
     {
         OnHoverForOtherButton?.Invoke();
+        _defaultFrame.SetActive(false);
         _hoveredFrame.SetActive(true);
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        OnHoverForOtherButton?.Invoke();
-        OnHoverForController?.Invoke(this);
-        _hoveredFrame.SetActive(true);
+        ActivateHoveredFrame();
+        OnHoverForController?.Invoke(this);        
     }
-    public void DeActivateHoveredFrame() => _hoveredFrame.SetActive(false);
+    public void DeActivateHoveredFrame()
+    {
+        _defaultFrame.SetActive(true);
+        _hoveredFrame.SetActive(false);
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+        {
+            return;
+        }
+
         OnClick?.Invoke();
         OnClickForController?.Invoke(this);
     }

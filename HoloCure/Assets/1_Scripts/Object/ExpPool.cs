@@ -17,6 +17,7 @@ public static class ExpAnimHash
 
 public class ExpPool
 {
+    private GameObject _container;
     private Exp _expDefaultPrefab;
     private ObjectPool<Exp> _expPool;
     public Exp GetExpFromPool(Vector2 pos,int expAmount)
@@ -46,8 +47,9 @@ public class ExpPool
 
         return exp;
     }
-    public void Initialize()
+    public void Initialize(GameObject container)
     {
+        _container = container;
         _expDefaultPrefab = Resources.Load<Exp>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.EXP));
 
         InitializeExpPool();
@@ -55,7 +57,7 @@ public class ExpPool
     private void InitializeExpPool() => _expPool = new(CreateExp, OnGetExpFromPool, OnReleaseExpToPool, OnDestroyExp);
     private Exp CreateExp()
     {
-        Exp exp = Object.Instantiate(_expDefaultPrefab);
+        Exp exp = Object.Instantiate(_expDefaultPrefab, _container.transform);
         exp.SetPoolRef(_expPool);
 
         exp.OnTriggerWithExp -= GetExp;

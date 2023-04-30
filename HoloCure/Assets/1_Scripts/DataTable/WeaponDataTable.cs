@@ -64,7 +64,8 @@ public class WeaponDataTable
             _weaponDataContainer.Add(data.ID, data);
             _weaponStatContainer.Add(data.ID, stat);
 
-            Weapon prefab = Resources.Load<Weapon>(Path.Combine(PathLiteral.PREFAB, data.Name));
+            Weapon prefab = Object.Instantiate(Resources.Load<Weapon>(Path.Combine(PathLiteral.PREFAB, data.Name)));
+            prefab.gameObject.SetActive(false);
             _weaponPrefabContainer.Add(data.ID, prefab);
         }
     }
@@ -116,7 +117,8 @@ public class WeaponDataTable
             _weaponDataContainer.Add(data.ID, data);
             _weaponStatContainer.Add(data.ID, stat);
 
-            Weapon prefab = Resources.Load<Weapon>(Path.Combine(PathLiteral.PREFAB, data.Name));
+            Weapon prefab = Object.Instantiate(Resources.Load<Weapon>(Path.Combine(PathLiteral.PREFAB, data.Name)));
+            prefab.gameObject.SetActive(false);
             _weaponPrefabContainer.Add(data.ID, prefab);
         }
     }

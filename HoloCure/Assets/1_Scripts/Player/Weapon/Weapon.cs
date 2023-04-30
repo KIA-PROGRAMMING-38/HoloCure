@@ -20,8 +20,6 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void Awake()
     {
-        VTuber = transform.root.GetComponent<VTuber>();
-
         weaponSpriteRenderer = GetComponent<SpriteRenderer>();
         weaponSpriteRenderer.enabled = false;
 
@@ -48,12 +46,16 @@ public abstract class Weapon : MonoBehaviour
         _projectilePool.OnReleaseToPool -= AfterOperateProjectile;
         _projectilePool.OnReleaseToPool += AfterOperateProjectile;
     }
-    private void Start()
+    private void OnEnable()
     {
         _shootCoroutine = ShootCoroutine();
         _operateWeaponCoroutine = OperateWeaponCoroutine();
         _attackSequenceCoroutine = AttackSequenceCoroutine();
         StartCoroutine(_attackSequenceCoroutine);
+    }
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
     protected abstract void Shoot(int index);
     private int _index;
@@ -90,7 +92,6 @@ public abstract class Weapon : MonoBehaviour
             StartCoroutine(_operateWeaponCoroutine);
             _index = 0;
             StartCoroutine(_shootCoroutine);
-
             yield return Util.TimeStore.GetWaitForSeconds(_curAttackSequenceTime);
         }
     }
@@ -130,8 +131,9 @@ public abstract class Weapon : MonoBehaviour
     /// <summary>
     /// 무기를 초기화합니다.
     /// </summary>
-    public virtual void Initialize(WeaponData weaponData, WeaponStat weaponStat)
+    public virtual void Initialize(VTuber VTuber, WeaponData weaponData, WeaponStat weaponStat)
     {
+        this.VTuber = VTuber;
         this.WeaponData = weaponData;
         this.weaponStat = weaponStat;
 

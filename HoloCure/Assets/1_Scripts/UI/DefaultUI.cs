@@ -11,6 +11,9 @@ public class DefaultUI : UIBase
 
         PresenterManager.TriggerUIPresenter.OnResume -= DeActivateDefaultUI;
         PresenterManager.TriggerUIPresenter.OnResume += DeActivateDefaultUI;
+
+        PresenterManager.TriggerUIPresenter.OnGameEnd -= DeActivateDefaultUI;
+        PresenterManager.TriggerUIPresenter.OnGameEnd += DeActivateDefaultUI;
     }
     private void ActivateDefaultUI() => _canvas.enabled = true;
     private void DeActivateDefaultUI() => _canvas.enabled = false;

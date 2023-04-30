@@ -19,20 +19,26 @@ public class PlayerManager : MonoBehaviour
 
         }
     }
-    
-    private bool _isSelected; // 테스트용 코드
-    private void Update()
-    {
-        if (false == _isSelected && Input.GetKeyDown(KeyCode.P))
-        {
-            _isSelected = true;
-            SelectVTuber(VTuberID.Ninomae_Inanis);
-        }
-    }
     public Player Player { get; private set; }
     public VTuber VTuber { get; private set; }
 
-    // 캐릭터 선택창과 연동해야 하는부분
+    private void Start()
+    {
+        _presenterManager.TitleUIPresenter.OnPlayGameForPlayer -= SelectVTuber;
+        _presenterManager.TitleUIPresenter.OnPlayGameForPlayer += SelectVTuber;
+
+        _presenterManager.TriggerUIPresenter.OnGameEnd -= GameEnd;
+        _presenterManager.TriggerUIPresenter.OnGameEnd += GameEnd;
+    }
+    private void GameEnd()
+    {
+        Destroy(Player.Inventory.gameObject);
+        Destroy(Player.GetComponent<PlayerInput>());
+        Destroy(Player.GetComponent<PlayerController>());
+        Destroy(Player.GetComponent<Player>());
+        VTuber.gameObject.SetActive(false);
+    }
+
     private void SelectVTuber(VTuberID ID)
     {
         VTuber = _VTuberDataTable.VTuberPrefabContainer[ID];
@@ -85,6 +91,11 @@ public class PlayerManager : MonoBehaviour
         VTuber.OnChangeHasteRate -= _presenterManager.StatPresenter.UpdateHaste;
         VTuber.OnChangeHasteRate += _presenterManager.StatPresenter.UpdateHaste;
 
+        Player.InitializeEvent();
         VTuber.InitializeEvent();
+        VTuber.transform.position = default;
+        _presenterManager.InventoryPresenter.ResetInventory();
+        _presenterManager.CountPresenter.ResetCount();
+        Player.Inventory.GetItem((int)ID - 4000);
     }
 }

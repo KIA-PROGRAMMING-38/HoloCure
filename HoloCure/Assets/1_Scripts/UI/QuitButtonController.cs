@@ -7,7 +7,7 @@ public enum QuitButtonID
     Yes = 0,
     No = 1
 }
-public class QuitButtonController : MonoBehaviour
+public class QuitButtonController : UIBase
 {
     public event Action OnSelectYes;
     public event Action<PauseButtonID> OnSelectNo;
@@ -38,14 +38,28 @@ public class QuitButtonController : MonoBehaviour
             _buttons[i].OnClickForController -= TriggerEventByClick;
             _buttons[i].OnClickForController += TriggerEventByClick;
         }
+
+        OnSelectYes -= PresenterManager.TriggerUIPresenter.GameEnd;
+        OnSelectYes += PresenterManager.TriggerUIPresenter.GameEnd;
     }
-    public void StartGetKeyCoroutine() => StartCoroutine(_getKeyCoroutine);
+    public void StartGetKeyCoroutine()
+    {
+        _delayTime = 0;
+        StartCoroutine(_getKeyCoroutine);
+    }
     public void StopGetKeyCoroutine() => StopCoroutine(_getKeyCoroutine);
+    private float _delayTime;
     private IEnumerator _getKeyCoroutine;
     private IEnumerator GetKeyCoroutine()
     {
         while (true)
         {
+            while (_delayTime < 0.3f)
+            {
+                _delayTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
             if (Input.GetButtonDown(InputLiteral.CONFIRM))
             {
                 TriggerEventByKey();
@@ -58,12 +72,12 @@ public class QuitButtonController : MonoBehaviour
                 if (upKey && _hoveredButtonIndex != (int)QuitButtonID.Yes)
                 {
                     _hoveredButtonIndex = (int)QuitButtonID.Yes;
-                    _buttons[_hoveredButtonIndex].HoveredByKey();
+                    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
                 }
                 else if (false == upKey && _hoveredButtonIndex != (int)QuitButtonID.No)
                 {
                     _hoveredButtonIndex = (int)QuitButtonID.No;
-                    _buttons[_hoveredButtonIndex].HoveredByKey();
+                    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
                 }
             }
             else if (Input.GetButtonDown(InputLiteral.CANCEL))
@@ -96,6 +110,8 @@ public class QuitButtonController : MonoBehaviour
     {
         if (ID == QuitButtonID.Yes)
         {
+            StopGetKeyCoroutine();
+            transform.parent.parent.GetComponent<Canvas>().enabled = false;
             OnSelectYes?.Invoke();
         }
         else

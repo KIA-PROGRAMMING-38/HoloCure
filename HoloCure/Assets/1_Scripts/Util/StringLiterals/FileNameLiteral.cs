@@ -16,6 +16,7 @@
         public const string BOX = "Box";
         public const string PARTICLE = "Particle";
         public const string IN_BOX_COIN = "InBoxCoin";
+        public const string TRIANGLE = "Triangle";
         public const string IN_BOX_PARTICLE = "InBoxParticle";
         public const string DEFAULT_DAMAGE_TEXT = "DefaultDamageText";
         public const string CRITICAL_DAMAGE_TEXT = "CriticalDamageText";

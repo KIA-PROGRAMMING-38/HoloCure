@@ -1,11 +1,16 @@
 ﻿using System;
 using UnityEngine;
 
-public class InventoryPresenter
+namespace UI.Presenter
 {
-    public event Action<int, Sprite> OnUpdateNewEquipment;
-    public event Action<int, int> OnUpdateEquipmentLevel;
+    public class InventoryPresenter
+    {
+        public event Action<int, Sprite> OnUpdateNewEquipment;
+        public event Action<int, int> OnUpdateEquipmentLevel;
+        public event Action OnResetInventory;
 
-    public void UpdateNewEquipment(int ID, Sprite icon) => OnUpdateNewEquipment?.Invoke(ID, icon);
-    public void UpdateEquipmentLevel(int ID, int level) => OnUpdateEquipmentLevel?.Invoke(ID, level);
+        public void UpdateNewEquipment(int ID, Sprite icon) => OnUpdateNewEquipment?.Invoke(ID, icon);
+        public void UpdateEquipmentLevel(int ID, int level) => OnUpdateEquipmentLevel?.Invoke(ID, level);
+        public void ResetInventory() => OnResetInventory?.Invoke();
+    }
 }

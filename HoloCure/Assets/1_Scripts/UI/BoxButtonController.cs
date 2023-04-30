@@ -75,12 +75,12 @@ public class BoxButtonController : UIBase
                 if (upKey && _hoveredButtonIndex != (int)BoxButtonID.Take)
                 {
                     _hoveredButtonIndex = (int)BoxButtonID.Take;
-                    _buttons[_hoveredButtonIndex].HoveredByKey();
+                    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
                 }
                 else if (false == upKey && _hoveredButtonIndex != (int)BoxButtonID.Drop)
                 {
                     _hoveredButtonIndex = (int)BoxButtonID.Drop;
-                    _buttons[_hoveredButtonIndex].HoveredByKey();
+                    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
                 }
             }
 

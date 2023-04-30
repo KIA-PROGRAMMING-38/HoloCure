@@ -20,6 +20,7 @@ public class Box : MonoBehaviour
     {
         if (collision.CompareTag(TagLiteral.VTUBER))
         {
+            _isReleased = true;
             _pool.Release(this);
             collision.GetComponent<Player>().GetBox();
         }
@@ -42,6 +43,16 @@ public class Box : MonoBehaviour
             StartCoroutine(_lookPlayerCoroutine);
         }
     }
+    private bool _isReleased;
+    private void OnDisable()
+    {
+        if (false == transform.parent.gameObject.activeSelf && false == _isReleased)
+        {
+            _isReleased = true;
+            _pool.Release(this);
+        }
+    }
+
     private Vector2 _direction;
     private IEnumerator _lookPlayerCoroutine;
     private IEnumerator LookPlayerCoroutine()

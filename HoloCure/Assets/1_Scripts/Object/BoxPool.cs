@@ -5,13 +5,15 @@ using Util.Pool;
 
 public class BoxPool
 {
+    private GameObject _container;
     private Box _boxPrefab;
     private ObjectPool<Box> _boxPool;
 
     public Box GetBoxFromPool() => _boxPool.Get();
 
-    public void Initialize()
+    public void Initialize(GameObject container)
     {
+        _container = container;
         _boxPrefab = Resources.Load<Box>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.BOX));
 
         InitializeBoxPool();
@@ -19,7 +21,7 @@ public class BoxPool
     private void InitializeBoxPool() => _boxPool = new ObjectPool<Box>(CreateBox, OnGetBoxFromPool, OnReleaseBoxToPool, OnDestroyBox);
     private Box CreateBox()
     {
-        Box box = Object.Instantiate(_boxPrefab);
+        Box box = Object.Instantiate(_boxPrefab, _container.transform);
 
         box.SetPoolRef(_boxPool);
 

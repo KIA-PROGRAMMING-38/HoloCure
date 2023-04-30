@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         SetupManager();
+
+        Time.timeScale = 0;
     }
     private void SetupManager()
     {

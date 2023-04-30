@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MouseCursor : UIBase
 {
@@ -9,20 +8,14 @@ public class MouseCursor : UIBase
     private Vector2 _cusorUIInitPos;
     private Vector2 _cusorInGameInitPos;
 
-    private CanvasScaler _canvasScaler;
-
     private void Awake()
     {
         Cursor.visible = false;
-        _canvasScaler = GetComponent<CanvasScaler>();
-        _canvasScaler.referenceResolution.Set(Screen.width, Screen.height);
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
-
         _cusorUIInitPos = _cursorUI.anchoredPosition;
         _cusorInGameInitPos = _cusorInGame.anchoredPosition;
 
@@ -35,18 +28,21 @@ public class MouseCursor : UIBase
         PresenterManager.TriggerUIPresenter.OnResume -= ActivateInGameCursor;
         PresenterManager.TriggerUIPresenter.OnResume += ActivateInGameCursor;
 
-        StartCoroutine(_UICursorMoveCoroutine);
-        StartCoroutine(_InGameCursorMoveCoroutine);
+        ActivateUICursor();
     }
     private void ActivateUICursor()
     {
-        _cursorUI.gameObject.SetActive(true);
+        StopCoroutine(_InGameCursorMoveCoroutine);
         _cusorInGame.gameObject.SetActive(false);
+        _cursorUI.gameObject.SetActive(true);
+        StartCoroutine(UICursorMoveCoroutine());
     }
     private void ActivateInGameCursor()
     {
-        _cusorInGame.gameObject.SetActive(true);
+        StopCoroutine(_UICursorMoveCoroutine);
         _cursorUI.gameObject.SetActive(false);
+        _cusorInGame.gameObject.SetActive(true);
+        StartCoroutine(_InGameCursorMoveCoroutine);
     }
     private IEnumerator _UICursorMoveCoroutine;
     private IEnumerator UICursorMoveCoroutine()
