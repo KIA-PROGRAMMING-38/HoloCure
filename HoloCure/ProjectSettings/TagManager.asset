@@ -17,6 +17,7 @@ TagManager:
   - MouseCursor
   - EnemyBody
   - ScreenSensor
+  - OutLineSensor
   layers:
   - Default
   - TransparentFX
@@ -42,7 +43,7 @@ TagManager:
   - DeadMyBoss
   - Box
   - ScreenSensor
-  - 
+  - OutLineSensor
   - 
   - 
   - 
