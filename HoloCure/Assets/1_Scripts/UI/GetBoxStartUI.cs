@@ -12,6 +12,11 @@ public class GetBoxStartUI : UIBase
         PresenterManager.TriggerUIPresenter.OnActivateGetBoxUI -= DeActivateGetBoxStartUI;
         PresenterManager.TriggerUIPresenter.OnActivateGetBoxUI += DeActivateGetBoxStartUI;
     }
-    private void ActivateGetBoxStartUI() => _canvas.enabled = true;
+    private void ActivateGetBoxStartUI()
+    {
+        _canvas.enabled = true;
+        SoundPool.GetPlayAudio(SoundID.BoxOpenStart);
+    }
+
     private void DeActivateGetBoxStartUI() => _canvas.enabled = false;
 }

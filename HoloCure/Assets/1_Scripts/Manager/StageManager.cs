@@ -16,6 +16,8 @@ public class StageManager : MonoBehaviour
     {
         _stageCoroutine = StageCoroutine();
         _getKeyCoroutine = GetKeyCoroutine();
+        _volumeUpCoroutine = VolumeUpCoroutine();
+        _volumeDownCoroutine = VolumeDownCoroutine();
 
         OnOneSecondPassed -= GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
         OnOneSecondPassed += GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
@@ -46,12 +48,74 @@ public class StageManager : MonoBehaviour
         GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameManager.PresenterManager.TimePresenter.ResetTimer;
         GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameManager.PresenterManager.TitleUIPresenter.ActivateMainTitleUI;
         GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameManager.PresenterManager.TitleUIPresenter.ActivateMainTitleUI;
+
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivatePauseUI -= StartVolumeDownCoroutine;
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivatePauseUI += StartVolumeDownCoroutine;
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= StartVolumeDownCoroutine;
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += StartVolumeDownCoroutine;
+
+        GameManager.PresenterManager.TriggerUIPresenter.OnResume -= StartVolumeUpCoroutine;
+        GameManager.PresenterManager.TriggerUIPresenter.OnResume += StartVolumeUpCoroutine;
+
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI -= PauseBGM;
+        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI += PauseBGM;
+        GameManager.PresenterManager.TriggerUIPresenter.OnResume -= UnPauseBGM;
+        GameManager.PresenterManager.TriggerUIPresenter.OnResume += UnPauseBGM;
     }
     private void SetBoolOnPauseTrue() => _isOnPause = true;
     private void SetBoolOnPauseFalse() => _isOnPause = false;
     private void SetBoolOnSelectTrue() => _isOnSelect = true;
     private void SetBoolOnSelectFalse() => _isOnSelect = false;
+    private void PauseBGM() => _stageOneBGM.Pause();
+    private void UnPauseBGM() => _stageOneBGM.UnPause();
+    private Sound _stageOneBGM;
+    private const float Default_Volume = 0.6f;
+    private const float Down_Volume = 0.2f;
+    private float _volumeFixTime;
+    private void StartVolumeUpCoroutine()
+    {
+        _volumeFixTime = 0f;
+        StartCoroutine(_volumeUpCoroutine);
+    }
+    private IEnumerator _volumeUpCoroutine;
+    private IEnumerator VolumeUpCoroutine()
+    {
+        while (true)
+        {
+            while (_volumeFixTime < 0.2f)
+            {
+                _stageOneBGM.SetVolume(Mathf.Lerp(Down_Volume, Default_Volume, _volumeFixTime / 0.2f));
+                _volumeFixTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
 
+            StopCoroutine(_volumeUpCoroutine);
+
+            yield return null;
+        }
+    }
+    private void StartVolumeDownCoroutine()
+    {
+        _volumeFixTime = 0f;
+        StartCoroutine(_volumeDownCoroutine);
+    }
+    private IEnumerator _volumeDownCoroutine;
+    private IEnumerator VolumeDownCoroutine()
+    {
+        while (true)
+        {
+            while (_volumeFixTime < 0.2f)
+            {
+                _stageOneBGM.SetVolume(Mathf.Lerp(Default_Volume, Down_Volume, _volumeFixTime / 0.2f));
+                _volumeFixTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            StopCoroutine(_volumeDownCoroutine);
+
+            yield return null;
+        }
+    }
     private void StartStage()
     {
         CurrentStageTime = 0f;
@@ -60,11 +124,15 @@ public class StageManager : MonoBehaviour
         _isOnPause = false;
         _isOnSelect = false;
 
+        _stageOneBGM = SoundPool.GetPlayAudio(SoundID.StageOneBGM);
+        _stageOneBGM.SetVolume(Default_Volume);
+
         StartCoroutine(_stageCoroutine);
         StartGetKeyCoroutine();
     }
     private void StopStage()
     {
+        _stageOneBGM.StopPlaying();
         StopCoroutine(_stageCoroutine);
         StopGetKeyCoroutine();
     }
@@ -108,7 +176,7 @@ public class StageManager : MonoBehaviour
                 StopGetKeyCoroutine();
                 OnPause?.Invoke();
                 yield return null;
-            } 
+            }
 
             yield return null;
         }

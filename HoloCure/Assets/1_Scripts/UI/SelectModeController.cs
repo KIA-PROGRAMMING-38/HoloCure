@@ -82,6 +82,7 @@ public class SelectModeController : MonoBehaviour
     }
     private void GetHoveredButtonIndex(MyFlashButton button)
     {
+        SoundPool.GetPlayAudio(SoundID.CharMove);
         _cursor.SetParent(button.transform, false);
         if (button == _modes[(int)ModeID.Stage])
         {
@@ -100,7 +101,7 @@ public class SelectModeController : MonoBehaviour
     }
     private void ButtonSelect(ModeID ID)
     {
-
+        SoundPool.GetPlayAudio(SoundID.CharClick);
         if (ID == ModeID.Stage)
         {
         StopGetKeyCoroutine();
@@ -115,6 +116,8 @@ public class SelectModeController : MonoBehaviour
     private void Cancel()
     {
         StopGetKeyCoroutine();
+
+        SoundPool.GetPlayAudio(SoundID.ButtonBack);
         OnCancel?.Invoke();
     }
 }

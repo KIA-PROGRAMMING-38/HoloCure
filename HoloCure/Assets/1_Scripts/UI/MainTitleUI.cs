@@ -13,6 +13,14 @@ public class MainTitleUI : UIBase
 
         PresenterManager.TitleUIPresenter.OnDeActivateMainTitleUI -= DeActivateMainTitleUI;
         PresenterManager.TitleUIPresenter.OnDeActivateMainTitleUI += DeActivateMainTitleUI;
+
+        PresenterManager.TitleUIPresenter.OnActivateMainTitleUI -= PlayTitleBGM;
+        PresenterManager.TitleUIPresenter.OnActivateMainTitleUI += PlayTitleBGM;
+        PresenterManager.TitleUIPresenter.OnPlayGame -= StopTitleBGM;
+        PresenterManager.TitleUIPresenter.OnPlayGame += StopTitleBGM;
+
+        _titleBGM = SoundPool.GetPlayAudio(SoundID.TitleBGM);
+        _titleBGM.SetVolume(0.6f);
     }
     private void ActivateMainTitleUI()
     {
@@ -25,4 +33,16 @@ public class MainTitleUI : UIBase
         _canvas.enabled = false;
         _chars.SetActive(false);
     }
+    private Sound _titleBGM;
+    private void PlayTitleBGM()
+    {
+        if (_titleBGM.IsPlaying())
+        {
+            return;
+        }
+
+        _titleBGM = SoundPool.GetPlayAudio(SoundID.TitleBGM);
+        _titleBGM.SetVolume(0.6f);
+    }
+    private void StopTitleBGM() => _titleBGM.StopPlaying();
 }

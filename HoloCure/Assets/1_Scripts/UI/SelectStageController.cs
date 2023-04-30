@@ -166,6 +166,7 @@ public class SelectStageController : MonoBehaviour
     private readonly Color LOCK = new(1, 1, 1, 1);
     private void StageChange()
     {
+        SoundPool.GetPlayAudio(SoundID.CharMove);
         _stageImage.sprite = _stageSprites[_curStageIndex];
         _stageNameText.text = _stageNames[_curStageIndex];
         _stageNumText.text = NumLiteral.GetNumString(_curStageIndex + 1);
@@ -184,12 +185,15 @@ public class SelectStageController : MonoBehaviour
         {
             return;
         }
+        SoundPool.GetPlayAudio(SoundID.CharClick);
         _isPlayButtonOn = true;
         _buttons[(int)StageButtonID.Play].gameObject.SetActive(true);
     }
     private void StartStage()
     {
         StopGetKeyCoroutine();
+
+        SoundPool.GetPlayAudio(SoundID.CharClick);
 
         _isPlayButtonOn = false;
         _buttons[(int)StageButtonID.Play].gameObject.SetActive(false);
@@ -200,10 +204,13 @@ public class SelectStageController : MonoBehaviour
     private void CancelSelectStage()
     {
         StopGetKeyCoroutine();
+
+        SoundPool.GetPlayAudio(SoundID.ButtonBack);
         OnCancel?.Invoke();
     }
     private void CancelStartStage()
     {
+        SoundPool.GetPlayAudio(SoundID.ButtonBack);
         _isPlayButtonOn = false;
         _buttons[(int)StageButtonID.Play].gameObject.SetActive(false);
     }

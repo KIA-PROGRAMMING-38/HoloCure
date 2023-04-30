@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     /// 인벤토리에 장착된 무기들입니다.
     /// </summary>
     public static Weapon[] Weapons;
-    private HashSet<int> weaponIDs = new();
+    private HashSet<int> _weaponIDs = new();
     private WeaponDataTable _weaponDataTable;
     private StatDataTable _statDataTable;
     /// <summary>
@@ -96,14 +96,14 @@ public class Inventory : MonoBehaviour
     }
     private void GetWeapon(int ID)
     {
-        if (false == weaponIDs.Contains(ID))
+        if (false == _weaponIDs.Contains(ID))
         {
             Weapon weapon = _weaponDataTable.WeaponPrefabContainer[ID];
             weapon.Initialize(_VTuber, _weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
             weapon.gameObject.SetActive(true);
 
             Weapons[WeaponCount] = weapon;
-            weaponIDs.Add(ID);
+            _weaponIDs.Add(ID);
             WeaponCount += 1;
 
             _VTuber.OnChangeHasteRate -= weapon.GetHaste;

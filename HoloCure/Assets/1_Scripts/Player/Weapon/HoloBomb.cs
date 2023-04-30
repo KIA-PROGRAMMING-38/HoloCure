@@ -32,6 +32,8 @@ public class HoloBomb : Weapon
     }
     protected override void Shoot(int index)
     {
+        SoundPool.GetPlayAudio(SoundID.HoloBomb);
+
         Projectile projectile = _projectilePool.GetProjectileFromPool();
         projectile.transform.parent = transform;
         projectile.SetPositionWithWeapon(transform.position);

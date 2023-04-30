@@ -19,4 +19,12 @@ public class Boss : Enemy
     /// 반환되어야할 풀의 주소를 설정합니다.
     /// </summary>
     public void SetPoolRef(ObjectPool<Boss> pool) => _pool = pool;
+    protected override void OnDisable()
+    {
+        if (false == transform.parent.gameObject.activeSelf && false == isReleased)
+        {
+            isReleased = true;
+            _pool.Release(this);
+        }
+    }
 }

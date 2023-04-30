@@ -141,15 +141,18 @@ public class PauseButtonController : UIBase
                     {
                         _hoveredButtonIndex -= 1;
                         _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                        SoundPool.GetPlayAudio(SoundID.ButtonMove);
                     }
                     else if (false == upKey && _hoveredButtonIndex != (int)PauseButtonID.Quit)
                     {
                         _hoveredButtonIndex += 1;
                         _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                        SoundPool.GetPlayAudio(SoundID.ButtonMove);
                     }
                 }
                 else if (Input.GetButtonDown(InputLiteral.CANCEL))
                 {
+                    SoundPool.GetPlayAudio(SoundID.ButtonBack);
                     OnResumeSelected?.Invoke();
                     yield return null;
                 }
@@ -178,15 +181,13 @@ public class PauseButtonController : UIBase
             _hoveredButtonIndex = i;
             break;
         }
+        SoundPool.GetPlayAudio(SoundID.ButtonMove);
     }
     private void TriggerEventByKey() => ButtonSelect((PauseButtonID)_hoveredButtonIndex);
-    private void TriggerEventByClick(MyButton button)
-    {
-        GetHoveredButtonIndex(button);
-        ButtonSelect((PauseButtonID)_hoveredButtonIndex);
-    }
+    private void TriggerEventByClick(MyButton button) => ButtonSelect((PauseButtonID)_hoveredButtonIndex);
     private void ButtonSelect(PauseButtonID ID)
     {
+        SoundPool.GetPlayAudio(SoundID.ButtonClick);
         if (ID == PauseButtonID.Setting)
         {
             return;
@@ -207,7 +208,7 @@ public class PauseButtonController : UIBase
         {
             return;
         }
-
+        SoundPool.GetPlayAudio(SoundID.ButtonBack);
         SetBoolIsMainPauseUIOnTrue();
         _onCanceledEvents[(int)ID]?.Invoke();
         _UIs[(int)ID].enabled = false;

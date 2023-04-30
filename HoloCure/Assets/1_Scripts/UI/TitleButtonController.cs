@@ -88,11 +88,13 @@ public class TitleButtonController : UIBase
                 {
                     _hoveredButtonIndex -= 1;
                     _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
                 }
                 else if (false == upKey && _hoveredButtonIndex != (int)MainTitleButtonID.Quit)
                 {
                     _hoveredButtonIndex += 1;
                     _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
                 }
             }
 
@@ -111,15 +113,14 @@ public class TitleButtonController : UIBase
             _hoveredButtonIndex = i;
             break;
         }
+
+        SoundPool.GetPlayAudio(SoundID.ButtonMove);
     }
     private void TriggerEventByKey() => ButtonSelect((MainTitleButtonID)_hoveredButtonIndex);
-    private void TriggerEventByClick(MyButton button)
-    {
-        GetHoveredButtonIndex(button);
-        ButtonSelect((MainTitleButtonID)_hoveredButtonIndex);
-    }    
+    private void TriggerEventByClick(MyButton button) => ButtonSelect((MainTitleButtonID)_hoveredButtonIndex);
     private void ButtonSelect(MainTitleButtonID ID)
     {
+        SoundPool.GetPlayAudio(SoundID.ButtonClick);
         switch (ID)
         {
             case MainTitleButtonID.Play:

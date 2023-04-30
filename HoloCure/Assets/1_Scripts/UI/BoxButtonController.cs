@@ -76,11 +76,13 @@ public class BoxButtonController : UIBase
                 {
                     _hoveredButtonIndex = (int)BoxButtonID.Take;
                     _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
                 }
                 else if (false == upKey && _hoveredButtonIndex != (int)BoxButtonID.Drop)
                 {
                     _hoveredButtonIndex = (int)BoxButtonID.Drop;
                     _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
                 }
             }
 
@@ -89,6 +91,7 @@ public class BoxButtonController : UIBase
     }
     private void GetHoveredButtonIndex(MyButton button)
     {
+        SoundPool.GetPlayAudio(SoundID.ButtonMove);
         if (button == _buttons[(int)BoxButtonID.Take])
         {
             _hoveredButtonIndex = (int)BoxButtonID.Take;
@@ -99,14 +102,12 @@ public class BoxButtonController : UIBase
         }
     }
     private void TriggerEventByKey() => ButtonSelect((BoxButtonID)_hoveredButtonIndex);
-    private void TriggerEventByClick(MyButton button)
-    {
-        GetHoveredButtonIndex(button);
-        ButtonSelect((BoxButtonID)_hoveredButtonIndex);
-    }
+    private void TriggerEventByClick(MyButton button) => ButtonSelect((BoxButtonID)_hoveredButtonIndex);
     private void ButtonSelect(BoxButtonID ID)
     {
         StopCoroutine(_getKeyCoroutine);
+
+        SoundPool.GetPlayAudio(SoundID.ButtonClick);
 
         if (ID == BoxButtonID.Take)
         {

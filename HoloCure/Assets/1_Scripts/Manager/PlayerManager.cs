@@ -32,6 +32,7 @@ public class PlayerManager : MonoBehaviour
     }
     private void GameEnd()
     {
+        _presenterManager.TriggerUIPresenter.OnSendSelectedID -= Player.Inventory.GetItem;
         Destroy(Player.Inventory.gameObject);
         Destroy(Player.GetComponent<PlayerInput>());
         Destroy(Player.GetComponent<PlayerController>());

@@ -112,7 +112,12 @@ public class SelectIconController : UIBase
         }
         HoveredIcon();
     }
-    private void HoveredIcon() => OnHoveredIcon?.Invoke(_hoveredIconIndex);
+    private void HoveredIcon()
+    {
+        SoundPool.GetPlayAudio(SoundID.CharMove);
+        OnHoveredIcon?.Invoke(_hoveredIconIndex);
+    }
+
     private void TriggerEventByKey() => IconSelect(_hoveredIconIndex);
     private void TriggerEventByClick(MyFlashButton icon)
     {
@@ -125,6 +130,7 @@ public class SelectIconController : UIBase
         {
             case 2: // ÀÌ³ª
                 StopGetKeyCoroutine();
+                SoundPool.GetPlayAudio(SoundID.CharClick);
                 OnSelectVTuber?.Invoke();
                 OnSelectVTuberToUI?.Invoke(VTuberID.Ninomae_Inanis);
                 break;
@@ -133,6 +139,8 @@ public class SelectIconController : UIBase
     private void Cancel()
     {
         StopGetKeyCoroutine();
+
+        SoundPool.GetPlayAudio(SoundID.ButtonBack);
         OnCancel?.Invoke();
     }
 }

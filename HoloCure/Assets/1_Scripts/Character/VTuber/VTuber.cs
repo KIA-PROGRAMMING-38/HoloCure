@@ -122,12 +122,13 @@ public class VTuber : CharacterBase
         _input = transform.AddComponent<PlayerInput>();
         transform.AddComponent<PlayerController>().Initialize(this);
         Util.CMCamera.SetCameraFollow(transform);
-
         gameObject.SetActive(true);
     }
 
     public override void GetDamage(int damage, bool isCritical = false)
     {
+        SoundPool.GetPlayAudio(SoundID.PlayerDamaged);
+
         base.GetDamage(damage);
 
         OnChangeCurHP?.Invoke(currentHealth);

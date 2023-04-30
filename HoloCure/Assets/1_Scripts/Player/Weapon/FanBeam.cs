@@ -6,6 +6,8 @@ public class FanBeam : Weapon
     private readonly Vector3 REVERSE_ANGLE = new(0, 0, 180);
     protected override void Shoot(int index)
     {
+        SoundPool.GetPlayAudio(SoundID.FanBeam);
+
         Projectile projectile = _projectilePool.GetProjectileFromPool();
         if (index == 0)
         {

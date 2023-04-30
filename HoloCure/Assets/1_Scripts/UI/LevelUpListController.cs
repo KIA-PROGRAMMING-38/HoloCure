@@ -47,12 +47,23 @@ public class LevelUpListController : UIBase
         PresenterManager.TriggerUIPresenter.OnGetItemDatasForLevelUp -= GetItemList;
         PresenterManager.TriggerUIPresenter.OnGetItemDatasForLevelUp += GetItemList;
     }
-    private void StartGetKeyCoroutine() => StartCoroutine(_getKeyCoroutine);
+    private void StartGetKeyCoroutine()
+    {
+        _delayTime = 0;
+        StartCoroutine(_getKeyCoroutine);
+    }
+    private float _delayTime;
     private IEnumerator _getKeyCoroutine;
     private IEnumerator GetKeyCoroutine()
     {
         while (true)
         {
+            while (_delayTime < 0.3f)
+            {
+                _delayTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
             if (Input.GetButtonDown(InputLiteral.CONFIRM))
             {
                 TriggerEventByKey();
@@ -66,11 +77,13 @@ public class LevelUpListController : UIBase
                 {
                     _hoveredListIndex -= 1;
                     _lists[_hoveredListIndex].HoveredByKey();
+                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
                 }
                 else if (false == upKey && _hoveredListIndex != _lists.Length - 1)
                 {
                     _hoveredListIndex += 1;
                     _lists[_hoveredListIndex].HoveredByKey();
+                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
                 }
             }
 
@@ -89,6 +102,7 @@ public class LevelUpListController : UIBase
             _hoveredListIndex = i;
             break;
         }
+        SoundPool.GetPlayAudio(SoundID.ButtonMove);
     }
     private void TriggerEventByKey() => SelectItem(_hoveredListIndex);
     private void TriggerEventByClick(ItemList list)
@@ -120,6 +134,7 @@ public class LevelUpListController : UIBase
     private void SelectItem(int index)
     {
         StopCoroutine(_getKeyCoroutine);
+        SoundPool.GetPlayAudio(SoundID.ButtonClick);
         OnSelectItem?.Invoke(_itemLists[index].ID);
         OnSelect?.Invoke();
     }    

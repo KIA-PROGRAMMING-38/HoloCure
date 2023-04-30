@@ -73,11 +73,13 @@ public class QuitButtonController : UIBase
                 {
                     _hoveredButtonIndex = (int)QuitButtonID.Yes;
                     _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
                 }
                 else if (false == upKey && _hoveredButtonIndex != (int)QuitButtonID.No)
                 {
                     _hoveredButtonIndex = (int)QuitButtonID.No;
                     _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
                 }
             }
             else if (Input.GetButtonDown(InputLiteral.CANCEL))
@@ -91,6 +93,7 @@ public class QuitButtonController : UIBase
     } 
     private void GetHoveredButtonIndex(MyButton button)
     {
+        SoundPool.GetPlayAudio(SoundID.ButtonMove);
         if (button == _buttons[(int)QuitButtonID.Yes])
         {
             _hoveredButtonIndex = (int)QuitButtonID.Yes;
@@ -101,16 +104,13 @@ public class QuitButtonController : UIBase
         }
     }
     private void TriggerEventByKey() => ButtonSelect((QuitButtonID)_hoveredButtonIndex);
-    private void TriggerEventByClick(MyButton button)
-    {
-        GetHoveredButtonIndex(button);
-        ButtonSelect((QuitButtonID)_hoveredButtonIndex);
-    }
+    private void TriggerEventByClick(MyButton button) => ButtonSelect((QuitButtonID)_hoveredButtonIndex);
     private void ButtonSelect(QuitButtonID ID)
     {
         if (ID == QuitButtonID.Yes)
         {
             StopGetKeyCoroutine();
+            SoundPool.GetPlayAudio(SoundID.ButtonClick);
             transform.parent.parent.GetComponent<Canvas>().enabled = false;
             OnSelectYes?.Invoke();
         }

@@ -34,7 +34,6 @@ public class Player : MonoBehaviour
         newGameObject.transform.parent = transform;
         _inventory = newGameObject.AddComponent<Inventory>();
         _inventory.Initialize(_VTuber, VTuberID, weaponDataTable, statDataTable);
-
         _curExp = 0;
         _maxExp = 79;
         _level = 1;
@@ -45,6 +44,7 @@ public class Player : MonoBehaviour
         _maxExp = (int)(Mathf.Round(Mathf.Pow(4 * (_level + 1), 2.1f)) - Mathf.Round(Mathf.Pow(4 * _level, 2.1f)));
         _level += 1;
 
+        SoundPool.GetPlayAudio(SoundID.LevelUp);
         OnGetExp?.Invoke((float)_curExp / _maxExp);
         OnLevelUp?.Invoke();
     }
