@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
         _curExp -= _maxExp;
         _maxExp = (int)(Mathf.Round(Mathf.Pow(4 * (_level + 1), 2.1f)) - Mathf.Round(Mathf.Pow(4 * _level, 2.1f)));
         _level += 1;
-
+        _VTuber.GetMaxHealthRate(0);
         SoundPool.GetPlayAudio(SoundID.LevelUp);
         OnGetExp?.Invoke((float)_curExp / _maxExp);
         OnLevelUp?.Invoke();

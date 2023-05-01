@@ -38,7 +38,7 @@ public class VTuber : CharacterBase
     public int MaxHealth { get; private set; }
     public void GetMaxHealthRate(int rate)
     {
-        MaxHealth += MaxHealth / rate;
+        MaxHealth += rate == 0 ? 0 : MaxHealth / rate;
         OnChangeMaxHp?.Invoke(MaxHealth);
         currentHealth = MaxHealth;
         OnChangeCurHP?.Invoke(currentHealth);
