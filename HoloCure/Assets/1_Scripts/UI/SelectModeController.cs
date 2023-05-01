@@ -64,11 +64,13 @@ public class SelectModeController : MonoBehaviour
                 {
                     _hoveredButtonIndex = (int)ModeID.Stage;
                     _cursor.SetParent(_modes[_hoveredButtonIndex].transform, false);
+                    SoundPool.GetPlayAudio(SoundID.CharMove);
                 }
                 else if (false == upKey && _hoveredButtonIndex != (int)ModeID.Endless)
                 {
                     _hoveredButtonIndex = (int)ModeID.Endless;
                     _cursor.SetParent(_modes[_hoveredButtonIndex].transform, false);
+                    SoundPool.GetPlayAudio(SoundID.CharMove);
                 }
             }
             else if (Input.GetButtonDown(InputLiteral.CANCEL))
