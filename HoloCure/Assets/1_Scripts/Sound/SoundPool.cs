@@ -26,7 +26,9 @@ public enum SoundID
     PlayerDamaged,
     EnemyDamaged,
     GetExp,
-    LevelUp
+    LevelUp,
+    SmollAmeJump,
+    SmollAmeAttack
 }
 
 public static class SoundPool
@@ -96,5 +98,10 @@ public static class SoundPool
 
         // 레벨업
         _audioClipContainer.Add(SoundID.LevelUp, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_lvlup")));
+
+        // 스몰아메 효과음
+        _audioClipContainer.Add(SoundID.SmollAmeJump, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_amejump")));
+        _audioClipContainer.Add(SoundID.SmollAmeAttack, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_amegroundpound")));
+
     }
 }

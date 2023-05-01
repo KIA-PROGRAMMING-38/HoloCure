@@ -4,12 +4,14 @@ using Util.Pool;
 
 public class Boss : Enemy
 {
+    public event Action OnDieForStage;
     public event Action<Vector2> OnDieForSpawnBox;
     protected override void Die()
     {
         base.Die();
 
         OnDieForSpawnBox?.Invoke(transform.position);
+        OnDieForStage?.Invoke();
     }
     protected override void SetLayerOnSpawn() => gameObject.layer = LayerNum.MY_BOSS;
     protected override void SetLayerOnDie() => gameObject.layer = LayerNum.DEAD_MY_BOSS;

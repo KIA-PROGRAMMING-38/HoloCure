@@ -8,6 +8,12 @@ public class Sound : MonoBehaviour
         {
             _clipTime = value.length;
             _audioSource.clip = value;
+            if (_audioSource.clip == SoundPool.GetAudioClip(SoundID.StageOneBGM) ||
+           _audioSource.clip == SoundPool.GetAudioClip(SoundID.TitleBGM))
+            {
+                _audioSource.loop = true;
+                _clipTime = int.MaxValue;
+            }
         }
     }
 
@@ -39,34 +45,23 @@ public class Sound : MonoBehaviour
 
         if (_clipTime <= _elapsedTime)
         {
-            RepeatBGM();
-            if (_elapsedTime == 0)
-            {
-                return;
-            }
-
             _isReleased = true;
             SoundPool.Release(this);
         }
     }
-    private void RepeatBGM()
+    public void Pause()
     {
-        if (_audioSource.clip == SoundPool.GetAudioClip(SoundID.StageOneBGM) ||
-           _audioSource.clip == SoundPool.GetAudioClip(SoundID.TitleBGM))
-        {
-            _audioSource.Stop();
-            _audioSource.Play();
-            _elapsedTime = 0;
-        }
+        _isPause = true;
+        _audioSource.Pause();
     }
-    public void Pause() => _audioSource.Pause();
-    public void UnPause() => _audioSource.UnPause();
-    public void StopPlaying()
+
+    public void UnPause()
     {
-        _audioSource.Stop();
-        _isReleased = true;
-        SoundPool.Release(this);
+        _isPause = false;
+        _audioSource.UnPause();
     }
+    public void Play() => _audioSource.Play();
+    public void StopPlaying() => _audioSource.Stop();
     public bool IsPlaying() => _isReleased == false;
     public void SetVolume(float value) => _audioSource.volume = value;
 }

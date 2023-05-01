@@ -15,6 +15,9 @@ namespace UI.Presenter
         public event Action OnActivateGetBoxStartUI;
         public event Action OnActivateGetBoxUI;
         public event Action OnActivateGetBoxEndUI;
+        public event Action OnActivateGameOverUI;
+        public event Action OnActivateGameClearUI;
+
 
         public event Action OnResume;
 
@@ -60,6 +63,16 @@ namespace UI.Presenter
             OnActivateGetBoxEndUI?.Invoke();
             ItemData[] itemDatas = OnItemDatasGeted?.Invoke();
             OnGetItemDatasForBox?.Invoke(itemDatas);
+        }
+        public void ActivateGameOverUI()
+        {
+            Time.timeScale = 0;
+            OnActivateGameOverUI?.Invoke();
+        }
+        public void ActivateGameClearUI()
+        {
+            Time.timeScale = 0;
+            OnActivateGameClearUI?.Invoke();
         }
         public void SendSelectedID(int ID)
         {

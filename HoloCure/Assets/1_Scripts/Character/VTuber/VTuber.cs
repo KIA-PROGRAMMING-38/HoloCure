@@ -1,10 +1,13 @@
 using StringLiterals;
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class VTuber : CharacterBase
 {
+    public event Action OnDie;
+
     public event Action<int> OnChangeCurHP;
     public event Action<int> OnChangeMaxHp;
 
@@ -29,7 +32,7 @@ public class VTuber : CharacterBase
     private PlayerInput _input;
     private Rigidbody2D _rigidbody;
     private VTuberAnimation _VTuberAnimation;
-
+    private VTuberDieEffect _VTuberDieEffect;
     private VTuberFeature _VTuberFeature;
     #region Ω∫≈» √≥∏Æ
     public int MaxHealth { get; private set; }
@@ -91,8 +94,11 @@ public class VTuber : CharacterBase
         _rigidbody.freezeRotation = true;
 
         _VTuberAnimation = transform.Find(GameObjectLiteral.BODY).GetComponent<VTuberAnimation>();
+        _VTuberDieEffect = transform.Find(GameObjectLiteral.DIE_EFFECTS).GetComponent<VTuberDieEffect>();
         _pickUpSensor = transform.Find(GameObjectLiteral.OBJECT_SENSOR).GetComponent<CircleCollider2D>();
         _defaultRadius = _pickUpSensor.radius;
+
+        _dieCoroutine = DieCoroutine();
     }
     public override void Move()
     {
@@ -123,18 +129,50 @@ public class VTuber : CharacterBase
         transform.AddComponent<PlayerController>().Initialize(this);
         Util.CMCamera.SetCameraFollow(transform);
         gameObject.SetActive(true);
+        _VTuberAnimation.gameObject.SetActive(true);
     }
 
     public override void GetDamage(int damage, bool isCritical = false)
     {
         SoundPool.GetPlayAudio(SoundID.PlayerDamaged);
 
-        base.GetDamage(damage);
+        currentHealth -= damage;
 
         OnChangeCurHP?.Invoke(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
     protected override void Die()
     {
+        Time.timeScale = 0;
+        _elapsedTime = 0;
+        StartCoroutine(_dieCoroutine);
+    }
+    private float _elapsedTime;
+    private IEnumerator _dieCoroutine;
+    private IEnumerator DieCoroutine()
+    {
+        while (true)
+        {
+            _VTuberAnimation.gameObject.SetActive(false);
+            _VTuberDieEffect.gameObject.SetActive(true);
 
+            while (_elapsedTime < 3)
+            {
+                _elapsedTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            _VTuberDieEffect.gameObject.SetActive(false);
+
+            StopCoroutine(_dieCoroutine);
+
+            OnDie?.Invoke();
+
+            yield return null;
+        }
     }
 }

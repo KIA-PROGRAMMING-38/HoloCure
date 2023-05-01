@@ -19,7 +19,7 @@ public class PsychoAxe : Weapon
     }
     protected override void ProjectileOperate(Projectile projectile)
     {
-        projectile.Angle += projectile.ProjectileSpeed * Time.deltaTime * Time.deltaTime * Mathf.Rad2Deg;
+        projectile.Angle += projectile.ProjectileSpeed * Time.deltaTime * Mathf.Rad2Deg * 0.01f;
         projectile.Radius += RADIUS_INCREASE_SPEED * Time.deltaTime;
         projectile.Offset.Set(Mathf.Sin(projectile.Angle), Mathf.Cos(projectile.Angle));
         projectile.transform.position = projectile.InitPoint + projectile.Offset * projectile.Radius;

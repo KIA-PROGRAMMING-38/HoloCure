@@ -80,6 +80,8 @@ public class SmollAme : Boss
         Shadows[(int)ShadowID.Jump].SetActive(true);
         Shadows[(int)ShadowID.Jump].transform.localScale = START_SHADOW_SCALE;
         Jump();
+
+        SoundPool.GetPlayAudio(SoundID.SmollAmeJump);
     }
     private void DeActivateJumpShadow()
     {
@@ -156,5 +158,9 @@ public class SmollAme : Boss
         }
     }
 
-    private void ShakeCamera() => Util.CMCamera.Shake();
+    private void ShakeCamera()
+    {
+        Util.CMCamera.Shake();
+        SoundPool.GetPlayAudio(SoundID.SmollAmeAttack);
+    }
 }

@@ -244,6 +244,9 @@ public class EnemyManager : MonoBehaviour
         bossInstance.OnDieForUpdateCount -= GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
         bossInstance.OnDieForUpdateCount += GameManager.PresenterManager.CountPresenter.UpdateDefeatedEnemyCount;
 
+        bossInstance.OnDieForStage -= GameManager.StageManager.CountBoss;
+        bossInstance.OnDieForStage += GameManager.StageManager.CountBoss;
+
         StopCoroutine(_spawnEnemyCoroutines[ID]);
     }
 }

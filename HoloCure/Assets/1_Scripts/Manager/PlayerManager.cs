@@ -92,6 +92,9 @@ public class PlayerManager : MonoBehaviour
         VTuber.OnChangeHasteRate -= _presenterManager.StatPresenter.UpdateHaste;
         VTuber.OnChangeHasteRate += _presenterManager.StatPresenter.UpdateHaste;
 
+        VTuber.OnDie -= _presenterManager.TriggerUIPresenter.ActivateGameOverUI;
+        VTuber.OnDie += _presenterManager.TriggerUIPresenter.ActivateGameOverUI;
+
         Player.InitializeEvent();
         VTuber.InitializeEvent();
         VTuber.transform.position = default;
