@@ -32,6 +32,7 @@ public class PlayerManager : MonoBehaviour
     }
     private void GameEnd()
     {
+        _presenterManager.TriggerUIPresenter.OnSendSelectedID -= Player.Inventory.GetItem;
         Destroy(Player.Inventory.gameObject);
         Destroy(Player.GetComponent<PlayerInput>());
         Destroy(Player.GetComponent<PlayerController>());
@@ -90,6 +91,9 @@ public class PlayerManager : MonoBehaviour
 
         VTuber.OnChangeHasteRate -= _presenterManager.StatPresenter.UpdateHaste;
         VTuber.OnChangeHasteRate += _presenterManager.StatPresenter.UpdateHaste;
+
+        VTuber.OnDie -= _presenterManager.TriggerUIPresenter.ActivateGameOverUI;
+        VTuber.OnDie += _presenterManager.TriggerUIPresenter.ActivateGameOverUI;
 
         Player.InitializeEvent();
         VTuber.InitializeEvent();

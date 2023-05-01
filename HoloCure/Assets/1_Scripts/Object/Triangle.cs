@@ -22,7 +22,7 @@ public class Triangle : MonoBehaviour
     {
         _startPos.Set(Random.Range(-1080, 1081), 150);
         _endPos.Set(Random.Range(-1080, 1081), -1080);
-        _rotSpeed = Random.Range(0, 8f);
+        _rotSpeed = Random.Range(0, 3f);
         _elapsedTime = 0;
         _fadeStartTime = Random.Range(3, 5f);
         _duration = _fadeStartTime + Random.Range(3, 5f);

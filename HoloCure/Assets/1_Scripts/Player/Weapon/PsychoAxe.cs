@@ -5,6 +5,8 @@ public class PsychoAxe : Weapon
     private const int RADIUS_INCREASE_SPEED = 40;
     protected override void Shoot(int index)
     {
+        SoundPool.GetPlayAudio(SoundID.PsychoAxe);
+
         Projectile projectile = _projectilePool.GetProjectileFromPool();
         projectile.SetPositionWithWeapon(transform.position);
         projectile.Angle = 0f;
@@ -17,7 +19,7 @@ public class PsychoAxe : Weapon
     }
     protected override void ProjectileOperate(Projectile projectile)
     {
-        projectile.Angle += projectile.ProjectileSpeed * Time.deltaTime * Time.deltaTime * Mathf.Rad2Deg;
+        projectile.Angle += projectile.ProjectileSpeed * Time.deltaTime * Mathf.Rad2Deg * 0.01f;
         projectile.Radius += RADIUS_INCREASE_SPEED * Time.deltaTime;
         projectile.Offset.Set(Mathf.Sin(projectile.Angle), Mathf.Cos(projectile.Angle));
         projectile.transform.position = projectile.InitPoint + projectile.Offset * projectile.Radius;

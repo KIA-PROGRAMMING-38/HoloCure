@@ -7,6 +7,7 @@
         public const string PREFAB = "3_Prefab";
         public const string DATA_TABLE = "4_DataTable";
         public const string MATERIAL = "5_Material";
+        public const string SOUND = "7_Sound";
 
         public const string CHARACTER = "Character";
         public const string VTUBER = "VTuber";

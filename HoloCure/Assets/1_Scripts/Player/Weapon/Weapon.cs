@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     public WeaponData WeaponData = new();
+    [SerializeField] int lv;
     protected WeaponStat weaponStat = new();
 
     protected VTuber VTuber;
@@ -56,6 +57,7 @@ public abstract class Weapon : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
+        WeaponData.CurrentLevel = 0;
     }
     protected abstract void Shoot(int index);
     private int _index;
@@ -157,6 +159,7 @@ public abstract class Weapon : MonoBehaviour
     {
         CircleCollider2D mainCollider = (CircleCollider2D)weaponCollider;
         CircleCollider2D collider = projectile.AddComponent<CircleCollider2D>();
+        collider.isTrigger = true;
         collider.offset = mainCollider.offset;
         collider.radius = mainCollider.radius;
 

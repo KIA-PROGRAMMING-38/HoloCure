@@ -207,7 +207,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 605d3304d82cf1a4085bc64d676d6742, type: 3}
   - {fileID: 21300000, guid: 19165904cc8bef74cbe8ec005d1a40a7, type: 3}
   - {fileID: 21300000, guid: d09f0114ef5e7a04c89e91f231ea83aa, type: 3}
-  - {fileID: 21300000, guid: c49df21438cda0348a9c0baabeb0f62e, type: 3}
   - {fileID: 21300000, guid: d4e41314a116ad24aba74cbedb04a518, type: 3}
   - {fileID: 21300000, guid: d606a414e4730bc4cbb8a470d81966ab, type: 3}
   - {fileID: 21300000, guid: df713b14be1c24243b8749cd1c967108, type: 3}
@@ -263,6 +262,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 753274854996f694484773e2995ab1a5, type: 3}
   - {fileID: 21300000, guid: 6e7cf785945493d4dba3918cf03035da, type: 3}
   - {fileID: 21300000, guid: 95bf2c851dde46942a73dfe5b6d30b76, type: 3}
+  - {fileID: 21300000, guid: a5df709564aa4fb4c84301b8a4819719, type: 3}
   - {fileID: 21300000, guid: 602fd795a53775b42b29c3474791b59c, type: 3}
   - {fileID: 21300000, guid: 7714f0a52dad60a4e902dfbb6cd7de7f, type: 3}
   - {fileID: 21300000, guid: c825a4a553a7bcb4d8e646fd6a5a63bb, type: 3}
@@ -292,7 +292,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a0c38b76c7decbc42b62d46e189c7d51, type: 3}
   - {fileID: 21300000, guid: 9e713d76a8e34954599d4e924c1f6252, type: 3}
   - {fileID: 21300000, guid: e57fad76d967c1141a4c83bd312259c2, type: 3}
-  - {fileID: 21300000, guid: cc3a5886062ef2e48bd7d3068e9a95ca, type: 3}
   - {fileID: 21300000, guid: 83f9619668118e049ae5f457116d2259, type: 3}
   - {fileID: 21300000, guid: 0a5e97961c86be343af3eaf891c3536b, type: 3}
   - {fileID: 21300000, guid: d0bd48960eaf4934a93da29ff1c585c1, type: 3}
@@ -524,6 +523,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0940c53c4f9818243b91cb91a1010830, type: 3}
   - {fileID: 21300000, guid: 619a9d3cd5139f74da3f267261479bf9, type: 3}
   - {fileID: 21300000, guid: 26da744cf169b1a41af7cb595445a7e6, type: 3}
+  - {fileID: 21300000, guid: 16f7394cb0804dd44bf5bcf398102b35, type: 3}
   - {fileID: 21300000, guid: ab0cc05c911465b48a62050a19f1d32c, type: 3}
   - {fileID: 21300000, guid: c057ce5c6be018347832e2fc4c8e0a9f, type: 3}
   - {fileID: 21300000, guid: 1f6ff76cd937d0a4e82d0e05ff84599c, type: 3}
@@ -631,6 +631,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e07d765efaa306a429b05f2e62d4f8f0, type: 3}
   - {fileID: 21300000, guid: 3c7c036e7442e9a4fb11c5d9b9457c10, type: 3}
   - {fileID: 21300000, guid: 66fdd46ef06eb444d9e8a7b4cde351df, type: 3}
+  - {fileID: 21300000, guid: 637dc17e8e9e75f47819cc3f92f7eb8c, type: 3}
   - {fileID: 21300000, guid: dcf8d37e49ce0984bada024faf137700, type: 3}
   - {fileID: 21300000, guid: 2313a77ee9b72f04b84f502452b9e3c0, type: 3}
   - {fileID: 21300000, guid: 4931587ea75663643b565364466e801f, type: 3}
@@ -665,6 +666,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6d26dd0fc81af4743ab127296753d114, type: 3}
   - {fileID: 21300000, guid: e7f7401fd09d25b4797ed6119e6d919b, type: 3}
   - {fileID: 21300000, guid: 95017b1f113d8cb4e867452c9229c84e, type: 3}
+  - {fileID: 21300000, guid: a3a45c1f2e6380c4e8869c35553b2b09, type: 3}
   - {fileID: 21300000, guid: ab5c232fb9d79d04a846276da06f3e89, type: 3}
   - {fileID: 21300000, guid: 184fc72f44f39434387bf6583e662534, type: 3}
   - {fileID: 21300000, guid: 9cece82fde5c56b488a8f0a21992fa0c, type: 3}
@@ -860,7 +862,6 @@ SpriteAtlas:
   - spr_smokeeffect1_5
   - spr_EXP5_3
   - spr_KromieB_0
-  - spr_Gura_portrait_0
   - spr_EXP4_7
   - spr_LavaPoolStart_1
   - ui_empty_slot_weapon_0
@@ -916,6 +917,7 @@ SpriteAtlas:
   - spr_weaponTypes_2
   - spr_Ina_O2_idle_3
   - spr_EXP5_5
+  - spr_deathHeart_1
   - spr_PsychoAxe_1
   - spr_SummonTentacle_2
   - spr_Title_Aki_0
@@ -945,7 +947,6 @@ SpriteAtlas:
   - spr_LavaPoolLoop_11
   - spr_InaPortrait_0
   - spr_StageSelectArrows_1
-  - spr_Title_bae_0
   - spr_EXP6_6
   - spr_GlowStick_White_6
   - spr_SmollAme_jump_14
@@ -1177,6 +1178,7 @@ SpriteAtlas:
   - spr_GlowStick_2
   - spr_EXP5_8
   - spr_bombExplode_1
+  - spr_deathHeart_3
   - hudfx_sparkle_1
   - ui_level_header_pink_0
   - spr_holoCursor_5
@@ -1284,6 +1286,7 @@ SpriteAtlas:
   - spr_EXP3_9
   - spr_LavaPoolEnd_4
   - spr_Ina_O2_run_5
+  - spr_deathHeart_2
   - spr_SmollAme_groundpound_8
   - spr_GlowStick_Pink_4
   - spr_EXP5_2
@@ -1318,6 +1321,7 @@ SpriteAtlas:
   - spr_holoCursor_7
   - spr_EXP_1
   - spr_KFP_0
+  - spr_deathHeart_0
   - spr_EXP4_2
   - spr_ShrimpDark_2
   - spr_Ina_O1_idle_1

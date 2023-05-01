@@ -24,7 +24,13 @@ public class MouseCursor : UIBase
 
         PresenterManager.TriggerUIPresenter.OnActivateDefaultUI -= ActivateUICursor;
         PresenterManager.TriggerUIPresenter.OnActivateDefaultUI += ActivateUICursor;
+        PresenterManager.TriggerUIPresenter.OnActivateGameOverUI -= ActivateUICursor;
+        PresenterManager.TriggerUIPresenter.OnActivateGameOverUI += ActivateUICursor;
+        PresenterManager.TriggerUIPresenter.OnActivateGameClearUI -= ActivateUICursor;
+        PresenterManager.TriggerUIPresenter.OnActivateGameClearUI += ActivateUICursor;
 
+        PresenterManager.TitleUIPresenter.OnPlayGame -= ActivateInGameCursor;
+        PresenterManager.TitleUIPresenter.OnPlayGame += ActivateInGameCursor;
         PresenterManager.TriggerUIPresenter.OnResume -= ActivateInGameCursor;
         PresenterManager.TriggerUIPresenter.OnResume += ActivateInGameCursor;
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class InventoryList : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class InventoryList : MonoBehaviour
         GetComponent<RectTransform>().localScale = Vector3.one / 2;
         _image.sprite = _defaultSprite;
         _image.color = DefaultColor;
+        _levelNumImage.sprite = _numsImage[1];
 
         _frame.SetActive(false);
         _levelNumImage.gameObject.SetActive(false);

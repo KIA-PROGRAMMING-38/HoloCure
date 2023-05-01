@@ -25,7 +25,12 @@ public class GetBoxEndUI : UIBase
         OnSelectTake -= PresenterManager.TriggerUIPresenter.SendSelectedID;
         OnSelectTake += PresenterManager.TriggerUIPresenter.SendSelectedID;
     }
-    private void ActivateGetBoxUI() => _canvas.enabled = true;
+    private void ActivateGetBoxUI()
+    {
+        _canvas.enabled = true;
+        SoundPool.GetPlayAudio(SoundID.BoxOpenEnd);
+    }
+
     private void DeActivateGetBoxUI()
     {
         _canvas.enabled = false;

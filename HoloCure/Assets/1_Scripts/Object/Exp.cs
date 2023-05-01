@@ -35,6 +35,7 @@ public class Exp : MonoBehaviour
         if (collision.CompareTag(TagLiteral.VTUBER))
         {
             StopCoroutine(_moveToPlayerCoroutine);
+            SoundPool.GetPlayAudio(SoundID.GetExp);
             _isMove = false;
             _isReleased = true;
             _pool.Release(this);

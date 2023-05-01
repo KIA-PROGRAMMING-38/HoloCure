@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     /// 인벤토리에 장착된 무기들입니다.
     /// </summary>
     public static Weapon[] Weapons;
-    private HashSet<int> weaponIDs = new();
+    private HashSet<int> _weaponIDs = new();
     private WeaponDataTable _weaponDataTable;
     private StatDataTable _statDataTable;
     /// <summary>
@@ -21,53 +21,53 @@ public class Inventory : MonoBehaviour
 
     private VTuber _VTuber;
     private VTuberID _VTuberID;
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Alpha1))
-    //    {
-    //        GetItem((int)StatID.MaxHPUp);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.Alpha2))
-    //    {
-    //        GetItem((int)StatID.ATKUp);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.Alpha3))
-    //    {
-    //        GetItem((int)StatID.SPDUp);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.Alpha4))
-    //    {
-    //        GetItem((int)StatID.CRTUp);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.Alpha5))
-    //    {
-    //        GetItem((int)StatID.PickUpRangeUp);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.Alpha6))
-    //    {
-    //        GetItem((int)StatID.HasteUp);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.Y))
-    //    {
-    //        GetItem((int)CommonWeaponID.FanBeam);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.U))
-    //    {
-    //        GetItem((int)CommonWeaponID.PsychoAxe);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.I))
-    //    {
-    //        GetItem((int)CommonWeaponID.BLBook);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.O))
-    //    {
-    //        GetItem((int)CommonWeaponID.HoloBomb);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.P))
-    //    {
-    //        GetItem((int)CommonWeaponID.SpiderCooking);
-    //    }
-    //}
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            GetItem((int)StatID.MaxHPUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GetItem((int)StatID.ATKUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            GetItem((int)StatID.SPDUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            GetItem((int)StatID.CRTUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            GetItem((int)StatID.PickUpRangeUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            GetItem((int)StatID.HasteUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            GetItem((int)CommonWeaponID.FanBeam);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            GetItem((int)CommonWeaponID.PsychoAxe);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            GetItem((int)CommonWeaponID.BLBook);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            GetItem((int)CommonWeaponID.HoloBomb);
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GetItem((int)CommonWeaponID.SpiderCooking);
+        }
+    }
     public void Initialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable, StatDataTable statDataTable)
     {
         _VTuber = VTuber;
@@ -96,14 +96,14 @@ public class Inventory : MonoBehaviour
     }
     private void GetWeapon(int ID)
     {
-        if (false == weaponIDs.Contains(ID))
+        if (false == _weaponIDs.Contains(ID))
         {
             Weapon weapon = _weaponDataTable.WeaponPrefabContainer[ID];
             weapon.Initialize(_VTuber, _weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
             weapon.gameObject.SetActive(true);
 
             Weapons[WeaponCount] = weapon;
-            weaponIDs.Add(ID);
+            _weaponIDs.Add(ID);
             WeaponCount += 1;
 
             _VTuber.OnChangeHasteRate -= weapon.GetHaste;
