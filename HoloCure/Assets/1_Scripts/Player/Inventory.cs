@@ -21,7 +21,53 @@ public class Inventory : MonoBehaviour
 
     private VTuber _VTuber;
     private VTuberID _VTuberID;
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            GetItem((int)StatID.MaxHPUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GetItem((int)StatID.ATKUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            GetItem((int)StatID.SPDUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            GetItem((int)StatID.CRTUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            GetItem((int)StatID.PickUpRangeUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            GetItem((int)StatID.HasteUp);
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            GetItem((int)CommonWeaponID.FanBeam);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            GetItem((int)CommonWeaponID.PsychoAxe);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            GetItem((int)CommonWeaponID.BLBook);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            GetItem((int)CommonWeaponID.HoloBomb);
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GetItem((int)CommonWeaponID.SpiderCooking);
+        }
+    }
     public void Initialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable, StatDataTable statDataTable)
     {
         _VTuber = VTuber;

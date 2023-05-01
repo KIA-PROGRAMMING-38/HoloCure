@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HoloBomb : Weapon
 {
-    private readonly Vector2 EFFECT_COLLIDER_OFFSET = new Vector2(0, 40);
+    private readonly Vector2 EFFECT_COLLIDER_OFFSET = new(0, 25);
 
     private float _projectileRadius;
     private float _effectRadius;

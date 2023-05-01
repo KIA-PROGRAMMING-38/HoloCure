@@ -159,6 +159,7 @@ public abstract class Weapon : MonoBehaviour
     {
         CircleCollider2D mainCollider = (CircleCollider2D)weaponCollider;
         CircleCollider2D collider = projectile.AddComponent<CircleCollider2D>();
+        collider.isTrigger = true;
         collider.offset = mainCollider.offset;
         collider.radius = mainCollider.radius;
 

@@ -123,9 +123,11 @@ public class Projectile : MonoBehaviour
     /// </summary>
     public void SetAnimToEffect()
     {
+        CircleCollider2D collier = (CircleCollider2D)_collider;
+        collier.enabled = false;
         gameObject.layer = LayerNum.WEAPON;
         GetComponent<Animator>().SetTrigger(AnimParameterHash.ON_EFFECT);
-        CircleCollider2D collier = (CircleCollider2D)_collider;
+        collier.enabled = true;
         collier.offset = _efffectColliderOffset;
         collier.radius = _effectRadius;
         transform.localScale = Vector2.one * _size;
