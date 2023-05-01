@@ -128,6 +128,8 @@ public class Enemy : CharacterBase
     /// </summary>
     public override void GetDamage(int damage, bool isCritical = false)
     {
+        if (isReleased) { return; }
+
         SoundPool.GetPlayAudio(SoundID.EnemyDamaged);
 
         _effectDir = enemyAnimation.IsFilp() == true ? Vector2.right : Vector2.left;
@@ -166,6 +168,8 @@ public class Enemy : CharacterBase
     /// </summary>
     protected override void Die()
     {
+        isReleased = true;
+
         _dyingPoint = transform.position;
         moveSpeed = 0f;
         StartCoroutine(_dyingMoveCoroutine);
@@ -206,8 +210,6 @@ public class Enemy : CharacterBase
             StopCoroutine(_dyingMoveCoroutine);
 
             _elapsedTime = 0f;
-
-            isReleased = true;
 
             ReleaseToPool();
 
