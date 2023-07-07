@@ -17,40 +17,40 @@ public class Managers : MonoBehaviour
 
         DontDestroyOnLoad(this);
         
-        SetupManager();
+        Init();
 
         Time.timeScale = 0;
     }
-    private void SetupManager()
+    private void Init()
     {
-        GameObject gameObject;
+        GameObject go;
 
-        gameObject = new GameObject(nameof(DataTableM));
-        gameObject.transform.parent = transform;
-        DataTableM = gameObject.AddComponent<DataTableManager>();
+        go = new GameObject(nameof(DataTableM));
+        go.transform.parent = transform;
+        DataTableM = go.AddComponent<DataTableManager>();
 
-        gameObject = new GameObject(nameof(PresenterM));
-        gameObject.transform.parent = transform;
-        PresenterM = gameObject.AddComponent<PresenterManager>();
+        go = new GameObject(nameof(PresenterM));
+        go.transform.parent = transform;
+        PresenterM = go.AddComponent<PresenterManager>();
 
-        gameObject = new GameObject(nameof(PlayerM));
-        gameObject.transform.parent = transform;
-        PlayerM = gameObject.AddComponent<PlayerManager>();
+        go = new GameObject(nameof(PlayerM));
+        go.transform.parent = transform;
+        PlayerM = go.AddComponent<PlayerManager>();
 
-        gameObject = new GameObject(nameof(EnemyM));
-        gameObject.transform.parent = transform;
-        EnemyM = gameObject.AddComponent<EnemyManager>();
+        go = new GameObject(nameof(EnemyM));
+        go.transform.parent = transform;
+        EnemyM = go.AddComponent<EnemyManager>();
 
-        gameObject = new GameObject(nameof(ObjectM));
-        gameObject.transform.parent = transform;
-        ObjectM = gameObject.AddComponent<ObjectManager>();
+        go = new GameObject(nameof(ObjectM));
+        go.transform.parent = transform;
+        ObjectM = go.AddComponent<ObjectManager>();
 
-        gameObject = new GameObject(nameof(StageM));
-        gameObject.transform.parent = transform;
-        StageM = gameObject.AddComponent<StageManager>();
+        go = new GameObject(nameof(StageM));
+        go.transform.parent = transform;
+        StageM = go.AddComponent<StageManager>();
 
-        gameObject = new GameObject(nameof(ItemM));
-        gameObject.transform.parent = transform;
-        ItemM = gameObject.AddComponent<ItemManager>();
+        go = new GameObject(nameof(ItemM));
+        go.transform.parent = transform;
+        ItemM = go.AddComponent<ItemManager>();
     }
 }
