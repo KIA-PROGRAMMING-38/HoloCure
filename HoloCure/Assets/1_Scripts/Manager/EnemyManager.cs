@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    private GameObject _spawnContainer;
+    private GameObject _enemyContainer;
     private Dictionary<int, EnemyPool> _enemyPools;
     private MiniBossPool _miniBossPool;
     private Dictionary<int, BossPool> _bossPools;
@@ -52,6 +52,8 @@ public class EnemyManager : MonoBehaviour
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= GameEnd;
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd += GameEnd;
 
+        _enemyContainer = new GameObject("EnemyContainer");
+
         SetSpawn();
     }
     
@@ -63,11 +65,11 @@ public class EnemyManager : MonoBehaviour
     private void GameEnd()
     {
         StopAllCoroutines();
-        _spawnContainer.SetActive(false);
+        _enemyContainer.SetActive(false);
     }
     private void StartStageOne()
     {
-        _spawnContainer.SetActive(true);
+        _enemyContainer.SetActive(true);
         _spawnEnemyCoroutines.Clear();
         foreach (int ID in Managers.DataTableM.EnemyDataTable.StageOneEnemyList)
         {
@@ -128,7 +130,7 @@ public class EnemyManager : MonoBehaviour
             }
             _spawnPos.Set(x, y);
             Enemy enemyInstance = _enemyPools[ID].GetEnemyFromPool();
-            enemyInstance.transform.parent = _spawnContainer.transform;
+            enemyInstance.transform.parent = _enemyContainer.transform;
             enemyInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
             enemyInstance.SetFilpX();
             enemyInstance.SetDefaultDamageTextPool(_defaultDamageTextPool);
@@ -162,7 +164,7 @@ public class EnemyManager : MonoBehaviour
         }
         _spawnPos.Set(x, y);
         MiniBoss miniBossInstance = _miniBossPool.GetMiniBossFromPool();
-        miniBossInstance.transform.parent = _spawnContainer.transform;
+        miniBossInstance.transform.parent = _enemyContainer.transform;
         miniBossInstance.InitializeStatus(Managers.DataTableM.EnemyDataTable.EnemyStatContainer[ID], Managers.DataTableM.EnemyDataTable.EnemyFeatureContainer[ID]);
         miniBossInstance.SetEnemyRender(Managers.DataTableM.EnemyDataTable.EnemyRenderContainer[ID]);
 
@@ -213,7 +215,7 @@ public class EnemyManager : MonoBehaviour
         }
         _spawnPos.Set(x, y);
         Boss bossInstance = _bossPools[ID].GetBossFromPool();
-        bossInstance.transform.parent = _spawnContainer.transform;
+        bossInstance.transform.parent = _enemyContainer.transform;
         bossInstance.transform.position = Util.Caching.CenterWorldPos + _spawnPos;
         bossInstance.SetFilpX();
         bossInstance.SetDefaultDamageTextPool(_defaultDamageTextPool);
