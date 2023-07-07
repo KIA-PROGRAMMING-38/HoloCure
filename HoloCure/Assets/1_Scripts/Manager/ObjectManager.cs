@@ -2,14 +2,6 @@
 
 public class ObjectManager : MonoBehaviour
 {
-    private GameManager _gameManager;
-
-    public GameManager GameManager
-    {
-        private get => _gameManager;
-        set => _gameManager = value;
-    }
-
     private ExpPool _expPool;
     private BoxPool _boxPool;
     private GameObject _expContainer;
@@ -23,11 +15,11 @@ public class ObjectManager : MonoBehaviour
         _boxPool = new BoxPool();
         _boxPool.Initialize(_boxContainer);
 
-        GameManager.PresenterManager.TitleUIPresenter.OnPlayGame -= GameStart;
-        GameManager.PresenterManager.TitleUIPresenter.OnPlayGame += GameStart;
+        Managers.PresenterM.TitleUIPresenter.OnPlayGame -= GameStart;
+        Managers.PresenterM.TitleUIPresenter.OnPlayGame += GameStart;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd -= GameEnd;
-        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameEnd;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= GameEnd;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += GameEnd;
     }
     private void GameEnd()
     {

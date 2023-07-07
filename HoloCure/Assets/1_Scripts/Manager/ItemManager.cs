@@ -3,35 +3,16 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    private GameManager _gameManager;
-    private DataTableManager _dataTableManager;
-    private WeaponDataTable _weaponDataTable;
-    private StatDataTable _statDataTable;
-    private PresenterManager _presenterManager;
-
-    public GameManager GameManager
-    {
-        private get => _gameManager;
-        set
-        {
-            _gameManager = value;
-            _dataTableManager = _gameManager.DataTableManager;
-            _weaponDataTable = _dataTableManager.WeaponDataTable;
-            _statDataTable = _dataTableManager.StatDataTable;
-            _presenterManager = _gameManager.PresenterManager;
-        }
-    }
-
     private void Start()
     {
-        _presenterManager.TriggerUIPresenter.OnItemDatasGeted -= GetItemDatas;
-        _presenterManager.TriggerUIPresenter.OnItemDatasGeted += GetItemDatas;
+        Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted -= GetItemDatas;
+        Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted += GetItemDatas;
 
-        foreach (KeyValuePair<int, WeaponData> item in _weaponDataTable.WeaponDataContainer)
+        foreach (KeyValuePair<int, WeaponData> item in Managers.DataTableM.WeaponDataTable.WeaponDataContainer)
         {
             _totalWeaponWeight += item.Value.Weight;
         }
-        foreach (KeyValuePair<int, Stat> item in _statDataTable.StatContainer)
+        foreach (KeyValuePair<int, Stat> item in Managers.DataTableM.StatDataTable.StatContainer)
         {
             _totalStatWeight += item.Value.Weight;
         }
@@ -77,7 +58,7 @@ public class ItemManager : MonoBehaviour
 
         int randomNum = Random.Range(0, _totalWeaponWeight);
         int accumulatedWeight = 0;
-        foreach (KeyValuePair<int, WeaponData> item in _weaponDataTable.WeaponDataContainer)
+        foreach (KeyValuePair<int, WeaponData> item in Managers.DataTableM.WeaponDataTable.WeaponDataContainer)
         {
             accumulatedWeight += item.Value.Weight;
 
@@ -105,7 +86,7 @@ public class ItemManager : MonoBehaviour
 
         int randomNum = Random.Range(0, _totalStatWeight);
         int accumulatedWeight = 0;
-        foreach (KeyValuePair<int, Stat> item in _statDataTable.StatContainer)
+        foreach (KeyValuePair<int, Stat> item in Managers.DataTableM.StatDataTable.StatContainer)
         {
             accumulatedWeight += item.Value.Weight;
 
