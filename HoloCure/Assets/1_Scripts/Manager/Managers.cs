@@ -3,6 +3,8 @@ using UnityEngine;
 public class Managers : MonoBehaviour
 {
     public static Managers Instance;
+    public static DataManager Data { get; private set; }
+    public static ResourceManager Resource { get; private set; }
     public static DataTableManager DataTableM { get; private set; }
     public static PlayerManager PlayerM { get; private set; }
     public static EnemyManager EnemyM { get; private set; }
@@ -13,16 +15,22 @@ public class Managers : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
-        DontDestroyOnLoad(this);
-        
         Init();
 
         Time.timeScale = 0;
     }
     private void Init()
     {
+        Instance = this;
+
+        DontDestroyOnLoad(this);
+
+        Data = new DataManager();
+        Resource = new ResourceManager();
+
+        Data.Init();
+        Resource.Init();
+
         GameObject go;
 
         go = new GameObject(nameof(DataTableM));
