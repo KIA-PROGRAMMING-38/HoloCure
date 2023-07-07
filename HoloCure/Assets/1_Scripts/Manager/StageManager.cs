@@ -7,7 +7,6 @@ public class StageManager : MonoBehaviour
     public event Action OnOneSecondPassed;
     public event Action OnPause;
     public event Action OnClear;
-    public GameManager GameManager { private get; set; }
 
     public float CurrentStageTime;
     private int _elapsedSecond;
@@ -21,61 +20,61 @@ public class StageManager : MonoBehaviour
         _volumeDownCoroutine = VolumeDownCoroutine();
         _clearCoroutine = ClearCoroutine();
 
-        OnOneSecondPassed -= GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
-        OnOneSecondPassed += GameManager.PresenterManager.TimePresenter.IncreaseOneSecond;
+        OnOneSecondPassed -= Managers.PresenterM.TimePresenter.IncreaseOneSecond;
+        OnOneSecondPassed += Managers.PresenterM.TimePresenter.IncreaseOneSecond;
 
-        OnPause -= GameManager.PresenterManager.TriggerUIPresenter.ActivatePauseUI;
-        OnPause += GameManager.PresenterManager.TriggerUIPresenter.ActivatePauseUI;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivatePauseUI -= SetBoolOnPauseTrue;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivatePauseUI += SetBoolOnPauseTrue;
+        OnPause -= Managers.PresenterM.TriggerUIPresenter.ActivatePauseUI;
+        OnPause += Managers.PresenterM.TriggerUIPresenter.ActivatePauseUI;
+        Managers.PresenterM.TriggerUIPresenter.OnActivatePauseUI -= SetBoolOnPauseTrue;
+        Managers.PresenterM.TriggerUIPresenter.OnActivatePauseUI += SetBoolOnPauseTrue;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume -= SetBoolOnPauseFalse;
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume += SetBoolOnPauseFalse;
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume -= SetBoolOnSelectFalse;
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume += SetBoolOnSelectFalse;
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume -= StartGetKeyCoroutine;
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume += StartGetKeyCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnResume -= SetBoolOnPauseFalse;
+        Managers.PresenterM.TriggerUIPresenter.OnResume += SetBoolOnPauseFalse;
+        Managers.PresenterM.TriggerUIPresenter.OnResume -= SetBoolOnSelectFalse;
+        Managers.PresenterM.TriggerUIPresenter.OnResume += SetBoolOnSelectFalse;
+        Managers.PresenterM.TriggerUIPresenter.OnResume -= StartGetKeyCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnResume += StartGetKeyCoroutine;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= SetBoolOnSelectTrue;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += SetBoolOnSelectTrue;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI -= SetBoolOnSelectTrue;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI += SetBoolOnSelectTrue;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateLevelUpUI -= SetBoolOnSelectTrue;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateLevelUpUI += SetBoolOnSelectTrue;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGetBoxStartUI -= SetBoolOnSelectTrue;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGetBoxStartUI += SetBoolOnSelectTrue;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= StopGetKeyCoroutine;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += StopGetKeyCoroutine;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI -= StopGetKeyCoroutine;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI += StopGetKeyCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateLevelUpUI -= StopGetKeyCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateLevelUpUI += StopGetKeyCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGetBoxStartUI -= StopGetKeyCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGetBoxStartUI += StopGetKeyCoroutine;
 
-        GameManager.PresenterManager.TitleUIPresenter.OnPlayGameForStage -= StartStage;
-        GameManager.PresenterManager.TitleUIPresenter.OnPlayGameForStage += StartStage;
+        Managers.PresenterM.TitleUIPresenter.OnPlayGameForStage -= StartStage;
+        Managers.PresenterM.TitleUIPresenter.OnPlayGameForStage += StartStage;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd -= StopStage;
-        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += StopStage;
-        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd -= GameManager.PresenterManager.TimePresenter.ResetTimer;
-        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameManager.PresenterManager.TimePresenter.ResetTimer;
-        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameManager.PresenterManager.TitleUIPresenter.ActivateMainTitleUI;
-        GameManager.PresenterManager.TriggerUIPresenter.OnGameEnd += GameManager.PresenterManager.TitleUIPresenter.ActivateMainTitleUI;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= StopStage;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += StopStage;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= Managers.PresenterM.TimePresenter.ResetTimer;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += Managers.PresenterM.TimePresenter.ResetTimer;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += Managers.PresenterM.TitleUIPresenter.ActivateMainTitleUI;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += Managers.PresenterM.TitleUIPresenter.ActivateMainTitleUI;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivatePauseUI -= StartVolumeDownCoroutine;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivatePauseUI += StartVolumeDownCoroutine;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI -= StartVolumeDownCoroutine;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateLevelUpUI += StartVolumeDownCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnActivatePauseUI -= StartVolumeDownCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnActivatePauseUI += StartVolumeDownCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateLevelUpUI -= StartVolumeDownCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateLevelUpUI += StartVolumeDownCoroutine;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume -= StartVolumeUpCoroutine;
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume += StartVolumeUpCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnResume -= StartVolumeUpCoroutine;
+        Managers.PresenterM.TriggerUIPresenter.OnResume += StartVolumeUpCoroutine;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI -= PauseBGM;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI += PauseBGM;
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume -= UnPauseBGM;
-        GameManager.PresenterManager.TriggerUIPresenter.OnResume += UnPauseBGM;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGetBoxStartUI -= PauseBGM;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGetBoxStartUI += PauseBGM;
+        Managers.PresenterM.TriggerUIPresenter.OnResume -= UnPauseBGM;
+        Managers.PresenterM.TriggerUIPresenter.OnResume += UnPauseBGM;
 
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGameOverUI -= StopStage;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGameOverUI += StopStage;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGameClearUI -= StopStage;
-        GameManager.PresenterManager.TriggerUIPresenter.OnActivateGameClearUI += StopStage;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGameOverUI -= StopStage;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGameOverUI += StopStage;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGameClearUI -= StopStage;
+        Managers.PresenterM.TriggerUIPresenter.OnActivateGameClearUI += StopStage;
 
-        OnClear -= GameManager.PresenterManager.TriggerUIPresenter.ActivateGameClearUI;
-        OnClear += GameManager.PresenterManager.TriggerUIPresenter.ActivateGameClearUI;
+        OnClear -= Managers.PresenterM.TriggerUIPresenter.ActivateGameClearUI;
+        OnClear += Managers.PresenterM.TriggerUIPresenter.ActivateGameClearUI;
 
         _stageOneBGM = SoundPool.GetPlayAudio(SoundID.StageOneBGM);
         _stageOneBGM.SetVolume(Default_Volume);
