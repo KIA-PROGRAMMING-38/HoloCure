@@ -8,19 +8,22 @@ public class ItemManager : MonoBehaviour
         Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted -= GetItemDatas;
         Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted += GetItemDatas;
 
-        foreach (KeyValuePair<ItemID, ItemData> item in Managers.Data.Item)
+        foreach (WeightData data in Managers.Data.Weight)
         {
-            switch (item.Key)
+            switch (data.Id)
             {
-                case < ItemID.StatNone:
-                    _totalWeaponWeight += item.Value.Weight;
+                case < ItemID.StartingNone:
+                    _totalWeaponWeight += data.Weight;
                     break;
-                default:
-                    _totalStatWeight += item.Value.Weight;
+                case > ItemID.StatNone:
+                    _totalStatWeight += data.Weight;
                     break;
             }
         }
+
+        _totalWeaponWeight += Starting_Weapon_Weight;
     }
+    private const int Starting_Weapon_Weight = 3;
     private int _totalWeaponWeight;
     private int _totalStatWeight;
     HashSet<ItemID> _set = new();
@@ -56,22 +59,22 @@ public class ItemManager : MonoBehaviour
 
         int randomNum = Random.Range(0, _totalWeaponWeight);
         int accumulatedWeight = 0;
-        foreach (KeyValuePair<ItemID, ItemData> item in Managers.Data.Item)
+        foreach (WeightData data in Managers.Data.Weight)
         {
-            if (item.Key >= ItemID.StatNone) { break; }
+            if (data.Id >= ItemID.StatNone) { break; }
 
-            accumulatedWeight += item.Value.Weight;
+            accumulatedWeight += data.Weight;
 
             if (randomNum >= accumulatedWeight) { continue; }
 
             for (int i = 0; i < Inventory.WeaponCount; ++i)
             {
                 Weapon weapon = Inventory.Weapons[i];
-                if (weapon.Id != item.Key) { continue; }
+                if (weapon.Id != data.Id) { continue; }
                 if (weapon.Level == 7) { return; }
             }
 
-            _set.Add(item.Key);
+            _set.Add(data.Id);
 
             return;
         }
@@ -82,15 +85,15 @@ public class ItemManager : MonoBehaviour
 
         int randomNum = Random.Range(0, _totalStatWeight);
         int accumulatedWeight = 0;
-        foreach (KeyValuePair<ItemID, ItemData> item in Managers.Data.Item)
+        foreach (WeightData data in Managers.Data.Weight)
         {
-            if (item.Key < ItemID.StatNone) { continue; }
+            if (data.Id < ItemID.StatNone) { continue; }
 
-            accumulatedWeight += item.Value.Weight;
+            accumulatedWeight += data.Weight;
 
             if (randomNum >= accumulatedWeight) { continue; }
 
-            _set.Add(item.Key);
+            _set.Add(data.Id);
 
             break;
         }

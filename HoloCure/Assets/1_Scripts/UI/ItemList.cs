@@ -116,7 +116,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
             }
         }
 
-        _descriptionText.text = Managers.Data.Weapon[data.Id][weapon.Level + 1].Description;
+        _descriptionText.text = Managers.Data.WeaponLevelTable[data.Id][weapon.Level + 1].Description;
 
         _itemTypeImage.enabled = true;
         switch (data.Type)

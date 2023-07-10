@@ -23,9 +23,9 @@ public class HoloBomb : Weapon
     }
     private void GetDivisionAngle()
     {
-        angles = new float[Managers.Data.Weapon[Id][Level].ProjectileCount];
-        int angleDivision = 360 / Managers.Data.Weapon[Id][Level].ProjectileCount;
-        for (int i = 0; i < Managers.Data.Weapon[Id][Level].ProjectileCount; ++i)
+        angles = new float[Managers.Data.WeaponLevelTable[Id][Level].ProjectileCount];
+        int angleDivision = 360 / Managers.Data.WeaponLevelTable[Id][Level].ProjectileCount;
+        for (int i = 0; i < Managers.Data.WeaponLevelTable[Id][Level].ProjectileCount; ++i)
         {
             angles[i] = i * angleDivision;
         }

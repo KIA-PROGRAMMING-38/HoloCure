@@ -60,14 +60,14 @@ public abstract class Weapon : MonoBehaviour
     {
         while (true)
         {
-            while (_index < Managers.Data.Weapon[Id][Level].ProjectileCount)
+            while (_index < Managers.Data.WeaponLevelTable[Id][Level].ProjectileCount)
             {
                 Shoot(_index);
                 _index += 1;
 
-                if (Managers.Data.Weapon[Id][Level].AttackDelay == 0) { continue; }
+                if (Managers.Data.WeaponLevelTable[Id][Level].AttackDelay == 0) { continue; }
 
-                yield return Util.TimeStore.GetWaitForSeconds(Managers.Data.Weapon[Id][Level].AttackDelay);
+                yield return Util.TimeStore.GetWaitForSeconds(Managers.Data.WeaponLevelTable[Id][Level].AttackDelay);
             }
 
             StopCoroutine(_shootCoroutine);
@@ -113,7 +113,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void BeforeOperateProjectile(Projectile projectile)
     {
-        projectile.SetProjectileStat(Managers.Data.Weapon[Id][Level]);
+        projectile.SetProjectileStat(Managers.Data.WeaponLevelTable[Id][Level]);
     }
     protected virtual void AfterOperateProjectile(Projectile projectile)
     {
@@ -193,15 +193,15 @@ public abstract class Weapon : MonoBehaviour
     }
     private void SetAttackSequenceTime()
     {
-        _curAttackSequenceTime = Mathf.Round(Managers.Data.Weapon[Id][Level].BaseAttackSequenceTime / (1 + _haste / 100f));
+        _curAttackSequenceTime = Mathf.Round(Managers.Data.WeaponLevelTable[Id][Level].BaseAttackSequenceTime / (1 + _haste / 100f));
 
-        if (_curAttackSequenceTime < Managers.Data.Weapon[Id][Level].MinAttackSequenceTime)
+        if (_curAttackSequenceTime < Managers.Data.WeaponLevelTable[Id][Level].MinAttackSequenceTime)
         {
-            _curAttackSequenceTime = Managers.Data.Weapon[Id][Level].MinAttackSequenceTime;
+            _curAttackSequenceTime = Managers.Data.WeaponLevelTable[Id][Level].MinAttackSequenceTime;
         }
     }
     private void SetSize()
     {
-        transform.localScale = Vector2.one * Managers.Data.Weapon[Id][Level].Size;
+        transform.localScale = Vector2.one * Managers.Data.WeaponLevelTable[Id][Level].Size;
     }
 }

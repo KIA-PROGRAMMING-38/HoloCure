@@ -67,7 +67,7 @@ public class Projectile : MonoBehaviour
     }
     private Action<Projectile> _operate;
     public void SetProjectileOperate(Action<Projectile> operate) => _operate = operate;
-    public void SetProjectileStat(WeaponData data)
+    public void SetProjectileStat(WeaponLevelData data)
     {
         _damage = data.DamageRate * Managers.PlayerM.VTuber.AttackPower;
         _hitCoolTime = data.HitCoolTime;

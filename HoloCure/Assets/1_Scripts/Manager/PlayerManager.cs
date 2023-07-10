@@ -31,7 +31,9 @@ public class PlayerManager : MonoBehaviour
         VTuber.Init(id);
         Player = VTuber.GetComponent<Player>();
 
-        Managers.PresenterM.InitPresenter.GetInitData(Managers.Data.VTuber[id]);
+        VTuberData data = Managers.Data.VTuber[id];
+
+        Managers.PresenterM.InitPresenter.GetInitData(data);
 
         Player.OnGetExp -= Managers.PresenterM.ExpPresenter.UpdateExpGauge;
         Player.OnGetExp += Managers.PresenterM.ExpPresenter.UpdateExpGauge;
@@ -85,6 +87,6 @@ public class PlayerManager : MonoBehaviour
         VTuber.transform.position = default;
         Managers.PresenterM.InventoryPresenter.ResetInventory();
         Managers.PresenterM.CountPresenter.ResetCount();
-        Player.Inventory.GetItem((ItemID)((int)id - 4000));
+        Player.Inventory.GetItem(data.StartingWeaponId);
     }
 }

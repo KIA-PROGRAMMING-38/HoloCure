@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class InventoryList : MonoBehaviour
 {

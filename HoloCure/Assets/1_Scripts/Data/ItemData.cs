@@ -1,0 +1,56 @@
+﻿public enum ItemID
+{
+    None = 2000,
+    Common_None = 2100,
+    SpiderCooking,
+    HoloBomb,
+    PsychoAxe,
+    BLBook,
+    FanBeam,
+    StartingNone = 2200,
+    SummonTentacle,
+    StatNone = 2400,
+    MaxHPUp,
+    ATKUp,
+    SPDUp,
+    CRTUp,
+    PickUpRangeUp,
+    HasteUp,
+}
+public class ItemData
+{
+    public ItemID Id { get; set; }
+    public string Name { get; set; }
+    public string IconSprite { get; set; }
+    public string Type { get; set; }
+}
+public class WeightData
+{
+    public ItemID Id { get; set; }
+    public int Weight { get; set; }
+}
+
+public class WeaponLevelData
+{
+    public ItemID Id { get; set; }
+    public int Level { get; set; }
+    public string Description { get; set; }
+    public float BaseAttackSequenceTime { get; set; }
+    public float MinAttackSequenceTime { get; set; }
+    public int ProjectileCount { get; set; }
+    public float DamageRate { get; set; }
+    public float AttackDelay { get; set; }
+    public float HitCoolTime { get; set; }
+    public float Size { get; set; }
+    public float AttackDurationTime { get; set; }
+    public int ProjectileSpeed { get; set; }
+    public float KnockbackDurationTime { get; set; }
+    public float KnockbackSpeed { get; set; }
+    public int Radius { get; set; }
+}
+public class StatData
+{
+    public ItemID Id { get; set; }
+    public string Description { get; set; }
+    public int Value { get; set; }
+}
