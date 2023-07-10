@@ -1,7 +1,7 @@
 Id,Description,Value
-9001,Increase Max HP by <color=green>10%</color>.,10
-9002,Increase all attack power by <color=green>12%</color>.,12
-9003,Increase movement speed by <color=green>12%</color>.,12
-9004,Increase critical hit chance by <color=green>3%</color>.,3
-9005,Increase Pick Up Range by <color=green>20%</color>.,20
-9006,Increase weapon attack speed by <color=green>12%</color>.,12
+2401,Increase Max HP by <color=green>10%</color>.,10
+2402,Increase all attack power by <color=green>12%</color>.,12
+2403,Increase movement speed by <color=green>12%</color>.,12
+2404,Increase critical hit chance by <color=green>3%</color>.,3
+2405,Increase Pick Up Range by <color=green>20%</color>.,20
+2406,Increase weapon attack speed by <color=green>12%</color>.,12

@@ -1,13 +1,13 @@
-Id,Name,IconSprite,Type,Weight
-5001,Spider Cooking,spr_SpiderCookingIcon_0,Melee,4
-5002,Holo Bomb,spr_HoloBombIcon_0,Multishot,3
-5003,Psycho Axe,spr_PsychoAxeIcon_0,Ranged,3
-5004,BL Book,spr_BLBookIcon_0,Multishot,3
-5005,Fan Beam,spr_FanBeamIcon_0,Ranged,3
-6001,Summon Tentacle,spr_SummonTentacleIcon_0,Melee,3
-9001,Max HP Up,hud_HPicon_0,Stat,2
-9002,ATK Up,hud_atkicon_0,Stat,3
-9003,SPD Up,hud_spdicon_0,Stat,4
-9004,CRT Up,hud_criticon_0,Stat,3
-9005,Pick Up Range Up,hud_pickupicon_0,Stat,4
-9006,Haste Up,hud_cooldownicon_0,Stat,1
+Id,Name,IconSprite,Type
+2101,Spider Cooking,spr_SpiderCookingIcon_0,Melee
+2102,Holo Bomb,spr_HoloBombIcon_0,Multishot
+2103,Psycho Axe,spr_PsychoAxeIcon_0,Ranged
+2104,BL Book,spr_BLBookIcon_0,Multishot
+2105,Fan Beam,spr_FanBeamIcon_0,Ranged
+2201,Summon Tentacle,spr_SummonTentacleIcon_0,Melee
+2401,Max HP Up,hud_HPicon_0,Stat
+2402,ATK Up,hud_atkicon_0,Stat
+2403,SPD Up,hud_spdicon_0,Stat
+2404,CRT Up,hud_criticon_0,Stat
+2405,Pick Up Range Up,hud_pickupicon_0,Stat
+2406,Haste Up,hud_cooldownicon_0,Stat
