@@ -26,14 +26,14 @@ public class Player : MonoBehaviour
         _maxExp = 79;
         _level = 1;
     }
-    public void Initialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable, StatDataTable statDataTable)
+    public void Init(VTuber VTuber, VTuberID id)
     {
         _VTuber = VTuber;
 
         GameObject newGameObject = new GameObject(nameof(Inventory));
         newGameObject.transform.parent = transform;
         _inventory = newGameObject.AddComponent<Inventory>();
-        _inventory.Initialize(_VTuber, VTuberID, weaponDataTable, statDataTable);
+        _inventory.Init(_VTuber, id);
         _curExp = 0;
         _maxExp = 79;
         _level = 1;

@@ -19,11 +19,11 @@ public class InventoryListController : UIBase
         PresenterManager.InventoryPresenter.OnResetInventory -= ResetInventory;
         PresenterManager.InventoryPresenter.OnResetInventory += ResetInventory;
     }
-    private void GetNewEquipment(int ID, Sprite icon)
+    private void GetNewEquipment(ItemID id, Sprite icon)
     {
-        if (ID < 7000)
+        if (id < ItemID.StatNone)
         {
-            _weaponLists[_weaponCount].ID = ID;
+            _weaponLists[_weaponCount].Id = id;
             _weaponLists[_weaponCount].UpdateNewEquipment(icon);
 
             _weaponCount += 1;
@@ -33,13 +33,13 @@ public class InventoryListController : UIBase
             // 아이템 리스트 처리 부분
         }
     }
-    private void GetEquipmentLevel(int ID, int level)
+    private void GetEquipmentLevel(ItemID ID, int level)
     {
-        if (ID < 7000)
+        if (ID < ItemID.StatNone)
         {
             for (int i = 0; i < _weaponCount; ++i)
             {
-                if (_weaponLists[i].ID != ID)
+                if (_weaponLists[i].Id != ID)
                 {
                     continue;
                 }

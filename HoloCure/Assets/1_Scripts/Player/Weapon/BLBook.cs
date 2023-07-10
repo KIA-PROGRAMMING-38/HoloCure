@@ -11,13 +11,13 @@ public class BLBook : Weapon
     }
     private void GetBooksInitPos()
     {
-        _booksInitPos = new Vector2[curProjectileCount];
-        int angleDivision = 360 / curProjectileCount;
-        for (int i = 0; i < curProjectileCount; ++i)
+        _booksInitPos = new Vector2[Managers.Data.Weapon[Id][Level].ProjectileCount];
+        int angleDivision = 360 / Managers.Data.Weapon[Id][Level].ProjectileCount;
+        for (int i = 0; i < Managers.Data.Weapon[Id][Level].ProjectileCount; ++i)
         {
             float angle = i * angleDivision * Mathf.Deg2Rad;
 
-            _booksInitPos[i] = (Vector2.right * Mathf.Cos(angle) + Vector2.up * Mathf.Sin(angle)) * curRadius;
+            _booksInitPos[i] = (Vector2.right * Mathf.Cos(angle) + Vector2.up * Mathf.Sin(angle)) * Managers.Data.Weapon[Id][Level].Radius;
         }
     }
     protected override void Shoot(int index)

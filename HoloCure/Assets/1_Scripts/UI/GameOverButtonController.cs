@@ -8,7 +8,7 @@ public class GameOverButtonController : UIBase
     public event Action OnSelectMainMenu;
 
     [SerializeField] private MyButton _button;
-    private int _hoveredButtonIndex;
+    private int _hoveredButtonIndex = 0;
 
     private void Start()
     {

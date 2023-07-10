@@ -17,7 +17,7 @@ public class InventoryList : MonoBehaviour
         _image = GetComponent<Image>();
         _defaultSprite = _image.sprite;
     }
-    public int ID {  get; set; }
+    public ItemID Id {  get; set; }
     public void UpdateNewEquipment(Sprite sprite)
     {
         GetComponent<RectTransform>().localScale = Vector3.one;

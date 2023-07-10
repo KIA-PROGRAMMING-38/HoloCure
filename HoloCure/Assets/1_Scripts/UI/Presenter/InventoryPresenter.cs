@@ -5,12 +5,12 @@ namespace UI.Presenter
 {
     public class InventoryPresenter
     {
-        public event Action<int, Sprite> OnUpdateNewEquipment;
-        public event Action<int, int> OnUpdateEquipmentLevel;
+        public event Action<ItemID, Sprite> OnUpdateNewEquipment;
+        public event Action<ItemID, int> OnUpdateEquipmentLevel;
         public event Action OnResetInventory;
 
-        public void UpdateNewEquipment(int ID, Sprite icon) => OnUpdateNewEquipment?.Invoke(ID, icon);
-        public void UpdateEquipmentLevel(int ID, int level) => OnUpdateEquipmentLevel?.Invoke(ID, level);
+        public void UpdateNewEquipment(ItemID id, Sprite icon) => OnUpdateNewEquipment?.Invoke(id, icon);
+        public void UpdateEquipmentLevel(ItemID id, int level) => OnUpdateEquipmentLevel?.Invoke(id, level);
         public void ResetInventory() => OnResetInventory?.Invoke();
     }
 }

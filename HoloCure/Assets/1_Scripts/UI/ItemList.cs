@@ -1,3 +1,4 @@
+using Cysharp.Text;
 using StringLiterals;
 using System;
 using TMPro;
@@ -58,36 +59,44 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     {
         SetCommonData(data);
 
-        switch ((ItemDataKindID)data.DataKind)
+        switch (data.Id)
         {
-            case ItemDataKindID.Weapon:
-                SetWeaponData((WeaponData)data);
+            case < ItemID.StatNone:
+                SetWeaponData(data);
                 break;
-            case ItemDataKindID.Equipment:
-                break;
-            case ItemDataKindID.Stat:
-                GetStatData((Stat)data);
+            default:
+                GetStatData(data);
                 break;
         }
     }
     private void SetCommonData(ItemData data)
     {
-        _nameText.text = data.DisplayName;
-        
+        _nameText.text = data.Name;
+
         _levelText.enabled = false;
         _levelNumText.enabled = false;
         _newText.enabled = false;
         _itemTypeImage.enabled = false;
-
-        _iconFrameImage.sprite = _iconFrameSprites[data.DataKind - 1];
-        _iconImage.sprite = data.Icon;
     }
     private const string WEAPON = "Weapon";
-    private void SetWeaponData(WeaponData weaponData)
+    private void SetWeaponData(ItemData data)
     {
         _typeText.text = WEAPON;
+        _iconFrameImage.sprite = _iconFrameSprites[0];
+        _iconImage.sprite = Managers.Resource.Sprites.Load(ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite));
 
-        if (weaponData.CurrentLevel == 0)
+        Weapon weapon = default;
+        for (int i = 0; i < Inventory.WeaponCount; ++i)
+        {
+            if (Inventory.Weapons[i].Id != data.Id)
+            {
+                continue;
+            }
+
+            weapon = Inventory.Weapons[i];
+        }
+
+        if (weapon.Level == 0)
         {
             _newText.enabled = true;
         }
@@ -97,20 +106,20 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
             _levelNumText.enabled = true;
             _newText.enabled = false;
 
-            if (weaponData.CurrentLevel == 6)
+            if (weapon.Level == 6)
             {
-                _levelNumText.text = weaponData.ID < (int)StartingWeaponID.None ? ItemLiteral.MAX : ItemLiteral.AWAKENED;
+                _levelNumText.text = weapon.Id < ItemID.StartingNone ? ItemLiteral.MAX : ItemLiteral.AWAKENED;
             }
             else
             {
-                _levelNumText.text = NumLiteral.GetNumString(weaponData.CurrentLevel + 1);
+                _levelNumText.text = NumLiteral.GetNumString(weapon.Level + 1);
             }
         }
 
-        _descriptionText.text = weaponData.Description[weaponData.CurrentLevel + 1];
+        _descriptionText.text = Managers.Data.Weapon[data.Id][weapon.Level + 1].Description;
 
         _itemTypeImage.enabled = true;
-        switch (weaponData.Type)
+        switch (data.Type)
         {
             case ItemLiteral.MELEE:
                 _itemTypeImage.sprite = _itemTypeSprites[0];
@@ -122,14 +131,13 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
                 _itemTypeImage.sprite = _itemTypeSprites[2];
                 break;
         }
-
-        _iconImage.sprite = weaponData.Icon;
     }
     private const string STAT_UP = "StatUp";
-    private void GetStatData(Stat statData)
+    private void GetStatData(ItemData data)
     {
         _typeText.text = STAT_UP;
-
-        _descriptionText.text = statData.Description;
+        _iconFrameImage.sprite = _iconFrameSprites[2];
+        _descriptionText.text = Managers.Data.Stat[data.Id].Description;
+        _iconImage.sprite = Managers.Resource.Sprites.Load(ZString.Concat(PathLiteral.SPRITE, PathLiteral.UI, data.IconSprite));
     }
 }

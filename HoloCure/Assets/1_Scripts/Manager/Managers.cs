@@ -5,7 +5,6 @@ public class Managers : MonoBehaviour
     public static Managers Instance;
     public static DataManager Data { get; private set; }
     public static ResourceManager Resource { get; private set; }
-    public static DataTableManager DataTableM { get; private set; }
     public static PlayerManager PlayerM { get; private set; }
     public static EnemyManager EnemyM { get; private set; }
     public static PresenterManager PresenterM { get; private set; }
@@ -32,10 +31,6 @@ public class Managers : MonoBehaviour
         Resource.Init();
 
         GameObject go;
-
-        go = new GameObject(nameof(DataTableM));
-        go.transform.parent = transform;
-        DataTableM = go.AddComponent<DataTableManager>();
 
         go = new GameObject(nameof(PresenterM));
         go.transform.parent = transform;

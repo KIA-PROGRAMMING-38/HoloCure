@@ -14,14 +14,7 @@ public class SpiderCooking : Weapon
 
         SetParticleSize();
     }
-    private void SetParticleSize()
-    {
-        if (weaponStat.Size[WeaponData.CurrentLevel] == weaponStat.Size[WeaponData.CurrentLevel - 1])
-        {
-            return;
-        }
-        _particleSystem.transform.localScale = transform.localScale;
-    }
+    private void SetParticleSize() => _particleSystem.transform.localScale = transform.localScale;
     protected override void Shoot(int index)
     {
         Projectile projectile = _projectilePool.GetProjectileFromPool();
@@ -30,7 +23,7 @@ public class SpiderCooking : Weapon
     protected override void ProjectileOperate(Projectile projectile)
     {
         projectile.ElaspedTime += Time.deltaTime;
-        if (projectile.ElaspedTime > curHitCooltime)
+        if (projectile.ElaspedTime > Managers.Data.Weapon[Id][Level].HitCoolTime)
         {
             projectile.ElaspedTime = 0f;
             projectile.ResetCollider();

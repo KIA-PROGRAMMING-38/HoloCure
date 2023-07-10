@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StringLiterals;
+using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -23,13 +24,14 @@ public class PlayerManager : MonoBehaviour
         VTuber.gameObject.SetActive(false);
     }
 
-    private void SelectVTuber(VTuberID ID)
+    private void SelectVTuber(VTuberID id)
     {
-        VTuber = Managers.DataTableM.VTuberDataTable.VTuberPrefabContainer[ID];
-        VTuber.IsSelected(ID, Managers.DataTableM.WeaponDataTable, Managers.DataTableM.StatDataTable);
+        VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
+
+        VTuber.Init(id);
         Player = VTuber.GetComponent<Player>();
 
-        Managers.PresenterM.InitPresenter.GetInitData(Managers.DataTableM.VTuberDataTable.VTuberDataContainer[ID]);
+        Managers.PresenterM.InitPresenter.GetInitData(Managers.Data.VTuber[id]);
 
         Player.OnGetExp -= Managers.PresenterM.ExpPresenter.UpdateExpGauge;
         Player.OnGetExp += Managers.PresenterM.ExpPresenter.UpdateExpGauge;
@@ -83,6 +85,6 @@ public class PlayerManager : MonoBehaviour
         VTuber.transform.position = default;
         Managers.PresenterM.InventoryPresenter.ResetInventory();
         Managers.PresenterM.CountPresenter.ResetCount();
-        Player.Inventory.GetItem((int)ID - 4000);
+        Player.Inventory.GetItem((ItemID)((int)id - 4000));
     }
 }

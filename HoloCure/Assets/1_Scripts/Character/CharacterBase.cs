@@ -2,16 +2,9 @@ using UnityEngine;
 
 public abstract class CharacterBase : MonoBehaviour
 {
-    protected CharacterStat baseStat = new();
-    [SerializeField] protected int currentHealth;
+    [SerializeField] protected int CurHealth;
     [SerializeField] protected float moveSpeed;
     protected const int DEFAULT_MOVE_SPEED = 80;
-
-    protected virtual void OnEnable()
-    {
-        currentHealth = baseStat.MaxHealth;
-        moveSpeed = baseStat.MoveSpeedRate * DEFAULT_MOVE_SPEED;
-    }
     /// <summary>
     /// 캐릭터의 움직임입니다. 컨트롤러에서 사용합니다.
     /// </summary>
@@ -22,9 +15,9 @@ public abstract class CharacterBase : MonoBehaviour
     /// </summary>
     public virtual void GetDamage(int damage, bool isCritical = false)
     {
-        currentHealth -= damage;
+        CurHealth -= damage;
 
-        if (currentHealth <= 0)
+        if (CurHealth <= 0)
         {
             Die();
         }

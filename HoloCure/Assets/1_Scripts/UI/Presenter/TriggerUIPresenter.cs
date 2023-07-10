@@ -8,9 +8,9 @@ namespace UI.Presenter
         public event Action OnActivateDefaultUI;
         public event Action OnActivateStatUI;
         public event Action OnActivateLevelUpUI;
-        public event Func<ItemData[]> OnItemDatasGeted;
-        public event Action<ItemData[]> OnGetItemDatasForLevelUp;
-        public event Action<ItemData[]> OnGetItemDatasForBox;
+        public event Func<ItemID[]> OnItemDatasGeted;
+        public event Action<ItemID[]> OnGetItemDatasForLevelUp;
+        public event Action<ItemID[]> OnGetItemDatasForBox;
         public event Action OnActivatePauseUI;
         public event Action OnActivateGetBoxStartUI;
         public event Action OnActivateGetBoxUI;
@@ -21,7 +21,7 @@ namespace UI.Presenter
 
         public event Action OnResume;
 
-        public event Action<int> OnSendSelectedID;
+        public event Action<ItemID> OnSendSelectedID;
 
         public event Action OnGameEnd;
 
@@ -45,8 +45,8 @@ namespace UI.Presenter
             ActivateDefaultUI();
             ActivateStatUI();
             OnActivateLevelUpUI?.Invoke();
-            ItemData[] itemDatas = OnItemDatasGeted?.Invoke();
-            OnGetItemDatasForLevelUp?.Invoke(itemDatas);
+            ItemID[] ids = OnItemDatasGeted?.Invoke();
+            OnGetItemDatasForLevelUp?.Invoke(ids);
         }
         public void ActivateGetBoxStartUI()
         {
@@ -61,8 +61,8 @@ namespace UI.Presenter
         {
             ActivateStatUI();
             OnActivateGetBoxEndUI?.Invoke();
-            ItemData[] itemDatas = OnItemDatasGeted?.Invoke();
-            OnGetItemDatasForBox?.Invoke(itemDatas);
+            ItemID[] ids = OnItemDatasGeted?.Invoke();
+            OnGetItemDatasForBox?.Invoke(ids);
         }
         public void ActivateGameOverUI()
         {
@@ -74,9 +74,9 @@ namespace UI.Presenter
             Time.timeScale = 0;
             OnActivateGameClearUI?.Invoke();
         }
-        public void SendSelectedID(int ID)
+        public void SendSelectedID(ItemID id)
         {
-            OnSendSelectedID?.Invoke(ID);
+            OnSendSelectedID?.Invoke(id);
         }
         public void DeActivateUI()
         {

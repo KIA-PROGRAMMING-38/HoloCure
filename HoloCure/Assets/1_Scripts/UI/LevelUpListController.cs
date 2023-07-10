@@ -6,12 +6,12 @@ using UnityEngine;
 public class LevelUpListController : UIBase
 {
     public event Action OnSelect;
-    public event Action<int> OnSelectItem;
+    public event Action<ItemID> OnSelectItem;
 
     [SerializeField] private ItemList[] _lists;
     private int _hoveredListIndex;
-    private ItemData[] _itemLists;
-    
+    private ItemID[] _ids;
+
     private void Start()
     {
         _getKeyCoroutine = GetKeyCoroutine();
@@ -23,10 +23,7 @@ public class LevelUpListController : UIBase
         {
             for (int j = 0; j < _lists.Length; ++j)
             {
-                if (i == j)
-                {
-                    continue;
-                }
+                if (i == j) { continue; }
 
                 _lists[i].OnHoverForOtherList -= _lists[j].ActivateDefaultFrame;
                 _lists[i].OnHoverForOtherList += _lists[j].ActivateDefaultFrame;
@@ -94,10 +91,7 @@ public class LevelUpListController : UIBase
     {
         for (int i = 0; i < _lists.Length; ++i)
         {
-            if (list != _lists[i])
-            {
-                continue;
-            }
+            if (list != _lists[i]) { continue; }
 
             _hoveredListIndex = i;
             break;
@@ -110,10 +104,7 @@ public class LevelUpListController : UIBase
         int index = 0;
         for (int i = 0; i < _lists.Length; ++i)
         {
-            if (list != _lists[i])
-            {
-                continue;
-            }
+            if (list != _lists[i]) { continue; }
 
             index = i;
             break;
@@ -121,13 +112,13 @@ public class LevelUpListController : UIBase
 
         SelectItem(index);
     }
-    private void GetItemList(ItemData[] itemLists)
+    private void GetItemList(ItemID[] ids)
     {
-        _itemLists = itemLists;
+        _ids = ids;
 
         for (int i = 0; i < 4; ++i)
         {
-            _lists[i].GetItemData(_itemLists[i]);
+            _lists[i].GetItemData(Managers.Data.Item[ids[i]]);
         }
     }
 
@@ -135,7 +126,7 @@ public class LevelUpListController : UIBase
     {
         StopCoroutine(_getKeyCoroutine);
         SoundPool.GetPlayAudio(SoundID.ButtonClick);
-        OnSelectItem?.Invoke(_itemLists[index].ID);
+        OnSelectItem?.Invoke(_ids[index]);
         OnSelect?.Invoke();
-    }    
+    }
 }

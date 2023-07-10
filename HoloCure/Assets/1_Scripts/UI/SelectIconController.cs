@@ -132,7 +132,7 @@ public class SelectIconController : UIBase
                 StopGetKeyCoroutine();
                 SoundPool.GetPlayAudio(SoundID.CharClick);
                 OnSelectVTuber?.Invoke();
-                OnSelectVTuberToUI?.Invoke(VTuberID.Ninomae_Inanis);
+                OnSelectVTuberToUI?.Invoke(VTuberID.Ina);
                 break;
         }
     }
