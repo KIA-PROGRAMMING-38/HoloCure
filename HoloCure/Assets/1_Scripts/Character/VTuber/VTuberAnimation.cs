@@ -26,10 +26,10 @@ public class VTuberAnimation : MonoBehaviour
         _input = transform.parent.GetComponent<PlayerInput>();
         _midX = Screen.width / 2;
 
-        _spriteRenderer.sprite = Managers.Resource.Sprites.Load(ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.DisplaySprite));
+        _spriteRenderer.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.DisplaySprite));
         AnimatorOverrideController overrideController = new(_animator.runtimeAnimatorController);
-        overrideController[AnimClipLiteral.IDLE] = Managers.Resource.Clips.Load(ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.Name, PathLiteral.SLASH, AnimClipLiteral.IDLE));
-        overrideController[AnimClipLiteral.RUN] = Managers.Resource.Clips.Load(ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.Name, PathLiteral.SLASH, AnimClipLiteral.RUN));
+        overrideController[AnimClipLiteral.IDLE] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.Name, PathLiteral.SLASH, AnimClipLiteral.IDLE));
+        overrideController[AnimClipLiteral.RUN] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.Name, PathLiteral.SLASH, AnimClipLiteral.RUN));
 
         _animator.runtimeAnimatorController = overrideController;
     }

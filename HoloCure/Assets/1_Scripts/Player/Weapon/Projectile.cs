@@ -93,8 +93,8 @@ public class Projectile : MonoBehaviour
     {
         AnimatorOverrideController overrideController = new(_animator.runtimeAnimatorController);
 
-        overrideController[AnimClipLiteral.PROJECTILE] = Managers.Resource.Clips.Load(ZString.Concat(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name, PathLiteral.SLASH, FileNameLiteral.PROJECTILE));
-        overrideController[AnimClipLiteral.EFFECT] = Managers.Resource.Clips.Load(ZString.Concat(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name, PathLiteral.SLASH, FileNameLiteral.EFFECT));
+        overrideController[AnimClipLiteral.PROJECTILE] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name, PathLiteral.SLASH, FileNameLiteral.PROJECTILE));
+        overrideController[AnimClipLiteral.EFFECT] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name, PathLiteral.SLASH, FileNameLiteral.EFFECT));
 
         _animator.runtimeAnimatorController = overrideController;
     }

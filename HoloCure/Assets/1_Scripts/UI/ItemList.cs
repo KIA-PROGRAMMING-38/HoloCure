@@ -83,7 +83,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     {
         _typeText.text = WEAPON;
         _iconFrameImage.sprite = _iconFrameSprites[0];
-        _iconImage.sprite = Managers.Resource.Sprites.Load(ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite));
+        _iconImage.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite));
 
         Weapon weapon = default;
         for (int i = 0; i < Inventory.WeaponCount; ++i)
@@ -138,6 +138,6 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         _typeText.text = STAT_UP;
         _iconFrameImage.sprite = _iconFrameSprites[2];
         _descriptionText.text = Managers.Data.Stat[data.Id].Description;
-        _iconImage.sprite = Managers.Resource.Sprites.Load(ZString.Concat(PathLiteral.SPRITE, PathLiteral.UI, data.IconSprite));
+        _iconImage.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.UI, data.IconSprite));
     }
 }

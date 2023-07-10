@@ -17,8 +17,8 @@ namespace UI.Presenter
 
         public void GetInitData(VTuberData data)
         {
-            GetPortraitSprite(Managers.Resource.Sprites.Load(ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.PortraitSprite)));
-            GetTitleSprite(Managers.Resource.Sprites.Load(ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.TitleSprite)));
+            GetPortraitSprite(Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.PortraitSprite)));
+            GetTitleSprite(Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.TitleSprite)));
             GetName(data.Name);
         }
     }
