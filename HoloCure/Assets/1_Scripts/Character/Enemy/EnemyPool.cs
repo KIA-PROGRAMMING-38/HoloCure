@@ -5,19 +5,25 @@ using Util.Pool;
 
 public class EnemyPool
 {
+    private GameObject _container;
     private ObjectPool<Enemy> _enemyPool;
     public Enemy GetEnemyFromPool() => _enemyPool.Get();
-    public void Init() => InitEnemyPool();
-    private void InitEnemyPool() => _enemyPool = new ObjectPool<Enemy>(CreateEnemy, OnGetEnemyFromPool, OnReleaseEnemyToPool, OnDestroyEnemy);
-    private Enemy CreateEnemy()
+    public void Init(GameObject container)
     {
-        Enemy enemy = Managers.Resource.Instantiate(FileNameLiteral.ENEMY).GetComponent<Enemy>();
+        _container = container;
+        InitPool();
+    }
+
+    private void InitPool() => _enemyPool = new ObjectPool<Enemy>(Create, OnGet, OnRelease, OnDestroy);
+    private Enemy Create()
+    {
+        Enemy enemy = Managers.Resource.Instantiate(FileNameLiteral.ENEMY, _container.transform).GetComponent<Enemy>();
 
         enemy.SetPoolRef(_enemyPool);
 
         return enemy;
     }
-    private void OnGetEnemyFromPool(Enemy enemy) => enemy.gameObject.SetActive(true);
-    private void OnReleaseEnemyToPool(Enemy enemy) => enemy.gameObject.SetActive(false);
-    private void OnDestroyEnemy(Enemy enemy) => Object.Destroy(enemy.gameObject);
+    private void OnGet(Enemy enemy) => enemy.gameObject.SetActive(true);
+    private void OnRelease(Enemy enemy) => enemy.gameObject.SetActive(false);
+    private void OnDestroy(Enemy enemy) => Object.Destroy(enemy.gameObject);
 }

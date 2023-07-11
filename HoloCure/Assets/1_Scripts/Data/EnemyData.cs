@@ -1,6 +1,10 @@
 ﻿public enum EnemyID
 {
     None = 10000,
+    Normal = 10100,
+    MiniBoss = 10200,
+    Boss = 10300,
+    End = 10400,
     Stage01_Normal = 11100,
     Stage01_Shrimp,
     Stage01_Deadbeat,

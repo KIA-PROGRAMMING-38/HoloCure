@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d30e8b1c450514c83391dbe5a2b8cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
+  CurHealth: 0
   moveSpeed: 0
   _moveVec: {x: 0, y: 0}
   _damageTextController: {fileID: 9101788789431489761}

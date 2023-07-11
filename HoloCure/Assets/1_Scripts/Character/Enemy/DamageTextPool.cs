@@ -3,25 +3,27 @@ using Util.Pool;
 
 public class DamageTextPool
 {
-    private DamageText _damageTextPrefab;
-    private ObjectPool<DamageText> _damageTextPool;
+    private GameObject _prefab;
+    private ObjectPool<DamageText> _pool;
 
-    public DamageText GetDamageTextFromPool() => _damageTextPool.Get();
+    public DamageText GetDamageTextFromPool() => _pool.Get();
 
-    public void Initialize(DamageText damageTextPrefab)
+    public void Init(GameObject prefab)
     {
-        _damageTextPrefab = damageTextPrefab;
-        InitializeDamageTextPool();
+        _prefab = prefab;
+
+        InitPool();
     }
-    private void InitializeDamageTextPool() => _damageTextPool = new ObjectPool<DamageText>(CreateDamageText, OnGetDamageTextFromPool, OnReleaseDamageTextToPool, OnDestroyDamageText);
-    private DamageText CreateDamageText()
+    private void InitPool() => _pool = new ObjectPool<DamageText>(Create, OnGet, OnRelease, OnDestroy);
+    private DamageText Create()
     {
-        DamageText damageText = Object.Instantiate(_damageTextPrefab);
-        damageText.SetPoolRef(_damageTextPool);
+        DamageText damageText = Managers.Resource.Instantiate(_prefab).GetComponent<DamageText>();
+
+        damageText.SetPoolRef(_pool);
 
         return damageText;
     }
-    private void OnGetDamageTextFromPool(DamageText damageText) => damageText.gameObject.SetActive(true);
-    private void OnReleaseDamageTextToPool(DamageText damageText) => damageText.gameObject.SetActive(false);
-    private void OnDestroyDamageText(DamageText damageText) => Object.Destroy(damageText.gameObject);
+    private void OnGet(DamageText damageText) => damageText.gameObject.SetActive(true);
+    private void OnRelease(DamageText damageText) => damageText.gameObject.SetActive(false);
+    private void OnDestroy(DamageText damageText) => Object.Destroy(damageText.gameObject);
 }

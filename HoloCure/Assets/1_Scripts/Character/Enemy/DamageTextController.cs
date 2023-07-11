@@ -24,7 +24,7 @@ public class DamageTextController : MonoBehaviour
     {
         DamageText damageText = _defaultPool.GetDamageTextFromPool();
         damageText.transform.SetParent(transform, false);
-        damageText.Initialize(dir);
+        damageText.Init(dir);
         damageText.GetComponent<TextMeshProUGUI>().text = NumLiteral.GetNumString(damage);
     }
     
@@ -37,7 +37,7 @@ public class DamageTextController : MonoBehaviour
     {
         DamageText damageText = _criticalPool.GetDamageTextFromPool();
         damageText.transform.SetParent(transform, false);
-        damageText.Initialize(dir);
+        damageText.Init(dir);
         damageText.GetComponent<TextMeshProUGUI>().text = NumLiteral.GetNumString(damage);
     }
 }

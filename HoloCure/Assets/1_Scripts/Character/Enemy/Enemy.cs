@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using Util.Pool;
 
+
 public class Enemy : CharacterBase
 {
     public event Action<Vector2, int> OnGetCriticalDamage;
@@ -47,8 +48,10 @@ public class Enemy : CharacterBase
     /// <summary>
     /// 적을 초기화합니다.
     /// </summary>
-    public void Init(EnemyID id)
+    public void Init(EnemyID id, Vector3 offset)
     {
+        transform.position = Managers.PlayerM.VTuber.transform.position + offset;
+
         _id = id;
 
         EnemyData data = Managers.Data.Enemy[_id];
@@ -59,7 +62,23 @@ public class Enemy : CharacterBase
 
         SetEnemyRender(data);
 
+        SetFilpX();
+
         OnSpawn();
+
+        AddEvent();
+    }
+    private void AddEvent()
+    {
+        RemoveEvent();
+
+        OnDieForSpawnEXP += Managers.ObjectM.SpawnEXP;
+        OnDieForUpdateCount += Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
+    }
+    private void RemoveEvent()
+    {
+        OnDieForSpawnEXP -= Managers.ObjectM.SpawnEXP;
+        OnDieForUpdateCount -= Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
     }
     /// <summary>
     /// 적의 랜더를 초기화합니다.
@@ -179,6 +198,8 @@ public class Enemy : CharacterBase
         OnDieForSpawnEXP?.Invoke(transform.position, Managers.Data.Enemy[_id].Exp);
         OnDieForUpdateCount?.Invoke();
         OnDieForProjectile?.Invoke(this);
+
+        RemoveEvent();
     }
 
     private float _elapsedTime;
@@ -242,6 +263,9 @@ public class Enemy : CharacterBase
     }
 
     [SerializeField] private DamageTextController _damageTextController;
-    public void SetDefaultDamageTextPool(DamageTextPool pool) => _damageTextController.SetDefaultDamageTextPool(pool);
-    public void SetCriticalDamageTextPool(DamageTextPool pool) => _damageTextController.SetCriticalDamageTextPool(pool);
+    public void SetFloatingDamagePool(DamageTextPool defaultPool, DamageTextPool criticalPool)
+    {
+        _damageTextController.SetDefaultDamageTextPool(defaultPool);
+        _damageTextController.SetCriticalDamageTextPool(criticalPool);
+    }
 }

@@ -60,7 +60,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         while (true)
         {
-            _spriteRenderer.material = Managers.Resource.Load(Managers.Resource.Materials, ZString.Concat(PathLiteral.MATERIAL, PathLiteral.MATERIAL, Managers.Data.Material[MaterialID.Hit].Material));
+            _spriteRenderer.material = Managers.Resource.Load(Managers.Resource.Materials, ZString.Concat(PathLiteral.MATERIAL, Managers.Data.Material[MaterialID.Hit].Name));
 
             yield return Util.TimeStore.GetWaitForSeconds(0.1f);
 
