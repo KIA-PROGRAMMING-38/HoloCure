@@ -3,30 +3,31 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
+    private const int Starting_Weapon_Weight = 3;
+    private int _totalWeaponWeight;
+    private int _totalStatWeight;
+    HashSet<ItemID> _set = new();
+
     private void Start()
     {
         Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted -= GetItemDatas;
         Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted += GetItemDatas;
 
-        foreach (WeightData data in Managers.Data.Weight)
-        {
-            switch (data.Id)
-            {
-                case < ItemID.StartingNone:
-                    _totalWeaponWeight += data.Weight;
-                    break;
-                case > ItemID.StatNone:
-                    _totalStatWeight += data.Weight;
-                    break;
-            }
-        }
-
-        _totalWeaponWeight += Starting_Weapon_Weight;
+        InitTotalWeight();
     }
-    private const int Starting_Weapon_Weight = 3;
-    private int _totalWeaponWeight;
-    private int _totalStatWeight;
-    HashSet<ItemID> _set = new();
+    private void InitTotalWeight()
+    {
+        foreach (var data in Managers.Data.WeaponWeight)
+        {
+            _totalWeaponWeight += data.Weight;
+        }
+        _totalWeaponWeight += Starting_Weapon_Weight;
+
+        foreach (var data in Managers.Data.StatWeight)
+        {
+            _totalStatWeight += data.Weight;
+        }
+    }    
     private ItemID[] GetItemDatas()
     {
         ItemID[] ids = new ItemID[4];
@@ -59,10 +60,8 @@ public class ItemManager : MonoBehaviour
 
         int randomNum = Random.Range(0, _totalWeaponWeight);
         int accumulatedWeight = 0;
-        foreach (WeightData data in Managers.Data.Weight)
+        foreach (var data in Managers.Data.WeaponWeight)
         {
-            if (data.Id >= ItemID.StatNone) { break; }
-
             accumulatedWeight += data.Weight;
 
             if (randomNum >= accumulatedWeight) { continue; }
@@ -85,10 +84,8 @@ public class ItemManager : MonoBehaviour
 
         int randomNum = Random.Range(0, _totalStatWeight);
         int accumulatedWeight = 0;
-        foreach (WeightData data in Managers.Data.Weight)
+        foreach (WeightData data in Managers.Data.StatWeight)
         {
-            if (data.Id < ItemID.StatNone) { continue; }
-
             accumulatedWeight += data.Weight;
 
             if (randomNum >= accumulatedWeight) { continue; }
