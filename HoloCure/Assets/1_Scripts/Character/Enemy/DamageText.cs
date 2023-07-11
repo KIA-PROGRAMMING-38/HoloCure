@@ -25,7 +25,7 @@ public class DamageText : MonoBehaviour
     /// <summary>
     /// Update()에서 사용될 값들을 초기화합니다.
     /// </summary>
-    public void Initialize(Vector2 dir)
+    public void Init(Vector2 dir)
     {
         _startPoint = transform.parent.position;
         transform.position = _startPoint;
