@@ -18,6 +18,8 @@ public class SmollAme : Boss
     private Vector2 _defaultSize;
     private readonly Vector2 ATTACK_OFFSET = new(0, 33);
     private readonly Vector2 ATTACK_SIZE = new(45, 65);
+
+    private float _defaultSpeed = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -72,7 +74,7 @@ public class SmollAme : Boss
         _chaseCoroutine = ChaseCoroutine();
     }
     private void SetMoveSpeedZero() => moveSpeed = 0;
-    private void SetMoveSpeedBack() => moveSpeed = defaultSpeed;
+    private void SetMoveSpeedBack() => moveSpeed = _defaultSpeed;
 
     private void ActivateJumpShadow()
     {
@@ -148,7 +150,7 @@ public class SmollAme : Boss
                 yield return null;
             }
 
-            moveSpeed = defaultSpeed / 3;
+            moveSpeed = _defaultSpeed / 3;
 
             yield return Util.TimeStore.GetWaitForSeconds(3);
 

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class InventoryList : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class InventoryList : MonoBehaviour
         _image = GetComponent<Image>();
         _defaultSprite = _image.sprite;
     }
-    public int ID {  get; set; }
+    public ItemID Id {  get; set; }
     public void UpdateNewEquipment(Sprite sprite)
     {
         GetComponent<RectTransform>().localScale = Vector3.one;

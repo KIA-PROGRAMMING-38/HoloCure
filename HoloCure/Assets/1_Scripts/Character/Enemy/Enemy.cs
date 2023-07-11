@@ -22,11 +22,10 @@ public class Enemy : CharacterBase
 
     protected Transform body;
     protected EnemyAnimation enemyAnimation;
-    protected float defaultSpeed;
 
     private Transform _dieEffect;
 
-    private EnemyFeature _enemyFeature;
+    private EnemyID _id;
 
     protected virtual void Awake()
     {
@@ -39,12 +38,6 @@ public class Enemy : CharacterBase
         _rigidbody.freezeRotation = true;
         GetComponent<Rigidbody2D>().freezeRotation = true;
     }
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        Spawn();
-    }
     protected virtual void Start()
     {
         _knockBackUpdateCoroutine = KnockBackUpdateCoroutine();
@@ -52,21 +45,26 @@ public class Enemy : CharacterBase
         _dyingMoveCoroutine = DyingMoveCoroutine();
     }
     /// <summary>
-    /// 적의 스탯들을 초기화합니다.
+    /// 적을 초기화합니다.
     /// </summary>
-    public void InitializeStatus(CharacterStat stat, EnemyFeature feature)
+    public void Init(EnemyID id)
     {
-        baseStat = stat;
-        _enemyFeature = feature;
+        _id = id;
 
-        currentHealth = baseStat.MaxHealth;
-        moveSpeed = baseStat.MoveSpeedRate * DEFAULT_MOVE_SPEED;
-        defaultSpeed = moveSpeed;
+        EnemyData data = Managers.Data.Enemy[_id];
+
+        CurHealth = data.Health;
+
+        moveSpeed = data.SPD * DEFAULT_MOVE_SPEED;
+
+        SetEnemyRender(data);
+
+        OnSpawn();
     }
     /// <summary>
     /// 적의 랜더를 초기화합니다.
     /// </summary>
-    public void SetEnemyRender(EnemyRender render) => enemyAnimation.SetEnemyRender(render);
+    public void SetEnemyRender(EnemyData data) => enemyAnimation.SetEnemyRender(data);
     public Vector2 _moveVec;
     public override void Move()
     {
@@ -119,7 +117,7 @@ public class Enemy : CharacterBase
     }
     public void SetDamage(CharacterBase target)
     {
-        target.GetDamage((int)baseStat.ATKPower);
+        target.GetDamage(Managers.Data.Enemy[_id].ATK);
     }
 
     private Vector2 _effectDir;
@@ -149,9 +147,9 @@ public class Enemy : CharacterBase
     }
 
     /// <summary>
-    /// 적이 스폰하면 해야하는 세팅입니다. OnEnable에서 호출됩니다.
+    /// 적이 스폰하면 해야하는 세팅입니다. Init()에서 호출됩니다.
     /// </summary>
-    private void Spawn()
+    private void OnSpawn()
     {
         _dieEffect.gameObject.SetActive(false);
         body.position = transform.position;
@@ -178,7 +176,7 @@ public class Enemy : CharacterBase
 
         SetLayerOnDie();
 
-        OnDieForSpawnEXP?.Invoke(transform.position, _enemyFeature.Exp);
+        OnDieForSpawnEXP?.Invoke(transform.position, Managers.Data.Enemy[_id].Exp);
         OnDieForUpdateCount?.Invoke();
         OnDieForProjectile?.Invoke(this);
     }

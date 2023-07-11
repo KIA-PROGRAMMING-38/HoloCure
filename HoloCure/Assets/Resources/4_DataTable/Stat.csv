@@ -1,7 +1,7 @@
-ID|Name|DisplayName|SpriteofIcon|Weight|Description|Value
-9001|MaxHPUp|Max HP Up|hud_HPicon_0|2|Increase Max HP by <color=green>10%</color>.|10
-9002|ATKUp|ATK Up|hud_atkicon_0|3|Increase all attack power by <color=green>12%</color>.|12
-9003|SPDUp|SPD Up|hud_spdicon_0|4|Increase movement speed by <color=green>12%</color>.|12
-9004|CRTUp|CRT Up|hud_criticon_0|3|Increase critical hit chance by <color=green>3%</color>.|3
-9005|PickUpRangeUp|Pick Up Range Up|hud_pickupicon_0|4|Increase Pick Up Range by <color=green>20%</color>.|20
-9006|HasteUp|Haste Up|hud_cooldownicon_0|1|Increase weapon attack speed by <color=green>12%</color>.|12
+Id,Description,Value
+2401,Increase Max HP by <color=green>10%</color>.,10
+2402,Increase all attack power by <color=green>12%</color>.,12
+2403,Increase movement speed by <color=green>12%</color>.,12
+2404,Increase critical hit chance by <color=green>3%</color>.,3
+2405,Increase Pick Up Range by <color=green>20%</color>.,20
+2406,Increase weapon attack speed by <color=green>12%</color>.,12

@@ -18,34 +18,34 @@ public class VTuber : CharacterBase
     public event Action<int> OnChangeHasteRate;
     public void InitializeEvent()
     {
-        OnChangeMaxHp?.Invoke(baseStat.MaxHealth);
-        OnChangeCurHP?.Invoke(currentHealth);
+        OnChangeMaxHp?.Invoke(Managers.Data.VTuber[_id].Health);
+        OnChangeCurHP?.Invoke(CurHealth);
 
-        OnChangeATKRate?.Invoke(_VTuberFeature.ATKRate);
-        OnChangeSPDRate?.Invoke(_VTuberFeature.SPDRate);
-        OnChangeCRTRate?.Invoke(_VTuberFeature.CRTRate);
-        OnChangePickupRate?.Invoke(_VTuberFeature.PickupRate);
-        OnChangeHasteRate?.Invoke(_VTuberFeature.HasteRate);
+        OnChangeATKRate?.Invoke(default);
+        OnChangeSPDRate?.Invoke(default);
+        OnChangeCRTRate?.Invoke(default);
+        OnChangePickupRate?.Invoke(default);
+        OnChangeHasteRate?.Invoke(default);
     }
 
+    private VTuberID _id;
 
     private PlayerInput _input;
     private Rigidbody2D _rigidbody;
     private VTuberAnimation _VTuberAnimation;
     private VTuberDieEffect _VTuberDieEffect;
-    private VTuberFeature _VTuberFeature;
     #region Ω∫≈» √≥∏Æ
     public int MaxHealth { get; private set; }
     public void GetMaxHealthRate(int rate)
     {
         MaxHealth += rate == 0 ? 0 : MaxHealth / rate;
         OnChangeMaxHp?.Invoke(MaxHealth);
-        currentHealth = MaxHealth;
-        OnChangeCurHP?.Invoke(currentHealth);
+        CurHealth = MaxHealth;
+        OnChangeCurHP?.Invoke(CurHealth);
     }
 
     public float AttackPower { get;private set; }
-    private float _defaultAttackPower;
+    private float _defaultAttackPower = 0;
     public int AttackRate { get; private set; }
     public void GetAttackRate(int rate)
     {
@@ -58,7 +58,7 @@ public class VTuber : CharacterBase
     public void GetSpeedRate(int rate)
     {
         SpeedRate += rate;
-        moveSpeed = baseStat.MoveSpeedRate * DEFAULT_MOVE_SPEED * (SpeedRate / 100f + 1);
+        moveSpeed = Managers.Data.VTuber[_id].SPD * DEFAULT_MOVE_SPEED * (SpeedRate / 100f + 1);
         OnChangeSPDRate?.Invoke(SpeedRate);
     }
 
@@ -104,43 +104,38 @@ public class VTuber : CharacterBase
     {
         _rigidbody.MovePosition(_rigidbody.position + _input.MoveVec.normalized * (moveSpeed * Time.fixedDeltaTime));
     }
-    public void Initialize(CharacterStat stat, VTuberFeature feature, VTuberData data)
+    public void Init(VTuberID id)
     {
-        _VTuberAnimation.SetVTuberRender(data);
+        _id = id;
 
-        baseStat = stat;
-        _VTuberFeature = feature;
-
-        MaxHealth = baseStat.MaxHealth;
-        AttackPower = stat.ATKPower * 10;
-        _defaultAttackPower = AttackPower;
-        AttackRate = feature.ATKRate;
-        SpeedRate = feature.SPDRate;
-        CriticalRate = feature.CRTRate;
-        PickUpRangeRate = feature.PickupRate;
-        HasteRate = feature.HasteRate;
-
-        gameObject.SetActive(false);
-    }
-    public void IsSelected(VTuberID VTuberID, WeaponDataTable weaponDataTable, StatDataTable statDataTable)
-    {
-        transform.AddComponent<Player>().Initialize(this, VTuberID, weaponDataTable, statDataTable);
+        transform.AddComponent<Player>().Init(this, _id);
         _input = transform.AddComponent<PlayerInput>();
         transform.AddComponent<PlayerController>().Initialize(this);
         Util.CMCamera.SetCameraFollow(transform);
-        gameObject.SetActive(true);
-        _VTuberAnimation.gameObject.SetActive(true);
+
+        VTuberData data = Managers.Data.VTuber[_id];
+
+        InitStat(data);
+        InitRender(data);
     }
+    private void InitStat(VTuberData data)
+    {
+        MaxHealth = data.Health;
+        CurHealth = MaxHealth;
+        AttackPower = data.ATK;
+        moveSpeed = data.SPD * DEFAULT_MOVE_SPEED;
+    }
+    private void InitRender(VTuberData data) => _VTuberAnimation.Init(data);
 
     public override void GetDamage(int damage, bool isCritical = false)
     {
         SoundPool.GetPlayAudio(SoundID.PlayerDamaged);
 
-        currentHealth -= damage;
+        CurHealth -= damage;
 
-        OnChangeCurHP?.Invoke(currentHealth);
+        OnChangeCurHP?.Invoke(CurHealth);
 
-        if (currentHealth <= 0)
+        if (CurHealth <= 0)
         {
             Die();
         }

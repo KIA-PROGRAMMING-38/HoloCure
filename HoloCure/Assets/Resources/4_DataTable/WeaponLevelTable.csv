@@ -1,0 +1,43 @@
+Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,ProjectileCount,DamageRate,AttackDelay,HitCoolTime,Size,AttackDurationTime,ProjectileSpeed,KnockbackDurationTime,KnockbackSpeed,Radius
+2101,1,"Create an area of miasma around, dealing slow damage to enemies inside.",10,10,1,0.9,0,0.75,1.1,10.02,0,0,0,0
+2101,2,Increase area by <color=green>15%</color>.,10,10,1,0.9,0,0.75,1.265,10.02,0,0,0,0
+2101,3,Increase damage by <color=green>30%</color>.,10,10,1,1.17,0,0.75,1.265,10.02,0,0,0,0
+2101,4,Increase area by <color=green>25%</color>.,10,10,1,1.17,0,0.75,1.58125,10.02,0,0,0,0
+2101,5,Increase frequency of hits by <color=green>20%</color>.,10,10,1,1.17,0,0.6,1.58125,10.02,0,0,0,0
+2101,6,Increase damage by <color=green>60%</color>.,10,10,1,1.404,0,0.6,1.58125,10.02,0,0,0,0
+2101,7,Add small knockback on hit.,10,10,1,1.404,0,0.6,1.58125,10.02,0,0.13,3,0
+2102,1,"A bomb that explodes, dealing damage to all nearby targets.",2,0.3,1,1.7,0,0.33,1.44,10.5,7,0,0,0
+2102,2,Increase explosion size by <color=green>15%</color>.,2,0.3,1,1.7,0,0.33,1.656,10.5,7,0,0,0
+2102,3,Increase damage by <color=green>20%</color>.,2,0.3,1,1.7,0,0.33,2.04,10.5,7,0,0,0
+2102,4,Throw <color=green>2</color> bombs.,2,0.3,2,1.7,0.08,0.33,2.04,10.5,7,0,0,0
+2102,5,Reduce the time between attacks by <color=green>20%</color>.,1.6,0.3,2,1.7,0.08,0.33,2.04,10.5,7,0,0,0
+2102,6,Increase explosion size by <color=green>20%</color>.,1.6,0.3,2,1.9872,0.08,0.33,2.04,10.5,7,0,0,0
+2102,7,Throw <color=green>3</color> bombs.,1.6,0.3,3,1.9872,0.08,0.33,2.04,10.5,7,0,0,0
+2103,1,Throw an axe that spirals outward from the player.,4,0.3,1,1.2,0,0.83,1,3,10,0,0,0
+2103,2,Increase size of axe by <color=green>20%</color>. Increase damage of axe by <color=green>20%</color>.,4,0.3,1,1.56,0,0.83,1.2,3,10,0,0,0
+2103,3,Reduce delay between attacks by <color=green>20%</color>.,3.2,0.3,1,1.56,0,0.83,1.2,3,10,0,0,0
+2103,4,"Increase damage by <color=green>33%</color>, and size by <color=green>20%</color>.",3.2,0.3,1,2.07,0,0.83,1.44,3,10,0,0,0
+2103,5,Lasts <color=green>1</color> second longer.,3.2,0.3,1,2.07,0,0.83,1.44,4,10,0,0,0
+2103,6,Increase attack size by <color=green>50%</color>.,3.2,0.3,1,2.07,0,0.83,2.16,4,10,0,0,0
+2103,7,Increase damage by <color=green>50%</color>.,3.2,0.3,1,3.11,0,0.83,2.16,4,10,0,0,0
+2104,1,Repels targets with orbiting BL Books.,6,5,3,1.4,0,0.33,1,2,3,0.08,2,50
+2104,2,Add <color=green>1</color> additional book.,6,5,4,1.4,0,0.33,1,2,3,0.08,2,50
+2104,3,Increase damage by <color=green>30%</color> and increase duration by <color=green>1</color> second.,6,5,4,1.82,0,0.33,1,5,3,0.08,2,50
+2104,4,Add <color=green>1</color> additional book.,6,5,5,1.82,0,0.33,1,5,3,0.08,2,50
+2104,5,Increase radius and spinning speed by <color=green>25%</color>.,6,5,5,1.82,0,0.33,1,5,5,0.08,2,75
+2104,6,Add <color=green>1</color> additional book.,6,5,6,1.82,0,0.33,1,5,5,0.08,2,75
+2104,7,Increase damage by <color=green>40%</color>.,6,5,6,2.548,0,0.33,1,5,5,0.08,2,75
+2105,1,Shoot a powerful laser beam from the microphone.,3,0.3,1,3.0,0,1,1,0.833,0,0.17,15,0
+2105,2,Increase size by <color=green>30%</color>.,3,0.3,1,3.0,0,1,1.3,0.833,0,0.17,15,0
+2105,3,Reduce attack cooldown by <color=green>0.5</color> seconds.,2.5,0.3,1,3.0,0,1,1.3,0.833,0,0.17,15,0
+2105,4,Increase damage by <color=green>50%</color>.,2.5,0.3,1,4.0,0,1,1.3,0.833,0,0.17,15,0
+2105,5,Reduce attack cooldown by <color=green>0.5</color> seconds.,2,0.3,1,4.0,0,1,1.3,0.833,0,0.17,15,0
+2105,6,Increase size by <color=green>50%</color>.,2,0.3,1,4.0,0,1,2,0.833,0,0.17,15,0
+2105,7,Fire an additional beam from behind,2,0.3,2,4.0,0,1,2,0.833,0,0.17,15,0
+2201,1,A tentacle shoots out in front.,1.5,0.3,1,1.2,0,0.33,1.5,1,0,0,0,0
+2201,2,Increase damage by <color=green>20%</color>.,1.5,0.3,1,1.44,0,0.33,1.5,1,0,0,0,0
+2201,3,Reduce the time between attacks by <color=green>20%</color>.,1.3,0.3,1,1.44,0,0.33,1.5,1,0,0,0,0
+2201,4,Increase attack area by <color=green>20%</color>.,1.3,0.3,1,1.44,0,0.33,1.875,1,0,0,0,0
+2201,5,Increase damage by <color=green>50%</color>.,1.3,0.3,1,2.16,0,0.33,1.875,1,0,0,0,0
+2201,6,Adds small <color=yellow>knockback</color> on hit.,1.3,0.3,1,2.16,0,0.33,1.875,1,0,0.08,5,0
+2201,7,Increase damage by <color=green>50%</color>.,1.3,0.3,1,3.24,0,0.33,1.875,1,0,0.08,5,0

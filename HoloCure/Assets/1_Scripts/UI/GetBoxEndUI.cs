@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class GetBoxEndUI : UIBase
 {
-    public event Action<int> OnSelectTake;
+    public event Action<ItemID> OnSelectTake;
 
     private Canvas _canvas;
     private void Awake() => _canvas = GetComponent<Canvas>();
@@ -39,64 +39,51 @@ public class GetBoxEndUI : UIBase
     }
 
     [SerializeField] private ItemList _list;
-    private ItemData _data;
-    private void GetWeaponList(ItemData[] itemLists)
+    private ItemID _id;
+    private void GetWeaponList(ItemID[] ids)
     {
-        for (int i = 0; i < itemLists.Length; ++i)
-        {
-            switch ((ItemDataKindID)itemLists[i].DataKind)
-            {
-                case ItemDataKindID.Weapon:
-                    break;
-                case ItemDataKindID.Equipment:
-                    break;
-                case ItemDataKindID.Stat:
-                    break;
-            }
-        }
-
-
+        
         for (int i = 0; i < Inventory.WeaponCount; ++i)
         {
-            WeaponData weapon = Inventory.Weapons[i].WeaponData;
-            if (weapon.CurrentLevel >= 7)
+            Weapon weapon = Inventory.Weapons[i];
+            if (weapon.Level >= 7)
             {
                 continue;
             }
 
-            for (int j = 0; j < itemLists.Length; ++j)
+            for (int j = 0; j < ids.Length; ++j)
             {
-                if (itemLists[j] == null) // 널방지 임시코드
+                if (ids[j] == default)
                 {
                     continue;
                 }
 
-                if (weapon != itemLists[j])
+                if (weapon.Id != ids[j])
                 {
                     continue;
                 }
 
-                _data = weapon;
+                _id = weapon.Id;
 
                 SetWeapon();
 
                 return;
             }
         }
-        while (true) // 널방지 임시코드
+        while (true)
         {
-            int randNum = UnityEngine.Random.Range(0, itemLists.Length);
+            int randNum = UnityEngine.Random.Range(0, ids.Length);
 
-            if (itemLists[randNum] == null) // 널방지 임시코드
+            if (ids[randNum] == default)
             {
                 continue;
             }
 
-            _data = itemLists[randNum];
+            _id = ids[randNum];
 
             SetWeapon();
 
-            break; // 널방지 임시코드
+            break;
         }
     }
 
@@ -105,7 +92,7 @@ public class GetBoxEndUI : UIBase
     [SerializeField] private GameObject _particles;
     private void SetWeapon()
     {
-        _list.GetItemData(_data);
+        _list.GetItemData(Managers.Data.Item[_id]);
         _icons[1].sprite = _icons[0].sprite;
         _iconLights.SetActive(true);
         _particles.SetActive(true);
@@ -114,6 +101,6 @@ public class GetBoxEndUI : UIBase
     [SerializeField] private BoxButtonController _controller;
     private void SelectTake()
     {
-        OnSelectTake?.Invoke(_data.ID);
+        OnSelectTake?.Invoke(_id);
     }
 }

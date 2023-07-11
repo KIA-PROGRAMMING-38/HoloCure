@@ -1,3 +1,4 @@
+using Cysharp.Text;
 using StringLiterals;
 using UnityEngine;
 
@@ -6,16 +7,8 @@ public class VTuberAnimation : MonoBehaviour
     private PlayerInput _input;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
-
     private float _midX;
 
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _midX = Screen.width / 2;
-    }
-    private void OnEnable() => _input = transform.root.GetComponent<PlayerInput>();
     private void LateUpdate()
     {
         _animator.SetBool(AnimParameterHash.IS_RUNNING, Time.timeScale != 0 && _input.MoveVec.magnitude > 0);
@@ -26,13 +19,17 @@ public class VTuberAnimation : MonoBehaviour
         }
     }
 
-    public void SetVTuberRender(VTuberData data)
+    public void Init(VTuberData data)
     {
-        _spriteRenderer.sprite = data.Display;
-        AnimatorOverrideController overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
+        _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _input = transform.parent.GetComponent<PlayerInput>();
+        _midX = Screen.width / 2;
 
-        overrideController[AnimClipLiteral.IDLE] = data.IdleClip;
-        overrideController[AnimClipLiteral.RUN] = data.RunClip;
+        _spriteRenderer.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.DisplaySprite));
+        AnimatorOverrideController overrideController = new(_animator.runtimeAnimatorController);
+        overrideController[AnimClipLiteral.IDLE] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.Name, PathLiteral.SLASH, AnimClipLiteral.IDLE));
+        overrideController[AnimClipLiteral.RUN] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.Name, PathLiteral.SLASH, AnimClipLiteral.RUN));
 
         _animator.runtimeAnimatorController = overrideController;
     }

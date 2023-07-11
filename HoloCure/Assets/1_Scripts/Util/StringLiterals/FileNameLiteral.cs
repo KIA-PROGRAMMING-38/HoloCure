@@ -12,6 +12,7 @@
         public const string STAT = "Stat";
         public const string HIT_MATERIAL = "HitMaterial";
         public const string PROJECTILE = "Projectile";
+        public const string EFFECT = "Effect";
         public const string EXP = "Exp";
         public const string BOX = "Box";
         public const string PARTICLE = "Particle";
@@ -24,7 +25,5 @@
         public const string IDLE = "Idle";
         public const string RUN = "Run";
         public const string _MOVE = "_Move";
-        public const string _PROJECTILE = "_Projectile";
-        public const string _EFFECT = "_Effect";
     }
 }

@@ -1,155 +1,105 @@
-﻿using System;
+﻿using Cysharp.Text;
+using StringLiterals;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public event Action<int, Sprite> OnNewEquipmentEquip;
-    public event Action<int, int> OnEquipmentLevelUp;
+    public event Action<ItemID, Sprite> OnNewEquipmentEquip;
+    public event Action<ItemID, int> OnEquipmentLevelUp;
 
     /// <summary>
     /// 인벤토리에 장착된 무기들입니다.
     /// </summary>
     public static Weapon[] Weapons;
-    private HashSet<int> _weaponIDs = new();
-    private WeaponDataTable _weaponDataTable;
-    private StatDataTable _statDataTable;
+    private HashSet<ItemID> _weaponIDs = new();
     /// <summary>
     /// 현재 장착된 무기의 개수입니다.
     /// </summary>
     public static int WeaponCount { get; private set; }
 
     private VTuber _VTuber;
-    private VTuberID _VTuberID;
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            GetItem((int)StatID.MaxHPUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            GetItem((int)StatID.ATKUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            GetItem((int)StatID.SPDUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            GetItem((int)StatID.CRTUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            GetItem((int)StatID.PickUpRangeUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            GetItem((int)StatID.HasteUp);
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            GetItem((int)CommonWeaponID.FanBeam);
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            GetItem((int)CommonWeaponID.PsychoAxe);
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            GetItem((int)CommonWeaponID.BLBook);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            GetItem((int)CommonWeaponID.HoloBomb);
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            GetItem((int)CommonWeaponID.SpiderCooking);
-        }
-    }
-    public void Initialize(VTuber VTuber, VTuberID VTuberID, WeaponDataTable weaponDataTable, StatDataTable statDataTable)
+    public void Init(VTuber VTuber, VTuberID id)
     {
         _VTuber = VTuber;
-        _VTuberID = VTuberID;
         Weapons = new Weapon[6];
         WeaponCount = 0;
-        _weaponDataTable = weaponDataTable;
-        _statDataTable = statDataTable;
     }
 
 
     /// <summary>
     /// 아이템을 획득하고 종류에 따라 활성화합니다.
     /// </summary>
-    public void GetItem(int ID)
+    public void GetItem(ItemID id)
     {
-        switch (ID)
+        switch (id)
         {
-            case < 7000:
-                GetWeapon(ID);
+            case < ItemID.StatNone:
+                GetWeapon(id);
                 break;
             default:
-                GetStat(ID);
+                GetStat(id);
                 break;
         }
     }
-    private void GetWeapon(int ID)
+    private void GetWeapon(ItemID id)
     {
-        if (false == _weaponIDs.Contains(ID))
+        if (false == _weaponIDs.Contains(id))
         {
-            Weapon weapon = _weaponDataTable.WeaponPrefabContainer[ID];
-            weapon.Initialize(_VTuber, _weaponDataTable.WeaponDataContainer[ID], _weaponDataTable.WeaponStatContainer[ID]);
-            weapon.gameObject.SetActive(true);
+            ItemData data = Managers.Data.Item[id];
+
+            _weaponIDs.Add(id);
+            Weapon weapon = Managers.Resource.Instantiate(data.Name).GetComponent<Weapon>();
+            weapon.Initialize(id);
 
             Weapons[WeaponCount] = weapon;
-            _weaponIDs.Add(ID);
             WeaponCount += 1;
 
             _VTuber.OnChangeHasteRate -= weapon.GetHaste;
             _VTuber.OnChangeHasteRate += weapon.GetHaste;
             weapon.GetHaste(_VTuber.HasteRate);
 
-            OnNewEquipmentEquip?.Invoke(ID, weapon.WeaponData.Icon);
+            OnNewEquipmentEquip?.Invoke(id, Managers.Resource.Load(Managers.Resource.Sprites,ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite)));
         }
         else
         {
             for (int i = 0; i < WeaponCount; ++i)
             {
-                if (Weapons[i].WeaponData.ID != ID)
+                if (Weapons[i].Id != id)
                 {
                     continue;
                 }
 
                 Weapons[i].LevelUp();
 
-                OnEquipmentLevelUp?.Invoke(ID, Weapons[i].WeaponData.CurrentLevel);
+                OnEquipmentLevelUp?.Invoke(id, Weapons[i].Level);
 
                 break;
             }
         }
     }
-    private void GetStat(int ID)
+    private void GetStat(ItemID id)
     {
-        switch ((StatID)ID)
+        switch (id)
         {
-            case StatID.MaxHPUp:
-                _VTuber.GetMaxHealthRate(_statDataTable.StatContainer[ID].Value);
+            case ItemID.MaxHPUp:
+                _VTuber.GetMaxHealthRate(Managers.Data.Stat[id].Value);
                 break;
-            case StatID.ATKUp:
-                _VTuber.GetAttackRate(_statDataTable.StatContainer[ID].Value);
+            case ItemID.ATKUp:
+                _VTuber.GetAttackRate(Managers.Data.Stat[id].Value);
                 break;
-            case StatID.SPDUp:
-                _VTuber.GetSpeedRate(_statDataTable.StatContainer[ID].Value);
+            case ItemID.SPDUp:
+                _VTuber.GetSpeedRate(Managers.Data.Stat[id].Value);
                 break;
-            case StatID.CRTUp:
-                _VTuber.GetCriticalRate(_statDataTable.StatContainer[ID].Value);
+            case ItemID.CRTUp:
+                _VTuber.GetCriticalRate(Managers.Data.Stat[id].Value);
                 break;
-            case StatID.PickUpRangeUp:
-                _VTuber.GetPickUpRangeRate(_statDataTable.StatContainer[ID].Value);
+            case ItemID.PickUpRangeUp:
+                _VTuber.GetPickUpRangeRate(Managers.Data.Stat[id].Value);
                 break;
-            case StatID.HasteUp:
-                _VTuber.GetHasteRate(_statDataTable.StatContainer[ID].Value);
+            case ItemID.HasteUp:
+                _VTuber.GetHasteRate(Managers.Data.Stat[id].Value);
                 break;
         }
     }

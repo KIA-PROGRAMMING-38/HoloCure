@@ -3,26 +3,34 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
+    private const int Starting_Weapon_Weight = 3;
+    private int _totalWeaponWeight;
+    private int _totalStatWeight;
+    HashSet<ItemID> _set = new();
+
     private void Start()
     {
         Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted -= GetItemDatas;
         Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted += GetItemDatas;
 
-        foreach (KeyValuePair<int, WeaponData> item in Managers.DataTableM.WeaponDataTable.WeaponDataContainer)
-        {
-            _totalWeaponWeight += item.Value.Weight;
-        }
-        foreach (KeyValuePair<int, Stat> item in Managers.DataTableM.StatDataTable.StatContainer)
-        {
-            _totalStatWeight += item.Value.Weight;
-        }
+        InitTotalWeight();
     }
-    private int _totalWeaponWeight;
-    private int _totalStatWeight;
-    HashSet<ItemData> _set = new();
-    private ItemData[] GetItemDatas()
+    private void InitTotalWeight()
     {
-        ItemData[] itemDatas = new ItemData[4];
+        foreach (var data in Managers.Data.WeaponWeight)
+        {
+            _totalWeaponWeight += data.Weight;
+        }
+        _totalWeaponWeight += Starting_Weapon_Weight;
+
+        foreach (var data in Managers.Data.StatWeight)
+        {
+            _totalStatWeight += data.Weight;
+        }
+    }    
+    private ItemID[] GetItemDatas()
+    {
+        ItemID[] ids = new ItemID[4];
 
         _set.Clear();
 
@@ -40,62 +48,49 @@ public class ItemManager : MonoBehaviour
             GetStatFromTable();
         }
 
-        _set.CopyTo(itemDatas);
+        _set.CopyTo(ids);
 
-        return itemDatas;
+        return ids;
     }
     private void GetWeaponDataFromTable()
     {
-        if (_set.Count >= 4)
-        {
-            return;
-        }
+        if (_set.Count >= 4) { return; }
 
-        if (Inventory.WeaponCount >= 6)
-        {
-            return;
-        }
+        if (Inventory.WeaponCount >= 6) { return; }
 
         int randomNum = Random.Range(0, _totalWeaponWeight);
         int accumulatedWeight = 0;
-        foreach (KeyValuePair<int, WeaponData> item in Managers.DataTableM.WeaponDataTable.WeaponDataContainer)
+        foreach (var data in Managers.Data.WeaponWeight)
         {
-            accumulatedWeight += item.Value.Weight;
+            accumulatedWeight += data.Weight;
 
-            if (randomNum >= accumulatedWeight)
+            if (randomNum >= accumulatedWeight) { continue; }
+
+            for (int i = 0; i < Inventory.WeaponCount; ++i)
             {
-                continue;
+                Weapon weapon = Inventory.Weapons[i];
+                if (weapon.Id != data.Id) { continue; }
+                if (weapon.Level == 7) { return; }
             }
 
-            if (item.Value.CurrentLevel == 7)
-            {
-                return;
-            }
-
-            _set.Add(item.Value);
+            _set.Add(data.Id);
 
             return;
         }
     }
     private void GetStatFromTable()
     {
-        if (_set.Count >= 4)
-        {
-            return;
-        }
+        if (_set.Count >= 4) { return; }
 
         int randomNum = Random.Range(0, _totalStatWeight);
         int accumulatedWeight = 0;
-        foreach (KeyValuePair<int, Stat> item in Managers.DataTableM.StatDataTable.StatContainer)
+        foreach (WeightData data in Managers.Data.StatWeight)
         {
-            accumulatedWeight += item.Value.Weight;
+            accumulatedWeight += data.Weight;
 
-            if (randomNum >= accumulatedWeight)
-            {
-                continue;
-            }
+            if (randomNum >= accumulatedWeight) { continue; }
 
-            _set.Add(item.Value);
+            _set.Add(data.Id);
 
             break;
         }
@@ -104,20 +99,11 @@ public class ItemManager : MonoBehaviour
     {
         for (int i = 0; i < Inventory.WeaponCount; ++i)
         {
-            if (Inventory.Weapons[i].WeaponData.CurrentLevel >= 7)
-            {
-                continue;
-            }
+            if (Inventory.Weapons[i].Level >= 7) { continue; }
 
-            if (false == _set.Add(Inventory.Weapons[i].WeaponData))
-            {
-                continue;
-            }
+            if (false == _set.Add(Inventory.Weapons[i].Id)) { continue; }
 
-            if (_set.Count == 4)
-            {
-                break;
-            }
+            if (_set.Count == 4) { break; }
         }
     }
 }

@@ -1,3 +1,4 @@
+using Cysharp.Text;
 using StringLiterals;
 using System.Collections;
 using UnityEngine;
@@ -59,7 +60,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         while (true)
         {
-            _spriteRenderer.material = EnemyRender.HitMaterial;
+            _spriteRenderer.material = Managers.Resource.Load(Managers.Resource.Materials, ZString.Concat(PathLiteral.MATERIAL, PathLiteral.MATERIAL, Managers.Data.Material[MaterialID.Hit].Material));
 
             yield return Util.TimeStore.GetWaitForSeconds(0.1f);
 
@@ -70,17 +71,16 @@ public class EnemyAnimation : MonoBehaviour
             yield return null;
         }
     }
-
     /// <summary>
     /// 적의 스프라이트와 애니메이터와 애니메이션 클립을 설정합니다.
     /// </summary>
-    public void SetEnemyRender(EnemyRender render)
+    public void SetEnemyRender(EnemyData data)
     {
-        _spriteRenderer.sprite = render.Sprite;
+        _spriteRenderer.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.Sprite));
 
         AnimatorOverrideController overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
 
-        overrideController[AnimClipLiteral.MOVE] = render.MoveClip;
+        overrideController[AnimClipLiteral.MOVE] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.Name));
 
         _animator.runtimeAnimatorController = overrideController;
     }

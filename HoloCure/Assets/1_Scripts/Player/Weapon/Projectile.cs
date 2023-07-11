@@ -1,4 +1,5 @@
-﻿using StringLiterals;
+﻿using Cysharp.Text;
+using StringLiterals;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -66,16 +67,16 @@ public class Projectile : MonoBehaviour
     }
     private Action<Projectile> _operate;
     public void SetProjectileOperate(Action<Projectile> operate) => _operate = operate;
-    public void SetProjectileStat(float damage, float hitCoolTIme, float size, float durationTime, int projectileSpeed, int criticalRate, float knockbackDurationTime, float knockbackSpeed)
+    public void SetProjectileStat(WeaponLevelData data)
     {
-        _damage = damage;
-        _hitCoolTime = hitCoolTIme;
-        _size = size;
-        _durationTime = durationTime;
-        ProjectileSpeed = projectileSpeed;
-        _criticalRate = criticalRate;
-        _knockBackDurationTime = knockbackDurationTime;
-        _knockBackSpeed = knockbackSpeed;
+        _damage = data.DamageRate * Managers.PlayerM.VTuber.AttackPower;
+        _hitCoolTime = data.HitCoolTime;
+        _size = data.Size;
+        _durationTime = data.AttackDurationTime;
+        ProjectileSpeed = data.ProjectileSpeed;
+        _criticalRate = Managers.PlayerM.VTuber.CriticalRate;
+        _knockBackDurationTime = data.KnockbackDurationTime;
+        _knockBackSpeed = data.KnockbackSpeed;
     }
 
     public void SetPositionWithWeapon(Vector2 weaponPos, Vector2 projectileInitPos = default)
@@ -88,12 +89,12 @@ public class Projectile : MonoBehaviour
     {
         _collider = collider;
     }
-    public void SetAnimation(AnimationClip projectileClip, AnimationClip effectClip)
+    public void SetAnimation(ItemData data)
     {
         AnimatorOverrideController overrideController = new(_animator.runtimeAnimatorController);
 
-        overrideController[AnimClipLiteral.PROJECTILE] = projectileClip;
-        overrideController[AnimClipLiteral.EFFECT] = effectClip;
+        overrideController[AnimClipLiteral.PROJECTILE] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name, PathLiteral.SLASH, FileNameLiteral.PROJECTILE));
+        overrideController[AnimClipLiteral.EFFECT] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name, PathLiteral.SLASH, FileNameLiteral.EFFECT));
 
         _animator.runtimeAnimatorController = overrideController;
     }
