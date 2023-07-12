@@ -1,3 +1,5 @@
+using Cysharp.Text;
+using StringLiterals;
 using System;
 using TMPro;
 using UnityEngine;
@@ -19,15 +21,13 @@ public class DamageText : MonoBehaviour
     private const float FLOATING_TIME = 0.5f;
     private const float FADE_START_TIME = 0.3f;
     private const float FADE_DURATION_TIME = 0.2f;
+    private const string EXCLAMATION_MARK = "!";
 
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();
 
-    /// <summary>
-    /// Update()¿¡¼­ »ç¿ëµÉ °ªµéÀ» ÃÊ±âÈ­ÇÕ´Ï´Ù.
-    /// </summary>
-    public void Init(Vector2 dir)
+    private void Init(Vector2 pos, Vector2 dir)
     {
-        _startPoint = transform.parent.position;
+        _startPoint = pos + Vector2.up * 25;
         transform.position = _startPoint;
 
         _wayPoint = _startPoint + dir * 15 + Vector2.up * 20;
@@ -37,6 +37,20 @@ public class DamageText : MonoBehaviour
         _text.color = new Color(1, 1, 1, 1);
 
         OnInitialize?.Invoke(_text.color);
+    }
+    public void InitDefaultDamage(Vector2 pos, Vector2 dir, int damage)
+    {
+        _text.font = Managers.Resource.Load(Managers.Resource.Fonts, ZString.Concat(PathLiteral.Font, FileNameLiteral.DEFAULT_DAMAGE_TEXT_FONT));
+        _text.text = ZString.Concat(damage);
+
+        Init(pos, dir);
+    }
+    public void InitCriticalDamage(Vector2 pos, Vector2 dir, int damage)
+    {
+        _text.font = Managers.Resource.Load(Managers.Resource.Fonts, ZString.Concat(PathLiteral.Font, FileNameLiteral.CRITICAL_DAMAGE_TEXT_FONT));
+        _text.text = ZString.Concat(damage, EXCLAMATION_MARK);
+
+        Init(pos, dir);
     }
     private void Update()
     {
@@ -60,7 +74,7 @@ public class DamageText : MonoBehaviour
     private ObjectPool<DamageText> _pool;
 
     /// <summary>
-    /// ¹İÈ¯µÇ¾î¾ßÇÒ Ç®ÀÇ ÁÖ¼Ò¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+    /// ë°˜í™˜ë˜ì–´ì•¼í•  í’€ì˜ ì£¼ì†Œë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetPoolRef(ObjectPool<DamageText> pool) => _pool = pool;
 }

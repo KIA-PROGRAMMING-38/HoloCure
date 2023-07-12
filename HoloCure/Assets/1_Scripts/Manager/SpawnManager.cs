@@ -1,5 +1,3 @@
-﻿using Cysharp.Text;
-using StringLiterals;
 using System.Collections;
 using UnityEngine;
 using Util;
@@ -9,16 +7,10 @@ public class SpawnManager : MonoBehaviour
     private const int WIDTH = 460;
     private const int HEIGHT = 270;
     private const int ENEMY_SPAWN_OFFSET_COUNT = 36;
-    private const int STAGE_BIT = 1000;
-    private const string ENEMY_CONTAINER = "Enemy Container";
-    private Vector3[] _enemySpawnOffsets;
+    private const int STAGE_CONSTANT = 1000;
     private readonly WaitForSeconds ENEMY_SPAWN_INTERVAL = TimeStore.GetWaitForSeconds(1);
 
-    private GameObject _enemyContainer;
-
-    private EnemyPool _enemyPool;
-    private DamageTextPool _defaultDamageTextPool;
-    private DamageTextPool _criticalDamageTextPool;
+    private Vector3[] _enemySpawnOffsets;
 
     private void Start()
     {
@@ -40,7 +32,7 @@ public class SpawnManager : MonoBehaviour
     }
     private void OnStartStage()
     {
-        SpawnEnemy(1); // stage 1
+        SpawnStageEnemies(1); // stage 1
     }
     private void OnEndStage()
     {
@@ -49,7 +41,6 @@ public class SpawnManager : MonoBehaviour
     private void Init()
     {
         InitOffset();
-        InitPools();
     }
     private void InitOffset()
     {
@@ -62,26 +53,14 @@ public class SpawnManager : MonoBehaviour
             _enemySpawnOffsets[i] = new Vector3(WIDTH * Mathf.Cos(angle), HEIGHT * Mathf.Sin(angle), 0);
         }
     }
-    private void InitPools()
-    {
-        _enemyContainer = new(ENEMY_CONTAINER);
-
-        _enemyPool = new();
-        _enemyPool.Init(_enemyContainer);
-
-        _defaultDamageTextPool = new();
-        _defaultDamageTextPool.Init(Managers.Resource.Load(Managers.Resource.Prefabs, ZString.Concat(PathLiteral.PREFAB, FileNameLiteral.DEFAULT_DAMAGE_TEXT)));
-
-        _criticalDamageTextPool = new();
-        _criticalDamageTextPool.Init(Managers.Resource.Load(Managers.Resource.Prefabs, ZString.Concat(PathLiteral.PREFAB, FileNameLiteral.CRITICAL_DAMAGE_TEXT)));
-    }
-    private void SpawnEnemy(int stage)
+    private void SpawnStageEnemies(int stage)
     {
         foreach (var pair in Managers.Data.Enemy)
         {
             EnemyID id = pair.Key;
+            EnemyID enemyType = id - stage * STAGE_CONSTANT;
 
-            if (id - stage * STAGE_BIT > EnemyID.End) { return; }
+            if (enemyType > EnemyID.End) { return; }
 
             StartCoroutine(SpawnEnemyCo(id, stage));
         }
@@ -92,23 +71,29 @@ public class SpawnManager : MonoBehaviour
 
         yield return TimeStore.GetWaitForSeconds(data.SpawnStartTime);
 
-        switch (id - stage * STAGE_BIT)
+        EnemyID enemyType = id - stage * STAGE_CONSTANT;
+
+        switch (enemyType)
         {
-            case < EnemyID.MiniBoss: // Normal
+            case > EnemyID.Normal and < EnemyID.MiniBoss:
                 while (Managers.StageM.CurrentStageTime < data.SpawnEndTime)
                 {
-                    Enemy enemy = _enemyPool.GetEnemyFromPool();
-                    enemy.Init(id, _enemySpawnOffsets[Random.Range(0, ENEMY_SPAWN_OFFSET_COUNT)]);
-                    enemy.SetFloatingDamagePool(_defaultDamageTextPool, _criticalDamageTextPool);
-
+                    SpawnEnemy(id);
                     yield return ENEMY_SPAWN_INTERVAL;
                 }
                 break;
-            case < EnemyID.Boss: // MiniBoss
+            case > EnemyID.MiniBoss and < EnemyID.Boss:
                 break;
-            case < EnemyID.End: // Boss
+            case > EnemyID.Boss and < EnemyID.End:
+                break;
+            default:
+                Debug.Assert(false, $"Invalid EnemyID | ID: {id}, Stage: {stage}");
                 break;
         }
     }
-
+    private void SpawnEnemy(EnemyID id)
+    {
+        Enemy enemy = Managers.Pool.Enemy.Get();
+        enemy.Init(id, _enemySpawnOffsets.GetRandomElement());
+    }
 }
