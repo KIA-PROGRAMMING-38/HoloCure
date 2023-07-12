@@ -1,33 +1,37 @@
-﻿using StringLiterals;
-using System.IO;
+using StringLiterals;
 using UnityEngine;
 using Util.Pool;
 
 public class BoxPool
 {
     private GameObject _container;
-    private Box _boxPrefab;
-    private ObjectPool<Box> _boxPool;
+    private ObjectPool<Box> _pool;
 
-    public Box GetBoxFromPool() => _boxPool.Get();
-
-    public void Initialize(GameObject container)
+    public Box GetBoxFromPool(Vector2 pos)
     {
-        _container = container;
-        _boxPrefab = Resources.Load<Box>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.BOX));
+        Box box = _pool.Get();
 
-        InitializeBoxPool();
-    }
-    private void InitializeBoxPool() => _boxPool = new ObjectPool<Box>(CreateBox, OnGetBoxFromPool, OnReleaseBoxToPool, OnDestroyBox);
-    private Box CreateBox()
-    {
-        Box box = Object.Instantiate(_boxPrefab, _container.transform);
-
-        box.SetPoolRef(_boxPool);
+        box.Init(pos);
 
         return box;
     }
-    private void OnGetBoxFromPool(Box box) => box.gameObject.SetActive(true);
-    private void OnReleaseBoxToPool(Box box) => box.gameObject.SetActive(false);
-    private void OnDestroyBox(Box box) => Object.Destroy(box.gameObject);
+
+    public void Init(GameObject container)
+    {
+        _container = container;
+
+        InitPool();
+    }
+    private void InitPool() => _pool = new ObjectPool<Box>(CreateBox, OnGet, OnRelease, OnDestroy);
+    private Box CreateBox()
+    {
+        Box box = Managers.Resource.Instantiate(FileNameLiteral.BOX, _container.transform).GetComponent<Box>();
+
+        box.SetPoolRef(_pool);
+
+        return box;
+    }
+    private void OnGet(Box box) => box.gameObject.SetActive(true);
+    private void OnRelease(Box box) => box.gameObject.SetActive(false);
+    private void OnDestroy(Box box) => Object.Destroy(box.gameObject);
 }

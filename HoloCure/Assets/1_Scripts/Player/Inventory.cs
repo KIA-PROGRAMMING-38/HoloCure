@@ -27,7 +27,6 @@ public class Inventory : MonoBehaviour
         WeaponCount = 0;
     }
 
-
     /// <summary>
     /// 아이템을 획득하고 종류에 따라 활성화합니다.
     /// </summary>
@@ -101,13 +100,6 @@ public class Inventory : MonoBehaviour
             case ItemID.HasteUp:
                 _VTuber.GetHasteRate(Managers.Data.Stat[id].Value);
                 break;
-        }
-    }
-    private void OnDestroy()
-    {
-        for (int i = 0; i < WeaponCount; ++i)
-        {
-            Weapons[i].gameObject.SetActive(false);
         }
     }
 }
