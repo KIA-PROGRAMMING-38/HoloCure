@@ -7,8 +7,6 @@ using Util.Pool;
 
 public class Enemy : CharacterBase
 {
-    public event Action<Vector2, int> OnGetCriticalDamage;
-    public event Action<Vector2, int> OnGetDamage;
     public event Action OnGetDamageForAnimation;
 
     public event Action<float> OnDieForAnimation;
@@ -46,7 +44,7 @@ public class Enemy : CharacterBase
         _dyingMoveCoroutine = DyingMoveCoroutine();
     }
     /// <summary>
-    /// ÀûÀ» ÃÊ±âÈ­ÇÕ´Ï´Ù.
+    /// ì ì„ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
     /// </summary>
     public void Init(EnemyID id, Vector3 offset)
     {
@@ -81,7 +79,7 @@ public class Enemy : CharacterBase
         OnDieForUpdateCount -= Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
     }
     /// <summary>
-    /// ÀûÀÇ ·£´õ¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+    /// ì ì˜ ëœë”ë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetEnemyRender(EnemyData data) => enemyAnimation.SetEnemyRender(data);
     public Vector2 _moveVec;
@@ -94,7 +92,7 @@ public class Enemy : CharacterBase
     private float _knockBackSpeed;
     private float _knockBackDurationTime;
     /// <summary>
-    /// ÀûÀ» ³Ë¹é½ÃÅµ´Ï´Ù.
+    /// ì ì„ ë„‰ë°±ì‹œí‚µë‹ˆë‹¤.
     /// </summary>
     public void KnockBacked(float knockBackSpeed, float knockBackDurationTime)
     {
@@ -141,7 +139,7 @@ public class Enemy : CharacterBase
 
     private Vector2 _effectDir;
     /// <summary>
-    /// ÀûÀÇ ÇÇ°İÀÔ´Ï´Ù. ÀûÀÇ ÇÇ°İ ÀÌÆåÆ®¸¦ È£ÃâÇÏ°í, ÀûÀÇ ÇöÀç Ã¼·ÂÀ» ±ğ½À´Ï´Ù. ÇöÀç Ã¼·ÂÀÌ 0ÀÌÇÏ°¡ µÇ¸é Die°¡ È£ÃâµË´Ï´Ù.
+    /// ì ì˜ í”¼ê²©ì…ë‹ˆë‹¤. ì ì˜ í”¼ê²© ì´í™íŠ¸ë¥¼ í˜¸ì¶œí•˜ê³ , ì ì˜ í˜„ì¬ ì²´ë ¥ì„ ê¹ìŠµë‹ˆë‹¤. í˜„ì¬ ì²´ë ¥ì´ 0ì´í•˜ê°€ ë˜ë©´ Dieê°€ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     public override void GetDamage(int damage, bool isCritical = false)
     {
@@ -153,11 +151,11 @@ public class Enemy : CharacterBase
 
         if (isCritical)
         {
-            OnGetCriticalDamage?.Invoke(_effectDir, damage);
+            Managers.Pool.DamageText.Get().InitCriticalDamage(transform.position, _effectDir, damage);
         }
         else
         {
-            OnGetDamage?.Invoke(_effectDir, damage);
+            Managers.Pool.DamageText.Get().InitDefaultDamage(transform.position, _effectDir, damage);
         }
 
         OnGetDamageForAnimation?.Invoke();
@@ -166,7 +164,7 @@ public class Enemy : CharacterBase
     }
 
     /// <summary>
-    /// ÀûÀÌ ½ºÆùÇÏ¸é ÇØ¾ßÇÏ´Â ¼¼ÆÃÀÔ´Ï´Ù. Init()¿¡¼­ È£ÃâµË´Ï´Ù.
+    /// ì ì´ ìŠ¤í°í•˜ë©´ í•´ì•¼í•˜ëŠ” ì„¸íŒ…ì…ë‹ˆë‹¤. Init()ì—ì„œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     private void OnSpawn()
     {
@@ -181,7 +179,7 @@ public class Enemy : CharacterBase
     protected virtual void SetLayerOnDie() => gameObject.layer = LayerNum.DEAD_ENEMY;
 
     /// <summary>
-    /// ÀûÀÇ »ç¸ÁÀÔ´Ï´Ù. GetDamage¿¡¼­ È£ÃâµË´Ï´Ù.
+    /// ì ì˜ ì‚¬ë§ì…ë‹ˆë‹¤. GetDamageì—ì„œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     protected override void Die()
     {
@@ -207,7 +205,7 @@ public class Enemy : CharacterBase
     private Vector2 _dyingPoint;
     private IEnumerator _dyingMoveCoroutine;
     /// <summary>
-    /// »ç¸Á½Ã ¿òÁ÷ÀÌ´Â ÄÚ·çÆ¾, 0.7ÃÊÀÇ »ç¸Á½Ã°£ ÀÌÈÄ Ç®·Î ¹İÈ¯µË´Ï´Ù.
+    /// ì‚¬ë§ì‹œ ì›€ì§ì´ëŠ” ì½”ë£¨í‹´, 0.7ì´ˆì˜ ì‚¬ë§ì‹œê°„ ì´í›„ í’€ë¡œ ë°˜í™˜ë©ë‹ˆë‹¤.
     /// </summary>
     private IEnumerator DyingMoveCoroutine()
     {
@@ -239,7 +237,7 @@ public class Enemy : CharacterBase
 
     private ObjectPool<Enemy> _pool;
     /// <summary>
-    /// ¹İÈ¯µÇ¾î¾ßÇÒ Ç®ÀÇ ÁÖ¼Ò¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+    /// ë°˜í™˜ë˜ì–´ì•¼í•  í’€ì˜ ì£¼ì†Œë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetPoolRef(ObjectPool<Enemy> pool) => _pool = pool;
     protected virtual void ReleaseToPool() => _pool.Release(this);
@@ -254,18 +252,11 @@ public class Enemy : CharacterBase
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î ÇÃ¸³ÇÕ´Ï´Ù.
+    /// í”Œë ˆì´ì–´ë¥¼ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ í”Œë¦½í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetFilpX()
     {
         OnFilpX?.Invoke();
         OnFilp?.Invoke(enemyAnimation.IsFilp());
-    }
-
-    [SerializeField] private DamageTextController _damageTextController;
-    public void SetFloatingDamagePool(DamageTextPool defaultPool, DamageTextPool criticalPool)
-    {
-        _damageTextController.SetDefaultDamageTextPool(defaultPool);
-        _damageTextController.SetCriticalDamageTextPool(criticalPool);
     }
 }

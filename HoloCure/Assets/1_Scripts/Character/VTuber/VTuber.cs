@@ -34,7 +34,7 @@ public class VTuber : CharacterBase
     private Rigidbody2D _rigidbody;
     private VTuberAnimation _VTuberAnimation;
     private VTuberDieEffect _VTuberDieEffect;
-    #region ½ºÅÈ Ã³¸®
+    #region ìŠ¤íƒ¯ ì²˜ë¦¬
     public int MaxHealth { get; private set; }
     public void GetMaxHealthRate(int rate)
     {
