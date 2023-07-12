@@ -69,12 +69,12 @@ public class Enemy : CharacterBase
     {
         RemoveEvent();
 
-        OnDieForSpawnEXP += Managers.ObjectM.SpawnEXP;
+        OnDieForSpawnEXP += Managers.Spawn.SpawnExp;
         OnDieForUpdateCount += Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
     }
     private void RemoveEvent()
     {
-        OnDieForSpawnEXP -= Managers.ObjectM.SpawnEXP;
+        OnDieForSpawnEXP -= Managers.Spawn.SpawnExp;
         OnDieForUpdateCount -= Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
     }
     /// <summary>

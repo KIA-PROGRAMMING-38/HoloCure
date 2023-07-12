@@ -4,8 +4,8 @@ using Util;
 
 public class SpawnManager : MonoBehaviour
 {
-    private const int WIDTH = 460;
-    private const int HEIGHT = 270;
+    private const int WIDTH = 540;
+    private const int HEIGHT = 315;
     private const int ENEMY_SPAWN_OFFSET_COUNT = 36;
     private const int STAGE_CONSTANT = 1000;
     private readonly WaitForSeconds ENEMY_SPAWN_INTERVAL = TimeStore.GetWaitForSeconds(1);
@@ -95,5 +95,20 @@ public class SpawnManager : MonoBehaviour
     {
         Enemy enemy = Managers.Pool.Enemy.Get();
         enemy.Init(id, _enemySpawnOffsets.GetRandomElement());
+    }
+    public void SpawnExp(Vector2 pos, int expAmount)
+    {
+        while (expAmount > (int)ExpAmounts.Max_Six)
+        {
+            _expPool.GetExpFromPool(pos, (int)ExpAmounts.Max_Six);
+
+            expAmount -= (int)ExpAmounts.Max_Six;
+        }
+
+        _expPool.GetExpFromPool(pos, expAmount);
+    }
+    public void SpawnBox(Vector2 pos)
+    {
+        _boxPool.GetBoxFromPool(pos);
     }
 }

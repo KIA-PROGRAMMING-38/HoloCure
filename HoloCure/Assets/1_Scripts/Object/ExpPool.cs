@@ -1,8 +1,6 @@
 ﻿using StringLiterals;
-using System.IO;
 using UnityEngine;
 using Util.Pool;
-
 public static class ExpAnimHash
 {
     public static readonly int[] EXPs = {
@@ -14,13 +12,11 @@ public static class ExpAnimHash
             Animator.StringToHash(AnimClipLiteral.EXPs[5]),
             Animator.StringToHash(AnimClipLiteral.EXPs[6])};
 }
-
 public class ExpPool
 {
     private GameObject _container;
-    private Exp _expDefaultPrefab;
-    private ObjectPool<Exp> _expPool;
-    public Exp GetExpFromPool(Vector2 pos,int expAmount)
+    private ObjectPool<Exp> _pool;
+    public Exp GetExpFromPool(Vector2 pos, int expAmount)
     {
         Exp exp = GetExp(pos, expAmount);
 
@@ -28,44 +24,44 @@ public class ExpPool
 
         return exp;
     }
+    public void Init(GameObject container)
+    {
+        _container = container;
+
+        InitPool();
+    }
     private Exp GetExp(Vector2 pos, int expAmount)
     {
-        Exp exp = _expPool.Get();
-        exp.SetExp(expAmount);
+        Exp exp = _pool.Get();
+
+        exp.Init(pos, expAmount);
+
         int hash = expAmount switch
         {
-            < 10 => ExpAnimHash.EXPs[1],
-            < 20 => ExpAnimHash.EXPs[2],
-            < 50 => ExpAnimHash .EXPs[3],
-            < 100 => ExpAnimHash.EXPs[4],
-            < 200 => ExpAnimHash.EXPs[5],
+            < (int)ExpAmounts.Two => ExpAnimHash.EXPs[1],
+            < (int)ExpAmounts.Three => ExpAnimHash.EXPs[2],
+            < (int)ExpAmounts.Four => ExpAnimHash.EXPs[3],
+            < (int)ExpAmounts.Five => ExpAnimHash.EXPs[4],
+            < (int)ExpAmounts.Max_Six => ExpAnimHash.EXPs[5],
             _ => ExpAnimHash.EXPs[6],
         };
         exp.GetComponent<Animator>().Play(hash);
-        exp.SetReleasedFalse();
-        exp.transform.position = pos;
 
         return exp;
     }
-    public void Initialize(GameObject container)
+    private void InitPool() => _pool = new(Create, OnGet, OnRelease, OnDestroy);
+    private Exp Create()
     {
-        _container = container;
-        _expDefaultPrefab = Resources.Load<Exp>(Path.Combine(PathLiteral.PREFAB, FileNameLiteral.EXP));
+        Exp exp = Managers.Resource.Instantiate(FileNameLiteral.EXP, _container.transform).GetComponent<Exp>();
 
-        InitializeExpPool();
-    }
-    private void InitializeExpPool() => _expPool = new(CreateExp, OnGetExpFromPool, OnReleaseExpToPool, OnDestroyExp);
-    private Exp CreateExp()
-    {
-        Exp exp = Object.Instantiate(_expDefaultPrefab, _container.transform);
-        exp.SetPoolRef(_expPool);
+        exp.SetPoolRef(_pool);
 
         exp.OnTriggerWithExp -= GetExp;
         exp.OnTriggerWithExp += GetExp;
 
         return exp;
     }
-    private void OnGetExpFromPool(Exp exp) => exp.gameObject.SetActive(true);
-    private void OnReleaseExpToPool(Exp exp) => exp.gameObject.SetActive(false);
-    private void OnDestroyExp(Exp exp) => Object.Destroy(exp.gameObject);
+    private void OnGet(Exp exp) => exp.gameObject.SetActive(true);
+    private void OnRelease(Exp exp) => exp.gameObject.SetActive(false);
+    private void OnDestroy(Exp exp) => Object.Destroy(exp.gameObject);
 }

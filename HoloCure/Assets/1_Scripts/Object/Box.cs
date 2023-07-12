@@ -16,13 +16,14 @@ public class Box : MonoBehaviour
     }
     private ObjectPool<Box> _pool;
     public void SetPoolRef(ObjectPool<Box> pool) => _pool = pool;
+    public void Init(Vector2 pos) => transform.position = pos;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag(TagLiteral.VTUBER))
         {
-            _isReleased = true;
-            _pool.Release(this);
             collision.GetComponent<Player>().GetBox();
+
+            _pool.Release(this);
         }
         if (collision.CompareTag(TagLiteral.SCREEN_SENSOR))
         {
@@ -35,24 +36,11 @@ public class Box : MonoBehaviour
     {
         if (collision.CompareTag(TagLiteral.SCREEN_SENSOR))
         {
-            if(false == gameObject.activeSelf)
-            {
-                return;
-            }
+            if (false == gameObject.activeSelf) { return; }
 
             StartCoroutine(_lookPlayerCoroutine);
         }
     }
-    private bool _isReleased;
-    private void OnDisable()
-    {
-        if (false == transform.parent.gameObject.activeSelf && false == _isReleased)
-        {
-            _isReleased = true;
-            _pool.Release(this);
-        }
-    }
-
     private Vector2 _direction;
     private IEnumerator _lookPlayerCoroutine;
     private IEnumerator LookPlayerCoroutine()
