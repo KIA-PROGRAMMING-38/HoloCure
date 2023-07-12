@@ -16,9 +16,9 @@ public class VTuber : CharacterBase
     public event Action<int> OnChangeCRTRate;
     public event Action<int> OnChangePickupRate;
     public event Action<int> OnChangeHasteRate;
-    public void InitializeEvent()
+    private void InitEvent()
     {
-        OnChangeMaxHp?.Invoke(Managers.Data.VTuber[_id].Health);
+        OnChangeMaxHp?.Invoke(Managers.Data.VTuber[Id].Health);
         OnChangeCurHP?.Invoke(CurHealth);
 
         OnChangeATKRate?.Invoke(default);
@@ -28,7 +28,7 @@ public class VTuber : CharacterBase
         OnChangeHasteRate?.Invoke(default);
     }
 
-    private VTuberID _id;
+    public VTuberID Id { get; private set; }
 
     private PlayerInput _input;
     private Rigidbody2D _rigidbody;
@@ -58,7 +58,7 @@ public class VTuber : CharacterBase
     public void GetSpeedRate(int rate)
     {
         SpeedRate += rate;
-        moveSpeed = Managers.Data.VTuber[_id].SPD * DEFAULT_MOVE_SPEED * (SpeedRate / 100f + 1);
+        moveSpeed = Managers.Data.VTuber[Id].SPD * DEFAULT_MOVE_SPEED * (SpeedRate / 100f + 1);
         OnChangeSPDRate?.Invoke(SpeedRate);
     }
 
@@ -106,17 +106,45 @@ public class VTuber : CharacterBase
     }
     public void Init(VTuberID id)
     {
-        _id = id;
+        Id = id;
 
-        transform.AddComponent<Player>().Init(this, _id);
+        transform.AddComponent<Player>().Init();
         _input = transform.AddComponent<PlayerInput>();
         transform.AddComponent<PlayerController>().Initialize(this);
         Util.CMCamera.SetCameraFollow(transform);
 
-        VTuberData data = Managers.Data.VTuber[_id];
+        VTuberData data = Managers.Data.VTuber[Id];
 
         InitStat(data);
         InitRender(data);
+
+        AddEvent();
+        InitEvent();
+    }
+    private void AddEvent()
+    {
+        RemoveEvent();
+
+        OnChangeMaxHp += Managers.PresenterM.HPPresenter.UpdateMaxHp;
+        OnChangeCurHP += Managers.PresenterM.HPPresenter.UpdateCurHp;
+        OnChangeATKRate += Managers.PresenterM.StatPresenter.UpdateATK;
+        OnChangeATKRate += Managers.PresenterM.StatPresenter.UpdateATK;
+        OnChangeSPDRate += Managers.PresenterM.StatPresenter.UpdateSPD;
+        OnChangeCRTRate += Managers.PresenterM.StatPresenter.UpdateCRT;
+        OnChangePickupRate += Managers.PresenterM.StatPresenter.UpdatePickup;
+        OnChangeHasteRate += Managers.PresenterM.StatPresenter.UpdateHaste;
+        OnDie += Managers.PresenterM.TriggerUIPresenter.ActivateGameOverUI;
+    }
+    private void RemoveEvent()
+    {
+        OnChangeMaxHp -= Managers.PresenterM.HPPresenter.UpdateMaxHp;
+        OnChangeCurHP -= Managers.PresenterM.HPPresenter.UpdateCurHp;
+        OnChangeATKRate -= Managers.PresenterM.StatPresenter.UpdateATK;
+        OnChangeSPDRate -= Managers.PresenterM.StatPresenter.UpdateSPD;
+        OnChangeCRTRate -= Managers.PresenterM.StatPresenter.UpdateCRT;
+        OnChangePickupRate -= Managers.PresenterM.StatPresenter.UpdatePickup;
+        OnChangeHasteRate -= Managers.PresenterM.StatPresenter.UpdateHaste;
+        OnDie -= Managers.PresenterM.TriggerUIPresenter.ActivateGameOverUI;
     }
     private void InitStat(VTuberData data)
     {
@@ -169,5 +197,9 @@ public class VTuber : CharacterBase
 
             yield return null;
         }
+    }
+    private void OnDestroy()
+    {
+        RemoveEvent();
     }
 }
