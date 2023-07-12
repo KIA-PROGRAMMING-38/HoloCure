@@ -6,19 +6,23 @@ using Util;
 
 public class SpawnManager : MonoBehaviour
 {
-    private const int WIDTH = 460;
-    private const int HEIGHT = 270;
+    private const int WIDTH = 540;
+    private const int HEIGHT = 315;
     private const int ENEMY_SPAWN_OFFSET_COUNT = 36;
     private const int STAGE_BIT = 1000;
     private const string ENEMY_CONTAINER = "Enemy Container";
+    private const string OBJECT_CONTAINER = "Object Container";
     private Vector3[] _enemySpawnOffsets;
     private readonly WaitForSeconds ENEMY_SPAWN_INTERVAL = TimeStore.GetWaitForSeconds(1);
 
     private GameObject _enemyContainer;
+    private GameObject _objectContainer;
 
     private EnemyPool _enemyPool;
     private DamageTextPool _defaultDamageTextPool;
     private DamageTextPool _criticalDamageTextPool;
+    private ExpPool _expPool;
+    private BoxPool _boxPool;
 
     private void Start()
     {
@@ -65,6 +69,7 @@ public class SpawnManager : MonoBehaviour
     private void InitPools()
     {
         _enemyContainer = new(ENEMY_CONTAINER);
+        _objectContainer = new(OBJECT_CONTAINER);
 
         _enemyPool = new();
         _enemyPool.Init(_enemyContainer);
@@ -74,6 +79,12 @@ public class SpawnManager : MonoBehaviour
 
         _criticalDamageTextPool = new();
         _criticalDamageTextPool.Init(Managers.Resource.Load(Managers.Resource.Prefabs, ZString.Concat(PathLiteral.PREFAB, FileNameLiteral.CRITICAL_DAMAGE_TEXT)));
+
+        _expPool = new();
+        _expPool.Init(_objectContainer);
+
+        _boxPool = new();
+        _boxPool.Init(_objectContainer);
     }
     private void SpawnEnemy(int stage)
     {
@@ -111,4 +122,20 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+
+    public void SpawnExp(Vector2 pos, int expAmount)
+    {
+        while (expAmount > (int)ExpAmounts.Max_Six)
+        {
+            _expPool.GetExpFromPool(pos, (int)ExpAmounts.Max_Six);
+
+            expAmount -= (int)ExpAmounts.Max_Six;
+        }
+
+        _expPool.GetExpFromPool(pos, expAmount);
+    }
+    public void SpawnBox(Vector2 pos)
+    {
+        _boxPool.GetBoxFromPool(pos);
+    }
 }
