@@ -1,23 +1,16 @@
-﻿using UnityEngine;
+using StringLiterals;
+using UnityEngine;
 using Util.Pool;
 
 public class DamageTextPool
 {
-    private GameObject _prefab;
     private ObjectPool<DamageText> _pool;
-
-    public DamageText GetDamageTextFromPool() => _pool.Get();
-
-    public void Init(GameObject prefab)
-    {
-        _prefab = prefab;
-
-        InitPool();
-    }
+    public DamageText Get() => _pool.Get();
+    public void Init() => InitPool();
     private void InitPool() => _pool = new ObjectPool<DamageText>(Create, OnGet, OnRelease, OnDestroy);
     private DamageText Create()
     {
-        DamageText damageText = Managers.Resource.Instantiate(_prefab).GetComponent<DamageText>();
+        DamageText damageText = Managers.Resource.Instantiate(FileNameLiteral.DAMAGE_TEXT, Managers.Pool.DamageTextContainer.transform).GetComponent<DamageText>();
 
         damageText.SetPoolRef(_pool);
 
