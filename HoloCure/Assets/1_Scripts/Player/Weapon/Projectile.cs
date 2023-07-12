@@ -69,12 +69,12 @@ public class Projectile : MonoBehaviour
     public void SetProjectileOperate(Action<Projectile> operate) => _operate = operate;
     public void SetProjectileStat(WeaponLevelData data)
     {
-        _damage = data.DamageRate * Managers.PlayerM.VTuber.AttackPower;
+        _damage = data.DamageRate * Managers.Game.VTuber.AttackPower;
         _hitCoolTime = data.HitCoolTime;
         _size = data.Size;
         _durationTime = data.AttackDurationTime;
         ProjectileSpeed = data.ProjectileSpeed;
-        _criticalRate = Managers.PlayerM.VTuber.CriticalRate;
+        _criticalRate = Managers.Game.VTuber.CriticalRate;
         _knockBackDurationTime = data.KnockbackDurationTime;
         _knockBackSpeed = data.KnockbackSpeed;
     }

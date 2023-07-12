@@ -86,25 +86,25 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         _iconImage.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite));
 
         Weapon weapon = default;
-        for (int i = 0; i < Inventory.WeaponCount; ++i)
+        Inventory inventory = Managers.Game.Player.Inventory;
+        for (int i = 0; i < inventory.WeaponCount; ++i)
         {
-            if (Inventory.Weapons[i].Id != data.Id)
-            {
-                continue;
-            }
+            if (inventory.Weapons[i].Id != data.Id) { continue; }
 
-            weapon = Inventory.Weapons[i];
+            weapon = inventory.Weapons[i];
         }
 
-        if (weapon.Level == 0)
+        if (weapon == null)
         {
             _newText.enabled = true;
+            _descriptionText.text = Managers.Data.WeaponLevelTable[data.Id][1].Description;
         }
         else
         {
             _levelText.enabled = true;
             _levelNumText.enabled = true;
             _newText.enabled = false;
+            _descriptionText.text = Managers.Data.WeaponLevelTable[data.Id][weapon.Level + 1].Description;
 
             if (weapon.Level == 6)
             {
@@ -116,7 +116,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
             }
         }
 
-        _descriptionText.text = Managers.Data.WeaponLevelTable[data.Id][weapon.Level + 1].Description;
+        
 
         _itemTypeImage.enabled = true;
         switch (data.Type)

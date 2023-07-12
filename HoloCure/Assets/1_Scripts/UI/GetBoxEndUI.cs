@@ -42,10 +42,11 @@ public class GetBoxEndUI : UIBase
     private ItemID _id;
     private void GetWeaponList(ItemID[] ids)
     {
-        
-        for (int i = 0; i < Inventory.WeaponCount; ++i)
+        Inventory inventory = Managers.Game.Player.Inventory;
+
+        for (int i = 0; i < inventory.WeaponCount; ++i)
         {
-            Weapon weapon = Inventory.Weapons[i];
+            Weapon weapon = inventory.Weapons[i];
             if (weapon.Level >= 7)
             {
                 continue;

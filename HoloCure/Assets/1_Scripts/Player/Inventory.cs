@@ -12,21 +12,38 @@ public class Inventory : MonoBehaviour
     /// <summary>
     /// 인벤토리에 장착된 무기들입니다.
     /// </summary>
-    public static Weapon[] Weapons;
-    private HashSet<ItemID> _weaponIDs = new();
+    public Weapon[] Weapons { get; private set; }
+    private HashSet<ItemID> _weaponIDs;
     /// <summary>
     /// 현재 장착된 무기의 개수입니다.
     /// </summary>
-    public static int WeaponCount { get; private set; }
+    public int WeaponCount { get; private set; }
 
-    private VTuber _VTuber;
-    public void Init(VTuber VTuber, VTuberID id)
+    public void Init()
     {
-        _VTuber = VTuber;
         Weapons = new Weapon[6];
+        _weaponIDs = new();
         WeaponCount = 0;
-    }
 
+        AddEvent();
+
+        GetWeapon(Managers.Data.VTuber[Managers.Game.VTuber.Id].StartingWeaponId);
+    }
+    private void AddEvent()
+    {
+        RemoveEvent();
+
+        Managers.PresenterM.TriggerUIPresenter.OnSendSelectedID += GetItem;
+        OnNewEquipmentEquip += Managers.PresenterM.InventoryPresenter.UpdateNewEquipment;
+        OnEquipmentLevelUp += Managers.PresenterM.InventoryPresenter.UpdateEquipmentLevel;
+
+    }
+    private void RemoveEvent()
+    {
+        Managers.PresenterM.TriggerUIPresenter.OnSendSelectedID -= GetItem;
+        OnNewEquipmentEquip -= Managers.PresenterM.InventoryPresenter.UpdateNewEquipment;
+        OnEquipmentLevelUp -= Managers.PresenterM.InventoryPresenter.UpdateEquipmentLevel;
+    }
     /// <summary>
     /// 아이템을 획득하고 종류에 따라 활성화합니다.
     /// </summary>
@@ -47,6 +64,7 @@ public class Inventory : MonoBehaviour
         if (false == _weaponIDs.Contains(id))
         {
             ItemData data = Managers.Data.Item[id];
+            VTuber VTuber = Managers.Game.VTuber;
 
             _weaponIDs.Add(id);
             Weapon weapon = Managers.Resource.Instantiate(data.Name).GetComponent<Weapon>();
@@ -55,11 +73,11 @@ public class Inventory : MonoBehaviour
             Weapons[WeaponCount] = weapon;
             WeaponCount += 1;
 
-            _VTuber.OnChangeHasteRate -= weapon.GetHaste;
-            _VTuber.OnChangeHasteRate += weapon.GetHaste;
-            weapon.GetHaste(_VTuber.HasteRate);
+            VTuber.OnChangeHasteRate -= weapon.GetHaste;
+            VTuber.OnChangeHasteRate += weapon.GetHaste;
+            weapon.GetHaste(VTuber.HasteRate);
 
-            OnNewEquipmentEquip?.Invoke(id, Managers.Resource.Load(Managers.Resource.Sprites,ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite)));
+            OnNewEquipmentEquip?.Invoke(id, Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite)));
         }
         else
         {
@@ -80,26 +98,32 @@ public class Inventory : MonoBehaviour
     }
     private void GetStat(ItemID id)
     {
+        VTuber VTuber = Managers.Game.VTuber;
+
         switch (id)
         {
             case ItemID.MaxHPUp:
-                _VTuber.GetMaxHealthRate(Managers.Data.Stat[id].Value);
+                VTuber.GetMaxHealthRate(Managers.Data.Stat[id].Value);
                 break;
             case ItemID.ATKUp:
-                _VTuber.GetAttackRate(Managers.Data.Stat[id].Value);
+                VTuber.GetAttackRate(Managers.Data.Stat[id].Value);
                 break;
             case ItemID.SPDUp:
-                _VTuber.GetSpeedRate(Managers.Data.Stat[id].Value);
+                VTuber.GetSpeedRate(Managers.Data.Stat[id].Value);
                 break;
             case ItemID.CRTUp:
-                _VTuber.GetCriticalRate(Managers.Data.Stat[id].Value);
+                VTuber.GetCriticalRate(Managers.Data.Stat[id].Value);
                 break;
             case ItemID.PickUpRangeUp:
-                _VTuber.GetPickUpRangeRate(Managers.Data.Stat[id].Value);
+                VTuber.GetPickUpRangeRate(Managers.Data.Stat[id].Value);
                 break;
             case ItemID.HasteUp:
-                _VTuber.GetHasteRate(Managers.Data.Stat[id].Value);
+                VTuber.GetHasteRate(Managers.Data.Stat[id].Value);
                 break;
         }
+    }
+    private void OnDestroy()
+    {
+        RemoveEvent();
     }
 }
