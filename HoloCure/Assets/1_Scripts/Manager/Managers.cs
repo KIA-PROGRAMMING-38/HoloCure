@@ -7,7 +7,7 @@ public class Managers : MonoBehaviour
     public static DataManager Data { get; private set; }
     public static ResourceManager Resource { get; private set; }
     public static SpawnManager Spawn { get; private set; }
-    public static PlayerManager PlayerM { get; private set; }
+    public static GameManager Game { get; private set; }
     public static PresenterManager PresenterM { get; private set; }
     public static StageManager StageM { get; private set; }
     public static ItemManager ItemM { get; private set; }
@@ -36,13 +36,12 @@ public class Managers : MonoBehaviour
         go.transform.parent = transform;
         PresenterM = go.AddComponent<PresenterManager>();
 
+        Game = new GameManager();
+        Game.Init();
+
         go = new GameObject(nameof(SpawnManager));
         go.transform.parent = transform;
         Spawn = go.AddComponent<SpawnManager>();
-
-        go = new GameObject(nameof(PlayerManager));
-        go.transform.parent = transform;
-        PlayerM = go.AddComponent<PlayerManager>();
 
         go = new GameObject(nameof(StageManager));
         go.transform.parent = transform;

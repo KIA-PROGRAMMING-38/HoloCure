@@ -56,7 +56,9 @@ public class ItemManager : MonoBehaviour
     {
         if (_set.Count >= 4) { return; }
 
-        if (Inventory.WeaponCount >= 6) { return; }
+        Inventory inventory = Managers.Game.Player.Inventory;
+
+        if (inventory.WeaponCount >= 6) { return; }
 
         int randomNum = Random.Range(0, _totalWeaponWeight);
         int accumulatedWeight = 0;
@@ -66,9 +68,9 @@ public class ItemManager : MonoBehaviour
 
             if (randomNum >= accumulatedWeight) { continue; }
 
-            for (int i = 0; i < Inventory.WeaponCount; ++i)
+            for (int i = 0; i < inventory.WeaponCount; ++i)
             {
-                Weapon weapon = Inventory.Weapons[i];
+                Weapon weapon = inventory.Weapons[i];
                 if (weapon.Id != data.Id) { continue; }
                 if (weapon.Level == 7) { return; }
             }
@@ -97,11 +99,13 @@ public class ItemManager : MonoBehaviour
     }
     private void GetWeaponDataFromInventory()
     {
-        for (int i = 0; i < Inventory.WeaponCount; ++i)
-        {
-            if (Inventory.Weapons[i].Level >= 7) { continue; }
+        Inventory inventory = Managers.Game.Player.Inventory;
 
-            if (false == _set.Add(Inventory.Weapons[i].Id)) { continue; }
+        for (int i = 0; i < inventory.WeaponCount; ++i)
+        {
+            if (inventory.Weapons[i].Level >= 7) { continue; }
+
+            if (false == _set.Add(inventory.Weapons[i].Id)) { continue; }
 
             if (_set.Count == 4) { break; }
         }
