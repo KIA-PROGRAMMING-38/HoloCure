@@ -11,9 +11,11 @@ public class EnemyPool
     private void InitPool() => _pool = new ObjectPool<Enemy>(Create, OnGet, OnRelease, OnDestroy);
     private Enemy Create()
     {
-        return Managers.Resource.
-            Instantiate(FileNameLiteral.ENEMY, Managers.Pool.EnemyContainer.transform).
-            GetComponent<Enemy>();
+        Transform enemyContainer = Managers.Pool.EnemyContainer.transform;
+
+        return Managers.Resource
+            .Instantiate(FileNameLiteral.ENEMY, enemyContainer)
+            .GetComponent<Enemy>();
     }
     private void OnGet(Enemy enemy) => enemy.gameObject.SetActive(true);
     private void OnRelease(Enemy enemy) => enemy.gameObject.SetActive(false);

@@ -100,15 +100,16 @@ public class SpawnManager : MonoBehaviour
     {
         while (expAmount > (int)ExpAmounts.Max_Six)
         {
-            _expPool.GetExpFromPool(pos, (int)ExpAmounts.Max_Six);
+            Managers.Pool.Exp.Get(pos, (int)ExpAmounts.Max_Six);
 
             expAmount -= (int)ExpAmounts.Max_Six;
         }
 
-        _expPool.GetExpFromPool(pos, expAmount);
+        Managers.Pool.Exp.Get(pos, expAmount);
     }
     public void SpawnBox(Vector2 pos)
     {
-        _boxPool.GetBoxFromPool(pos);
+        Box box = Managers.Pool.Box.Get();
+        box.Init(pos);
     }
 }

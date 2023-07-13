@@ -1,4 +1,4 @@
-﻿using StringLiterals;
+using StringLiterals;
 using UnityEngine;
 using Util.Pool;
 public static class ExpAnimHash
@@ -14,9 +14,8 @@ public static class ExpAnimHash
 }
 public class ExpPool
 {
-    private GameObject _container;
     private ObjectPool<Exp> _pool;
-    public Exp GetExpFromPool(Vector2 pos, int expAmount)
+    public Exp Get(Vector2 pos, int expAmount)
     {
         Exp exp = GetExp(pos, expAmount);
 
@@ -24,17 +23,15 @@ public class ExpPool
 
         return exp;
     }
-    public void Init(GameObject container)
-    {
-        _container = container;
-
-        InitPool();
-    }
+    public void Release(Exp exp) => _pool.Release(exp);
+    public void Init() => InitPool();
     private Exp GetExp(Vector2 pos, int expAmount)
     {
         Exp exp = _pool.Get();
 
         exp.Init(pos, expAmount);
+        exp.OnTriggerWithExp -= GetExp;
+        exp.OnTriggerWithExp += GetExp;
 
         int hash = expAmount switch
         {
@@ -52,14 +49,11 @@ public class ExpPool
     private void InitPool() => _pool = new(Create, OnGet, OnRelease, OnDestroy);
     private Exp Create()
     {
-        Exp exp = Managers.Resource.Instantiate(FileNameLiteral.EXP, _container.transform).GetComponent<Exp>();
+        Transform expContainer = Managers.Pool.ExpContainer.transform;
 
-        exp.SetPoolRef(_pool);
-
-        exp.OnTriggerWithExp -= GetExp;
-        exp.OnTriggerWithExp += GetExp;
-
-        return exp;
+        return Managers.Resource
+            .Instantiate(FileNameLiteral.EXP, expContainer)
+            .GetComponent<Exp>();
     }
     private void OnGet(Exp exp) => exp.gameObject.SetActive(true);
     private void OnRelease(Exp exp) => exp.gameObject.SetActive(false);
