@@ -2,7 +2,6 @@ using StringLiterals;
 using System;
 using System.Collections;
 using UnityEngine;
-using Util.Pool;
 
 
 public class Enemy : CharacterBase
@@ -143,8 +142,6 @@ public class Enemy : CharacterBase
     /// </summary>
     public override void GetDamage(int damage, bool isCritical = false)
     {
-        if (isReleased) { return; }
-
         SoundPool.GetPlayAudio(SoundID.EnemyDamaged);
 
         _effectDir = enemyAnimation.IsFilp() == true ? Vector2.right : Vector2.left;
@@ -172,8 +169,6 @@ public class Enemy : CharacterBase
         body.position = transform.position;
 
         SetLayerOnSpawn();
-
-        isReleased = false;
     }
     protected virtual void SetLayerOnSpawn() => gameObject.layer = LayerNum.ENEMY;
     protected virtual void SetLayerOnDie() => gameObject.layer = LayerNum.DEAD_ENEMY;
@@ -183,8 +178,6 @@ public class Enemy : CharacterBase
     /// </summary>
     protected override void Die()
     {
-        isReleased = true;
-
         _dyingPoint = transform.position;
         moveSpeed = 0f;
         StartCoroutine(_dyingMoveCoroutine);
@@ -228,26 +221,9 @@ public class Enemy : CharacterBase
 
             _elapsedTime = 0f;
 
-            ReleaseToPool();
+            Managers.Pool.Enemy.Release(this);
 
             yield return null;
-        }
-    }
-
-
-    private ObjectPool<Enemy> _pool;
-    /// <summary>
-    /// 반환되어야할 풀의 주소를 설정합니다.
-    /// </summary>
-    public void SetPoolRef(ObjectPool<Enemy> pool) => _pool = pool;
-    protected virtual void ReleaseToPool() => _pool.Release(this);
-    protected bool isReleased;
-    protected virtual void OnDisable()
-    {
-        if (false == transform.parent.gameObject.activeSelf && false == isReleased)
-        {
-            isReleased = true;
-            _pool.Release(this);
         }
     }
 

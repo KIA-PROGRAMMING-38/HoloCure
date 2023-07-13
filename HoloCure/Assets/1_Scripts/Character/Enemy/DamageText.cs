@@ -3,7 +3,6 @@ using StringLiterals;
 using System;
 using TMPro;
 using UnityEngine;
-using Util.Pool;
 
 public class DamageText : MonoBehaviour
 {
@@ -67,14 +66,7 @@ public class DamageText : MonoBehaviour
 
         if (_elapsedTime >= FLOATING_TIME)
         {
-            _pool.Release(this);
+            Managers.Pool.DamageText.Release(this);
         }
     }
-
-    private ObjectPool<DamageText> _pool;
-
-    /// <summary>
-    /// 반환되어야할 풀의 주소를 설정합니다.
-    /// </summary>
-    public void SetPoolRef(ObjectPool<DamageText> pool) => _pool = pool;
 }
