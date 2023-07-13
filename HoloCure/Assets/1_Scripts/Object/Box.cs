@@ -1,4 +1,4 @@
-﻿using StringLiterals;
+using StringLiterals;
 using System.Collections;
 using UnityEngine;
 using Util.Pool;
@@ -14,8 +14,6 @@ public class Box : MonoBehaviour
         _initRot = _pointer.rotation;
         _lookPlayerCoroutine = LookPlayerCoroutine();
     }
-    private ObjectPool<Box> _pool;
-    public void SetPoolRef(ObjectPool<Box> pool) => _pool = pool;
     public void Init(Vector2 pos) => transform.position = pos;
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -23,7 +21,7 @@ public class Box : MonoBehaviour
         {
             collision.GetComponent<Player>().GetBox();
 
-            _pool.Release(this);
+            Managers.Pool.Box.Release(this);
         }
         if (collision.CompareTag(TagLiteral.SCREEN_SENSOR))
         {

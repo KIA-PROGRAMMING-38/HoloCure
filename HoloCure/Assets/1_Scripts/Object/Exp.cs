@@ -1,4 +1,4 @@
-﻿using StringLiterals;
+using StringLiterals;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -18,12 +18,10 @@ public class Exp : MonoBehaviour
     public int ExpAmount { get; private set; }
     public bool IsReleased { get; private set; }
 
-    private ObjectPool<Exp> _pool;
-    public void SetPoolRef(ObjectPool<Exp> pool) => _pool = pool;
     public void ReleaseToPool()
     {
         IsReleased = true;
-        _pool.Release(this);
+        Managers.Pool.Exp.Release(this);
     }
 
     private void Awake()
@@ -47,8 +45,7 @@ public class Exp : MonoBehaviour
         {
             SoundPool.GetPlayAudio(SoundID.GetExp);
 
-            IsReleased = true;
-            _pool.Release(this);
+            ReleaseToPool();
 
             Player player = collision.GetComponent<Player>();
 
