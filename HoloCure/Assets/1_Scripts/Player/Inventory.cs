@@ -1,4 +1,4 @@
-﻿using Cysharp.Text;
+using Cysharp.Text;
 using StringLiterals;
 using System;
 using System.Collections.Generic;
@@ -59,7 +59,7 @@ public class Inventory : MonoBehaviour
             _VTuber.OnChangeHasteRate += weapon.GetHaste;
             weapon.GetHaste(_VTuber.HasteRate);
 
-            OnNewEquipmentEquip?.Invoke(id, Managers.Resource.Load(Managers.Resource.Sprites,ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite)));
+            OnNewEquipmentEquip?.Invoke(id, Managers.Resource.LoadSprite(data.IconSprite));
         }
         else
         {

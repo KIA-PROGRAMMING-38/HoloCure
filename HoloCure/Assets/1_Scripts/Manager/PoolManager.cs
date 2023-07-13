@@ -24,7 +24,7 @@ public class PoolManager : MonoBehaviour
     private void InitInGamePools()
     {
         EnemyContainer = new GameObject("Enemy Container");
-        DamageTextContainer = Managers.Resource.Instantiate(FileNameLiteral.DAMAGE_TEXT_CONTAINER);
+        DamageTextContainer = new GameObject("DamageText Container");
         ExpContainer = new GameObject("Exp Container");
         BoxContainer = new GameObject("Box Container");
 
