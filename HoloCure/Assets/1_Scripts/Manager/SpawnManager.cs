@@ -60,20 +60,18 @@ public class SpawnManager : MonoBehaviour
             EnemyID id = pair.Key;
             EnemyType enemyType = id.GetEnemyType(stage);
 
-            if (enemyType == EnemyType.None) { return; }
+            if (enemyType == EnemyType.None) { continue; }
 
-            StartCoroutine(SpawnEnemyCo(id, stage));
+            StartCoroutine(SpawnEnemyCo(id, enemyType));
         }
     }
-    private IEnumerator SpawnEnemyCo(EnemyID id, int stage)
+    private IEnumerator SpawnEnemyCo(EnemyID id, EnemyType type)
     {
         EnemyData data = Managers.Data.Enemy[id];
 
         yield return TimeStore.GetWaitForSeconds(data.SpawnStartTime);
 
-        EnemyType enemyType = id.GetEnemyType(stage);
-
-        switch (enemyType)
+        switch (type)
         {
             case EnemyType.Normal:
                 while (Managers.StageM.CurrentStageTime < data.SpawnEndTime)
@@ -87,7 +85,7 @@ public class SpawnManager : MonoBehaviour
             case EnemyType.Boss:
                 break;
             default:
-                Debug.Assert(false, $"Invalid EnemyID | ID: {id}, Stage: {stage}");
+                Debug.Assert(false, $"Invalid EnemyID | ID: {id}");
                 break;
         }
     }
