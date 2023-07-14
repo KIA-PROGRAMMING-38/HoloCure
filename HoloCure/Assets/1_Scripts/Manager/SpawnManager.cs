@@ -4,8 +4,8 @@ using Util;
 
 public class SpawnManager : MonoBehaviour
 {
-    private const int WIDTH = 460;
-    private const int HEIGHT = 270;
+    private const int WIDTH = 540;
+    private const int HEIGHT = 315;
     private const int ENEMY_SPAWN_OFFSET_COUNT = 36;
     private const int STAGE_CONSTANT = 1000;
     private readonly WaitForSeconds ENEMY_SPAWN_INTERVAL = TimeStore.GetWaitForSeconds(1);
@@ -32,7 +32,7 @@ public class SpawnManager : MonoBehaviour
     }
     private void OnStartStage()
     {
-        SpawnStageEnemies(1); // stage 1
+        SpawnStageEnemies(1);
     }
     private void OnEndStage()
     {
@@ -58,36 +58,34 @@ public class SpawnManager : MonoBehaviour
         foreach (var pair in Managers.Data.Enemy)
         {
             EnemyID id = pair.Key;
-            EnemyID enemyType = id - stage * STAGE_CONSTANT;
+            EnemyType enemyType = id.GetEnemyType(stage);
 
-            if (enemyType > EnemyID.End) { return; }
+            if (enemyType == EnemyType.None) { continue; }
 
-            StartCoroutine(SpawnEnemyCo(id, stage));
+            StartCoroutine(SpawnEnemyCo(id, enemyType));
         }
     }
-    private IEnumerator SpawnEnemyCo(EnemyID id, int stage)
+    private IEnumerator SpawnEnemyCo(EnemyID id, EnemyType type)
     {
         EnemyData data = Managers.Data.Enemy[id];
 
         yield return TimeStore.GetWaitForSeconds(data.SpawnStartTime);
 
-        EnemyID enemyType = id - stage * STAGE_CONSTANT;
-
-        switch (enemyType)
+        switch (type)
         {
-            case > EnemyID.Normal and < EnemyID.MiniBoss:
+            case EnemyType.Normal:
                 while (Managers.StageM.CurrentStageTime < data.SpawnEndTime)
                 {
                     SpawnEnemy(id);
                     yield return ENEMY_SPAWN_INTERVAL;
                 }
                 break;
-            case > EnemyID.MiniBoss and < EnemyID.Boss:
+            case EnemyType.MiniBoss:
                 break;
-            case > EnemyID.Boss and < EnemyID.End:
+            case EnemyType.Boss:
                 break;
             default:
-                Debug.Assert(false, $"Invalid EnemyID | ID: {id}, Stage: {stage}");
+                Debug.Assert(false, $"Invalid EnemyID | ID: {id}");
                 break;
         }
     }
@@ -95,5 +93,21 @@ public class SpawnManager : MonoBehaviour
     {
         Enemy enemy = Managers.Pool.Enemy.Get();
         enemy.Init(id, _enemySpawnOffsets.GetRandomElement());
+    }
+    public void SpawnExp(Vector2 pos, int expAmount)
+    {
+        while (expAmount.GetExpType() > ExpType.Max)
+        {
+            Managers.Pool.Exp.Get(pos, (int)ExpType.Max);
+
+            expAmount -= (int)ExpType.Max;
+        }
+
+        Managers.Pool.Exp.Get(pos, expAmount);
+    }
+    public void SpawnBox(Vector2 pos)
+    {
+        Box box = Managers.Pool.Box.Get();
+        box.Init(pos);
     }
 }

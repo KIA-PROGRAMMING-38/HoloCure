@@ -1,4 +1,4 @@
-﻿public enum EnemyID
+public enum EnemyID
 {
     None = 10000,
     Normal = 10100,
@@ -44,6 +44,7 @@
     Stage01_Boss_Fubuzilla,
     Stage01_Boss_SmolAme,
 }
+public enum EnemyType { None, Normal, MiniBoss, Boss }
 public class EnemyData
 {
     public EnemyID Id { get; set; }

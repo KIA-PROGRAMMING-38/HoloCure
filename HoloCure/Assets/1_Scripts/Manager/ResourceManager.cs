@@ -20,7 +20,11 @@ public class ResourceManager
         Prefabs = new();
         Fonts = new();
     }
-    public T Load<T>(Dictionary<string, T> dic, string path) where T : Object
+    public Sprite LoadSprite(string path) => Load(Sprites, ZString.Concat(PathLiteral.SPRITE, path));
+    public AnimationClip LoadAnimClip(string path, string path2 = null) => Load(AnimClips, ZString.Concat(PathLiteral.ANIM, path, path2));
+    public Material LoadMaterial(string path) => Load(Materials, ZString.Concat(PathLiteral.MATERIAL, path));
+    public TMP_FontAsset LoadFont(string path) => Load(Fonts, ZString.Concat(PathLiteral.Font, path));
+    private T Load<T>(Dictionary<string, T> dic, string path) where T : Object
     {
         if (false == dic.ContainsKey(path))
         {

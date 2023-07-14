@@ -1,38 +1,57 @@
-using StringLiterals;
 using UnityEngine;
 
-// GameManager 생성 후 로직을 짤 수 있습니다.
-public class PoolManager : MonoBehaviour
+public class PoolManager
 {
     private GameObject _ingameContainer;
     private GameObject _outgameContainer;
     public GameObject EnemyContainer { get; private set; }
     public GameObject DamageTextContainer { get; private set; }
+    public GameObject ExpContainer { get; private set; }
+    public GameObject BoxContainer { get; private set; }
+
     public EnemyPool Enemy { get; private set; }
     public DamageTextPool DamageText { get; private set; }
-
-    private void Start()
+    public ExpPool Exp { get; private set; }
+    public BoxPool Box { get; private set; }
+    public void Init() { }
+    public void OnIngameStart()
     {
-        InitInGamePools();
-        InitOutGamePools();
+        Managers.Resource.Destroy(_outgameContainer);
+        InitIngame();
+
+        void InitIngame()
+        {
+            _ingameContainer = new GameObject("Ingame Containers");
+
+            EnemyContainer = new GameObject("Enemy Container");
+            DamageTextContainer = new GameObject("DamageText Container");
+            ExpContainer = new GameObject("Exp Container");
+            BoxContainer = new GameObject("Box Container");
+
+            EnemyContainer.transform.parent = _ingameContainer.transform;
+            DamageTextContainer.transform.parent = _ingameContainer.transform;
+            ExpContainer.transform.parent = _ingameContainer.transform;
+            BoxContainer.transform.parent = _ingameContainer.transform;
+
+            Enemy = new EnemyPool();
+            DamageText = new DamageTextPool();
+            Exp = new ExpPool();
+            Box = new BoxPool();
+
+            Enemy.Init();
+            DamageText.Init();
+            Exp.Init();
+            Box.Init();
+        }
     }
-    private void InitInGamePools()
+    public void OnOutgameStart()
     {
-        EnemyContainer = new GameObject("Enemy Container");
-        DamageTextContainer = Managers.Resource.Instantiate(FileNameLiteral.DAMAGE_TEXT_CONTAINER);
+        Managers.Resource.Destroy(_ingameContainer);
+        InitOutgame();
 
-        _ingameContainer = new GameObject("Ingame Containers");
-        EnemyContainer.transform.parent = _ingameContainer.transform;
-        DamageTextContainer.transform.parent = _ingameContainer.transform;
-
-        Enemy = new EnemyPool();
-        DamageText = new DamageTextPool();
-
-        Enemy.Init();
-        DamageText.Init();
-    }
-    private void InitOutGamePools()
-    {
-        _outgameContainer = new GameObject("Outgame Containers");
+        void InitOutgame()
+        {
+            _outgameContainer = new GameObject("Outgame Containers");
+        }
     }
 }

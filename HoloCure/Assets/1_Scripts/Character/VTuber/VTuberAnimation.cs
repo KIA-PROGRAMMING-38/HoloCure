@@ -18,7 +18,6 @@ public class VTuberAnimation : MonoBehaviour
             _spriteRenderer.flipX = Util.Caching.MouseScreenPos.x < _midX;
         }
     }
-
     public void Init(VTuberData data)
     {
         _animator = GetComponent<Animator>();
@@ -26,10 +25,10 @@ public class VTuberAnimation : MonoBehaviour
         _input = transform.parent.GetComponent<PlayerInput>();
         _midX = Screen.width / 2;
 
-        _spriteRenderer.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.DisplaySprite));
+        _spriteRenderer.sprite = Managers.Resource.LoadSprite(data.DisplaySprite);
         AnimatorOverrideController overrideController = new(_animator.runtimeAnimatorController);
-        overrideController[AnimClipLiteral.IDLE] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.Name, PathLiteral.SLASH, AnimClipLiteral.IDLE));
-        overrideController[AnimClipLiteral.RUN] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.Name, PathLiteral.SLASH, AnimClipLiteral.RUN));
+        overrideController[FileNameLiteral.IDLE] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.IDLE);
+        overrideController[FileNameLiteral.RUN] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.RUN);
 
         _animator.runtimeAnimatorController = overrideController;
     }
