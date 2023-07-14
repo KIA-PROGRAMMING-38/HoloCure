@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Fubuzilla : Boss
+public class Fubuzilla : Enemy
 {
     [SerializeField] private FubuzillaAttackPointer _attackPointer;
     private Vector3 _initScale;

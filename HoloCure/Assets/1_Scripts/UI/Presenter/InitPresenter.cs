@@ -1,4 +1,4 @@
-﻿using Cysharp.Text;
+using Cysharp.Text;
 using StringLiterals;
 using System;
 using UnityEngine;
@@ -17,8 +17,8 @@ namespace UI.Presenter
 
         public void GetInitData(VTuberData data)
         {
-            GetPortraitSprite(Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.PortraitSprite)));
-            GetTitleSprite(Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.VTUBER, data.TitleSprite)));
+            GetPortraitSprite(Managers.Resource.LoadSprite(data.PortraitSprite));
+            GetTitleSprite(Managers.Resource.LoadSprite(data.TitleSprite));
             GetName(data.Name);
         }
     }

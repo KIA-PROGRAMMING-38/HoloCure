@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SmollAme : Boss
+public class SmollAme : Enemy
 {
     private SmollAmeAnimation _animation;
     private BoxCollider2D _bodyCollider;

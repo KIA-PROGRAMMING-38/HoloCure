@@ -34,7 +34,7 @@ public class EnemyAnimation : MonoBehaviour
     }
     private void OnEnable() => SetSpawn();
     /// <summary>
-    /// ÀûÀÇ ÇÃ¸³ ¿©ºÎ¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+    /// ì ì˜ í”Œë¦½ ì—¬ë¶€ë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
     /// </summary>
     public bool IsFilp() => _spriteRenderer.flipX;
     private void SetFlipX() => _spriteRenderer.flipX = Util.Caching.CenterWorldPos.x < transform.parent.position.x;
@@ -58,9 +58,11 @@ public class EnemyAnimation : MonoBehaviour
     private IEnumerator _getDamageEffectCoroutine;
     private IEnumerator GetDamageEffectCoroutine()
     {
+        MaterialData data = Managers.Data.Material[MaterialID.Hit];
+
         while (true)
         {
-            _spriteRenderer.material = Managers.Resource.Load(Managers.Resource.Materials, ZString.Concat(PathLiteral.MATERIAL, PathLiteral.MATERIAL, Managers.Data.Material[MaterialID.Hit].Material));
+            _spriteRenderer.material = Managers.Resource.LoadMaterial(data.Name);
 
             yield return Util.TimeStore.GetWaitForSeconds(0.1f);
 
@@ -72,15 +74,15 @@ public class EnemyAnimation : MonoBehaviour
         }
     }
     /// <summary>
-    /// ÀûÀÇ ½ºÇÁ¶óÀÌÆ®¿Í ¾Ö´Ï¸ŞÀÌÅÍ¿Í ¾Ö´Ï¸ŞÀÌ¼Ç Å¬¸³À» ¼³Á¤ÇÕ´Ï´Ù.
+    /// ì ì˜ ìŠ¤í”„ë¼ì´íŠ¸ì™€ ì• ë‹ˆë©”ì´í„°ì™€ ì• ë‹ˆë©”ì´ì…˜ í´ë¦½ì„ ì„¤ì •í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetEnemyRender(EnemyData data)
     {
-        _spriteRenderer.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.Sprite));
+        _spriteRenderer.sprite = Managers.Resource.LoadSprite(data.Sprite);
 
         AnimatorOverrideController overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
 
-        overrideController[AnimClipLiteral.MOVE] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.CHARACTER, PathLiteral.ENEMY, data.Name));
+        overrideController[FileNameLiteral.MOVE] = Managers.Resource.LoadAnimClip(data.Name);
 
         _animator.runtimeAnimatorController = overrideController;
     }

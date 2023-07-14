@@ -1,4 +1,4 @@
-﻿using Cysharp.Text;
+using Cysharp.Text;
 using StringLiterals;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,6 @@ public class Inventory : MonoBehaviour
         Weapons = new Weapon[6];
         WeaponCount = 0;
     }
-
 
     /// <summary>
     /// 아이템을 획득하고 종류에 따라 활성화합니다.
@@ -60,7 +59,7 @@ public class Inventory : MonoBehaviour
             _VTuber.OnChangeHasteRate += weapon.GetHaste;
             weapon.GetHaste(_VTuber.HasteRate);
 
-            OnNewEquipmentEquip?.Invoke(id, Managers.Resource.Load(Managers.Resource.Sprites,ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite)));
+            OnNewEquipmentEquip?.Invoke(id, Managers.Resource.LoadSprite(data.IconSprite));
         }
         else
         {
@@ -101,13 +100,6 @@ public class Inventory : MonoBehaviour
             case ItemID.HasteUp:
                 _VTuber.GetHasteRate(Managers.Data.Stat[id].Value);
                 break;
-        }
-    }
-    private void OnDestroy()
-    {
-        for (int i = 0; i < WeaponCount; ++i)
-        {
-            Weapons[i].gameObject.SetActive(false);
         }
     }
 }
