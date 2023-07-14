@@ -1,7 +1,12 @@
-﻿using StringLiterals;
+using StringLiterals;
+using System;
+using System.Collections;
+using UnityEngine;
 
-public class GameManager
+public class GameManager : MonoBehaviour
 {
+    public event Action OnIngameStart;
+    public event Action OnOutgameStart;
     public Player Player { get; private set; }
     public VTuber VTuber { get; private set; }
     public void Init()
@@ -13,17 +18,27 @@ public class GameManager
         RemoveEvent();
 
         Managers.PresenterM.TitleUIPresenter.OnPlayGameForPlayer += SelectVTuber;
-        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += GameEnd;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += OutgameStart;
     }
     private void RemoveEvent()
     {
         Managers.PresenterM.TitleUIPresenter.OnPlayGameForPlayer -= SelectVTuber;
-        Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= GameEnd;
+        Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= OutgameStart;
     }
-    private void GameEnd()
+    private void IngameStart()
     {
-        Managers.Resource.Destroy(Player.gameObject);
-        Managers.Resource.Destroy(VTuber.gameObject);
+        OnIngameStart?.Invoke();
+    }
+    private void OutgameStart()
+    {
+        DestroyGame();
+        OnOutgameStart?.Invoke();
+
+        void DestroyGame()
+        {
+            Managers.Resource.Destroy(Player.gameObject);
+            Managers.Resource.Destroy(VTuber.gameObject);
+        }
     }
     private void SelectVTuber(VTuberID id)
     {

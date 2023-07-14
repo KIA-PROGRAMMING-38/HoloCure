@@ -14,8 +14,23 @@ public class PoolManager
     public ExpPool Exp { get; private set; }
     public BoxPool Box { get; private set; }
 
-    public void Init() { }
-    public void OnIngameStart()
+    public void Init()
+    {
+        AddEvent();
+    }
+    private void AddEvent()
+    {
+        RemoveEvent();
+
+        Managers.Game.OnIngameStart += OnIngameStart;
+        Managers.Game.OnOutgameStart += OnOutgameStart;
+    }
+    private void RemoveEvent()
+    {
+        Managers.Game.OnIngameStart -= OnIngameStart;
+        Managers.Game.OnOutgameStart -= OnOutgameStart;
+    }
+    private void OnIngameStart()
     {
         Managers.Resource.Destroy(_outgameContainer);
         InitIngame();
@@ -45,7 +60,7 @@ public class PoolManager
             Box.Init();
         }
     }
-    public void OnOutgameStart()
+    private void OnOutgameStart()
     {
         Managers.Resource.Destroy(_ingameContainer);
         InitOutgame();

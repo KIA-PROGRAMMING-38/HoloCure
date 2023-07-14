@@ -153,16 +153,12 @@ public class StageManager : MonoBehaviour
 
         StartCoroutine(_stageCoroutine);
         StartGetKeyCoroutine();
-
-        Managers.Pool.OnIngameStart();
     }
     private void StopStage()
     {
         StopTitleBGM();
         StopCoroutine(_stageCoroutine);
         StopGetKeyCoroutine();
-
-        Managers.Pool.OnOutgameStart();
     }
     private int _bossCount;
     public void CountBoss()
