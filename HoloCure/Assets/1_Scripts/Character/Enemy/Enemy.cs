@@ -9,7 +9,7 @@ public class Enemy : CharacterBase
     public event Action OnGetDamageForAnimation;
 
     public event Action<float> OnDieForAnimation;
-    public event Action<Vector2, int> OnDieForSpawnEXP;
+    public event Action<Vector2, int> OnDieForExp;
     public event Action OnDieForUpdateCount;
     public event Action<Enemy> OnDieForProjectile;
 
@@ -38,8 +38,8 @@ public class Enemy : CharacterBase
     }
     protected virtual void Start()
     {
-        _knockBackUpdateCoroutine = KnockBackUpdateCoroutine();
-        _knockBackedCoroutine = KnockBackedCoroutine();
+        _knockBackMoveCo = KnockBackMoveCo();
+        _knockBackCo = KnockBackCo();
         _dyingMoveCoroutine = DyingMoveCoroutine();
     }
     /// <summary>
@@ -69,12 +69,12 @@ public class Enemy : CharacterBase
     {
         RemoveEvent();
 
-        OnDieForSpawnEXP += Managers.Spawn.SpawnExp;
+        OnDieForExp += Managers.Spawn.SpawnExp;
         OnDieForUpdateCount += Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
     }
     private void RemoveEvent()
     {
-        OnDieForSpawnEXP -= Managers.Spawn.SpawnExp;
+        OnDieForExp -= Managers.Spawn.SpawnExp;
         OnDieForUpdateCount -= Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
     }
     /// <summary>
@@ -93,38 +93,38 @@ public class Enemy : CharacterBase
     /// <summary>
     /// 적을 넉백시킵니다.
     /// </summary>
-    public void KnockBacked(float knockBackSpeed, float knockBackDurationTime)
+    public void OnKnockBack(float knockBackSpeed, float knockBackDurationTime)
     {
         _knockBackSpeed = knockBackSpeed;
         _knockBackDurationTime = knockBackDurationTime;
-        StartCoroutine(_knockBackedCoroutine);
+        StartCoroutine(_knockBackCo);
     }
-    private void KnockBackedMove() => _rigidbody.MovePosition(_rigidbody.position - _moveVec.normalized * (30 * _knockBackSpeed * Time.fixedDeltaTime));
-    private IEnumerator _knockBackUpdateCoroutine;
-    private IEnumerator KnockBackUpdateCoroutine()
+    private void KnockBackMove() => _rigidbody.MovePosition(_rigidbody.position - _moveVec.normalized * (30 * _knockBackSpeed * Time.fixedDeltaTime));
+    private IEnumerator _knockBackMoveCo;
+    private IEnumerator KnockBackMoveCo()
     {
         while (true)
         {
-            KnockBackedMove();
+            KnockBackMove();
 
             yield return null;
         }
     }
-    private IEnumerator _knockBackedCoroutine;
-    private IEnumerator KnockBackedCoroutine()
+    private IEnumerator _knockBackCo;
+    private IEnumerator KnockBackCo()
     {
         while (true)
         {
             float speed = moveSpeed;
             moveSpeed = 0;
 
-            StartCoroutine(_knockBackUpdateCoroutine);
+            StartCoroutine(_knockBackMoveCo);
 
             yield return Util.TimeStore.GetWaitForSeconds(_knockBackDurationTime);
 
-            StopCoroutine(_knockBackUpdateCoroutine);
+            StopCoroutine(_knockBackMoveCo);
 
-            StopCoroutine(_knockBackedCoroutine);
+            StopCoroutine(_knockBackCo);
 
             moveSpeed = speed;
 
@@ -146,15 +146,8 @@ public class Enemy : CharacterBase
 
         _effectDir = enemyAnimation.IsFilp() == true ? Vector2.right : Vector2.left;
 
-        if (isCritical)
-        {
-            Managers.Pool.DamageText.Get().InitCriticalDamage(transform.position, _effectDir, damage);
-        }
-        else
-        {
-            Managers.Pool.DamageText.Get().InitDefaultDamage(transform.position, _effectDir, damage);
-        }
-
+        Managers.Pool.DamageText.Get().Init(transform.position, damage, isCritical);
+        
         OnGetDamageForAnimation?.Invoke();
 
         base.GetDamage(damage);
@@ -186,7 +179,7 @@ public class Enemy : CharacterBase
 
         SetLayerOnDie();
 
-        OnDieForSpawnEXP?.Invoke(transform.position, Managers.Data.Enemy[_id].Exp);
+        OnDieForExp?.Invoke(transform.position, Managers.Data.Enemy[_id].Exp);
         OnDieForUpdateCount?.Invoke();
         OnDieForProjectile?.Invoke(this);
 

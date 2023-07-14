@@ -26,9 +26,11 @@ public class Managers : MonoBehaviour
 
         Data = new DataManager();
         Resource = new ResourceManager();
+        Pool = new PoolManager();
 
         Data.Init();
         Resource.Init();
+        Pool.Init();
 
         GameObject go;
 
@@ -42,10 +44,6 @@ public class Managers : MonoBehaviour
         go = new GameObject(nameof(SpawnManager));
         go.transform.parent = transform;
         Spawn = go.AddComponent<SpawnManager>();
-
-        go = new GameObject(nameof(PoolManager));
-        go.transform.parent = transform;
-        Pool = go.AddComponent<PoolManager>();
 
         go = new GameObject(nameof(StageManager));
         go.transform.parent = transform;

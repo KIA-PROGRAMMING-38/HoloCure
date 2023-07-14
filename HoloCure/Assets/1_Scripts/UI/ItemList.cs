@@ -24,7 +24,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [Header("Image")]
     [SerializeField] private Image _itemTypeImage;
-    [SerializeField] private Image _iconFrameImage; // ÃßÈÄ Ãß°¡ ±¸Çö
+    [SerializeField] private Image _iconFrameImage; // ì¶”í›„ ì¶”ê°€ êµ¬í˜„
     [SerializeField] private Image _iconImage;
     [Header("Sprites")]
     [SerializeField] private Sprite[] _itemTypeSprites;
@@ -83,7 +83,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     {
         _typeText.text = WEAPON;
         _iconFrameImage.sprite = _iconFrameSprites[0];
-        _iconImage.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.WEAPON, data.IconSprite));
+        _iconImage.sprite = Managers.Resource.LoadSprite(data.IconSprite);
 
         Weapon weapon = default;
         Inventory inventory = Managers.Game.Player.Inventory;
@@ -138,6 +138,6 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         _typeText.text = STAT_UP;
         _iconFrameImage.sprite = _iconFrameSprites[2];
         _descriptionText.text = Managers.Data.Stat[data.Id].Description;
-        _iconImage.sprite = Managers.Resource.Load(Managers.Resource.Sprites, ZString.Concat(PathLiteral.SPRITE, PathLiteral.UI, data.IconSprite));
+        _iconImage.sprite = Managers.Resource.LoadSprite(data.IconSprite);
     }
 }

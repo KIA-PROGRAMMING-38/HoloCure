@@ -1,4 +1,4 @@
-﻿using Cysharp.Text;
+using Cysharp.Text;
 using StringLiterals;
 using System;
 using System.Collections;
@@ -93,8 +93,8 @@ public class Projectile : MonoBehaviour
     {
         AnimatorOverrideController overrideController = new(_animator.runtimeAnimatorController);
 
-        overrideController[AnimClipLiteral.PROJECTILE] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name, PathLiteral.SLASH, FileNameLiteral.PROJECTILE));
-        overrideController[AnimClipLiteral.EFFECT] = Managers.Resource.Load(Managers.Resource.AnimClips, ZString.Concat(PathLiteral.ANIM, PathLiteral.WEAPON, data.Name, PathLiteral.SLASH, FileNameLiteral.EFFECT));
+        overrideController[FileNameLiteral.PROJECTILE] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.PROJECTILE);
+        overrideController[FileNameLiteral.EFFECT] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.EFFECT);
 
         _animator.runtimeAnimatorController = overrideController;
     }
@@ -169,7 +169,7 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        enemy.KnockBacked(_knockBackSpeed, _knockBackDurationTime);
+        enemy.OnKnockBack(_knockBackSpeed, _knockBackDurationTime);
     }
 
     /// <summary>

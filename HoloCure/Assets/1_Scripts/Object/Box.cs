@@ -34,8 +34,6 @@ public class Box : MonoBehaviour
     {
         if (collision.CompareTag(TagLiteral.SCREEN_SENSOR))
         {
-            if (false == gameObject.activeSelf) { return; }
-
             StartCoroutine(_lookPlayerCoroutine);
         }
     }

@@ -32,7 +32,7 @@ public class SpawnManager : MonoBehaviour
     }
     private void OnStartStage()
     {
-        SpawnStageEnemies(1); // stage 1
+        SpawnStageEnemies(1);
     }
     private void OnEndStage()
     {
@@ -58,36 +58,34 @@ public class SpawnManager : MonoBehaviour
         foreach (var pair in Managers.Data.Enemy)
         {
             EnemyID id = pair.Key;
-            EnemyID enemyType = id - stage * STAGE_CONSTANT;
+            EnemyType enemyType = id.GetEnemyType(stage);
 
-            if (enemyType > EnemyID.End) { return; }
+            if (enemyType == EnemyType.None) { continue; }
 
-            StartCoroutine(SpawnEnemyCo(id, stage));
+            StartCoroutine(SpawnEnemyCo(id, enemyType));
         }
     }
-    private IEnumerator SpawnEnemyCo(EnemyID id, int stage)
+    private IEnumerator SpawnEnemyCo(EnemyID id, EnemyType type)
     {
         EnemyData data = Managers.Data.Enemy[id];
 
         yield return TimeStore.GetWaitForSeconds(data.SpawnStartTime);
 
-        EnemyID enemyType = id - stage * STAGE_CONSTANT;
-
-        switch (enemyType)
+        switch (type)
         {
-            case > EnemyID.Normal and < EnemyID.MiniBoss:
+            case EnemyType.Normal:
                 while (Managers.StageM.CurrentStageTime < data.SpawnEndTime)
                 {
                     SpawnEnemy(id);
                     yield return ENEMY_SPAWN_INTERVAL;
                 }
                 break;
-            case > EnemyID.MiniBoss and < EnemyID.Boss:
+            case EnemyType.MiniBoss:
                 break;
-            case > EnemyID.Boss and < EnemyID.End:
+            case EnemyType.Boss:
                 break;
             default:
-                Debug.Assert(false, $"Invalid EnemyID | ID: {id}, Stage: {stage}");
+                Debug.Assert(false, $"Invalid EnemyID | ID: {id}");
                 break;
         }
     }
@@ -98,11 +96,11 @@ public class SpawnManager : MonoBehaviour
     }
     public void SpawnExp(Vector2 pos, int expAmount)
     {
-        while (expAmount > (int)ExpAmounts.Max_Six)
+        while (expAmount.GetExpType() > ExpType.Max)
         {
-            Managers.Pool.Exp.Get(pos, (int)ExpAmounts.Max_Six);
+            Managers.Pool.Exp.Get(pos, (int)ExpType.Max);
 
-            expAmount -= (int)ExpAmounts.Max_Six;
+            expAmount -= (int)ExpType.Max;
         }
 
         Managers.Pool.Exp.Get(pos, expAmount);
