@@ -1,4 +1,4 @@
-﻿using CsvHelper;
+using CsvHelper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -16,6 +16,7 @@ public class DataManager
     public Dictionary<ItemID, List<WeaponLevelData>> WeaponLevelTable { get; private set; }
     public Dictionary<ItemID, StatData> Stat { get; private set; }
     public Dictionary<MaterialID, MaterialData> Material { get; private set; }
+    public List<ExpData> Exp { get; private set; }
     public void Init()
     {
         VTuber = ParseToDict<VTuberID, VTuberData>("Assets/Resources/4_DataTable/VTuber.csv", data => data.Id);
@@ -39,6 +40,7 @@ public class DataManager
 
         Stat = ParseToDict<ItemID, StatData>("Assets/Resources/4_DataTable/Stat.csv", data => data.Id);
         Material = ParseToDict<MaterialID, MaterialData>("Assets/Resources/4_DataTable/Material.csv", data => data.Id);
+        Exp = ParseToList<ExpData>("Assets/Resources/4_DataTable/Exp.csv");
     }
     private List<T> ParseToList<T>([NotNull] string path)
     {

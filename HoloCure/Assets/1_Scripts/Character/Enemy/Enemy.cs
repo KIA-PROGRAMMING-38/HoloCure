@@ -2,17 +2,14 @@ using StringLiterals;
 using System;
 using System.Collections;
 using UnityEngine;
-using Util.Pool;
 
 
 public class Enemy : CharacterBase
 {
-    public event Action<Vector2, int> OnGetCriticalDamage;
-    public event Action<Vector2, int> OnGetDamage;
     public event Action OnGetDamageForAnimation;
 
     public event Action<float> OnDieForAnimation;
-    public event Action<Vector2, int> OnDieForSpawnEXP;
+    public event Action<Vector2, int> OnDieForExp;
     public event Action OnDieForUpdateCount;
     public event Action<Enemy> OnDieForProjectile;
 
@@ -41,12 +38,12 @@ public class Enemy : CharacterBase
     }
     protected virtual void Start()
     {
-        _knockBackUpdateCoroutine = KnockBackUpdateCoroutine();
-        _knockBackedCoroutine = KnockBackedCoroutine();
+        _knockBackMoveCo = KnockBackMoveCo();
+        _knockBackCo = KnockBackCo();
         _dyingMoveCoroutine = DyingMoveCoroutine();
     }
     /// <summary>
-    /// ÀûÀ» ÃÊ±âÈ­ÇÕ´Ï´Ù.
+    /// ì ì„ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
     /// </summary>
     public void Init(EnemyID id, Vector3 offset)
     {
@@ -72,16 +69,16 @@ public class Enemy : CharacterBase
     {
         RemoveEvent();
 
-        OnDieForSpawnEXP += Managers.ObjectM.SpawnEXP;
+        OnDieForExp += Managers.Spawn.SpawnExp;
         OnDieForUpdateCount += Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
     }
     private void RemoveEvent()
     {
-        OnDieForSpawnEXP -= Managers.ObjectM.SpawnEXP;
+        OnDieForExp -= Managers.Spawn.SpawnExp;
         OnDieForUpdateCount -= Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
     }
     /// <summary>
-    /// ÀûÀÇ ·£´õ¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+    /// ì ì˜ ëœë”ë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetEnemyRender(EnemyData data) => enemyAnimation.SetEnemyRender(data);
     public Vector2 _moveVec;
@@ -94,40 +91,40 @@ public class Enemy : CharacterBase
     private float _knockBackSpeed;
     private float _knockBackDurationTime;
     /// <summary>
-    /// ÀûÀ» ³Ë¹é½ÃÅµ´Ï´Ù.
+    /// ì ì„ ë„‰ë°±ì‹œí‚µë‹ˆë‹¤.
     /// </summary>
-    public void KnockBacked(float knockBackSpeed, float knockBackDurationTime)
+    public void OnKnockBack(float knockBackSpeed, float knockBackDurationTime)
     {
         _knockBackSpeed = knockBackSpeed;
         _knockBackDurationTime = knockBackDurationTime;
-        StartCoroutine(_knockBackedCoroutine);
+        StartCoroutine(_knockBackCo);
     }
-    private void KnockBackedMove() => _rigidbody.MovePosition(_rigidbody.position - _moveVec.normalized * (30 * _knockBackSpeed * Time.fixedDeltaTime));
-    private IEnumerator _knockBackUpdateCoroutine;
-    private IEnumerator KnockBackUpdateCoroutine()
+    private void KnockBackMove() => _rigidbody.MovePosition(_rigidbody.position - _moveVec.normalized * (30 * _knockBackSpeed * Time.fixedDeltaTime));
+    private IEnumerator _knockBackMoveCo;
+    private IEnumerator KnockBackMoveCo()
     {
         while (true)
         {
-            KnockBackedMove();
+            KnockBackMove();
 
             yield return null;
         }
     }
-    private IEnumerator _knockBackedCoroutine;
-    private IEnumerator KnockBackedCoroutine()
+    private IEnumerator _knockBackCo;
+    private IEnumerator KnockBackCo()
     {
         while (true)
         {
             float speed = moveSpeed;
             moveSpeed = 0;
 
-            StartCoroutine(_knockBackUpdateCoroutine);
+            StartCoroutine(_knockBackMoveCo);
 
             yield return Util.TimeStore.GetWaitForSeconds(_knockBackDurationTime);
 
-            StopCoroutine(_knockBackUpdateCoroutine);
+            StopCoroutine(_knockBackMoveCo);
 
-            StopCoroutine(_knockBackedCoroutine);
+            StopCoroutine(_knockBackCo);
 
             moveSpeed = speed;
 
@@ -141,32 +138,23 @@ public class Enemy : CharacterBase
 
     private Vector2 _effectDir;
     /// <summary>
-    /// ÀûÀÇ ÇÇ°İÀÔ´Ï´Ù. ÀûÀÇ ÇÇ°İ ÀÌÆåÆ®¸¦ È£ÃâÇÏ°í, ÀûÀÇ ÇöÀç Ã¼·ÂÀ» ±ğ½À´Ï´Ù. ÇöÀç Ã¼·ÂÀÌ 0ÀÌÇÏ°¡ µÇ¸é Die°¡ È£ÃâµË´Ï´Ù.
+    /// ì ì˜ í”¼ê²©ì…ë‹ˆë‹¤. ì ì˜ í”¼ê²© ì´í™íŠ¸ë¥¼ í˜¸ì¶œí•˜ê³ , ì ì˜ í˜„ì¬ ì²´ë ¥ì„ ê¹ìŠµë‹ˆë‹¤. í˜„ì¬ ì²´ë ¥ì´ 0ì´í•˜ê°€ ë˜ë©´ Dieê°€ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     public override void GetDamage(int damage, bool isCritical = false)
     {
-        if (isReleased) { return; }
-
         SoundPool.GetPlayAudio(SoundID.EnemyDamaged);
 
         _effectDir = enemyAnimation.IsFilp() == true ? Vector2.right : Vector2.left;
 
-        if (isCritical)
-        {
-            OnGetCriticalDamage?.Invoke(_effectDir, damage);
-        }
-        else
-        {
-            OnGetDamage?.Invoke(_effectDir, damage);
-        }
-
+        Managers.Pool.DamageText.Get().Init(transform.position, damage, isCritical);
+        
         OnGetDamageForAnimation?.Invoke();
 
         base.GetDamage(damage);
     }
 
     /// <summary>
-    /// ÀûÀÌ ½ºÆùÇÏ¸é ÇØ¾ßÇÏ´Â ¼¼ÆÃÀÔ´Ï´Ù. Init()¿¡¼­ È£ÃâµË´Ï´Ù.
+    /// ì ì´ ìŠ¤í°í•˜ë©´ í•´ì•¼í•˜ëŠ” ì„¸íŒ…ì…ë‹ˆë‹¤. Init()ì—ì„œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     private void OnSpawn()
     {
@@ -174,19 +162,15 @@ public class Enemy : CharacterBase
         body.position = transform.position;
 
         SetLayerOnSpawn();
-
-        isReleased = false;
     }
     protected virtual void SetLayerOnSpawn() => gameObject.layer = LayerNum.ENEMY;
     protected virtual void SetLayerOnDie() => gameObject.layer = LayerNum.DEAD_ENEMY;
 
     /// <summary>
-    /// ÀûÀÇ »ç¸ÁÀÔ´Ï´Ù. GetDamage¿¡¼­ È£ÃâµË´Ï´Ù.
+    /// ì ì˜ ì‚¬ë§ì…ë‹ˆë‹¤. GetDamageì—ì„œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     protected override void Die()
     {
-        isReleased = true;
-
         _dyingPoint = transform.position;
         moveSpeed = 0f;
         StartCoroutine(_dyingMoveCoroutine);
@@ -195,7 +179,7 @@ public class Enemy : CharacterBase
 
         SetLayerOnDie();
 
-        OnDieForSpawnEXP?.Invoke(transform.position, Managers.Data.Enemy[_id].Exp);
+        OnDieForExp?.Invoke(transform.position, Managers.Data.Enemy[_id].Exp);
         OnDieForUpdateCount?.Invoke();
         OnDieForProjectile?.Invoke(this);
 
@@ -207,7 +191,7 @@ public class Enemy : CharacterBase
     private Vector2 _dyingPoint;
     private IEnumerator _dyingMoveCoroutine;
     /// <summary>
-    /// »ç¸Á½Ã ¿òÁ÷ÀÌ´Â ÄÚ·çÆ¾, 0.7ÃÊÀÇ »ç¸Á½Ã°£ ÀÌÈÄ Ç®·Î ¹İÈ¯µË´Ï´Ù.
+    /// ì‚¬ë§ì‹œ ì›€ì§ì´ëŠ” ì½”ë£¨í‹´, 0.7ì´ˆì˜ ì‚¬ë§ì‹œê°„ ì´í›„ í’€ë¡œ ë°˜í™˜ë©ë‹ˆë‹¤.
     /// </summary>
     private IEnumerator DyingMoveCoroutine()
     {
@@ -230,42 +214,18 @@ public class Enemy : CharacterBase
 
             _elapsedTime = 0f;
 
-            ReleaseToPool();
+            Managers.Pool.Enemy.Release(this);
 
             yield return null;
         }
     }
 
-
-    private ObjectPool<Enemy> _pool;
     /// <summary>
-    /// ¹İÈ¯µÇ¾î¾ßÇÒ Ç®ÀÇ ÁÖ¼Ò¸¦ ¼³Á¤ÇÕ´Ï´Ù.
-    /// </summary>
-    public void SetPoolRef(ObjectPool<Enemy> pool) => _pool = pool;
-    protected virtual void ReleaseToPool() => _pool.Release(this);
-    protected bool isReleased;
-    protected virtual void OnDisable()
-    {
-        if (false == transform.parent.gameObject.activeSelf && false == isReleased)
-        {
-            isReleased = true;
-            _pool.Release(this);
-        }
-    }
-
-    /// <summary>
-    /// ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î ÇÃ¸³ÇÕ´Ï´Ù.
+    /// í”Œë ˆì´ì–´ë¥¼ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ í”Œë¦½í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetFilpX()
     {
         OnFilpX?.Invoke();
         OnFilp?.Invoke(enemyAnimation.IsFilp());
-    }
-
-    [SerializeField] private DamageTextController _damageTextController;
-    public void SetFloatingDamagePool(DamageTextPool defaultPool, DamageTextPool criticalPool)
-    {
-        _damageTextController.SetDefaultDamageTextPool(defaultPool);
-        _damageTextController.SetCriticalDamageTextPool(criticalPool);
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Managers : MonoBehaviour
@@ -7,9 +6,9 @@ public class Managers : MonoBehaviour
     public static DataManager Data { get; private set; }
     public static ResourceManager Resource { get; private set; }
     public static SpawnManager Spawn { get; private set; }
+    public static PoolManager Pool { get; private set; }
     public static PlayerManager PlayerM { get; private set; }
     public static PresenterManager PresenterM { get; private set; }
-    public static ObjectManager ObjectM { get; private set; }
     public static StageManager StageM { get; private set; }
     public static ItemManager ItemM { get; private set; }
 
@@ -27,9 +26,11 @@ public class Managers : MonoBehaviour
 
         Data = new DataManager();
         Resource = new ResourceManager();
+        Pool = new PoolManager();
 
         Data.Init();
         Resource.Init();
+        Pool.Init();
 
         GameObject go;
 
@@ -44,10 +45,6 @@ public class Managers : MonoBehaviour
         go = new GameObject(nameof(PlayerManager));
         go.transform.parent = transform;
         PlayerM = go.AddComponent<PlayerManager>();
-
-        go = new GameObject(nameof(ObjectManager));
-        go.transform.parent = transform;
-        ObjectM = go.AddComponent<ObjectManager>();
 
         go = new GameObject(nameof(StageManager));
         go.transform.parent = transform;
