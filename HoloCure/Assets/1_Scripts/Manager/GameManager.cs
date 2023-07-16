@@ -1,14 +1,12 @@
 using StringLiterals;
-using System;
-using System.Collections;
+using UniRx;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public event Action OnIngameStart;
-    public event Action OnOutgameStart;
-    public Player Player { get; private set; }
+    public ReactiveProperty<int> Stage { get; private set; } = new();
     public VTuber VTuber { get; private set; }
+
     public void Init()
     {
         AddEvent();
@@ -27,17 +25,21 @@ public class GameManager : MonoBehaviour
     }
     private void IngameStart()
     {
-        OnIngameStart?.Invoke();
+        
     }
     private void OutgameStart()
     {
         DestroyGame();
-        OnOutgameStart?.Invoke();
+
+        PopUpBGUI();
 
         void DestroyGame()
         {
-            Managers.Resource.Destroy(Player.gameObject);
             Managers.Resource.Destroy(VTuber.gameObject);
+        }
+        void PopUpBGUI()
+        {
+            Managers.Resource.Instantiate(FileNameLiteral.BG_UI, Managers.Spawn.OutgameContainer.transform);
         }
     }
     private void SelectVTuber(VTuberID id)
@@ -46,8 +48,6 @@ public class GameManager : MonoBehaviour
 
         VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
         VTuber.Init(id);
-
-        Player = VTuber.GetComponent<Player>();
 
         Managers.PresenterM.InitPresenter.GetInitData(data);
         Managers.PresenterM.InventoryPresenter.ResetInventory();
