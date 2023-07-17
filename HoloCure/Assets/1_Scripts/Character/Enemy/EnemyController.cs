@@ -1,41 +1,51 @@
 using StringLiterals;
 using System.Collections;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
     private Enemy _enemy;
-    private void Awake() => _enemy = GetComponent<Enemy>();
-    private void FixedUpdate() => _enemy.Move();
-
-    // 공격 시작
-    private void OnTriggerEnter2D(Collider2D collision)
+    private IEnumerator _attackCo;
+    private const float ATTACK_INTERVAL = 0.2f;
+    private void Awake() => _enemy = gameObject.GetComponentAssert<Enemy>();
+    private void Start()
     {
-        if (collision.CompareTag(TagLiteral.VTUBER))
+        _attackCo = AttackCo();
+
+        this.FixedUpdateAsObservable()
+            .Subscribe(Move);
+
+        this.OnTriggerEnter2DAsObservable()
+            .Subscribe(StartAttack);
+
+        this.OnTriggerExit2DAsObservable()
+            .Subscribe(StopAttack);
+
+        void Move(Unit unit) => _enemy.Move();
+        void StartAttack(Collider2D collision)
         {
-            VTuber VTuber = collision.GetComponent<VTuber>();
-            _attackCoroutine = AttackCoroutine(VTuber);
-            StartCoroutine(_attackCoroutine);
+            if (collision.CompareTag(TagLiteral.VTUBER))
+            {
+                StartCoroutine(_attackCo);
+            }
         }
-    }
-    // 공격 종료
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag(TagLiteral.VTUBER))
+        void StopAttack(Collider2D collision)
         {
-            StopCoroutine(_attackCoroutine);
+            if (collision.CompareTag(TagLiteral.VTUBER))
+            {
+                StopCoroutine(_attackCo);
+            }
         }
-    }
-
-    // 공격
-    private IEnumerator _attackCoroutine;
-    private IEnumerator AttackCoroutine(VTuber VTuber)
-    {
-        while (true)
+        IEnumerator AttackCo()
         {
-            _enemy.SetDamage(VTuber);
+            while (true)
+            {
+                _enemy.SetDamage(Managers.Game.VTuber);
 
-            yield return Util.TimeStore.GetWaitForSeconds(0.2f);
+                yield return Util.DelayCache.GetWaitForSeconds(ATTACK_INTERVAL);
+            }
         }
     }
 }

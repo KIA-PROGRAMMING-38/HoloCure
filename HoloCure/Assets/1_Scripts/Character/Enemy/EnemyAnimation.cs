@@ -1,89 +1,105 @@
-using Cysharp.Text;
 using StringLiterals;
 using System.Collections;
 using UnityEngine;
+using Util;
+using UniRx;
 
 public class EnemyAnimation : MonoBehaviour
 {
     private Enemy _enemy;
-
     private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _bodyRenderer;
     private SpriteRenderer _shadowRenderer;
     private Material _defaultMaterial;
-
+    public bool IsFlip => _bodyRenderer.flipX;
     private void Awake()
     {
-        _enemy = transform.parent.GetComponent<Enemy>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _shadowRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        _animator = GetComponent<Animator>();
+        _enemy = transform.parent.GetComponentAssert<Enemy>();
+        _bodyRenderer = gameObject.GetComponentAssert<SpriteRenderer>();
+        _shadowRenderer = transform.GetChild(0).GetComponentAssert<SpriteRenderer>();
+        _animator = gameObject.GetComponentAssert<Animator>();
 
-        _defaultMaterial = _spriteRenderer.material;
-
-        _getDamageEffectCoroutine = GetDamageEffectCoroutine();
-
-        _enemy.OnGetDamageForAnimation -= GetDamageEffect;
-        _enemy.OnGetDamageForAnimation += GetDamageEffect;
-
-        _enemy.OnDieForAnimation -= SetDie;
-        _enemy.OnDieForAnimation += SetDie;
-
-        _enemy.OnFilpX -= SetFlipX;
-        _enemy.OnFilpX += SetFlipX;
+        _defaultMaterial = _bodyRenderer.material;
     }
-    private void OnEnable() => SetSpawn();
-    /// <summary>
-    /// 적의 플립 여부를 반환합니다.
-    /// </summary>
-    public bool IsFilp() => _spriteRenderer.flipX;
-    private void SetFlipX() => _spriteRenderer.flipX = Util.Caching.CenterWorldPos.x < transform.parent.position.x;
-
-    private Color _spawnColor = new Color(1, 1, 1, 1);
-    private void SetSpawn()
+    private void Start()
     {
-        _spriteRenderer.color = _spawnColor;
-        _shadowRenderer.color = _spawnColor;
-    }
+        _getDamageEffectCo = GetDamageEffectCo();
 
-    private void SetDie(float rate)
+        _enemy.FadeRate.Subscribe(SetDie);
+        _enemy.CurHealth.Subscribe(GetDamageEffect);
+
+        void SetDie(float rate)
+        {
+            rate = 0.5f - rate;
+
+            Color color = new Color(1, 1, 1, rate);
+            _bodyRenderer.color = color;
+            _shadowRenderer.color = color;
+        }
+        void GetDamageEffect(int damage)
+        {
+            StartCoroutine(_getDamageEffectCo);
+        }
+    }
+    public void Init(EnemyData data)
     {
-        Color color = new Color(1, 1, 1, rate);
-        _spriteRenderer.color = color;
-        _shadowRenderer.color = color;
+        InitColor();
+        InitRender(data);
+        SetFlipX();
+
+        AddEvent();
+
+        void InitColor()
+        {
+            _bodyRenderer.color = Color.white;
+            _shadowRenderer.color = Color.white;
+        }
+        void InitRender(EnemyData data)
+        {
+            _bodyRenderer.sprite = Managers.Resource.LoadSprite(data.Sprite);
+
+            var overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
+            overrideController[FileNameLiteral.MOVE] = Managers.Resource.LoadAnimClip(data.Name);
+
+            _animator.runtimeAnimatorController = overrideController;
+        }
     }
-
-    private void GetDamageEffect() => StartCoroutine(_getDamageEffectCoroutine);
-
-    private IEnumerator _getDamageEffectCoroutine;
-    private IEnumerator GetDamageEffectCoroutine()
+    private void SetFlipX()
+    {
+        float vtuberPosX = Managers.Game.VTuber.transform.position.x;
+        _bodyRenderer.flipX = vtuberPosX < transform.parent.position.x;
+    }
+    private const float EFFECT_TIME = 0.1f;
+    private IEnumerator _getDamageEffectCo;
+    private IEnumerator GetDamageEffectCo()
     {
         MaterialData data = Managers.Data.Material[MaterialID.Hit];
 
         while (true)
         {
-            _spriteRenderer.material = Managers.Resource.LoadMaterial(data.Name);
+            _bodyRenderer.material = Managers.Resource.LoadMaterial(data.Name);
 
-            yield return Util.TimeStore.GetWaitForSeconds(0.1f);
+            yield return DelayCache.GetWaitForSeconds(EFFECT_TIME);
 
-            _spriteRenderer.material = _defaultMaterial;
+            _bodyRenderer.material = _defaultMaterial;
 
-            StopCoroutine(_getDamageEffectCoroutine);
+            StopCoroutine(_getDamageEffectCo);
 
             yield return null;
         }
     }
-    /// <summary>
-    /// 적의 스프라이트와 애니메이터와 애니메이션 클립을 설정합니다.
-    /// </summary>
-    public void SetEnemyRender(EnemyData data)
+    private void AddEvent()
     {
-        _spriteRenderer.sprite = Managers.Resource.LoadSprite(data.Sprite);
+        RemoveEvent();
 
-        AnimatorOverrideController overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
-
-        overrideController[FileNameLiteral.MOVE] = Managers.Resource.LoadAnimClip(data.Name);
-
-        _animator.runtimeAnimatorController = overrideController;
+        _enemy.OnFlipSensor += SetFlipX;
+    }
+    private void RemoveEvent()
+    {
+        _enemy.OnFlipSensor -= SetFlipX;
+    }
+    private void OnDestroy()
+    {
+        RemoveEvent();
     }
 }

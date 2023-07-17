@@ -55,7 +55,7 @@ public class Projectile : MonoBehaviour
 
             yield return Util.DelayCache.GetWaitForSeconds(_durationTime);
 
-            RemoveEvent();
+            _damagedEnemyContainer.Clear();
 
             _pool.Release(this);
 
@@ -167,26 +167,6 @@ public class Projectile : MonoBehaviour
     /// 피격받은 적의 피격받은 시간을 저장할 컨테이너입니다. 
     /// </summary>
     private Dictionary<Enemy, float> _damagedEnemyContainer = new();
-    /// <summary>
-    /// 컨테이너에서 적을 제거하고 구독을 해지합니다.
-    /// </summary>
-    private void RemoveFromDictionary(Enemy enemy)
-    {
-        _damagedEnemyContainer.Remove(enemy);
-        enemy.OnDieForProjectile -= RemoveFromDictionary;
-    }
-    /// <summary>
-    /// 투사체가 풀에 반환되기 전 컨테이너에 저장된 모든 적의 구독을 해지하고 컨테이너를 비웁니다.
-    /// </summary>
-    private void RemoveEvent()
-    {
-        foreach (Enemy enemy in _damagedEnemyContainer.Keys)
-        {
-            enemy.OnDieForProjectile -= RemoveFromDictionary;
-        }
-
-        _damagedEnemyContainer.Clear();
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.layer == LayerNum.BEFORE_EFFECT && collision.CompareTag(TagLiteral.ENEMY))
@@ -199,20 +179,15 @@ public class Projectile : MonoBehaviour
 
             if (_damagedEnemyContainer.ContainsKey(enemy) && Time.time - _damagedEnemyContainer[enemy] >= _hitCoolTime)
             {
-                RemoveFromDictionary(enemy);
+                _damagedEnemyContainer.Remove(enemy);
             }
 
-            if (_damagedEnemyContainer.ContainsKey(enemy))
-            {
-                return;
-            }
+            if (_damagedEnemyContainer.ContainsKey(enemy)) { return; }
 
             SetDamage(enemy);
             SetKnockBack(enemy);
 
             _damagedEnemyContainer.Add(enemy, Time.time);
-            enemy.OnDieForProjectile -= RemoveFromDictionary;
-            enemy.OnDieForProjectile += RemoveFromDictionary;
         }
     }
 }
