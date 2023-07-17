@@ -1,58 +1,70 @@
 using StringLiterals;
 using System.Collections;
+using UniRx.Triggers;
+using UniRx;
 using UnityEngine;
-using Util.Pool;
 
 public class Box : MonoBehaviour
 {
-    [SerializeField] private Transform _pointer;
+    private Transform _pointer;
     private Vector2 _initPos;
     private Quaternion _initRot;
     private void Awake()
     {
+        _pointer = transform.FindAssert("Pointer");
         _initPos = _pointer.localPosition;
         _initRot = _pointer.rotation;
-        _lookPlayerCoroutine = LookPlayerCoroutine();
+    }
+    private void Start()
+    {
+        _lookPlayerCo = LookPlayerCo();
+
+        this.OnTriggerEnter2DAsObservable()
+            .Subscribe(OnTriggerEnter);
+        this.OnTriggerExit2DAsObservable()
+            .Subscribe(OnTriggerExit);
+
+        void OnTriggerEnter(Collider2D collider)
+        {
+            if (collider.CompareTag(TagLiteral.VTUBER))
+            {
+                collider.gameObject.GetComponentAssert<VTuber>().GetBox();
+
+                Managers.Spawn.Box.Release(this);
+            }
+            if (collider.CompareTag(TagLiteral.SCREEN_SENSOR))
+            {
+                StopCoroutine(_lookPlayerCo);
+                _pointer.position = (Vector2)transform.position + _initPos;
+                _pointer.rotation = _initRot;
+            }
+        }
+        void OnTriggerExit(Collider2D collider)
+        {
+            if (collider.CompareTag(TagLiteral.SCREEN_SENSOR))
+            {
+                StartCoroutine(_lookPlayerCo);
+            }
+        }
     }
     public void Init(Vector2 pos) => transform.position = pos;
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag(TagLiteral.VTUBER))
-        {
-            collision.GetComponent<Player>().GetBox();
-
-            Managers.Pool.Box.Release(this);
-        }
-        if (collision.CompareTag(TagLiteral.SCREEN_SENSOR))
-        {
-            StopCoroutine(_lookPlayerCoroutine);
-            _pointer.position = (Vector2)transform.position + _initPos;
-            _pointer.rotation = _initRot;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag(TagLiteral.SCREEN_SENSOR))
-        {
-            StartCoroutine(_lookPlayerCoroutine);
-        }
-    }
     private Vector2 _direction;
-    private IEnumerator _lookPlayerCoroutine;
-    private IEnumerator LookPlayerCoroutine()
+    private IEnumerator _lookPlayerCo;
+    private IEnumerator LookPlayerCo()
     {
         while (true)
         {
             _pointer.rotation = Quaternion.AngleAxis(GetAngle(), Vector3.forward);
-            _pointer.position = Physics2D.Raycast(transform.position, -_direction, int.MaxValue, 1 << LayerNum.SCREEN_SENSOR).point;
+            _pointer.position = Physics2D.Raycast(transform.position, -_direction, short.MaxValue, 1 << LayerNum.SCREEN_SENSOR).point;
 
             yield return null;
         }
-    }
-    private float GetAngle()
-    {
-        _direction = (Vector2)transform.position - Util.Caching.CenterWorldPos;
 
-        return Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+        float GetAngle()
+        {
+            _direction = transform.position - Managers.Game.VTuber.transform.position;
+
+            return Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+        }
     }
 }

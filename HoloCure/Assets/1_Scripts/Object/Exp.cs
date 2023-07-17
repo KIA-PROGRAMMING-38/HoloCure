@@ -1,21 +1,86 @@
 using StringLiterals;
 using System;
 using System.Collections;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Exp : MonoBehaviour
 {
-    public event Func<Vector2, int, Exp> OnTrigger;
+    public event Func<Vector2, int, Exp> OnCollideExp;
     public int ExpAmount { get; private set; }
     public bool IsReleased { get; private set; }
     private SpriteRenderer _spriteRenderer;
 
+    private float _accumulatedSpeed;
+    private float _elapsedTime;
+    private readonly static Vector3 s_floatingVec = new Vector3(0, 0.075f, 0);
+
     private void Awake()
     {
-        GetComponent<CircleCollider2D>().isTrigger = true;
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-
+        gameObject.GetComponentAssert<CircleCollider2D>().isTrigger = true;
+        _spriteRenderer = gameObject.GetComponentAssert<SpriteRenderer>();
+    }
+    private void Start()
+    {
         _moveRandomCo = MoveRandomCo();
+
+        this.UpdateAsObservable()
+            .Subscribe(Move);
+        this.OnTriggerStay2DAsObservable()
+            .Subscribe(OnTrigger);
+
+        void Move(Unit unit)
+        {
+            _elapsedTime += Time.deltaTime;
+            transform.position += s_floatingVec * Mathf.Sin(_elapsedTime * 5);
+        }
+        void OnTrigger(Collider2D collision)
+        {
+            if (IsReleased) { return; }
+
+            if (collision.CompareTag(TagLiteral.VTUBER))
+            {
+                SoundPool.GetPlayAudio(SoundID.GetExp);
+
+                ReleaseToPool();
+
+                VTuber vtuber = collision.gameObject.GetComponentAssert<VTuber>();
+
+                vtuber.GetExp(ExpAmount);
+
+                return;
+            }
+
+            if (collision.CompareTag(TagLiteral.OBJECT_SENSOR))
+            {
+                MoveToPlayer();
+
+                return;
+            }
+
+
+            if (collision.CompareTag(TagLiteral.EXP))
+            {
+                Exp exp = collision.gameObject.GetComponentAssert<Exp>();
+
+                if (ExpAmount.GetExpType() >= ExpType.Max) { return; }
+                if (exp.ExpAmount.GetExpType() >= ExpType.Max) { return; }
+
+                exp.ReleaseToPool();
+                ReleaseToPool();
+
+                OnCollideExp?.Invoke(transform.position, exp.ExpAmount + this.ExpAmount);
+            }
+
+            void MoveToPlayer()
+            {
+                _accumulatedSpeed += _accumulatedSpeed * Time.deltaTime;
+
+                transform.Translate(_accumulatedSpeed * Time.deltaTime * (Managers.Game.VTuber.transform.position - transform.position).normalized);
+            }
+        }
     }
     public void Init(Vector2 position, int expAmount)
     {
@@ -45,60 +110,9 @@ public class Exp : MonoBehaviour
     public void ReleaseToPool()
     {
         IsReleased = true;
-        Managers.Pool.Exp.Release(this);
+        Managers.Spawn.Exp.Release(this);
     }
-    private float _elapsedTime;
-    private readonly static Vector3 s_floatingVec = new Vector3(0, 0.075f, 0);
-    private void Update()
-    {
-        _elapsedTime += Time.deltaTime;
-        transform.position += s_floatingVec * Mathf.Sin(_elapsedTime * 5);
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (IsReleased) { return; }
 
-        if (collision.CompareTag(TagLiteral.VTUBER))
-        {
-            SoundPool.GetPlayAudio(SoundID.GetExp);
-
-            ReleaseToPool();
-
-            Player player = collision.GetComponent<Player>();
-
-            player.GetExp(ExpAmount);
-
-            return;
-        }
-
-        if (collision.CompareTag(TagLiteral.OBJECT_SENSOR))
-        {
-            MoveToPlayer();
-
-            return;
-        }
-
-        if (ExpAmount.GetExpType() >= ExpType.Max) { return; }
-
-        if (collision.CompareTag(TagLiteral.EXP))
-        {
-            Exp exp = collision.GetComponent<Exp>();
-
-            if (exp.ExpAmount.GetExpType() >= ExpType.Max) { return; }
-
-            exp.ReleaseToPool();
-            ReleaseToPool();
-
-            OnTrigger?.Invoke(transform.position, exp.ExpAmount + this.ExpAmount);
-        }
-    }
-    private float _accumulatedSpeed;
-    private void MoveToPlayer()
-    {
-        _accumulatedSpeed += _accumulatedSpeed * Time.deltaTime;
-
-        transform.Translate(_accumulatedSpeed * Time.deltaTime * (Util.Caching.CenterWorldPos - (Vector2)transform.position).normalized);
-    }
     private Vector2 _startPoint;
     private Vector2 _endPoint;
     private float _spawnMoveTime;
@@ -116,15 +130,15 @@ public class Exp : MonoBehaviour
         static Vector2 GetEndPoint(Vector2 position)
         {
             int x, y;
-            if (UnityEngine.Random.Range(0, 2) == 0)
+            if (Random.Range(0, 2) == 0)
             {
-                x = UnityEngine.Random.Range(0, 2) == 0 ? UnityEngine.Random.Range(-30, -19) : UnityEngine.Random.Range(20, 31);
-                y = UnityEngine.Random.Range(-30, 31);
+                x = Random.Range(0, 2) == 0 ? Random.Range(-30, -19) : Random.Range(20, 31);
+                y = Random.Range(-30, 31);
             }
             else
             {
-                x = UnityEngine.Random.Range(-30, 31);
-                y = UnityEngine.Random.Range(0, 2) == 0 ? UnityEngine.Random.Range(-30, -19) : UnityEngine.Random.Range(20, 31);
+                x = Random.Range(-30, 31);
+                y = Random.Range(0, 2) == 0 ? Random.Range(-30, -19) : Random.Range(20, 31);
             }
 
             return position + Vector2.right * x + Vector2.up * y;
