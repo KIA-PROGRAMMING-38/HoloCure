@@ -1,37 +1,47 @@
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 public class VTuberDieEffect : MonoBehaviour
 {
     private Transform[] _transforms;
-    private void Awake()
+    private Vector2 _startPoint;
+    private Vector2[] _endPoints;
+    private const int CLOSING_TIME = 3;
+    private float _elapsedTime;
+    private void Start()
+    {
+        this.UpdateAsObservable()
+            .Subscribe(Move);
+
+        void Move(Unit unit)
+        {
+            for (int i = 1; i < _transforms.Length; ++i)
+            {
+                _transforms[i].transform.position = Vector2.Lerp(_startPoint, _endPoints[i], _elapsedTime / CLOSING_TIME);
+            }
+
+            _elapsedTime += Time.unscaledDeltaTime;
+        }
+    }
+    public void Init(Vector2 position)
     {
         _transforms = GetComponentsInChildren<Transform>();
 
+        _startPoint = position;
         _endPoints = new Vector2[_transforms.Length];
-        int angleStep = 360 / (_transforms.Length - 1);
+
+        int angleDiv = 360 / (_transforms.Length - 1);
         for (int i = 1; i < _transforms.Length; ++i)
         {
-            _endPoints[i] = new(Mathf.Cos(i *  angleStep * Mathf.Deg2Rad) * 400, Mathf.Sin(i * angleStep * Mathf.Deg2Rad) * 400);
-        }
-    }
-    private readonly Vector2 START_POINT = new(0, 0);
-    private Vector2[] _endPoints;
-    private void OnEnable()
-    {
-        for (int i = 1; i < _transforms.Length; ++i)
-        {
-            _transforms[i].transform.localPosition = default; 
-        }
-    }
-    private float _elapsedTime;
-    private const int DYING_TIME = 3;
-    private void Update()
-    {
-        for (int i = 1; i < _transforms.Length; ++i)
-        {
-            _transforms[i].transform.localPosition = Vector2.Lerp(START_POINT, _endPoints[i], _elapsedTime / DYING_TIME);
+            Debug.Assert(_transforms[i] != null);
+
+            _transforms[i].transform.position = _startPoint;
+
+            float angle = i * angleDiv * Mathf.Deg2Rad;
+            _endPoints[i] = GetEndPoint(angle);
         }
 
-        _elapsedTime += Time.unscaledDeltaTime;
+        Vector2 GetEndPoint(float angle) => _startPoint + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 400;
     }
 }

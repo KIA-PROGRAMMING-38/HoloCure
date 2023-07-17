@@ -1,202 +1,184 @@
 using StringLiterals;
 using System;
 using System.Collections;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
+using Util;
 
 public class VTuber : CharacterBase
 {
     public event Action OnDie;
-
-    public event Action<int> OnChangeCurHP;
-    public event Action<int> OnChangeMaxHp;
-
-    public event Action<int> OnChangeATKRate;
-    public event Action<int> OnChangeSPDRate;
-    public event Action<int> OnChangeCRTRate;
-    public event Action<int> OnChangePickupRate;
-    public event Action<int> OnChangeHasteRate;
-    private void InitEvent()
-    {
-        OnChangeMaxHp?.Invoke(Managers.Data.VTuber[Id].Health);
-        OnChangeCurHP?.Invoke(CurHealth);
-
-        OnChangeATKRate?.Invoke(default);
-        OnChangeSPDRate?.Invoke(default);
-        OnChangeCRTRate?.Invoke(default);
-        OnChangePickupRate?.Invoke(default);
-        OnChangeHasteRate?.Invoke(default);
-    }
-
+    public event Action OnGetBox;
+    public ReactiveProperty<int> MaxHealth { get; private set; } = new();
+    public ReactiveProperty<int> Attack { get; private set; } = new();
+    public ReactiveProperty<int> Speed { get; private set; } = new();
+    public ReactiveProperty<int> Critical { get; private set; } = new();
+    public ReactiveProperty<int> PickUp { get; private set; } = new();
+    public ReactiveProperty<int> Haste { get; private set; } = new();
+    public ReactiveProperty<int> AttackRate { get; private set; } = new();
+    public ReactiveProperty<int> SpeedRate { get; private set; } = new();
+    public ReactiveProperty<int> PickUpRate { get; private set; } = new();
+    public ReactiveProperty<int> Level { get; private set; } = new();
+    public ReactiveProperty<int> MaxExp { get; private set; } = new();
+    public ReactiveProperty<int> CurExp { get; private set; } = new();
     public VTuberID Id { get; private set; }
+    public Inventory Inventory { get; private set; }
 
     private PlayerInput _input;
     private Rigidbody2D _rigidbody;
-    private VTuberAnimation _VTuberAnimation;
-    private VTuberDieEffect _VTuberDieEffect;
-    #region 스탯 처리
-    public int MaxHealth { get; private set; }
-    public void GetMaxHealthRate(int rate)
-    {
-        MaxHealth += rate == 0 ? 0 : MaxHealth / rate;
-        OnChangeMaxHp?.Invoke(MaxHealth);
-        CurHealth = MaxHealth;
-        OnChangeCurHP?.Invoke(CurHealth);
-    }
-
-    public float AttackPower { get;private set; }
-    private float _defaultAttackPower = 0;
-    public int AttackRate { get; private set; }
-    public void GetAttackRate(int rate)
-    {
-        AttackRate += rate;
-        AttackPower = _defaultAttackPower * (AttackRate / 100f + 1);
-        OnChangeATKRate?.Invoke(AttackRate);
-    }
-
-    public int SpeedRate { get; private set; }
-    public void GetSpeedRate(int rate)
-    {
-        SpeedRate += rate;
-        moveSpeed = Managers.Data.VTuber[Id].SPD * DEFAULT_MOVE_SPEED * (SpeedRate / 100f + 1);
-        OnChangeSPDRate?.Invoke(SpeedRate);
-    }
-
-    public int CriticalRate { get; private set; }
-    public void GetCriticalRate(int rate)
-    {
-        CriticalRate += rate;
-        OnChangeCRTRate?.Invoke(CriticalRate);
-    }
-
-    public int PickUpRangeRate { get; private set; }
-    private CircleCollider2D _pickUpSensor;
-    private float _defaultRadius;
-
-    public void GetPickUpRangeRate(int rate)
-    {
-        PickUpRangeRate += rate;
-        _pickUpSensor.radius = _defaultRadius * (PickUpRangeRate / 100f + 1);
-        OnChangePickupRate?.Invoke(PickUpRangeRate);
-    }
-
-    public int HasteRate { get; private set; }
-    public void GetHasteRate(int rate)
-    {
-        HasteRate += rate;
-        OnChangeHasteRate?.Invoke(HasteRate);
-    }
-    #endregion
+    private VTuberAnimation _vtuberAnimation;
+    private CircleCollider2D _objectSensor;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
+        _rigidbody = gameObject.GetComponentAssert<Rigidbody2D>();
         _rigidbody.freezeRotation = true;
 
-        _VTuberAnimation = transform.Find(GameObjectLiteral.BODY).GetComponent<VTuberAnimation>();
-        _VTuberDieEffect = transform.Find(GameObjectLiteral.DIE_EFFECTS).GetComponent<VTuberDieEffect>();
-        _pickUpSensor = transform.Find(GameObjectLiteral.OBJECT_SENSOR).GetComponent<CircleCollider2D>();
-        _defaultRadius = _pickUpSensor.radius;
+        _vtuberAnimation = transform.FindAssert(GameObjectLiteral.BODY).GetComponentAssert<VTuberAnimation>();
 
-        _dieCoroutine = DieCoroutine();
+        _objectSensor = transform.FindAssert(GameObjectLiteral.OBJECT_SENSOR).GetComponentAssert<CircleCollider2D>();
+
+        _input = transform.AddComponent<PlayerInput>();
+        transform.AddComponent<VTuberController>();
+        CMCamera.SetCameraFollow(transform);
     }
     public override void Move()
     {
-        _rigidbody.MovePosition(_rigidbody.position + _input.MoveVec.normalized * (moveSpeed * Time.fixedDeltaTime));
+        _rigidbody.MovePosition(_rigidbody.position + _input.MoveVec.Value.normalized * (Speed.Value * Time.fixedDeltaTime));
     }
     public void Init(VTuberID id)
     {
         Id = id;
-
-        transform.AddComponent<Player>().Init();
-        _input = transform.AddComponent<PlayerInput>();
-        transform.AddComponent<PlayerController>().Initialize(this);
-        Util.CMCamera.SetCameraFollow(transform);
-
+       
         VTuberData data = Managers.Data.VTuber[Id];
 
         InitStat(data);
         InitRender(data);
+        InitInventory();
 
         AddEvent();
-        InitEvent();
+
+        void InitStat(VTuberData data)
+        {
+            MaxHealth.Value = data.Health;
+            CurHealth.Value = data.Health;
+            Attack.Value = data.Attack;
+            Speed.Value = data.Speed;
+            Critical.Value = data.Critical;
+            PickUp.Value = data.PickUp;
+            Haste.Value = data.Haste;
+
+            AttackRate.Value = default;
+            SpeedRate.Value = default;
+            PickUpRate.Value = default;
+
+            CurExp.Value = 0;
+            MaxExp.Value = 79;
+            Level.Value = 1;
+        }
+        void InitRender(VTuberData data)
+        {
+            _vtuberAnimation.Init(data);
+        }
+        void InitInventory()
+        {
+            GameObject go = new(nameof(Inventory));
+            go.transform.SetParent(transform);
+            Inventory = go.AddComponent<Inventory>();
+            Inventory.Init(Id);
+        }
+    }
+    public override void GetDamage(int damage)
+    {
+        SoundPool.GetPlayAudio(SoundID.PlayerDamaged);
+
+        base.GetDamage(damage);
+    }
+    protected override void Die()
+    {
+        Time.timeScale = 0;
+        StartCoroutine(DieCo());
+    }
+    private IEnumerator DieCo()
+    {
+        _vtuberAnimation.gameObject.SetActive(false);
+        Managers.Spawn.SpawnVTuberDieEffect(transform.position);
+
+        yield return DelayCache.GetUnscaledWaitForSeconds(3);
+
+        OnDie?.Invoke();
+    }
+
+    public void GetMaxHealth(int value)
+    {
+        if (value != 0)
+        {
+            MaxHealth.Value += MaxHealth.Value / value;
+        }
+
+        CurHealth.Value = MaxHealth.Value;
+    }
+    public void GetAttackRate(int value)
+    {
+        VTuberData data = Managers.Data.VTuber[Id];
+
+        AttackRate.Value += value;
+        Attack.Value = data.Attack + (data.Attack * AttackRate.Value) / 100;
+    }
+    public void GetSpeedRate(int value)
+    {
+        VTuberData data = Managers.Data.VTuber[Id];
+
+        SpeedRate.Value += value;
+        Speed.Value = data.Speed + (data.Speed * SpeedRate.Value) / 100;
+    }
+    public void GetCriticalRate(int value)
+    {
+        Critical.Value += value;
+    }
+    public void GetPickUpRate(int value)
+    {
+        VTuberData data = Managers.Data.VTuber[Id];
+
+        PickUpRate.Value += value;
+        PickUp.Value = data.PickUp + (data.PickUp * PickUpRate.Value) / 100;
+        _objectSensor.radius = PickUpRate.Value;
+    }
+    public void GetHasteRate(int value)
+    {
+        Haste.Value += value;
+    }
+    public void GetExp(int value)
+    {
+        CurExp.Value += value;
+
+        if (CurExp.Value >= MaxExp.Value)
+        {
+            LevelUp();
+        }
+
+        void LevelUp()
+        {
+            CurExp.Value -= MaxExp.Value;
+            MaxExp.Value = (int)(Mathf.Round(Mathf.Pow(4 * (Level.Value + 1), 2.1f)) - Mathf.Round(Mathf.Pow(4 * Level.Value, 2.1f)));
+            Level.Value += 1;
+            GetMaxHealth(0);
+        }
+    }
+    public void GetBox()
+    {
+        OnGetBox?.Invoke();
     }
     private void AddEvent()
     {
         RemoveEvent();
 
-        OnChangeMaxHp += Managers.PresenterM.HPPresenter.UpdateMaxHp;
-        OnChangeCurHP += Managers.PresenterM.HPPresenter.UpdateCurHp;
-        OnChangeATKRate += Managers.PresenterM.StatPresenter.UpdateATK;
-        OnChangeATKRate += Managers.PresenterM.StatPresenter.UpdateATK;
-        OnChangeSPDRate += Managers.PresenterM.StatPresenter.UpdateSPD;
-        OnChangeCRTRate += Managers.PresenterM.StatPresenter.UpdateCRT;
-        OnChangePickupRate += Managers.PresenterM.StatPresenter.UpdatePickup;
-        OnChangeHasteRate += Managers.PresenterM.StatPresenter.UpdateHaste;
         OnDie += Managers.PresenterM.TriggerUIPresenter.ActivateGameOverUI;
     }
     private void RemoveEvent()
     {
-        OnChangeMaxHp -= Managers.PresenterM.HPPresenter.UpdateMaxHp;
-        OnChangeCurHP -= Managers.PresenterM.HPPresenter.UpdateCurHp;
-        OnChangeATKRate -= Managers.PresenterM.StatPresenter.UpdateATK;
-        OnChangeSPDRate -= Managers.PresenterM.StatPresenter.UpdateSPD;
-        OnChangeCRTRate -= Managers.PresenterM.StatPresenter.UpdateCRT;
-        OnChangePickupRate -= Managers.PresenterM.StatPresenter.UpdatePickup;
-        OnChangeHasteRate -= Managers.PresenterM.StatPresenter.UpdateHaste;
         OnDie -= Managers.PresenterM.TriggerUIPresenter.ActivateGameOverUI;
-    }
-    private void InitStat(VTuberData data)
-    {
-        MaxHealth = data.Health;
-        CurHealth = MaxHealth;
-        AttackPower = data.ATK;
-        moveSpeed = data.SPD * DEFAULT_MOVE_SPEED;
-    }
-    private void InitRender(VTuberData data) => _VTuberAnimation.Init(data);
-
-    public override void GetDamage(int damage, bool isCritical = false)
-    {
-        SoundPool.GetPlayAudio(SoundID.PlayerDamaged);
-
-        CurHealth -= damage;
-
-        OnChangeCurHP?.Invoke(CurHealth);
-
-        if (CurHealth <= 0)
-        {
-            Die();
-        }
-    }
-    protected override void Die()
-    {
-        Time.timeScale = 0;
-        _elapsedTime = 0;
-        StartCoroutine(_dieCoroutine);
-    }
-    private float _elapsedTime;
-    private IEnumerator _dieCoroutine;
-    private IEnumerator DieCoroutine()
-    {
-        while (true)
-        {
-            _VTuberAnimation.gameObject.SetActive(false);
-            _VTuberDieEffect.gameObject.SetActive(true);
-
-            while (_elapsedTime < 3)
-            {
-                _elapsedTime += Time.unscaledDeltaTime;
-                yield return null;
-            }
-
-            _VTuberDieEffect.gameObject.SetActive(false);
-
-            StopCoroutine(_dieCoroutine);
-
-            OnDie?.Invoke();
-
-            yield return null;
-        }
     }
     private void OnDestroy()
     {

@@ -1,5 +1,5 @@
-using Cysharp.Text;
 using StringLiterals;
+using UniRx;
 using UnityEngine;
 
 public class VTuberAnimation : MonoBehaviour
@@ -8,25 +8,29 @@ public class VTuberAnimation : MonoBehaviour
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     private float _midX;
-
-    private void LateUpdate()
+    private void Start()
     {
-        _animator.SetBool(AnimParameterHash.IS_RUNNING, Time.timeScale != 0 && _input.MoveVec.magnitude > 0);
+        _input.MoveVec.Subscribe(UpdateRender);
 
-        if (Time.timeScale != 0)
+        void UpdateRender(Vector2 moveVec)
         {
-            _spriteRenderer.flipX = Util.Caching.MouseScreenPos.x < _midX;
+            _animator.SetBool(AnimHash.IS_RUNNING, Time.timeScale != 0 && moveVec.magnitude > 0);
+
+            if (Time.timeScale != 0)
+            {
+                _spriteRenderer.flipX = Util.Caching.MouseScreenPos.x < _midX;
+            }
         }
     }
     public void Init(VTuberData data)
     {
-        _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _input = transform.parent.GetComponent<PlayerInput>();
+        _animator = gameObject.GetComponentAssert<Animator>();
+        _spriteRenderer = gameObject.GetComponentAssert<SpriteRenderer>();
+        _input = transform.parent.gameObject.GetComponentAssert<PlayerInput>();
         _midX = Screen.width / 2;
 
         _spriteRenderer.sprite = Managers.Resource.LoadSprite(data.DisplaySprite);
-        AnimatorOverrideController overrideController = new(_animator.runtimeAnimatorController);
+        var overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
         overrideController[FileNameLiteral.IDLE] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.IDLE);
         overrideController[FileNameLiteral.RUN] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.RUN);
 
