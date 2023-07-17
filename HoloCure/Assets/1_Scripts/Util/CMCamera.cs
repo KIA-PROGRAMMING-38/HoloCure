@@ -1,4 +1,4 @@
-﻿using Cinemachine;
+using Cinemachine;
 using System.Collections;
 using UnityEngine;
 
@@ -41,7 +41,7 @@ namespace Util
             {
                 _cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = _intensity;
 
-                yield return TimeStore.GetWaitForSeconds(_duration);
+                yield return DelayCache.GetWaitForSeconds(_duration);
 
                 _cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0;
 

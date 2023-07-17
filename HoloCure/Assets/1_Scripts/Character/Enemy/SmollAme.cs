@@ -19,7 +19,6 @@ public class SmollAme : Enemy
     private readonly Vector2 ATTACK_OFFSET = new(0, 33);
     private readonly Vector2 ATTACK_SIZE = new(45, 65);
 
-    private float _defaultSpeed = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -74,7 +73,7 @@ public class SmollAme : Enemy
         _chaseCoroutine = ChaseCoroutine();
     }
     private void SetMoveSpeedZero() => moveSpeed = 0;
-    private void SetMoveSpeedBack() => moveSpeed = _defaultSpeed;
+    private void SetMoveSpeedBack() => moveSpeed = Managers.Data.Enemy[id].Speed;
 
     private void ActivateJumpShadow()
     {
@@ -133,7 +132,8 @@ public class SmollAme : Enemy
         }
     }
 
-    Vector2 _startPoint;
+    private Vector2 _startPoint;
+    private Vector2 _endPoint;
     private IEnumerator _chaseCoroutine;
     private IEnumerator ChaseCoroutine()
     {
@@ -141,18 +141,19 @@ public class SmollAme : Enemy
         {
             _moveTime = 0;
             _startPoint = transform.position;
+            _endPoint = Managers.Game.VTuber.transform.position;
 
             while (_moveTime < 0.5f)
             {
                 _moveTime += Time.deltaTime;
-                transform.position = Vector2.Lerp(_startPoint, Util.Caching.CenterWorldPos, _moveTime / 0.5f);
+                transform.position = Vector2.Lerp(_startPoint, _endPoint, _moveTime / 0.5f);
 
                 yield return null;
             }
 
-            moveSpeed = _defaultSpeed / 3;
+            moveSpeed = Managers.Data.Enemy[id].Speed / 3;
 
-            yield return Util.TimeStore.GetWaitForSeconds(3);
+            yield return Util.DelayCache.GetWaitForSeconds(3);
 
             StopCoroutine(_chaseCoroutine);
 

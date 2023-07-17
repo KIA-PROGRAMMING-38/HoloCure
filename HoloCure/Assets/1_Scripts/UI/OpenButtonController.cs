@@ -19,8 +19,8 @@ public class OpenButtonController : UIBase
         OnPress -= PresenterManager.TriggerUIPresenter.ActivateGetBoxUI;
         OnPress += PresenterManager.TriggerUIPresenter.ActivateGetBoxUI;
 
-        _button.OnClick -= ButtonSelect;
-        _button.OnClick += ButtonSelect;
+        //_button.OnClick -= ButtonSelect;
+        //_button.OnClick += ButtonSelect;
     }
 
     private void StartGetKeyCoroutine()

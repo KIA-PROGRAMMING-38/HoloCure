@@ -14,9 +14,6 @@ public class Fubuzilla : Enemy
         _filpScale = _initScale;
         _filpScale.x *= -1;
 
-        OnFilp -= FilpAttackPointer;
-        OnFilp += FilpAttackPointer;
-
         _attackPointer.OnReady -= SetIsShootFalse;
         _attackPointer.OnReady += SetIsShootFalse;
         _attackPointer.OnShoot -= SetIsShootTrue;
@@ -28,17 +25,17 @@ public class Fubuzilla : Enemy
     {
         _isShoot = false;
 
-        FilpAttackPointer(enemyAnimation.IsFilp());
+        FilpAttackPointer();
     }
 
-    private void FilpAttackPointer(bool isFilp)
+    private void FilpAttackPointer()
     {
         if (_isShoot)
         {
             return;
         }
 
-        if (isFilp)
+        if (enemyAnimation.IsFlip)
         {
             _attackPointer.transform.localScale = _filpScale;
         }

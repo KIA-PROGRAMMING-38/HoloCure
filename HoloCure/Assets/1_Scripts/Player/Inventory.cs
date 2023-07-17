@@ -19,7 +19,7 @@ public class Inventory : MonoBehaviour
     /// </summary>
     public int WeaponCount { get; private set; }
 
-    public void Init()
+    public void Init(VTuberID id)
     {
         Weapons = new Weapon[6];
         _weaponIDs = new();
@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour
 
         AddEvent();
 
-        GetWeapon(Managers.Data.VTuber[Managers.Game.VTuber.Id].StartingWeaponId);
+        GetWeapon(Managers.Data.VTuber[id].StartingWeaponId);
     }
     private void AddEvent()
     {
@@ -73,9 +73,9 @@ public class Inventory : MonoBehaviour
             Weapons[WeaponCount] = weapon;
             WeaponCount += 1;
 
-            VTuber.OnChangeHasteRate -= weapon.GetHaste;
-            VTuber.OnChangeHasteRate += weapon.GetHaste;
-            weapon.GetHaste(VTuber.HasteRate);
+            //VTuber.OnChangeHasteRate -= weapon.GetHaste;
+            //VTuber.OnChangeHasteRate += weapon.GetHaste;
+            //weapon.GetHaste(VTuber.HasteRate);
 
             OnNewEquipmentEquip?.Invoke(id, Managers.Resource.LoadSprite(data.IconSprite));
         }
@@ -99,27 +99,17 @@ public class Inventory : MonoBehaviour
     private void GetStat(ItemID id)
     {
         VTuber VTuber = Managers.Game.VTuber;
+        StatData data = Managers.Data.Stat[id];
 
         switch (id)
         {
-            case ItemID.MaxHPUp:
-                VTuber.GetMaxHealthRate(Managers.Data.Stat[id].Value);
-                break;
-            case ItemID.ATKUp:
-                VTuber.GetAttackRate(Managers.Data.Stat[id].Value);
-                break;
-            case ItemID.SPDUp:
-                VTuber.GetSpeedRate(Managers.Data.Stat[id].Value);
-                break;
-            case ItemID.CRTUp:
-                VTuber.GetCriticalRate(Managers.Data.Stat[id].Value);
-                break;
-            case ItemID.PickUpRangeUp:
-                VTuber.GetPickUpRangeRate(Managers.Data.Stat[id].Value);
-                break;
-            case ItemID.HasteUp:
-                VTuber.GetHasteRate(Managers.Data.Stat[id].Value);
-                break;
+            case ItemID.MaxHPUp: VTuber.GetMaxHealth(data.Value); break;
+            case ItemID.ATKUp: VTuber.GetAttackRate(data.Value); break;
+            case ItemID.SPDUp: VTuber.GetSpeedRate(data.Value); break;
+            case ItemID.CRTUp: VTuber.GetCriticalRate(data.Value); break;
+            case ItemID.PickUpRangeUp: VTuber.GetPickUpRate(data.Value); break;
+            case ItemID.HasteUp: VTuber.GetHasteRate(data.Value); break;
+            default: Debug.Assert(false, $"Invalid StatID | ID: {id}"); break;
         }
     }
     private void OnDestroy()

@@ -1,4 +1,4 @@
-﻿public enum VTuberID
+public enum VTuberID
 {
     None = 1000,
     Ina = 1101,
@@ -12,9 +12,9 @@ public class VTuberData
     public string TitleSprite { get; set; }
     public ItemID StartingWeaponId { get; set; }
     public int Health { get; set; }
-    public float ATK { get; set; }
-    public float SPD { get; set; }
-    public float CRT { get; set; }
-    public float PickUp { get; set; }
-    public float Haste { get; set; }
+    public int Attack { get; set; }
+    public int Speed { get; set; }
+    public int Critical { get; set; }
+    public int PickUp { get; set; }
+    public int Haste { get; set; }
 }

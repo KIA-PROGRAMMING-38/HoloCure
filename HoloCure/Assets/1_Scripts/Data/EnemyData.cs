@@ -51,8 +51,8 @@ public class EnemyData
     public string Name { get; set; }
     public string Sprite { get; set; }
     public int Health { get; set; }
-    public int ATK { get; set; }
-    public float SPD { get; set; }
+    public int Attack { get; set; }
+    public int Speed { get; set; }
     public int Exp { get; set; }
     public float Scale { get; set; }
     public int SpawnStartTime { get; set; }

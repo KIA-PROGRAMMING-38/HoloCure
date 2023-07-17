@@ -82,25 +82,25 @@ public class PauseButtonController : UIBase
         PresenterManager.TriggerUIPresenter.OnResume -= StopGetKeyCoroutine;
         PresenterManager.TriggerUIPresenter.OnResume += StopGetKeyCoroutine;
 
-        for (int i = 0; i < _buttons.Length; ++i)
-        {
-            for (int j = 0; j < _buttons.Length; ++j)
-            {
-                if (i == j)
-                {
-                    continue;
-                }
+        //for (int i = 0; i < _buttons.Length; ++i)
+        //{
+        //    for (int j = 0; j < _buttons.Length; ++j)
+        //    {
+        //        if (i == j)
+        //        {
+        //            continue;
+        //        }
 
-                _buttons[i].OnHoverForOtherButton -= _buttons[j].DeActivateHoveredFrame;
-                _buttons[i].OnHoverForOtherButton += _buttons[j].DeActivateHoveredFrame;
-            }
+        //        _buttons[i].OnHoverForOtherButton -= _buttons[j].DeActivateHoveredFrame;
+        //        _buttons[i].OnHoverForOtherButton += _buttons[j].DeActivateHoveredFrame;
+        //    }
 
-            _buttons[i].OnHoverForController -= GetHoveredButtonIndex;
-            _buttons[i].OnHoverForController += GetHoveredButtonIndex;
+        //    _buttons[i].OnHoverForController -= GetHoveredButtonIndex;
+        //    _buttons[i].OnHoverForController += GetHoveredButtonIndex;
 
-            _buttons[i].OnClickForController -= TriggerEventByClick;
-            _buttons[i].OnClickForController += TriggerEventByClick;
-        }
+        //    _buttons[i].OnClickForController -= TriggerEventByClick;
+        //    _buttons[i].OnClickForController += TriggerEventByClick;
+        //}
 
         OnResumeSelected -= PresenterManager.TriggerUIPresenter.DeActivateUI;
         OnResumeSelected += PresenterManager.TriggerUIPresenter.DeActivateUI;

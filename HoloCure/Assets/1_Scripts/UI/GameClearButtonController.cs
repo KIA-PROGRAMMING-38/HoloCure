@@ -14,8 +14,8 @@ public class GameClearButtonController : UIBase
     {
         _getKeyCoroutine = GetKeyCoroutine();
 
-        _button.OnClickForController -= TriggerEventByClick;
-        _button.OnClickForController += TriggerEventByClick;
+        //_button.OnClickForController -= TriggerEventByClick;
+        //_button.OnClickForController += TriggerEventByClick;
 
         OnSelectMainMenu -= PresenterManager.TriggerUIPresenter.GameEnd;
         OnSelectMainMenu += PresenterManager.TriggerUIPresenter.GameEnd;
