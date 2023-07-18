@@ -2,6 +2,7 @@ using Cysharp.Text;
 using StringLiterals;
 using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -17,13 +18,13 @@ public class Inventory : MonoBehaviour
     /// <summary>
     /// 현재 장착된 무기의 개수입니다.
     /// </summary>
-    public int WeaponCount { get; private set; }
+    public ReactiveProperty<int> WeaponCount { get; private set; } = new();
 
     public void Init(VTuberID id)
     {
         Weapons = new Weapon[6];
         _weaponIDs = new();
-        WeaponCount = 0;
+        WeaponCount.Value = 0;
 
         AddEvent();
 
@@ -51,7 +52,7 @@ public class Inventory : MonoBehaviour
     {
         switch (id)
         {
-            case < ItemID.StatNone:
+            case < ItemID.Stat:
                 GetWeapon(id);
                 break;
             default:
@@ -70,8 +71,8 @@ public class Inventory : MonoBehaviour
             Weapon weapon = Managers.Resource.Instantiate(data.Name).GetComponent<Weapon>();
             weapon.Initialize(id);
 
-            Weapons[WeaponCount] = weapon;
-            WeaponCount += 1;
+            Weapons[WeaponCount.Value] = weapon;
+            WeaponCount.Value += 1;
 
             //VTuber.OnChangeHasteRate -= weapon.GetHaste;
             //VTuber.OnChangeHasteRate += weapon.GetHaste;
@@ -81,7 +82,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < WeaponCount; ++i)
+            for (int i = 0; i < WeaponCount.Value; ++i)
             {
                 if (Weapons[i].Id != id)
                 {
@@ -90,7 +91,7 @@ public class Inventory : MonoBehaviour
 
                 Weapons[i].LevelUp();
 
-                OnEquipmentLevelUp?.Invoke(id, Weapons[i].Level);
+                OnEquipmentLevelUp?.Invoke(id, Weapons[i].Level.Value);
 
                 break;
             }

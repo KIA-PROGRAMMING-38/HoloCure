@@ -58,7 +58,7 @@ public class ItemManager : MonoBehaviour
 
         Inventory inventory = Managers.Game.VTuber.Inventory;
 
-        if (inventory.WeaponCount >= 6) { return; }
+        if (inventory.WeaponCount.Value >= 6) { return; }
 
         int randomNum = Random.Range(0, _totalWeaponWeight);
         int accumulatedWeight = 0;
@@ -68,11 +68,11 @@ public class ItemManager : MonoBehaviour
 
             if (randomNum >= accumulatedWeight) { continue; }
 
-            for (int i = 0; i < inventory.WeaponCount; ++i)
+            for (int i = 0; i < inventory.WeaponCount.Value; ++i)
             {
                 Weapon weapon = inventory.Weapons[i];
                 if (weapon.Id != data.Id) { continue; }
-                if (weapon.Level == 7) { return; }
+                if (weapon.Level.Value == 7) { return; }
             }
 
             _set.Add(data.Id);
@@ -101,9 +101,9 @@ public class ItemManager : MonoBehaviour
     {
         Inventory inventory = Managers.Game.VTuber.Inventory;
 
-        for (int i = 0; i < inventory.WeaponCount; ++i)
+        for (int i = 0; i < inventory.WeaponCount.Value; ++i)
         {
-            if (inventory.Weapons[i].Level >= 7) { continue; }
+            if (inventory.Weapons[i].Level.Value >= 7) { continue; }
 
             if (false == _set.Add(inventory.Weapons[i].Id)) { continue; }
 

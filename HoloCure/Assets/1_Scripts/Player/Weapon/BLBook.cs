@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class BLBook : Weapon
 {
@@ -11,13 +11,13 @@ public class BLBook : Weapon
     }
     private void GetBooksInitPos()
     {
-        _booksInitPos = new Vector2[Managers.Data.WeaponLevelTable[Id][Level].ProjectileCount];
-        int angleDivision = 360 / Managers.Data.WeaponLevelTable[Id][Level].ProjectileCount;
-        for (int i = 0; i < Managers.Data.WeaponLevelTable[Id][Level].ProjectileCount; ++i)
+        _booksInitPos = new Vector2[Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount];
+        int angleDivision = 360 / Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount;
+        for (int i = 0; i < Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount; ++i)
         {
             float angle = i * angleDivision * Mathf.Deg2Rad;
 
-            _booksInitPos[i] = (Vector2.right * Mathf.Cos(angle) + Vector2.up * Mathf.Sin(angle)) * Managers.Data.WeaponLevelTable[Id][Level].Radius;
+            _booksInitPos[i] = (Vector2.right * Mathf.Cos(angle) + Vector2.up * Mathf.Sin(angle)) * Managers.Data.WeaponLevelTable[Id][Level.Value].Radius;
         }
     }
     protected override void Shoot(int index)

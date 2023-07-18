@@ -22,7 +22,7 @@ public class VTuber : CharacterBase
     public ReactiveProperty<int> Level { get; private set; } = new();
     public ReactiveProperty<int> MaxExp { get; private set; } = new();
     public ReactiveProperty<int> CurExp { get; private set; } = new();
-    public VTuberID Id { get; private set; }
+    public ReactiveProperty<VTuberID> Id { get; private set; } = new();
     public Inventory Inventory { get; private set; }
 
     private PlayerInput _input;
@@ -49,9 +49,9 @@ public class VTuber : CharacterBase
     }
     public void Init(VTuberID id)
     {
-        Id = id;
+        Id.Value = id;
        
-        VTuberData data = Managers.Data.VTuber[Id];
+        VTuberData data = Managers.Data.VTuber[Id.Value];
 
         InitStat(data);
         InitRender(data);
@@ -86,7 +86,7 @@ public class VTuber : CharacterBase
             GameObject go = new(nameof(Inventory));
             go.transform.SetParent(transform);
             Inventory = go.AddComponent<Inventory>();
-            Inventory.Init(Id);
+            Inventory.Init(Id.Value);
         }
     }
     public override void GetDamage(int damage)
@@ -121,14 +121,14 @@ public class VTuber : CharacterBase
     }
     public void GetAttackRate(int value)
     {
-        VTuberData data = Managers.Data.VTuber[Id];
+        VTuberData data = Managers.Data.VTuber[Id.Value];
 
         AttackRate.Value += value;
         Attack.Value = data.Attack + (data.Attack * AttackRate.Value) / 100;
     }
     public void GetSpeedRate(int value)
     {
-        VTuberData data = Managers.Data.VTuber[Id];
+        VTuberData data = Managers.Data.VTuber[Id.Value];
 
         SpeedRate.Value += value;
         Speed.Value = data.Speed + (data.Speed * SpeedRate.Value) / 100;
@@ -139,7 +139,7 @@ public class VTuber : CharacterBase
     }
     public void GetPickUpRate(int value)
     {
-        VTuberData data = Managers.Data.VTuber[Id];
+        VTuberData data = Managers.Data.VTuber[Id.Value];
 
         PickUpRate.Value += value;
         PickUp.Value = data.PickUp + (data.PickUp * PickUpRate.Value) / 100;

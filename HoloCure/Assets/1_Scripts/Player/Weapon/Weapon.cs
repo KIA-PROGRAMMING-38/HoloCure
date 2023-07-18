@@ -1,11 +1,12 @@
 using System.Collections;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
     public ItemID Id { get; private set; }
-    public int Level { get; private set; }
+    public ReactiveProperty<int> Level { get; private set; } = new();
 
     protected SpriteRenderer weaponSpriteRenderer;
     protected Collider2D weaponCollider;
@@ -60,14 +61,14 @@ public abstract class Weapon : MonoBehaviour
     {
         while (true)
         {
-            while (_index < Managers.Data.WeaponLevelTable[Id][Level].ProjectileCount)
+            while (_index < Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount)
             {
                 Shoot(_index);
                 _index += 1;
 
-                if (Managers.Data.WeaponLevelTable[Id][Level].AttackDelay == 0) { continue; }
+                if (Managers.Data.WeaponLevelTable[Id][Level.Value].AttackDelay == 0) { continue; }
 
-                yield return Util.DelayCache.GetWaitForSeconds(Managers.Data.WeaponLevelTable[Id][Level].AttackDelay);
+                yield return Util.DelayCache.GetWaitForSeconds(Managers.Data.WeaponLevelTable[Id][Level.Value].AttackDelay);
             }
 
             StopCoroutine(_shootCoroutine);
@@ -113,7 +114,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected virtual void BeforeOperateProjectile(Projectile projectile)
     {
-        projectile.SetProjectileStat(Managers.Data.WeaponLevelTable[Id][Level]);
+        projectile.SetProjectileStat(Managers.Data.WeaponLevelTable[Id][Level.Value]);
     }
     protected virtual void AfterOperateProjectile(Projectile projectile)
     {
@@ -127,7 +128,7 @@ public abstract class Weapon : MonoBehaviour
     public virtual void Initialize(ItemID id)
     {
         Id = id;
-        Level = 0;
+        Level.Value = 0;
 
         LevelUp();
     }
@@ -178,7 +179,7 @@ public abstract class Weapon : MonoBehaviour
     protected void SetProjectileRotWithMousePos(Projectile projectile) => projectile.transform.rotation = Quaternion.AngleAxis(Util.Caching.GetAngleToMouse(transform.position), Vector3.forward);
     public virtual void LevelUp()
     {
-        Level += 1;
+        Level.Value += 1;
 
         SetAttackSequenceTime();
         SetSize();
@@ -193,15 +194,15 @@ public abstract class Weapon : MonoBehaviour
     }
     private void SetAttackSequenceTime()
     {
-        _curAttackSequenceTime = Mathf.Round(Managers.Data.WeaponLevelTable[Id][Level].BaseAttackSequenceTime / (1 + _haste / 100f));
+        _curAttackSequenceTime = Mathf.Round(Managers.Data.WeaponLevelTable[Id][Level.Value].BaseAttackSequenceTime / (1 + _haste / 100f));
 
-        if (_curAttackSequenceTime < Managers.Data.WeaponLevelTable[Id][Level].MinAttackSequenceTime)
+        if (_curAttackSequenceTime < Managers.Data.WeaponLevelTable[Id][Level.Value].MinAttackSequenceTime)
         {
-            _curAttackSequenceTime = Managers.Data.WeaponLevelTable[Id][Level].MinAttackSequenceTime;
+            _curAttackSequenceTime = Managers.Data.WeaponLevelTable[Id][Level.Value].MinAttackSequenceTime;
         }
     }
     private void SetSize()
     {
-        transform.localScale = Vector2.one * Managers.Data.WeaponLevelTable[Id][Level].Size;
+        transform.localScale = Vector2.one * Managers.Data.WeaponLevelTable[Id][Level.Value].Size;
     }
 }

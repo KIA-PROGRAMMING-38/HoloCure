@@ -60,7 +60,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
 
         switch (data.Id)
         {
-            case < ItemID.StatNone:
+            case < ItemID.Stat:
                 SetWeaponData(data);
                 break;
             default:
@@ -86,7 +86,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
 
         Weapon weapon = default;
         Inventory inventory = Managers.Game.VTuber.Inventory;
-        for (int i = 0; i < inventory.WeaponCount; ++i)
+        for (int i = 0; i < inventory.WeaponCount.Value; ++i)
         {
             if (inventory.Weapons[i].Id != data.Id) { continue; }
 
@@ -103,15 +103,15 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
             _levelText.enabled = true;
             _levelNumText.enabled = true;
             _newText.enabled = false;
-            _descriptionText.text = Managers.Data.WeaponLevelTable[data.Id][weapon.Level + 1].Description;
+            _descriptionText.text = Managers.Data.WeaponLevelTable[data.Id][weapon.Level.Value + 1].Description;
 
-            if (weapon.Level == 6)
+            if (weapon.Level.Value == 6)
             {
-                _levelNumText.text = weapon.Id < ItemID.StartingNone ? ItemLiteral.MAX : ItemLiteral.AWAKENED;
+                _levelNumText.text = weapon.Id < ItemID.StartingWeapon ? ItemLiteral.MAX : ItemLiteral.AWAKENED;
             }
             else
             {
-                _levelNumText.text = NumLiteral.GetNumString(weapon.Level + 1);
+                _levelNumText.text = NumLiteral.GetNumString(weapon.Level.Value + 1);
             }
         }
 

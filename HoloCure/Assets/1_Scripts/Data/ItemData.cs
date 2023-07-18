@@ -1,22 +1,33 @@
-﻿public enum ItemID
+public enum ItemID
 {
     None = 2000,
-    Common_None = 2100,
+    CommonWeapon = 2100,
     SpiderCooking,
     HoloBomb,
     PsychoAxe,
     BLBook,
     FanBeam,
-    StartingNone = 2200,
+    StartingWeapon = 2200,
     SummonTentacle,
-    StatNone = 2400,
+    Equipment = 2300,
+    Stat = 2400,
     MaxHPUp,
     ATKUp,
     SPDUp,
     CRTUp,
     PickUpRangeUp,
     HasteUp,
+    End = 2500,
 }
+public enum ItemType
+{
+    None,
+    CommonWeapon,
+    StartingWeapon,
+    Equipment,
+    Stat
+}
+
 public class ItemData
 {
     public ItemID Id { get; set; }

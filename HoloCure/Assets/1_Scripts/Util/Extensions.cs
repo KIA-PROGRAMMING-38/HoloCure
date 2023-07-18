@@ -22,4 +22,12 @@ public static class Extensions
         if (expAmount >= (int)ExpType.One) { return ExpType.One; }
         return ExpType.Zero;
     }
+    public static ItemType GetItemType(this ItemID id)
+    {
+        if(ItemID.CommonWeapon < id && id < ItemID.StartingWeapon) { return ItemType.CommonWeapon; }
+        if(ItemID.StartingWeapon < id && id < ItemID.Equipment) { return ItemType.StartingWeapon; }
+        if(ItemID.Equipment < id && id < ItemID.Stat) { return ItemType.Equipment; }
+        if(ItemID.Stat < id && id < ItemID.End) { return ItemType.Stat; }
+        return ItemType.None;
+    }
 }

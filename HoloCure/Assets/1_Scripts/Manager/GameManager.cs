@@ -5,6 +5,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public ReactiveProperty<int> Stage { get; private set; } = new();
+    public ReactiveProperty<int> Minutes { get; private set; } = new();
+    public ReactiveProperty<int> Seconds { get; private set; } = new();
+    public ReactiveProperty<int> Coins { get; private set; } = new();
+    public ReactiveProperty<int> DefeatedEnemies { get; private set; } = new();
     public VTuber VTuber { get; private set; }
 
     public void Init()

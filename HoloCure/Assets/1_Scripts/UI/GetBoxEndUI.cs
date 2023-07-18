@@ -44,10 +44,10 @@ public class GetBoxEndUI : UIBase
     {
         Inventory inventory = Managers.Game.VTuber.Inventory;
 
-        for (int i = 0; i < inventory.WeaponCount; ++i)
+        for (int i = 0; i < inventory.WeaponCount.Value; ++i)
         {
             Weapon weapon = inventory.Weapons[i];
-            if (weapon.Level >= 7)
+            if (weapon.Level.Value >= 7)
             {
                 continue;
             }
