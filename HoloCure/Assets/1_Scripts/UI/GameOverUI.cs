@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOverUI : UIBase
+public class GameOverUI : UIBaseLegacy
 {
     [SerializeField] private Image _backGround;
     [SerializeField] private RectTransform _gameOverText;

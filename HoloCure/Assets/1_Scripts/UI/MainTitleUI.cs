@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MainTitleUI : UIBase
+public class MainTitleUI : UIBaseLegacy
 {
     [SerializeField] private GameObject _chars;
 

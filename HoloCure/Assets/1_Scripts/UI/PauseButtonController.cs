@@ -11,7 +11,7 @@ public enum PauseButtonID
     Setting,
     Quit
 }
-public class PauseButtonController : UIBase
+public class PauseButtonController : UIBaseLegacy
 {
     private Action[] _onSelectedEvents;
     public event Action OnSkillSelected;

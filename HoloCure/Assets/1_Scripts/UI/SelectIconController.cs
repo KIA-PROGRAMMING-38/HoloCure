@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class SelectIconController : UIBase
+public class SelectIconController : UIBaseLegacy
 {
     public event Action<int> OnHoveredIcon;
 
