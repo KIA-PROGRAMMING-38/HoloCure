@@ -26,6 +26,7 @@ public class UIManager
             canvas.sortingOrder = 0;
         }
     }
+    private static readonly Vector3 s_defaultScale = Vector3.one;
     public T OpenPopupUI<T>(string name = null, Transform parent = null) where T : UIPopup
     {
         if (string.IsNullOrEmpty(name))
@@ -46,7 +47,7 @@ public class UIManager
             go.transform.SetParent(_root.transform);
         }
 
-        go.transform.localScale = Vector3.one;
+        go.transform.localScale = s_defaultScale;
 
         return popup;
     }

@@ -18,6 +18,8 @@ public class Managers : MonoBehaviour
         Init();
 
         Time.timeScale = 0;
+
+        UI.OpenPopupUI<TitlePopup>();
     }
     private void Init()
     {
