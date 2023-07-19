@@ -34,23 +34,22 @@ public class DamageText : MonoBehaviour
     {
         this.UpdateAsObservable()
             .Subscribe(Move);
+    }
+    private void Move(Unit unit)
+    {
+        _elapsedTime += Time.deltaTime;
 
-        void Move(Unit unit)
+        transform.position = Util.BezierCurve.Quadratic(_startPoint, _wayPoint, _endPoint, _elapsedTime / FLOATING_TIME);
+
+        if (_elapsedTime >= FADE_START_TIME)
         {
-            _elapsedTime += Time.deltaTime;
+            float fadeRate = 1 - (_elapsedTime - FADE_START_TIME) / FADE_DURATION_TIME;
+            _canvasGroup.alpha = fadeRate;
+        }
 
-            transform.position = Util.BezierCurve.Quadratic(_startPoint, _wayPoint, _endPoint, _elapsedTime / FLOATING_TIME);
-
-            if (_elapsedTime >= FADE_START_TIME)
-            {
-                float fadeRate = 1 - (_elapsedTime - FADE_START_TIME) / FADE_DURATION_TIME;
-                _canvasGroup.alpha = fadeRate;
-            }
-
-            if (_elapsedTime >= FLOATING_TIME)
-            {
-                Managers.Spawn.DamageText.Release(this);
-            }
+        if (_elapsedTime >= FLOATING_TIME)
+        {
+            Managers.Spawn.DamageText.Release(this);
         }
     }
     public void Init(Vector2 position, int damage, bool isCritical)
