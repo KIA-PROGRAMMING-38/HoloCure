@@ -1,6 +1,6 @@
 using TMPro;
 
-public class StatNameText : UIBase
+public class StatNameText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();

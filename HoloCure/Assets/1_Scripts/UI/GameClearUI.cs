@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameClearUI : UIBase
+public class GameClearUI : UIBaseLegacy
 {
     [SerializeField] private Image _backGround;
     [SerializeField] private RectTransform _gameClearText;

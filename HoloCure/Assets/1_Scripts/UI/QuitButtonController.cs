@@ -7,7 +7,7 @@ public enum QuitButtonID
     Yes = 0,
     No = 1
 }
-public class QuitButtonController : UIBase
+public class QuitButtonController : UIBaseLegacy
 {
     public event Action OnSelectYes;
     public event Action<PauseButtonID> OnSelectNo;

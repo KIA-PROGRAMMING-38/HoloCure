@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GetBoxUI : UIBase
+public class GetBoxUI : UIBaseLegacy
 {
     [SerializeField] private GameObject _boxAnimation;
 

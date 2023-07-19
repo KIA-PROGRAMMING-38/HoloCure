@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PauseUI : UIBase
+public class PauseUI : UIBaseLegacy
 {
     [SerializeField] PauseButtonController _controller;
     private Canvas _canvas;

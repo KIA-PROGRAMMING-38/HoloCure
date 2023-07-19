@@ -1,7 +1,7 @@
 using StringLiterals;
 using TMPro;
 
-public class SecondText : UIBase
+public class SecondText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();
