@@ -1,6 +1,6 @@
     using UnityEngine;
 
-public class TitleBackGroundUI : UIBase
+public class TitleBackGroundUI : UIBaseLegacy
 {
     [SerializeField] private GameObject _triangles;
     [SerializeField] private GameObject _bars;

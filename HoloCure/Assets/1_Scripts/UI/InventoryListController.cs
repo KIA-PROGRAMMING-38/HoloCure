@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InventoryListController : UIBase
+public class InventoryListController : UIBaseLegacy
 {
     [SerializeField] private InventoryList[] _weaponLists;
     private int _weaponCount;

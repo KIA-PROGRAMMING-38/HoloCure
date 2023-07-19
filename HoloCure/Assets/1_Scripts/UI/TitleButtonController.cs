@@ -13,7 +13,7 @@ public enum MainTitleButtonID
     Quit
 }
 
-public class TitleButtonController : UIBase
+public class TitleButtonController : UIBaseLegacy
 {
     public event Action OnResetBackGround;
     public event Action OnSelectPlay;
