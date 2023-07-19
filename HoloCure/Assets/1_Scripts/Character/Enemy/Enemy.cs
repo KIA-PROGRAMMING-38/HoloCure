@@ -47,7 +47,7 @@ public class Enemy : CharacterBase
     /// </summary>
     public void Init(EnemyID id, Vector3 offset)
     {
-        transform.position = Managers.PlayerM.VTuber.transform.position + offset;
+        transform.position = Managers.Game.VTuber.transform.position + offset;
 
         _id = id;
 

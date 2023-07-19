@@ -60,7 +60,7 @@ public class DamageText : MonoBehaviour
 
             return (startPoint, wayPoint, endPoint);
 
-            static Vector2 GetLookDirToPlayer(Vector2 position) => Managers.PlayerM.Player.transform.position.x < position.x ? Vector2.left : Vector2.right;
+            static Vector2 GetLookDirToPlayer(Vector2 position) => Managers.Game.Player.transform.position.x < position.x ? Vector2.left : Vector2.right;
             static Vector2 GetStartPoint(Vector2 position) => position + Vector2.up * 25;
             static Vector2 GetWayPoint(Vector2 startPoint, Vector2 direction) => startPoint - direction * 15 + Vector2.up * 20;
             static Vector2 GetEndPoint(Vector2 startPoint, Vector2 direction) => startPoint - direction * 30;
@@ -69,6 +69,7 @@ public class DamageText : MonoBehaviour
     private void Update()
     {
         _elapsedTime += Time.deltaTime;
+
         transform.position = Util.BezierCurve.Quadratic(_startPoint, _wayPoint, _endPoint, _elapsedTime / s_floatingTime);
 
         if (_elapsedTime >= s_fadeStartTime)
