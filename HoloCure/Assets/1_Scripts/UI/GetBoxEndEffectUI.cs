@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GetBoxEndEffectUI : UIBase
+public class GetBoxEndEffectUI : UIBaseLegacy
 {
     [SerializeField] private GameObject _effects;
 
