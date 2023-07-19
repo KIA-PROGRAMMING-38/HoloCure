@@ -27,14 +27,9 @@ public class UIManager
         }
     }
     private static readonly Vector3 s_defaultScale = Vector3.one;
-    public T OpenPopupUI<T>(string name = null, Transform parent = null) where T : UIPopup
+    public T OpenPopupUI<T>(Transform parent = null) where T : UIPopup
     {
-        if (string.IsNullOrEmpty(name))
-        {
-            name = typeof(T).Name;
-        }
-
-        GameObject go = Managers.Resource.Instantiate(name);
+        GameObject go = Managers.Resource.Instantiate(typeof(T).Name);
         T popup = go.GetComponent<T>();
         _popupStack.Push(popup);
 
