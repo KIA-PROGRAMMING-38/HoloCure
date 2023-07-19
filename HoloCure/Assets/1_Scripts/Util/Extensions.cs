@@ -1,9 +1,19 @@
+using System;
+using UniRx;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public static class Extensions
 {
-    public static T GetRandomElement<T>(this T[] array) => array[Random.Range(0, array.Length)];
-    public static T GetRandomElement<T>(this T[] array, int start, int end) => array[Random.Range(start, end)];
+    public static void BindViewEvent(this UIBehaviour view, Action<PointerEventData> action, Component component) 
+        => UIBase.BindViewEvent(view, action, component);
+    public static void BindModelEvent<T>(this ReactiveProperty<T> model, Action<T> action, Component component)
+        => UIBase.BindModelEvent(model, action, component);
+    public static T GetRandomElement<T>(this T[] array) 
+        => array[Random.Range(0, array.Length)];
+    public static T GetRandomElement<T>(this T[] array, int start, int end) 
+        => array[Random.Range(start, end)];
     public static EnemyType GetEnemyType(this EnemyID id, int stage)
     {
         id -= stage * 1000;
