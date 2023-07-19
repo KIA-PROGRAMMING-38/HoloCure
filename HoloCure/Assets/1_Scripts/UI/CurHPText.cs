@@ -1,7 +1,7 @@
 using StringLiterals;
 using TMPro;
 
-public class CurHPText : UIBase
+public class CurHPText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();

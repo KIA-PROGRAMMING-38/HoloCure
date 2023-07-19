@@ -1,7 +1,7 @@
 ﻿using StringLiterals;
 using TMPro;
 
-public class CRTRateText : UIBase
+public class CRTRateText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();

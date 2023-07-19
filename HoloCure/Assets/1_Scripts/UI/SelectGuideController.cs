@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectGuideController : UIBase
+public class SelectGuideController : UIBaseLegacy
 {
     [SerializeField] private SelectIconController _iconController;
 

@@ -1,7 +1,7 @@
 using StringLiterals;
 using TMPro;
 
-public class MaxHPText : UIBase
+public class MaxHPText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();

@@ -15,7 +15,7 @@ public class PresenterManager : MonoBehaviour
 
     private void Awake()
     {
-        UIBase.PresenterManager = this;
+        UIBaseLegacy.PresenterManager = this;
 
         TitleUIPresenter = new();
         TriggerUIPresenter = new();
