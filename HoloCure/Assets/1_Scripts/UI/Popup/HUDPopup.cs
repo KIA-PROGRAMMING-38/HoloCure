@@ -1,10 +1,6 @@
 using Cysharp.Text;
-using System.IO;
-using System;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class HUDPopup : UIPopup
 {
