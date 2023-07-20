@@ -50,7 +50,7 @@ public class HUDInventoryPopup : UIPopup
 
     public override void Init()
     {
-        base.Init();
+        Managers.UI.SetCanvas(gameObject, false);
 
         BindImage(typeof(Images));
 
