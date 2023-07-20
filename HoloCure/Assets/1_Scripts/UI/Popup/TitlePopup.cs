@@ -60,6 +60,8 @@ public class TitlePopup : UIPopup
         }
         this.UpdateAsObservable()
             .Subscribe(CheckKeyPress);
+
+        Managers.Spawn.SpawnTriangle();
     }
     private void OnEnterButton(PointerEventData eventData)
     {
@@ -103,6 +105,7 @@ public class TitlePopup : UIPopup
     {
         // Managers.UI.OpenPopupUI<SelectPopup>(); SelectPopup이 구현되어야합니다.
         Managers.UI.ClosePopupUI(this);
+        Managers.Spawn.StopSpawnTriangle();
     }
     private void OnClickQuitButton()
     {
