@@ -8,18 +8,14 @@ public class VTuberAnimation : MonoBehaviour
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     private float _midX;
-    private void Start()
+    private void Start() => _input.MoveVec.Subscribe(UpdateRender).AddTo(this);
+    private void UpdateRender(Vector2 moveVec)
     {
-        _input.MoveVec.Subscribe(UpdateRender);
+        _animator.SetBool(AnimHash.IS_RUNNING, Time.timeScale != 0 && moveVec.magnitude > 0);
 
-        void UpdateRender(Vector2 moveVec)
+        if (Time.timeScale != 0)
         {
-            _animator.SetBool(AnimHash.IS_RUNNING, Time.timeScale != 0 && moveVec.magnitude > 0);
-
-            if (Time.timeScale != 0)
-            {
-                _spriteRenderer.flipX = Util.Caching.MouseScreenPos.x < _midX;
-            }
+            _spriteRenderer.flipX = Util.Caching.MouseScreenPos.x < _midX;
         }
     }
     public void Init(VTuberData data)
