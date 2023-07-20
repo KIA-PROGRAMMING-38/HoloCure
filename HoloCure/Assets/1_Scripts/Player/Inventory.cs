@@ -49,14 +49,13 @@ public class Inventory : MonoBehaviour
     /// </summary>
     public void GetItem(ItemID id)
     {
-        switch (id)
+        ItemType type = id.GetItemType();
+        switch (type)
         {
-            case < ItemID.StatNone:
-                GetWeapon(id);
-                break;
-            default:
-                GetStat(id);
-                break;
+            case ItemType.Weapon: GetWeapon(id); break;
+            case ItemType.Equipment: break;
+            case ItemType.Stat: GetStat(id); break;
+            default: Debug.Assert(false, $"Invalid id: ItemID-{id}, ItemType-{type}"); break;
         }
     }
     private void GetWeapon(ItemID id)
@@ -101,16 +100,7 @@ public class Inventory : MonoBehaviour
         VTuber VTuber = Managers.Game.VTuber;
         StatData data = Managers.Data.Stat[id];
 
-        switch (id)
-        {
-            case ItemID.MaxHPUp: VTuber.GetMaxHealth(data.Value); break;
-            case ItemID.ATKUp: VTuber.GetAttackRate(data.Value); break;
-            case ItemID.SPDUp: VTuber.GetSpeedRate(data.Value); break;
-            case ItemID.CRTUp: VTuber.GetCriticalRate(data.Value); break;
-            case ItemID.PickUpRangeUp: VTuber.GetPickUpRate(data.Value); break;
-            case ItemID.HasteUp: VTuber.GetHasteRate(data.Value); break;
-            default: Debug.Assert(false, $"Invalid StatID | ID: {id}"); break;
-        }
+        VTuber.GetStat(id, data.Value);
     }
     private void OnDestroy()
     {

@@ -1,15 +1,11 @@
 using StringLiterals;
-using System;
 using System.Collections;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 using Util;
-
 public class VTuber : CharacterBase
 {
-    public event Action OnDie;
-    public event Action OnGetBox;
     public ReactiveProperty<int> MaxHealth { get; private set; } = new();
     public ReactiveProperty<int> Attack { get; private set; } = new();
     public ReactiveProperty<int> Speed { get; private set; } = new();
@@ -50,44 +46,41 @@ public class VTuber : CharacterBase
     public void Init(VTuberID id)
     {
         Id = id;
-       
+
         VTuberData data = Managers.Data.VTuber[Id];
 
         InitStat(data);
         InitRender(data);
         InitInventory();
+    }
+    private void InitStat(VTuberData data)
+    {
+        MaxHealth.Value = data.Health;
+        CurHealth.Value = data.Health;
+        Attack.Value = data.Attack;
+        Speed.Value = data.Speed;
+        Critical.Value = data.Critical;
+        PickUp.Value = data.PickUp;
+        Haste.Value = data.Haste;
 
-        AddEvent();
+        AttackRate.Value = default;
+        SpeedRate.Value = default;
+        PickUpRate.Value = default;
 
-        void InitStat(VTuberData data)
-        {
-            MaxHealth.Value = data.Health;
-            CurHealth.Value = data.Health;
-            Attack.Value = data.Attack;
-            Speed.Value = data.Speed;
-            Critical.Value = data.Critical;
-            PickUp.Value = data.PickUp;
-            Haste.Value = data.Haste;
-
-            AttackRate.Value = default;
-            SpeedRate.Value = default;
-            PickUpRate.Value = default;
-
-            CurExp.Value = 0;
-            MaxExp.Value = 79;
-            Level.Value = 1;
-        }
-        void InitRender(VTuberData data)
-        {
-            _vtuberAnimation.Init(data);
-        }
-        void InitInventory()
-        {
-            GameObject go = new(nameof(Inventory));
-            go.transform.SetParent(transform);
-            Inventory = go.AddComponent<Inventory>();
-            Inventory.Init(Id);
-        }
+        CurExp.Value = 0;
+        MaxExp.Value = 79;
+        Level.Value = 1;
+    }
+    private void InitRender(VTuberData data)
+    {
+        _vtuberAnimation.Init(data);
+    }
+    private void InitInventory()
+    {
+        GameObject go = new(nameof(Inventory));
+        go.transform.SetParent(transform);
+        Inventory = go.AddComponent<Inventory>();
+        Inventory.Init(Id);
     }
     public override void GetDamage(int damage)
     {
@@ -107,10 +100,22 @@ public class VTuber : CharacterBase
 
         yield return DelayCache.GetUnscaledWaitForSeconds(3);
 
-        OnDie?.Invoke();
+        // Managers.UI.OpenPopupUI<GameOverPopup>();
     }
-
-    public void GetMaxHealth(int value)
+    public void GetStat(ItemID id, int value)
+    {
+        switch (id)
+        {
+            case ItemID.MaxHPUp: GetMaxHealth(value); break;
+            case ItemID.ATKUp: GetAttackRate(value); break;
+            case ItemID.SPDUp: GetSpeedRate(value); break;
+            case ItemID.CRTUp: GetCriticalRate(value); break;
+            case ItemID.PickUpRangeUp: GetPickUpRate(value); break;
+            case ItemID.HasteUp: GetHasteRate(value); break;
+            default: Debug.Assert(false, $"Invaild ItemID: {id}"); break;
+        }
+    }
+    private void GetMaxHealth(int value)
     {
         if (value != 0)
         {
@@ -119,25 +124,25 @@ public class VTuber : CharacterBase
 
         CurHealth.Value = MaxHealth.Value;
     }
-    public void GetAttackRate(int value)
+    private void GetAttackRate(int value)
     {
         VTuberData data = Managers.Data.VTuber[Id];
 
         AttackRate.Value += value;
         Attack.Value = data.Attack + (data.Attack * AttackRate.Value) / 100;
     }
-    public void GetSpeedRate(int value)
+    private void GetSpeedRate(int value)
     {
         VTuberData data = Managers.Data.VTuber[Id];
 
         SpeedRate.Value += value;
         Speed.Value = data.Speed + (data.Speed * SpeedRate.Value) / 100;
     }
-    public void GetCriticalRate(int value)
+    private void GetCriticalRate(int value)
     {
         Critical.Value += value;
     }
-    public void GetPickUpRate(int value)
+    private void GetPickUpRate(int value)
     {
         VTuberData data = Managers.Data.VTuber[Id];
 
@@ -145,7 +150,7 @@ public class VTuber : CharacterBase
         PickUp.Value = data.PickUp + (data.PickUp * PickUpRate.Value) / 100;
         _objectSensor.radius = PickUpRate.Value;
     }
-    public void GetHasteRate(int value)
+    private void GetHasteRate(int value)
     {
         Haste.Value += value;
     }
@@ -157,31 +162,16 @@ public class VTuber : CharacterBase
         {
             LevelUp();
         }
-
-        void LevelUp()
-        {
-            CurExp.Value -= MaxExp.Value;
-            MaxExp.Value = (int)(Mathf.Round(Mathf.Pow(4 * (Level.Value + 1), 2.1f)) - Mathf.Round(Mathf.Pow(4 * Level.Value, 2.1f)));
-            Level.Value += 1;
-            GetMaxHealth(0);
-        }
+    }
+    private void LevelUp()
+    {
+        CurExp.Value -= MaxExp.Value;
+        MaxExp.Value = (int)(Mathf.Round(Mathf.Pow(4 * (Level.Value + 1), 2.1f)) - Mathf.Round(Mathf.Pow(4 * Level.Value, 2.1f)));
+        Level.Value += 1;
+        GetStat(ItemID.MaxHPUp, 0);
     }
     public void GetBox()
     {
-        OnGetBox?.Invoke();
-    }
-    private void AddEvent()
-    {
-        RemoveEvent();
-
-        OnDie += Managers.PresenterM.TriggerUIPresenter.ActivateGameOverUI;
-    }
-    private void RemoveEvent()
-    {
-        OnDie -= Managers.PresenterM.TriggerUIPresenter.ActivateGameOverUI;
-    }
-    private void OnDestroy()
-    {
-        RemoveEvent();
+        // Managers.UI.OpenPopupUI<GetBoxStartPopup>();
     }
 }
