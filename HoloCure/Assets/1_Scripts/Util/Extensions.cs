@@ -1,9 +1,19 @@
+using System;
+using UniRx;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public static class Extensions
 {
-    public static T GetRandomElement<T>(this T[] array) => array[Random.Range(0, array.Length)];
-    public static T GetRandomElement<T>(this T[] array, int start, int end) => array[Random.Range(start, end)];
+    public static void BindViewEvent(this UIBehaviour view, Action<PointerEventData> action, ViewEvent type, Component component)
+        => UIBase.BindViewEvent(view, action, type, component);
+    public static void BindModelEvent<T>(this ReactiveProperty<T> model, Action<T> action, Component component)
+        => UIBase.BindModelEvent(model, action, component);
+    public static T GetRandomElement<T>(this T[] array)
+        => array[Random.Range(0, array.Length)];
+    public static T GetRandomElement<T>(this T[] array, int start, int end)
+        => array[Random.Range(start, end)];
     public static EnemyType GetEnemyType(this EnemyID id, int stage)
     {
         id -= stage * 1000;
@@ -24,10 +34,15 @@ public static class Extensions
     }
     public static ItemType GetItemType(this ItemID id)
     {
-        if(ItemID.CommonWeapon < id && id < ItemID.StartingWeapon) { return ItemType.CommonWeapon; }
-        if(ItemID.StartingWeapon < id && id < ItemID.Equipment) { return ItemType.StartingWeapon; }
-        if(ItemID.Equipment < id && id < ItemID.Stat) { return ItemType.Equipment; }
-        if(ItemID.Stat < id && id < ItemID.End) { return ItemType.Stat; }
+        if (ItemID.CommonNone < id && id < ItemID.EquipmentNone) { return ItemType.Weapon; }
+        if (ItemID.EquipmentNone < id && id < ItemID.StatNone) { return ItemType.Equipment; }
+        if (ItemID.StatNone < id && id < ItemID.End) { return ItemType.Stat; }
         return ItemType.None;
+    }
+    public static WeaponType GetWeaponType(this ItemID id)
+    {
+        if (ItemID.CommonNone < id && id < ItemID.StartingNone) { return WeaponType.Common; }
+        if (ItemID.StartingNone < id && id < ItemID.EquipmentNone) { return WeaponType.Starting; }
+        return WeaponType.None;
     }
 }

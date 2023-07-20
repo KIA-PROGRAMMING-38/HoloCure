@@ -1,7 +1,7 @@
 ﻿using StringLiterals;
 using TMPro;
 
-public class HasteRateText : UIBase
+public class HasteRateText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();

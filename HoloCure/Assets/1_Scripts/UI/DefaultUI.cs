@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DefaultUI : UIBase
+public class DefaultUI : UIBaseLegacy
 {
     private Canvas _canvas;
     private void Awake() => _canvas = GetComponent<Canvas>();

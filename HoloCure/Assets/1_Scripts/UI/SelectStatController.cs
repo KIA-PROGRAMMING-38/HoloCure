@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectStatController : UIBase
+public class SelectStatController : UIBaseLegacy
 {
     [SerializeField] private SelectIconController _iconController;
 

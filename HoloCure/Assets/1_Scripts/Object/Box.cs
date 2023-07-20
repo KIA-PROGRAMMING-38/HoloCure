@@ -20,31 +20,30 @@ public class Box : MonoBehaviour
         _lookPlayerCo = LookPlayerCo();
 
         this.OnTriggerEnter2DAsObservable()
-            .Subscribe(OnTriggerEnter);
+            .Subscribe(OnEnterTrigger);
         this.OnTriggerExit2DAsObservable()
-            .Subscribe(OnTriggerExit);
-
-        void OnTriggerEnter(Collider2D collider)
+            .Subscribe(OnExitTrigger);
+    }
+    private void OnEnterTrigger(Collider2D collider)
+    {
+        if (collider.CompareTag(TagLiteral.VTUBER))
         {
-            if (collider.CompareTag(TagLiteral.VTUBER))
-            {
-                collider.gameObject.GetComponentAssert<VTuber>().GetBox();
+            collider.gameObject.GetComponentAssert<VTuber>().GetBox();
 
-                Managers.Spawn.Box.Release(this);
-            }
-            if (collider.CompareTag(TagLiteral.SCREEN_SENSOR))
-            {
-                StopCoroutine(_lookPlayerCo);
-                _pointer.position = (Vector2)transform.position + _initPos;
-                _pointer.rotation = _initRot;
-            }
+            Managers.Spawn.Box.Release(this);
         }
-        void OnTriggerExit(Collider2D collider)
+        if (collider.CompareTag(TagLiteral.SCREEN_SENSOR))
         {
-            if (collider.CompareTag(TagLiteral.SCREEN_SENSOR))
-            {
-                StartCoroutine(_lookPlayerCo);
-            }
+            StopCoroutine(_lookPlayerCo);
+            _pointer.position = (Vector2)transform.position + _initPos;
+            _pointer.rotation = _initRot;
+        }
+    }
+    private void OnExitTrigger(Collider2D collider)
+    {
+        if (collider.CompareTag(TagLiteral.SCREEN_SENSOR))
+        {
+            StartCoroutine(_lookPlayerCo);
         }
     }
     public void Init(Vector2 pos) => transform.position = pos;
@@ -59,12 +58,11 @@ public class Box : MonoBehaviour
 
             yield return null;
         }
+    }
+    private float GetAngle()
+    {
+        _direction = transform.position - Managers.Game.VTuber.transform.position;
 
-        float GetAngle()
-        {
-            _direction = transform.position - Managers.Game.VTuber.transform.position;
-
-            return Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-        }
+        return Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
     }
 }

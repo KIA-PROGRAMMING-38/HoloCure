@@ -8,7 +8,7 @@ public enum BoxButtonID
     Drop = 1
 }
 
-public class BoxButtonController : UIBase
+public class BoxButtonController : UIBaseLegacy
 {
     public event Action OnSelect;
     public event Action OnSelectTake;

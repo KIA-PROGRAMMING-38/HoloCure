@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class LevelUpListController : UIBase
+public class LevelUpListController : UIBaseLegacy
 {
     public event Action OnSelect;
     public event Action<ItemID> OnSelectItem;
