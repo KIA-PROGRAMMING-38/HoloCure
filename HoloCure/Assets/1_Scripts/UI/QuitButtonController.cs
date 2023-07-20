@@ -12,7 +12,7 @@ public class QuitButtonController : UIBaseLegacy
     public event Action OnSelectYes;
     public event Action<PauseButtonID> OnSelectNo;
 
-    [SerializeField] private MyButton[] _buttons;
+    //[SerializeField] private MyButton[] _buttons;
     private int _hoveredButtonIndex;
 
     private void Start()
@@ -69,18 +69,18 @@ public class QuitButtonController : UIBaseLegacy
             {
                 bool upKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
 
-                if (upKey && _hoveredButtonIndex != (int)QuitButtonID.Yes)
-                {
-                    _hoveredButtonIndex = (int)QuitButtonID.Yes;
-                    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
-                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
-                }
-                else if (false == upKey && _hoveredButtonIndex != (int)QuitButtonID.No)
-                {
-                    _hoveredButtonIndex = (int)QuitButtonID.No;
-                    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
-                    SoundPool.GetPlayAudio(SoundID.ButtonMove);
-                }
+                //if (upKey && _hoveredButtonIndex != (int)QuitButtonID.Yes)
+                //{
+                //    _hoveredButtonIndex = (int)QuitButtonID.Yes;
+                //    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                //    SoundPool.GetPlayAudio(SoundID.ButtonMove);
+                //}
+                //else if (false == upKey && _hoveredButtonIndex != (int)QuitButtonID.No)
+                //{
+                //    _hoveredButtonIndex = (int)QuitButtonID.No;
+                //    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                //    SoundPool.GetPlayAudio(SoundID.ButtonMove);
+                //}
             }
             else if (Input.GetButtonDown(InputLiteral.CANCEL))
             {
@@ -91,20 +91,20 @@ public class QuitButtonController : UIBaseLegacy
             yield return null;
         }
     } 
-    private void GetHoveredButtonIndex(MyButton button)
-    {
-        SoundPool.GetPlayAudio(SoundID.ButtonMove);
-        if (button == _buttons[(int)QuitButtonID.Yes])
-        {
-            _hoveredButtonIndex = (int)QuitButtonID.Yes;
-        }
-        else
-        {
-            _hoveredButtonIndex = (int)QuitButtonID.No;
-        }
-    }
+    //private void GetHoveredButtonIndex(MyButton button)
+    //{
+    //    SoundPool.GetPlayAudio(SoundID.ButtonMove);
+    //    if (button == _buttons[(int)QuitButtonID.Yes])
+    //    {
+    //        _hoveredButtonIndex = (int)QuitButtonID.Yes;
+    //    }
+    //    else
+    //    {
+    //        _hoveredButtonIndex = (int)QuitButtonID.No;
+    //    }
+    //}
     private void TriggerEventByKey() => ButtonSelect((QuitButtonID)_hoveredButtonIndex);
-    private void TriggerEventByClick(MyButton button) => ButtonSelect((QuitButtonID)_hoveredButtonIndex);
+    //private void TriggerEventByClick(MyButton button) => ButtonSelect((QuitButtonID)_hoveredButtonIndex);
     private void ButtonSelect(QuitButtonID ID)
     {
         if (ID == QuitButtonID.Yes)

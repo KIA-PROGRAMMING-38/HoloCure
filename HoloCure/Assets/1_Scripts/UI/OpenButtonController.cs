@@ -7,8 +7,8 @@ public class OpenButtonController : UIBaseLegacy
 {
     public event Action OnPress;
 
-    private MyButton _button;
-    private void Awake() => _button = GetComponent<MyButton>();
+    //private MyButton _button;
+    //private void Awake() => _button = GetComponent<MyButton>();
     private void Start()
     {
         _getKeyCoroutine = GetKeyCoroutine();

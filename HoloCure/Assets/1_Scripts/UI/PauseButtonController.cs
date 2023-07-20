@@ -28,7 +28,7 @@ public class PauseButtonController : UIBaseLegacy
     public event Action OnSettingCanceled;
     public event Action OnQuitCanceled;
 
-    [SerializeField] private MyButton[] _buttons;
+    //[SerializeField] private MyButton[] _buttons;
     private int _hoveredButtonIndex;
 
     [SerializeField] private Canvas[] _UIs;
@@ -137,18 +137,18 @@ public class PauseButtonController : UIBaseLegacy
                 {
                     bool upKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
 
-                    if (upKey && _hoveredButtonIndex != (int)PauseButtonID.Skill)
-                    {
-                        _hoveredButtonIndex -= 1;
-                        _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
-                        SoundPool.GetPlayAudio(SoundID.ButtonMove);
-                    }
-                    else if (false == upKey && _hoveredButtonIndex != (int)PauseButtonID.Quit)
-                    {
-                        _hoveredButtonIndex += 1;
-                        _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
-                        SoundPool.GetPlayAudio(SoundID.ButtonMove);
-                    }
+                    //if (upKey && _hoveredButtonIndex != (int)PauseButtonID.Skill)
+                    //{
+                    //    _hoveredButtonIndex -= 1;
+                    //    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                    //    SoundPool.GetPlayAudio(SoundID.ButtonMove);
+                    //}
+                    //else if (false == upKey && _hoveredButtonIndex != (int)PauseButtonID.Quit)
+                    //{
+                    //    _hoveredButtonIndex += 1;
+                    //    _buttons[_hoveredButtonIndex].ActivateHoveredFrame();
+                    //    SoundPool.GetPlayAudio(SoundID.ButtonMove);
+                    //}
                 }
                 else if (Input.GetButtonDown(InputLiteral.CANCEL))
                 {
@@ -169,22 +169,22 @@ public class PauseButtonController : UIBaseLegacy
             yield return null;
         }
     }
-    private void GetHoveredButtonIndex(MyButton button)
-    {
-        for (int i = 0; i < _buttons.Length; ++i)
-        {
-            if (button != _buttons[i])
-            {
-                continue;
-            }
+    //private void GetHoveredButtonIndex(MyButton button)
+    //{
+    //    for (int i = 0; i < _buttons.Length; ++i)
+    //    {
+    //        if (button != _buttons[i])
+    //        {
+    //            continue;
+    //        }
 
-            _hoveredButtonIndex = i;
-            break;
-        }
-        SoundPool.GetPlayAudio(SoundID.ButtonMove);
-    }
+    //        _hoveredButtonIndex = i;
+    //        break;
+    //    }
+    //    SoundPool.GetPlayAudio(SoundID.ButtonMove);
+    //}
     private void TriggerEventByKey() => ButtonSelect((PauseButtonID)_hoveredButtonIndex);
-    private void TriggerEventByClick(MyButton button) => ButtonSelect((PauseButtonID)_hoveredButtonIndex);
+    //private void TriggerEventByClick(MyButton button) => ButtonSelect((PauseButtonID)_hoveredButtonIndex);
     private void ButtonSelect(PauseButtonID ID)
     {
         SoundPool.GetPlayAudio(SoundID.ButtonClick);

@@ -58,15 +58,15 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     {
         SetCommonData(data);
 
-        switch (data.Id)
-        {
-            case < ItemID.Stat:
-                SetWeaponData(data);
-                break;
-            default:
-                GetStatData(data);
-                break;
-        }
+        //switch (data.Id)
+        //{
+        //    case < ItemID.Stat:
+        //        SetWeaponData(data);
+        //        break;
+        //    default:
+        //        GetStatData(data);
+        //        break;
+        //}
     }
     private void SetCommonData(ItemData data)
     {
@@ -107,7 +107,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
 
             if (weapon.Level.Value == 6)
             {
-                _levelNumText.text = weapon.Id < ItemID.StartingWeapon ? ItemLiteral.MAX : ItemLiteral.AWAKENED;
+                //_levelNumText.text = weapon.Id < ItemID.StartingWeapon ? ItemLiteral.MAX : ItemLiteral.AWAKENED;
             }
             else
             {

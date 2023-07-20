@@ -7,7 +7,7 @@ public class GameClearButtonController : UIBaseLegacy
 {
     public event Action OnSelectMainMenu;
 
-    [SerializeField] private MyButton _button;
+    //[SerializeField] private MyButton _button;
     private int _hoveredButtonIndex = 0;
 
     private void Start()
@@ -50,7 +50,7 @@ public class GameClearButtonController : UIBaseLegacy
     }
 
     private void TriggerEventByKey() => ButtonSelect(_hoveredButtonIndex);
-    private void TriggerEventByClick(MyButton button) => ButtonSelect(_hoveredButtonIndex);
+    //private void TriggerEventByClick(MyButton button) => ButtonSelect(_hoveredButtonIndex);
     private void ButtonSelect(int ID)
     {
         StopCoroutine(_getKeyCoroutine);
