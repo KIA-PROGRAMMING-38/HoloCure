@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public class UIBase : MonoBehaviour
+public class UIBaseLegacy : MonoBehaviour
 {
     public static PresenterManager PresenterManager { protected get; set; }
 }

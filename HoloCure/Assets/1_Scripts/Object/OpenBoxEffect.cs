@@ -17,16 +17,15 @@ public abstract class OpenBoxEffect : MonoBehaviour
     {
         this.UpdateAsObservable()
             .Subscribe(Move);
-
-        void Move(Unit unit)
+    }
+    private void Move(Unit unit)
+    {
+        _elapsedTime += Time.unscaledDeltaTime;
+        _rectTransform.anchoredPosition = BezierCurve.Quadratic(_startPos, _wayPos, _endPos, _elapsedTime / _duration);
+        _rectTransform.Rotate(_rotAxis);
+        if (_elapsedTime > _duration)
         {
-            _elapsedTime += Time.unscaledDeltaTime;
-            _rectTransform.anchoredPosition = BezierCurve.Quadratic(_startPos, _wayPos, _endPos, _elapsedTime / _duration);
-            _rectTransform.Rotate(_rotAxis);
-            if (_elapsedTime > _duration)
-            {
-                Release();
-            }
+            Release();
         }
     }
     public void Init()

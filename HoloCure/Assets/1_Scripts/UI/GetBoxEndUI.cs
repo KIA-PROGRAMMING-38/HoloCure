@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GetBoxEndUI : UIBase
+public class GetBoxEndUI : UIBaseLegacy
 {
     public event Action<ItemID> OnSelectTake;
 

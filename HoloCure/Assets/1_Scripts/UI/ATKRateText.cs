@@ -1,7 +1,7 @@
 ﻿using StringLiterals;
 using TMPro;
 
-public class ATKRateText : UIBase
+public class ATKRateText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();
