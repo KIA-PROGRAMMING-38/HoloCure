@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class TitlePopup : UIPopup
 {
+    #region Enums
+
     enum Buttons
     {
         PlayButton,
@@ -18,6 +20,7 @@ public class TitlePopup : UIPopup
         CreditsButton,
         QuitButton
     }
+
     enum Images
     {
         PlayButton,
@@ -28,6 +31,7 @@ public class TitlePopup : UIPopup
         CreditsButton,
         QuitButton
     }
+
     enum Texts
     {
         PlayText,
@@ -38,10 +42,29 @@ public class TitlePopup : UIPopup
         CreditsText,
         QuitText
     }
-    private int _curIndex;
-    private int _buttonCount;
-    private static readonly Color s_onNormalColor = Color.white;
-    private static readonly Color s_onHighlightedColor = Color.black;
+
+    #endregion
+
+    #region UI Fields and Properties
+
+    private Buttons _currentButton;
+    private Buttons CurrentButton
+    {
+        get => _currentButton;
+        set
+        {
+            SetButtonNormal(_currentButton);
+            SetButtonHighlighted(value);
+
+            _currentButton = value;
+        }
+    }
+
+    private static readonly Color s_normalColor = Color.white;
+    private static readonly Color s_highlightedColor = Color.black;
+
+    #endregion
+
     public override void Init()
     {
         base.Init();
@@ -50,92 +73,98 @@ public class TitlePopup : UIPopup
         BindImage(typeof(Images));
         BindText(typeof(Texts));
 
-        _buttonCount = Enum.GetNames(typeof(Buttons)).Length;
-
-        for (int i = 0; i < _buttonCount; ++i)
+        foreach (Buttons buttonIndex in Enum.GetValues(typeof(Buttons)))
         {
-            Button button = GetButton(i);
+            Button button = GetButton((int)buttonIndex);
             button.BindViewEvent(OnEnterButton, ViewEvent.Enter, this);
             button.BindViewEvent(OnClickButton, ViewEvent.Click, this);
         }
-        this.UpdateAsObservable()
-            .Subscribe(CheckKeyPress);
 
+        this.UpdateAsObservable()
+            .Subscribe(OnPressKey);
+            
         Managers.Spawn.SpawnTriangle();
     }
+
+    #region Event Handlers
+
     private void OnEnterButton(PointerEventData eventData)
     {
-        int index = (int)Enum.Parse(typeof(Buttons), eventData.pointerEnter.transform.parent.name);
+        var nextButtonTransform = eventData.pointerEnter.transform.parent;
+        Buttons nextButton = Enum.Parse<Buttons>(nextButtonTransform.name);
 
-        SetNormal(_curIndex);
-        SetHighlighted(index);
+        CurrentButton = nextButton;
+    }
 
-        _curIndex = index;
-    }
-    private void SetNormal(int index)
-    {
-        GetImage(index).sprite = Managers.Resource.LoadSprite("hud_OptionButton_0");
-        GetText(index).color = s_onNormalColor;
-    }
-    private void SetHighlighted(int index)
-    {
-        GetImage(index).sprite = Managers.Resource.LoadSprite("hud_OptionButton_1");
-        GetText(index).color = s_onHighlightedColor;
-    }
     private void OnClickButton(PointerEventData eventData)
     {
-        int index;
-        if (eventData == null)
-        {
-            index = _curIndex;
-        }
-        else
-        {
-            index = (int)Enum.Parse(typeof(Buttons), eventData.pointerClick.name);
-        }
+        Buttons button = Enum.Parse<Buttons>(eventData.pointerClick.name);
 
-        switch ((Buttons)index)
+        ProcessButton(button);
+    }
+
+    private void OnPressKey(Unit unit)
+    {
+        if (Input.GetButtonDown(InputLiteral.CONFIRM))
+        {
+            ProcessButton(CurrentButton);
+        }
+        else if (Input.GetButtonDown(InputLiteral.VERTICAL))
+        {
+            bool isUpKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
+            SwitchNextButton(isUpKey);
+        }
+    }
+
+    #endregion
+
+    #region UI Appearance Update
+
+    private void SetButtonNormal(Buttons buttonIndex)
+    {
+        GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_OptionButton_0");
+        GetText((int)buttonIndex).color = s_normalColor;
+    }
+
+    private void SetButtonHighlighted(Buttons buttonIndex)
+    {
+        GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_OptionButton_1");
+        GetText((int)buttonIndex).color = s_highlightedColor;
+    }
+
+    private void SwitchNextButton(bool isUpKey)
+    {
+        int nextButtonIndex = (isUpKey) ? (int)CurrentButton - 1 : (int)CurrentButton + 1;
+        Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.PlayButton, (int)Buttons.QuitButton);
+
+        CurrentButton = nextButton;
+    }
+
+    #endregion
+
+    #region Button Actions
+
+    private void ProcessButton(Buttons button)
+    {
+        switch (button)
         {
             case Buttons.PlayButton: OnClickPlayButton(); break;
             case Buttons.QuitButton: OnClickQuitButton(); break;
             default: break;
         }
     }
+
     private void OnClickPlayButton()
     {
         // Managers.UI.OpenPopupUI<SelectPopup>(); SelectPopup이 구현되어야합니다.
         Managers.UI.ClosePopupUI(this);
         Managers.Spawn.StopSpawnTriangle();
     }
+
     private void OnClickQuitButton()
     {
         Application.Quit();
     }
-    private void CheckKeyPress(Unit unit)
-    {
-        if (Input.GetButtonDown(InputLiteral.CONFIRM))
-        {
-            OnClickButton(null);
-        }
-        else if (Input.GetButtonDown(InputLiteral.VERTICAL))
-        {
-            bool isUpKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
-            KeyMove(isUpKey);
-        }
-    }
-    private void KeyMove(bool isUpKey)
-    {
-        SetNormal(_curIndex);
 
-        if (isUpKey)
-        {
-            _curIndex = Mathf.Max(0, _curIndex - 1);
-        }
-        else
-        {
-            _curIndex = Mathf.Min(_buttonCount - 1, _curIndex + 1);
-        }
-
-        SetHighlighted(_curIndex);
-    }
+    #endregion    
 }
