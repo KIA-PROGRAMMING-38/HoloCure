@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 
-public class HPGauge : UIBase
+public class HPGauge : UIBaseLegacy
 {
     private Image _image;
     private void Awake() => _image = GetComponent<Image>();

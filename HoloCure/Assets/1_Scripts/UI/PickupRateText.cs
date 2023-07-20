@@ -1,7 +1,7 @@
 ﻿using StringLiterals;
 using TMPro;
 
-public class PickupRateText : UIBase
+public class PickupRateText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();

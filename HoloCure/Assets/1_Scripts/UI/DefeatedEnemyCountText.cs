@@ -1,7 +1,7 @@
 using StringLiterals;
 using TMPro;
 
-public class DefeatedEnemyCountText : UIBase
+public class DefeatedEnemyCountText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();

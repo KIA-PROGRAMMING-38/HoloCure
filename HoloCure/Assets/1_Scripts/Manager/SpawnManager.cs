@@ -32,7 +32,7 @@ public class SpawnManager : MonoBehaviour
 
     public GameObject OutgameContainer { get; private set; }
     public GameObject TriangleContainer { get; private set; }
-    public TrianglePool Triangle {  get; private set; }
+    public TrianglePool Triangle { get; private set; }
     private void Start()
     {
         _spawnOpenBoxParticleCo = SpawnOpenBoxParticleCo();
@@ -49,67 +49,66 @@ public class SpawnManager : MonoBehaviour
         if (stage == 0) { return; }
 
         Managers.Resource.Destroy(OutgameContainer);
-        InitPool();
+        InitIngamePool();
         InitOffset();
 
         SpawnStageEnemies(stage);
+    }
+    private void InitIngamePool()
+    {
+        IngameContainer = new GameObject("Ingame Containers");
 
-        void InitPool()
+        EnemyContainer = new GameObject("Enemy Container");
+        DamageTextContainer = new GameObject("DamageText Container");
+        ExpContainer = new GameObject("Exp Container");
+        BoxContainer = new GameObject("Box Container");
+        BoxEffectContainer = new GameObject("BoxEffect Container");
+        EnemyDieEffectContainer = new GameObject("EnemyDieEffect Container");
+
+        EnemyContainer.transform.parent = IngameContainer.transform;
+        DamageTextContainer.transform.parent = IngameContainer.transform;
+        ExpContainer.transform.parent = IngameContainer.transform;
+        BoxContainer.transform.parent = IngameContainer.transform;
+        BoxEffectContainer.transform.parent = IngameContainer.transform;
+        EnemyDieEffectContainer.transform.parent = IngameContainer.transform;
+
+        Enemy = new EnemyPool();
+        DamageText = new DamageTextPool();
+        Exp = new ExpPool();
+        Box = new BoxPool();
+        OpenBoxCoin = new OpenBoxCoinPool();
+        OpenBoxParticle = new OpenBoxParticlePool();
+        OpenedBoxParticle = new OpenedBoxParticlePool();
+
+        Enemy.Init();
+        DamageText.Init();
+        Exp.Init();
+        Box.Init();
+        OpenBoxCoin.Init();
+        OpenBoxParticle.Init();
+        OpenedBoxParticle.Init();
+    }
+    private void InitOffset()
+    {
+        _enemySpawnOffsets = new Vector3[ENEMY_SPAWN_OFFSET_COUNT];
+        int angleDiv = 360 / ENEMY_SPAWN_OFFSET_COUNT;
+        for (int i = 0; i < ENEMY_SPAWN_OFFSET_COUNT; ++i)
         {
-            IngameContainer = new GameObject("Ingame Containers");
+            float angle = i * angleDiv * Mathf.Rad2Deg;
 
-            EnemyContainer = new GameObject("Enemy Container");
-            DamageTextContainer = new GameObject("DamageText Container");
-            ExpContainer = new GameObject("Exp Container");
-            BoxContainer = new GameObject("Box Container");
-            BoxEffectContainer = new GameObject("BoxEffect Container");
-            EnemyDieEffectContainer = new GameObject("EnemyDieEffect Container");
-
-            EnemyContainer.transform.parent = IngameContainer.transform;
-            DamageTextContainer.transform.parent = IngameContainer.transform;
-            ExpContainer.transform.parent = IngameContainer.transform;
-            BoxContainer.transform.parent = IngameContainer.transform;
-            BoxEffectContainer.transform.parent = IngameContainer.transform;
-            EnemyDieEffectContainer.transform.parent = IngameContainer.transform;
-
-            Enemy = new EnemyPool();
-            DamageText = new DamageTextPool();
-            Exp = new ExpPool();
-            Box = new BoxPool();
-            OpenBoxCoin = new OpenBoxCoinPool();
-            OpenBoxParticle = new OpenBoxParticlePool();
-            OpenedBoxParticle = new OpenedBoxParticlePool();
-
-            Enemy.Init();
-            DamageText.Init();
-            Exp.Init();
-            Box.Init();
-            OpenBoxCoin.Init();
-            OpenBoxParticle.Init();
-            OpenedBoxParticle.Init();
+            _enemySpawnOffsets[i] = new Vector3(WIDTH * Mathf.Cos(angle), HEIGHT * Mathf.Sin(angle), 0);
         }
-        void InitOffset()
+    }
+    private void SpawnStageEnemies(int stage)
+    {
+        foreach (var pair in Managers.Data.Enemy)
         {
-            _enemySpawnOffsets = new Vector3[ENEMY_SPAWN_OFFSET_COUNT];
-            int angleDiv = 360 / ENEMY_SPAWN_OFFSET_COUNT;
-            for (int i = 0; i < ENEMY_SPAWN_OFFSET_COUNT; ++i)
-            {
-                float angle = i * angleDiv * Mathf.Rad2Deg;
+            EnemyID id = pair.Key;
+            EnemyType enemyType = id.GetEnemyType(stage);
 
-                _enemySpawnOffsets[i] = new Vector3(WIDTH * Mathf.Cos(angle), HEIGHT * Mathf.Sin(angle), 0);
-            }
-        }
-        void SpawnStageEnemies(int stage)
-        {
-            foreach (var pair in Managers.Data.Enemy)
-            {
-                EnemyID id = pair.Key;
-                EnemyType enemyType = id.GetEnemyType(stage);
+            if (enemyType == EnemyType.None) { continue; }
 
-                if (enemyType == EnemyType.None) { continue; }
-
-                StartCoroutine(SpawnEnemyCo(id, enemyType));
-            }
+            StartCoroutine(SpawnEnemyCo(id, enemyType));
         }
     }
     private void OnOutgameStart(int stage)
@@ -119,20 +118,19 @@ public class SpawnManager : MonoBehaviour
         StopAllCoroutines();
 
         Managers.Resource.Destroy(IngameContainer);
-        InitPool();
+        InitOutgamePool();
+    }
+    private void InitOutgamePool()
+    {
+        OutgameContainer = new GameObject("Outgame Containers");
 
-        void InitPool()
-        {
-            OutgameContainer = new GameObject("Outgame Containers");
+        TriangleContainer = new GameObject("Triangle Container");
 
-            TriangleContainer = new GameObject("Triangle Container");
+        TriangleContainer.transform.parent = OutgameContainer.transform;
 
-            TriangleContainer.transform.parent = OutgameContainer.transform;
+        Triangle = new TrianglePool();
 
-            Triangle = new TrianglePool();
-
-            Triangle.Init();
-        }
+        Triangle.Init();
     }
     private IEnumerator SpawnEnemyCo(EnemyID id, EnemyType type)
     {
@@ -157,12 +155,11 @@ public class SpawnManager : MonoBehaviour
                 Debug.Assert(false, $"Invalid EnemyID | ID: {id}");
                 break;
         }
-
-        void SpawnEnemy(EnemyID id)
-        {
-            Enemy enemy = Enemy.Get();
-            enemy.Init(id, _enemySpawnOffsets.GetRandomElement());
-        }
+    }
+    private void SpawnEnemy(EnemyID id)
+    {
+        Enemy enemy = Enemy.Get();
+        enemy.Init(id, _enemySpawnOffsets.GetRandomElement());
     }
     public void SpawnDamageText(Vector2 position, int damage, bool isCritical)
     {
