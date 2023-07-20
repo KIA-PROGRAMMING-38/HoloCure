@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class BoxAnimation : UIBase
+public class BoxAnimation : UIBaseLegacy
 {
     public event Action OnOpen;
 

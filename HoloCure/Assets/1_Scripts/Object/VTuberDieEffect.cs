@@ -13,16 +13,15 @@ public class VTuberDieEffect : MonoBehaviour
     {
         this.UpdateAsObservable()
             .Subscribe(Move);
-
-        void Move(Unit unit)
+    }
+    private void Move(Unit unit)
+    {
+        for (int i = 1; i < _transforms.Length; ++i)
         {
-            for (int i = 1; i < _transforms.Length; ++i)
-            {
-                _transforms[i].transform.position = Vector2.Lerp(_startPoint, _endPoints[i], _elapsedTime / CLOSING_TIME);
-            }
-
-            _elapsedTime += Time.unscaledDeltaTime;
+            _transforms[i].transform.position = Vector2.Lerp(_startPoint, _endPoints[i], _elapsedTime / CLOSING_TIME);
         }
+
+        _elapsedTime += Time.unscaledDeltaTime;
     }
     public void Init(Vector2 position)
     {
@@ -41,7 +40,6 @@ public class VTuberDieEffect : MonoBehaviour
             float angle = i * angleDiv * Mathf.Deg2Rad;
             _endPoints[i] = GetEndPoint(angle);
         }
-
-        Vector2 GetEndPoint(float angle) => _startPoint + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 400;
     }
+    private Vector2 GetEndPoint(float angle) => _startPoint + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 400;
 }

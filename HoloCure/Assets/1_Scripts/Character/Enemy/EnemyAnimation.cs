@@ -11,6 +11,7 @@ public class EnemyAnimation : MonoBehaviour
     private SpriteRenderer _bodyRenderer;
     private SpriteRenderer _shadowRenderer;
     private Material _defaultMaterial;
+    private readonly static Color s_defaultColor = Color.white;
     public bool IsFlip => _bodyRenderer.flipX;
     private void Awake()
     {
@@ -27,42 +28,37 @@ public class EnemyAnimation : MonoBehaviour
 
         _enemy.FadeRate.Subscribe(SetDie);
         _enemy.CurHealth.Subscribe(GetDamageEffect);
+    }
+    private void SetDie(float rate)
+    {
+        rate = 0.5f - rate;
 
-        void SetDie(float rate)
-        {
-            rate = 0.5f - rate;
-
-            Color color = new Color(1, 1, 1, rate);
-            _bodyRenderer.color = color;
-            _shadowRenderer.color = color;
-        }
-        void GetDamageEffect(int damage)
-        {
-            StartCoroutine(_getDamageEffectCo);
-        }
+        Color color = new Color(1, 1, 1, rate);
+        _bodyRenderer.color = color;
+        _shadowRenderer.color = color;
+    }
+    private void GetDamageEffect(int damage)
+    {
+        StartCoroutine(_getDamageEffectCo);
     }
     public void Init(EnemyData data)
     {
-        InitColor();
         InitRender(data);
         SetFlipX();
 
         AddEvent();
+    }
+    private void InitRender(EnemyData data)
+    {
+        _bodyRenderer.color = s_defaultColor;
+        _shadowRenderer.color = s_defaultColor;
 
-        void InitColor()
-        {
-            _bodyRenderer.color = Color.white;
-            _shadowRenderer.color = Color.white;
-        }
-        void InitRender(EnemyData data)
-        {
-            _bodyRenderer.sprite = Managers.Resource.LoadSprite(data.Sprite);
+        _bodyRenderer.sprite = Managers.Resource.LoadSprite(data.Sprite);
 
-            var overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
-            overrideController[FileNameLiteral.MOVE] = Managers.Resource.LoadAnimClip(data.Name);
+        var overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
+        overrideController[FileNameLiteral.MOVE] = Managers.Resource.LoadAnimClip(data.Name);
 
-            _animator.runtimeAnimatorController = overrideController;
-        }
+        _animator.runtimeAnimatorController = overrideController;
     }
     private void SetFlipX()
     {

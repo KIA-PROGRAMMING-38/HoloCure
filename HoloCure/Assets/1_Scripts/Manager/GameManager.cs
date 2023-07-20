@@ -11,6 +11,31 @@ public class GameManager : MonoBehaviour
     {
         AddEvent();
     }
+    private void IngameStart()
+    {
+        // Managers.Resouce.Instantiate("IngameEnvironment");
+
+        // Managers.UI.OpenPopupUI<HUDPopup>();
+    }
+    private void OutgameStart()
+    {
+        Managers.Resource.Destroy(VTuber.gameObject);
+
+        Managers.UI.OpenPopupUI<TitlePopup>();
+    }
+    private void SelectVTuber(VTuberID id)
+    {
+        VTuberData data = Managers.Data.VTuber[id];
+
+        VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
+        VTuber.Init(id);
+
+        Managers.PresenterM.InitPresenter.GetInitData(data);
+        Managers.PresenterM.InventoryPresenter.ResetInventory();
+        Managers.PresenterM.CountPresenter.ResetCount();
+    }
+
+
     private void AddEvent()
     {
         RemoveEvent();
@@ -23,34 +48,8 @@ public class GameManager : MonoBehaviour
         Managers.PresenterM.TitleUIPresenter.OnPlayGameForPlayer -= SelectVTuber;
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= OutgameStart;
     }
-    private void IngameStart()
+    private void OnDestroy()
     {
-        
-    }
-    private void OutgameStart()
-    {
-        DestroyGame();
-
-        PopUpBGUI();
-
-        void DestroyGame()
-        {
-            Managers.Resource.Destroy(VTuber.gameObject);
-        }
-        void PopUpBGUI()
-        {
-            Managers.Resource.Instantiate(FileNameLiteral.BG_UI, Managers.Spawn.OutgameContainer.transform);
-        }
-    }
-    private void SelectVTuber(VTuberID id)
-    {
-        VTuberData data = Managers.Data.VTuber[id];
-
-        VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
-        VTuber.Init(id);
-
-        Managers.PresenterM.InitPresenter.GetInitData(data);
-        Managers.PresenterM.InventoryPresenter.ResetInventory();
-        Managers.PresenterM.CountPresenter.ResetCount();
+        RemoveEvent();
     }
 }

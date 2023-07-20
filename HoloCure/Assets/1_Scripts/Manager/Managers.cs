@@ -7,6 +7,7 @@ public class Managers : MonoBehaviour
     public static ResourceManager Resource { get; private set; }
     public static SpawnManager Spawn { get; private set; }
     public static GameManager Game { get; private set; }
+    public static UIManager UI { get; private set; }
     public static PresenterManager PresenterM { get; private set; }
     public static StageManager StageM { get; private set; }
     public static ItemManager ItemM { get; private set; }
@@ -16,6 +17,8 @@ public class Managers : MonoBehaviour
         Init();
 
         Time.timeScale = 0;
+
+        UI.OpenPopupUI<TitlePopup>();
     }
     private void Init()
     {
@@ -39,6 +42,9 @@ public class Managers : MonoBehaviour
         go.transform.parent = transform;
         Game = go.AddComponent<GameManager>();
         Game.Init();
+
+        UI = new UIManager();
+        UI.Init();
 
         go = new GameObject(nameof(SpawnManager));
         go.transform.parent = transform;

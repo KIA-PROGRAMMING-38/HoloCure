@@ -22,21 +22,20 @@ public class Triangle : MonoBehaviour
     {
         this.UpdateAsObservable()
             .Subscribe(Move);
+    }
+    private void Move(Unit unit)
+    {
+        _rectTransform.Rotate(Vector3.forward, _rotSpeed);
+        _elapsedTime += Time.unscaledDeltaTime;
+        _rectTransform.anchoredPosition = Vector2.Lerp(_startPos, _endPos, _elapsedTime / _duration);
 
-        void Move(Unit unit)
+        if (_elapsedTime > _fadeStartTime)
         {
-            _rectTransform.Rotate(Vector3.forward, _rotSpeed);
-            _elapsedTime += Time.unscaledDeltaTime;
-            _rectTransform.anchoredPosition = Vector2.Lerp(_startPos, _endPos, _elapsedTime / _duration);
-
-            if (_elapsedTime > _fadeStartTime)
-            {
-                _canvasGroup.alpha = Mathf.Lerp(1f, 0f, (_elapsedTime - _fadeStartTime) / FADE_SPEED);
-            }
-            if (_elapsedTime > _duration)
-            {
-                Managers.Spawn.Triangle.Release(this);
-            }
+            _canvasGroup.alpha = Mathf.Lerp(1f, 0f, (_elapsedTime - _fadeStartTime) / FADE_SPEED);
+        }
+        if (_elapsedTime > _duration)
+        {
+            Managers.Spawn.Triangle.Release(this);
         }
     }
     public void Init()

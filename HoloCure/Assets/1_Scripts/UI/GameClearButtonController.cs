@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class GameClearButtonController : UIBase
+public class GameClearButtonController : UIBaseLegacy
 {
     public event Action OnSelectMainMenu;
 

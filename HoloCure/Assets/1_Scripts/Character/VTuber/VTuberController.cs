@@ -10,7 +10,7 @@ public class VTuberController : MonoBehaviour
     {
         this.FixedUpdateAsObservable()
             .Subscribe(Move);
-
-        void Move(Unit unit) => _vtuber.Move();
     }
+
+    private void Move(Unit unit) => _vtuber.Move();
 }

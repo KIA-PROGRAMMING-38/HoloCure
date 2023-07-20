@@ -22,30 +22,29 @@ public class EnemyController : MonoBehaviour
 
         this.OnTriggerExit2DAsObservable()
             .Subscribe(StopAttack);
-
-        void Move(Unit unit) => _enemy.Move();
-        void StartAttack(Collider2D collision)
+    }
+    private void Move(Unit unit) => _enemy.Move();
+    private void StartAttack(Collider2D collision)
+    {
+        if (collision.CompareTag(TagLiteral.VTUBER))
         {
-            if (collision.CompareTag(TagLiteral.VTUBER))
-            {
-                StartCoroutine(_attackCo);
-            }
+            StartCoroutine(_attackCo);
         }
-        void StopAttack(Collider2D collision)
+    }
+    private void StopAttack(Collider2D collision)
+    {
+        if (collision.CompareTag(TagLiteral.VTUBER))
         {
-            if (collision.CompareTag(TagLiteral.VTUBER))
-            {
-                StopCoroutine(_attackCo);
-            }
+            StopCoroutine(_attackCo);
         }
-        IEnumerator AttackCo()
+    }
+    private IEnumerator AttackCo()
+    {
+        while (true)
         {
-            while (true)
-            {
-                _enemy.SetDamage(Managers.Game.VTuber);
+            _enemy.SetDamage(Managers.Game.VTuber);
 
-                yield return Util.DelayCache.GetWaitForSeconds(ATTACK_INTERVAL);
-            }
+            yield return Util.DelayCache.GetWaitForSeconds(ATTACK_INTERVAL);
         }
     }
 }

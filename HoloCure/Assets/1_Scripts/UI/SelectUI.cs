@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SelectUI : UIBase
+public class SelectUI : UIBaseLegacy
 {
     public event Action<VTuberID,ModeID,StageID> OnPlayGame;
 
