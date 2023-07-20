@@ -50,17 +50,16 @@ public class Enemy : CharacterBase
         gameObject.layer = LayerNum.ENEMY;
 
         AddEvent();
-
-        void InitStat(EnemyData data)
-        {
-            CurHealth.Value = data.Health;
-            moveSpeed = data.Speed;
-        }
-        void InitRender(EnemyData data)
-        {
-            enemyAnimation.Init(data);
-            body.position = transform.position;
-        }
+    }
+    private void InitStat(EnemyData data)
+    {
+        CurHealth.Value = data.Health;
+        moveSpeed = data.Speed;
+    }
+    private void InitRender(EnemyData data)
+    {
+        enemyAnimation.Init(data);
+        body.position = transform.position;
     }
     public Vector2 _moveVec;
     public override void Move()
@@ -89,18 +88,18 @@ public class Enemy : CharacterBase
 
             yield return null;
         }
-
-        void KnockBackMove()
-        {
-            _rigidbody.MovePosition(_rigidbody.position - _moveVec.normalized * (30 * _knockBackSpeed * Time.fixedDeltaTime));
-        }
+    }
+    private void KnockBackMove()
+    {
+        _rigidbody.MovePosition(_rigidbody.position - _moveVec.normalized * (30 * _knockBackSpeed * Time.fixedDeltaTime));
     }
     private IEnumerator _knockBackCo;
     private IEnumerator KnockBackCo()
     {
+        EnemyData data = Managers.Data.Enemy[id];
+
         while (true)
         {
-            int speed = moveSpeed;
             moveSpeed = 0;
 
             StartCoroutine(_knockBackMoveCo);
@@ -111,7 +110,7 @@ public class Enemy : CharacterBase
 
             StopCoroutine(_knockBackCo);
 
-            moveSpeed = speed;
+            moveSpeed = data.Speed;
 
             yield return null;
         }
@@ -129,12 +128,9 @@ public class Enemy : CharacterBase
 
         Managers.Spawn.SpawnDamageText(transform.position, damage, IsCritical());
 
-        base.GetDamage(IsCritical()? damage * 2 : damage);
+        base.GetDamage(IsCritical() ? damage * 2 : damage);
 
-        static bool IsCritical()
-        {
-            return Random.Range(0, 100) < Managers.Game.VTuber.Critical.Value;
-        }
+        static bool IsCritical() => Random.Range(0, 100) < Managers.Game.VTuber.Critical.Value;
     }
     /// <summary>
     /// 적의 사망입니다. GetDamage에서 호출됩니다.
@@ -186,9 +182,8 @@ public class Enemy : CharacterBase
 
             yield return null;
         }
-
-        Vector2 GetLookDirToPlayer() => enemyAnimation.IsFlip == true ? Vector2.right : Vector2.left;
     }
+    private Vector2 GetLookDirToPlayer() => enemyAnimation.IsFlip == true ? Vector2.right : Vector2.left;
     /// <summary>
     /// 플레이어를 바라보는 방향으로 플립합니다.
     /// </summary>
