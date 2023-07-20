@@ -30,57 +30,56 @@ public class Exp : MonoBehaviour
             .Subscribe(Move);
         this.OnTriggerStay2DAsObservable()
             .Subscribe(OnTrigger);
+    }
+    private void Move(Unit unit)
+    {
+        _elapsedTime += Time.deltaTime;
+        transform.position += s_floatingVec * Mathf.Sin(_elapsedTime * 5);
+    }
+    private void OnTrigger(Collider2D collision)
+    {
+        if (IsReleased) { return; }
 
-        void Move(Unit unit)
+        if (collision.CompareTag(TagLiteral.VTUBER))
         {
-            _elapsedTime += Time.deltaTime;
-            transform.position += s_floatingVec * Mathf.Sin(_elapsedTime * 5);
+            SoundPool.GetPlayAudio(SoundID.GetExp);
+
+            ReleaseToPool();
+
+            VTuber vtuber = collision.gameObject.GetComponentAssert<VTuber>();
+
+            vtuber.GetExp(ExpAmount);
+
+            return;
         }
-        void OnTrigger(Collider2D collision)
+
+        if (collision.CompareTag(TagLiteral.OBJECT_SENSOR))
         {
-            if (IsReleased) { return; }
+            MoveToPlayer();
 
-            if (collision.CompareTag(TagLiteral.VTUBER))
-            {
-                SoundPool.GetPlayAudio(SoundID.GetExp);
-
-                ReleaseToPool();
-
-                VTuber vtuber = collision.gameObject.GetComponentAssert<VTuber>();
-
-                vtuber.GetExp(ExpAmount);
-
-                return;
-            }
-
-            if (collision.CompareTag(TagLiteral.OBJECT_SENSOR))
-            {
-                MoveToPlayer();
-
-                return;
-            }
-
-
-            if (collision.CompareTag(TagLiteral.EXP))
-            {
-                Exp exp = collision.gameObject.GetComponentAssert<Exp>();
-
-                if (ExpAmount.GetExpType() >= ExpType.Max) { return; }
-                if (exp.ExpAmount.GetExpType() >= ExpType.Max) { return; }
-
-                exp.ReleaseToPool();
-                ReleaseToPool();
-
-                OnCollideExp?.Invoke(transform.position, exp.ExpAmount + this.ExpAmount);
-            }
-
-            void MoveToPlayer()
-            {
-                _accumulatedSpeed += _accumulatedSpeed * Time.deltaTime;
-
-                transform.Translate(_accumulatedSpeed * Time.deltaTime * (Managers.Game.VTuber.transform.position - transform.position).normalized);
-            }
+            return;
         }
+
+
+        if (collision.CompareTag(TagLiteral.EXP))
+        {
+            Exp exp = collision.gameObject.GetComponentAssert<Exp>();
+
+            if (ExpAmount.GetExpType() >= ExpType.Max) { return; }
+            if (exp.ExpAmount.GetExpType() >= ExpType.Max) { return; }
+
+            exp.ReleaseToPool();
+            ReleaseToPool();
+
+            OnCollideExp?.Invoke(transform.position, exp.ExpAmount + this.ExpAmount);
+        }
+
+    }
+    private void MoveToPlayer()
+    {
+        _accumulatedSpeed += _accumulatedSpeed * Time.deltaTime;
+
+        transform.Translate(_accumulatedSpeed * Time.deltaTime * (Managers.Game.VTuber.transform.position - transform.position).normalized);
     }
     public void Init(Vector2 position, int expAmount)
     {

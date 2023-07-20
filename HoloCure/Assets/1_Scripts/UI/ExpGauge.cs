@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 
-public class ExpGauge : UIBase
+public class ExpGauge : UIBaseLegacy
 {
     private Image _image;
     private void Awake() => _image = GetComponent<Image>();

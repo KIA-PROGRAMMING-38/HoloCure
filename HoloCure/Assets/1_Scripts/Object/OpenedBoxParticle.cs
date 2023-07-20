@@ -14,18 +14,17 @@ public class OpenedBoxParticle : MonoBehaviour
     {
         this.UpdateAsObservable()
             .Subscribe(Move);
-
-        void Move(Unit unit)
+    }
+    private void Move(Unit unit)
+    {
+        _elapsedTime += Time.unscaledDeltaTime;
+        _rectTransform.anchoredPosition = Vector2.Lerp(_startPos, _endPos, _elapsedTime);
+        _rectTransform.Rotate(Vector3.forward, 10);
+        if (_elapsedTime > DURATION)
         {
-            _elapsedTime += Time.unscaledDeltaTime;
-            _rectTransform.anchoredPosition = Vector2.Lerp(_startPos, _endPos, _elapsedTime);
-            _rectTransform.Rotate(Vector3.forward, 10);
-            if (_elapsedTime > DURATION)
-            {
-                Managers.Spawn.OpenedBoxParticle.Release(this);
-            }
+            Managers.Spawn.OpenedBoxParticle.Release(this);
         }
-    }    
+    }
     public void Init()
     {
         float x = Random.Range(-115f, 115f);

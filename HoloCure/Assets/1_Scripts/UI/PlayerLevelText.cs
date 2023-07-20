@@ -1,7 +1,7 @@
 ﻿using StringLiterals;
 using TMPro;
 
-public class PlayerLevelText : UIBase
+public class PlayerLevelText : UIBaseLegacy
 {
     private TextMeshProUGUI _text;
     private void Awake() => _text = GetComponent<TextMeshProUGUI>();

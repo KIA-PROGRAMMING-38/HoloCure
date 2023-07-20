@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class OpenButtonController : UIBase
+public class OpenButtonController : UIBaseLegacy
 {
     public event Action OnPress;
 
