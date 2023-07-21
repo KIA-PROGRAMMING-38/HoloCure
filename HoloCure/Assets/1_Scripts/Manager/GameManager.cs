@@ -1,18 +1,41 @@
 using StringLiterals;
-using System;
-using System.Collections;
+using UniRx;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public event Action OnIngameStart;
-    public event Action OnOutgameStart;
-    public Player Player { get; private set; }
+    public ReactiveProperty<int> Stage { get; private set; } = new();
     public VTuber VTuber { get; private set; }
+
     public void Init()
     {
         AddEvent();
     }
+    private void IngameStart()
+    {
+        // Managers.Resouce.Instantiate("IngameEnvironment");
+
+        // Managers.UI.OpenPopupUI<HUDPopup>();
+    }
+    private void OutgameStart()
+    {
+        Managers.Resource.Destroy(VTuber.gameObject);
+
+        Managers.UI.OpenPopupUI<TitlePopup>();
+    }
+    private void SelectVTuber(VTuberID id)
+    {
+        VTuberData data = Managers.Data.VTuber[id];
+
+        VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
+        VTuber.Init(id);
+
+        Managers.PresenterM.InitPresenter.GetInitData(data);
+        Managers.PresenterM.InventoryPresenter.ResetInventory();
+        Managers.PresenterM.CountPresenter.ResetCount();
+    }
+
+
     private void AddEvent()
     {
         RemoveEvent();
@@ -25,32 +48,8 @@ public class GameManager : MonoBehaviour
         Managers.PresenterM.TitleUIPresenter.OnPlayGameForPlayer -= SelectVTuber;
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= OutgameStart;
     }
-    private void IngameStart()
+    private void OnDestroy()
     {
-        OnIngameStart?.Invoke();
-    }
-    private void OutgameStart()
-    {
-        DestroyGame();
-        OnOutgameStart?.Invoke();
-
-        void DestroyGame()
-        {
-            Managers.Resource.Destroy(Player.gameObject);
-            Managers.Resource.Destroy(VTuber.gameObject);
-        }
-    }
-    private void SelectVTuber(VTuberID id)
-    {
-        VTuberData data = Managers.Data.VTuber[id];
-
-        VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
-        VTuber.Init(id);
-
-        Player = VTuber.GetComponent<Player>();
-
-        Managers.PresenterM.InitPresenter.GetInitData(data);
-        Managers.PresenterM.InventoryPresenter.ResetInventory();
-        Managers.PresenterM.CountPresenter.ResetCount();
+        RemoveEvent();
     }
 }

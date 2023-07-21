@@ -6,7 +6,6 @@ public class Managers : MonoBehaviour
     public static DataManager Data { get; private set; }
     public static ResourceManager Resource { get; private set; }
     public static SpawnManager Spawn { get; private set; }
-    public static PoolManager Pool { get; private set; }
     public static GameManager Game { get; private set; }
     public static UIManager UI { get; private set; }
     public static PresenterManager PresenterM { get; private set; }
@@ -47,12 +46,10 @@ public class Managers : MonoBehaviour
         UI = new UIManager();
         UI.Init();
 
-        Pool = new PoolManager();
-        Pool.Init();
-
         go = new GameObject(nameof(SpawnManager));
         go.transform.parent = transform;
         Spawn = go.AddComponent<SpawnManager>();
+        Spawn.Init();
 
         go = new GameObject(nameof(StageManager));
         go.transform.parent = transform;
