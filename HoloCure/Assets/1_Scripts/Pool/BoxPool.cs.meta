@@ -2,8 +2,8 @@ fileFormatVersion: 2
 <<<<<<<< HEAD:HoloCure/Assets/1_Scripts/Pool/BoxPool.cs.meta
 guid: 14c1ae56989e9284981e863886dda105
 ========
-guid: 7a526db03179ee94d92ee3cf2bb9946a
->>>>>>>> main:HoloCure/Assets/1_Scripts/Object/OpenBoxParticle.cs.meta
+guid: 76efd56857e748d41a2cffa40581fb84
+>>>>>>>> main:HoloCure/Assets/1_Scripts/Object/OpenedBoxParticle.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

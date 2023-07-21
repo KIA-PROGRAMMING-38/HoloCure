@@ -27,7 +27,7 @@ public class EnemyAnimation : MonoBehaviour
         _getDamageEffectCo = GetDamageEffectCo();
 
         _enemy.FadeRate.Subscribe(SetDie);
-        _enemy.CurHealth.Subscribe(GetDamageEffect);
+        _enemy.CurrentHp.Subscribe(GetDamageEffect);
     }
     private void SetDie(float rate)
     {

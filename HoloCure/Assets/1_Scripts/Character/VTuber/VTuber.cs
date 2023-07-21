@@ -6,7 +6,7 @@ using UnityEngine;
 using Util;
 public class VTuber : CharacterBase
 {
-    public ReactiveProperty<int> MaxHealth { get; private set; } = new();
+    public ReactiveProperty<int> MaxHp { get; private set; } = new();
     public ReactiveProperty<int> Attack { get; private set; } = new();
     public ReactiveProperty<int> Speed { get; private set; } = new();
     public ReactiveProperty<int> Critical { get; private set; } = new();
@@ -17,8 +17,8 @@ public class VTuber : CharacterBase
     public ReactiveProperty<int> PickUpRate { get; private set; } = new();
     public ReactiveProperty<int> Level { get; private set; } = new();
     public ReactiveProperty<int> MaxExp { get; private set; } = new();
-    public ReactiveProperty<int> CurExp { get; private set; } = new();
-    public VTuberID Id { get; private set; }
+    public ReactiveProperty<int> CurrentExp { get; private set; } = new();
+    public ReactiveProperty<VTuberID> Id { get; private set; } = new();
     public Inventory Inventory { get; private set; }
 
     private PlayerInput _input;
@@ -55,8 +55,8 @@ public class VTuber : CharacterBase
     }
     private void InitStat(VTuberData data)
     {
-        MaxHealth.Value = data.Health;
-        CurHealth.Value = data.Health;
+        MaxHp.Value = data.Health;
+        CurrentHp.Value = data.Health;
         Attack.Value = data.Attack;
         Speed.Value = data.Speed;
         Critical.Value = data.Critical;
@@ -67,7 +67,7 @@ public class VTuber : CharacterBase
         SpeedRate.Value = default;
         PickUpRate.Value = default;
 
-        CurExp.Value = 0;
+        CurrentExp.Value = 0;
         MaxExp.Value = 79;
         Level.Value = 1;
     }
@@ -119,10 +119,10 @@ public class VTuber : CharacterBase
     {
         if (value != 0)
         {
-            MaxHealth.Value += MaxHealth.Value / value;
+            MaxHp.Value += MaxHp.Value / value;
         }
 
-        CurHealth.Value = MaxHealth.Value;
+        CurrentHp.Value = MaxHp.Value;
     }
     private void GetAttackRate(int value)
     {
@@ -156,16 +156,16 @@ public class VTuber : CharacterBase
     }
     public void GetExp(int value)
     {
-        CurExp.Value += value;
+        CurrentExp.Value += value;
 
-        if (CurExp.Value >= MaxExp.Value)
+        if (CurrentExp.Value >= MaxExp.Value)
         {
             LevelUp();
         }
     }
     private void LevelUp()
     {
-        CurExp.Value -= MaxExp.Value;
+        CurrentExp.Value -= MaxExp.Value;
         MaxExp.Value = (int)(Mathf.Round(Mathf.Pow(4 * (Level.Value + 1), 2.1f)) - Mathf.Round(Mathf.Pow(4 * Level.Value, 2.1f)));
         Level.Value += 1;
         GetStat(ItemID.MaxHPUp, 0);

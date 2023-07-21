@@ -2,8 +2,8 @@ fileFormatVersion: 2
 <<<<<<<< HEAD:HoloCure/Assets/1_Scripts/Pool/DamageTextPool.cs.meta
 guid: 75cb085fe2f5fe6468119e6560c4b4c2
 ========
-guid: 7edeccddbff35c24fbd0d55e5b0cd86a
->>>>>>>> main:HoloCure/Assets/1_Scripts/Object/OpenBoxEffect.cs.meta
+guid: 7a526db03179ee94d92ee3cf2bb9946a
+>>>>>>>> main:HoloCure/Assets/1_Scripts/Object/OpenBoxParticle.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

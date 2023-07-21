@@ -2,8 +2,8 @@ fileFormatVersion: 2
 <<<<<<<< HEAD:HoloCure/Assets/1_Scripts/Manager/UIManager.cs.meta
 guid: 32db7b941bbe79b418e1a94f2e878ca0
 ========
-guid: 531ac6f8261b4c64eb669845dfa750d5
->>>>>>>> main:HoloCure/Assets/1_Scripts/Object/OpenBoxCoin.cs.meta
+guid: 7edeccddbff35c24fbd0d55e5b0cd86a
+>>>>>>>> main:HoloCure/Assets/1_Scripts/Object/OpenBoxEffect.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
