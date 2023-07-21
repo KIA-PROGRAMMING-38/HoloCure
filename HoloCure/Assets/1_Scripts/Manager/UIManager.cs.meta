@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/1_Scripts/Manager/UIManager.cs.meta
 guid: 32db7b941bbe79b418e1a94f2e878ca0
+========
+guid: 1fcc87cda4ea24443bbeef91fb680541
+>>>>>>>> main:HoloCure/Assets/1_Scripts/Pool/EnemyPool.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
