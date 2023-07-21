@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GetBoxStartUI : UIBase
+public class GetBoxStartUI : UIBaseLegacy
 {
     private Canvas _canvas;
     private void Awake() => _canvas = GetComponent<Canvas>();

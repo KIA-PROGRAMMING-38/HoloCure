@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LevelUpUI : UIBase
+public class LevelUpUI : UIBaseLegacy
 {
     private Canvas _canvas;
     private void Awake() => _canvas = GetComponent<Canvas>();

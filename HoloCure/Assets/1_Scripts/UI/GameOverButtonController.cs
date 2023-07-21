@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class GameOverButtonController : UIBase
+public class GameOverButtonController : UIBaseLegacy
 {
     public event Action OnSelectMainMenu;
 

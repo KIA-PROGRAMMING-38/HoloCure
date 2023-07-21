@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HUDPortraitImage : UIBase
+public class HUDPortraitImage : UIBaseLegacy
 {
     private Image _image;
     private void Awake() => _image = GetComponent<Image>();

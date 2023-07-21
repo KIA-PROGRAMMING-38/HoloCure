@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StatUI : UIBase
+public class StatUI : UIBaseLegacy
 {
     private Canvas _canvas;
     private void Awake() => _canvas = GetComponent<Canvas>();

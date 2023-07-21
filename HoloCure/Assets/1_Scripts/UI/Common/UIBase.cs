@@ -7,6 +7,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+public enum ViewEvent
+{
+    Click,
+    Enter,
+}
 [RequireComponent(typeof(Canvas))]
 public abstract class UIBase : MonoBehaviour
 {
@@ -51,9 +56,17 @@ public abstract class UIBase : MonoBehaviour
     protected Image GetImage(int index) => Get<Image>(index);
     protected TMP_Text GetText(int index) => Get<TMP_Text>(index);
     protected Button GetButton(int index) => Get<Button>(index);
-    public static void BindViewEvent(UIBehaviour view, Action<PointerEventData> action, Component component)
+    public static void BindViewEvent(UIBehaviour view, Action<PointerEventData> action, ViewEvent type, Component component)
     {
-        view.OnPointerClickAsObservable().Subscribe(action).AddTo(component);
+        switch (type)
+        {
+            case ViewEvent.Click:
+                view.OnPointerClickAsObservable().Subscribe(action).AddTo(component);
+                break;
+            case ViewEvent.Enter:
+                view.OnPointerEnterAsObservable().Subscribe(action).AddTo(component);
+                break;
+        };
     }
     public static void BindModelEvent<T>(ReactiveProperty<T> model, Action<T> action, Component component)
     {
