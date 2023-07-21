@@ -2768,9 +2768,9 @@ GameObject:
   - component: {fileID: 3678754791457689221}
   - component: {fileID: 3678754791457689220}
   - component: {fileID: 3678754791457689219}
-  - component: {fileID: 2085198229844675200}
+  - component: {fileID: 4610758113862058093}
   m_Layer: 5
-  m_Name: HUDInventoryPopup
+  m_Name: HudInventoryPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2873,7 +2873,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2085198229844675200
+--- !u!114 &4610758113862058093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

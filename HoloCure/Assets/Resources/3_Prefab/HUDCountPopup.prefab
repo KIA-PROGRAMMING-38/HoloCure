@@ -976,7 +976,7 @@ GameObject:
   - component: {fileID: 8743908664313419094}
   - component: {fileID: 2060138418758817216}
   m_Layer: 5
-  m_Name: HUDCountPopup
+  m_Name: HudCountPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 545726208312120962}
   - component: {fileID: 3772425583724713908}
   m_Layer: 5
-  m_Name: HUDPopup
+  m_Name: HudPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

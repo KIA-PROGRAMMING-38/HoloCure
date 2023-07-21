@@ -164,9 +164,9 @@ GameObject:
   - component: {fileID: 752145863934796780}
   - component: {fileID: 752145863934796781}
   - component: {fileID: 752145863934796778}
-  - component: {fileID: 8952462351161339893}
+  - component: {fileID: 971808712953522010}
   m_Layer: 5
-  m_Name: HUDHPPopup
+  m_Name: HudHpPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8952462351161339893
+--- !u!114 &971808712953522010
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 752145864072864997}
   - component: {fileID: 752145864072864994}
   m_Layer: 5
-  m_Name: HPGaugeImage
+  m_Name: HpGaugeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 752145864246694708}
   - component: {fileID: 752145864246694709}
   m_Layer: 5
-  m_Name: MaxHPText
+  m_Name: MaxHpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 752145864349076137}
   - component: {fileID: 752145864349076150}
   m_Layer: 5
-  m_Name: CurHPText
+  m_Name: CurrentHpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
