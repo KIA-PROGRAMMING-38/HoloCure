@@ -57,6 +57,8 @@ public class HUDInventoryPopup : UIPopup
         Managers.Game.VTuber.Inventory.WeaponCount.BindModelEvent(UpdateWeaponImages, this);
     }
 
+    #region UI Appearance Update
+
     private void UpdateWeaponImages(int index)
     {
         if (index == 0) { return; }
@@ -77,6 +79,10 @@ public class HUDInventoryPopup : UIPopup
 
         GetImage(index).sprite = Managers.Resource.LoadSprite(path);
     }
+
+    #endregion
+
+    #region Helpers
 
     private readonly static Vector3 s_defaultScale = Vector3.one;
     private readonly static Color s_defaultColor = Color.white;
@@ -131,4 +137,6 @@ public class HUDInventoryPopup : UIPopup
             default: Debug.Assert(false, $"Invalid WeaponType: {type}"); return null;
         }
     }
+
+    #endregion
 }
