@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1700053350210075516}
   - component: {fileID: 8929947062979088031}
   - component: {fileID: 1363769229327286147}
-  - component: {fileID: 3375766437326265624}
+  - component: {fileID: 552140945748302383}
   m_Layer: 5
   m_Name: Open Box Coin
   m_TagString: Untagged
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3375766437326265624
+--- !u!114 &552140945748302383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5240206807736545503}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b5960e279cf48e4c810c4bc4b40d713, type: 3}
+  m_Script: {fileID: 11500000, guid: f54f728940766fb448e93c991b9cfb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6585015340079924994

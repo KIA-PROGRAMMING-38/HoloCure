@@ -79,6 +79,7 @@ public class SpawnManager : MonoBehaviour
         OpenBoxCoin = new OpenBoxCoinPool();
         OpenBoxParticle = new OpenBoxParticlePool();
         OpenedBoxParticle = new OpenedBoxParticlePool();
+        EnemyDieEffect = new EnemyDieEffectPool();
 
         Enemy.Init();
         DamageText.Init();
@@ -87,6 +88,7 @@ public class SpawnManager : MonoBehaviour
         OpenBoxCoin.Init();
         OpenBoxParticle.Init();
         OpenedBoxParticle.Init();
+        EnemyDieEffect.Init();
     }
     private void InitOffset()
     {

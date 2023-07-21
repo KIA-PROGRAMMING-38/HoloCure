@@ -2768,9 +2768,9 @@ GameObject:
   - component: {fileID: 3678754791457689221}
   - component: {fileID: 3678754791457689220}
   - component: {fileID: 3678754791457689219}
-  - component: {fileID: 4610758113862058093}
+  - component: {fileID: 5101961917935838837}
   m_Layer: 5
-  m_Name: HudInventoryPopup
+  m_Name: HudInventorySubItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2873,7 +2873,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4610758113862058093
+--- !u!114 &5101961917935838837
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2882,7 +2882,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3678754791457689216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b140a83ebaf2f3641b630bf1b7161850, type: 3}
+  m_Script: {fileID: 11500000, guid: 35b39de4f67d2b44ba4b926d9a3afd7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3678754791495147103
