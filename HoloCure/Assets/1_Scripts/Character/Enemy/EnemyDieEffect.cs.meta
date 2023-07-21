@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/1_Scripts/Character/Enemy/EnemyDieEffect.cs.meta
+guid: a51c24ab9c04b9f49b425cf863ba2044
+========
+guid: 32db7b941bbe79b418e1a94f2e878ca0
+>>>>>>>> main:HoloCure/Assets/1_Scripts/Manager/UIManager.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

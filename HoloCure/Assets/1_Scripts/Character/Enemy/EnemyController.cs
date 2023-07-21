@@ -1,41 +1,50 @@
 using StringLiterals;
 using System.Collections;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
     private Enemy _enemy;
-    private void Awake() => _enemy = GetComponent<Enemy>();
-    private void FixedUpdate() => _enemy.Move();
+    private IEnumerator _attackCo;
+    private const float ATTACK_INTERVAL = 0.2f;
+    private void Awake() => _enemy = gameObject.GetComponentAssert<Enemy>();
+    private void Start()
+    {
+        _attackCo = AttackCo();
 
-    // 공격 시작
-    private void OnTriggerEnter2D(Collider2D collision)
+        this.FixedUpdateAsObservable()
+            .Subscribe(Move);
+
+        this.OnTriggerEnter2DAsObservable()
+            .Subscribe(StartAttack);
+
+        this.OnTriggerExit2DAsObservable()
+            .Subscribe(StopAttack);
+    }
+    private void Move(Unit unit) => _enemy.Move();
+    private void StartAttack(Collider2D collision)
     {
         if (collision.CompareTag(TagLiteral.VTUBER))
         {
-            VTuber VTuber = collision.GetComponent<VTuber>();
-            _attackCoroutine = AttackCoroutine(VTuber);
-            StartCoroutine(_attackCoroutine);
+            StartCoroutine(_attackCo);
         }
     }
-    // 공격 종료
-    private void OnTriggerExit2D(Collider2D collision)
+    private void StopAttack(Collider2D collision)
     {
         if (collision.CompareTag(TagLiteral.VTUBER))
         {
-            StopCoroutine(_attackCoroutine);
+            StopCoroutine(_attackCo);
         }
     }
-
-    // 공격
-    private IEnumerator _attackCoroutine;
-    private IEnumerator AttackCoroutine(VTuber VTuber)
+    private IEnumerator AttackCo()
     {
         while (true)
         {
-            _enemy.SetDamage(VTuber);
+            _enemy.SetDamage(Managers.Game.VTuber);
 
-            yield return Util.TimeStore.GetWaitForSeconds(0.2f);
+            yield return Util.DelayCache.GetWaitForSeconds(ATTACK_INTERVAL);
         }
     }
 }
