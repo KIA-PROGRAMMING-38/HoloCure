@@ -2,8 +2,8 @@ fileFormatVersion: 2
 <<<<<<<< HEAD:HoloCure/Assets/1_Scripts/Manager/UIManager.cs.meta
 guid: 32db7b941bbe79b418e1a94f2e878ca0
 ========
-guid: 768b6fda4e5c6644a9e0401970917a71
->>>>>>>> main:HoloCure/Assets/1_Scripts/UI/UIBaseLegacy.cs.meta
+guid: 14c1ae56989e9284981e863886dda105
+>>>>>>>> main:HoloCure/Assets/1_Scripts/Pool/BoxPool.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
