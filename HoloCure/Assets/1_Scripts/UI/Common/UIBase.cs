@@ -12,7 +12,6 @@ public enum ViewEvent
     Click,
     Enter,
 }
-
 [RequireComponent(typeof(Canvas))]
 public abstract class UIBase : MonoBehaviour
 {
