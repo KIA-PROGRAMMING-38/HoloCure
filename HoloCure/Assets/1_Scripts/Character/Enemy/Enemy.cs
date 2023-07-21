@@ -53,7 +53,7 @@ public class Enemy : CharacterBase
     }
     private void InitStat(EnemyData data)
     {
-        CurHealth.Value = data.Health;
+        CurrentHp.Value = data.Health;
         moveSpeed = data.Speed;
     }
     private void InitRender(EnemyData data)

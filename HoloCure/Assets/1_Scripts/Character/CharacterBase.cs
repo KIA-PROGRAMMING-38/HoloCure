@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class CharacterBase : MonoBehaviour
 {
-    public ReactiveProperty<int> CurHealth;
+    public ReactiveProperty<int> CurrentHp;
     /// <summary>
     /// 캐릭터의 움직임입니다. 컨트롤러에서 사용합니다.
     /// </summary>
@@ -14,9 +14,9 @@ public abstract class CharacterBase : MonoBehaviour
     /// </summary>
     public virtual void GetDamage(int damage)
     {
-        CurHealth.Value -= damage;
+        CurrentHp.Value -= damage;
 
-        if (CurHealth.Value <= 0)
+        if (CurrentHp.Value <= 0)
         {
             Die();
         }

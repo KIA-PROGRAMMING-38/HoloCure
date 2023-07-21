@@ -1,16 +1,16 @@
-public class HUDHPPopup : UIPopup
+public class HudHpPopup : UIPopup
 {
     #region Enums
 
     enum Images
     {
-        HPGaugeImage
+        HpGaugeImage
     }
 
     enum Texts
     {
-        CurHPText,
-        MaxHPText
+        CurrentHpText,
+        MaxHpText
     }
 
     #endregion
@@ -22,25 +22,25 @@ public class HUDHPPopup : UIPopup
         BindImage(typeof(Images));
         BindText(typeof(Texts));
 
-        Managers.Game.VTuber.CurHealth.BindModelEvent(UpdateHPGaugeImage, this);
+        Managers.Game.VTuber.CurrentHp.BindModelEvent(UpdateHPGaugeImage, this);
 
-        Managers.Game.VTuber.CurHealth.BindModelEvent(UpdateCurHPText, this);
-        Managers.Game.VTuber.MaxHealth.BindModelEvent(UpdateMaxHPText, this);
+        Managers.Game.VTuber.CurrentHp.BindModelEvent(UpdateCurHPText, this);
+        Managers.Game.VTuber.MaxHp.BindModelEvent(UpdateMaxHPText, this);
     }
 
-    private void UpdateHPGaugeImage(int CurHP)
+    private void UpdateHPGaugeImage(int currentHp)
     {
-        float MaxHP = Managers.Game.VTuber.MaxHealth.Value;
-        GetImage((int)Images.HPGaugeImage).fillAmount = CurHP / MaxHP;
+        float maxHp = Managers.Game.VTuber.MaxHp.Value;
+        GetImage((int)Images.HpGaugeImage).fillAmount = currentHp / maxHp;
     }
 
-    private void UpdateCurHPText(int CurHP)
+    private void UpdateCurHPText(int currentHp)
     {
-        GetText((int)Texts.CurHPText).text = CurHP.ToString();
+        GetText((int)Texts.CurrentHpText).text = currentHp.ToString();
     }
 
-    private void UpdateMaxHPText(int MaxHP)
+    private void UpdateMaxHPText(int maxHp)
     {
-        GetText((int)Texts.MaxHPText).text = MaxHP.ToString();
+        GetText((int)Texts.MaxHpText).text = maxHp.ToString();
     }
 }

@@ -1,8 +1,9 @@
 using Cysharp.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
-public class HUDInventoryPopup : UIPopup
+public class HudInventoryPopup : UIPopup
 {
     #region Enums
 
@@ -50,44 +51,51 @@ public class HUDInventoryPopup : UIPopup
 
     public override void Init()
     {
-        base.Init();
+        Managers.UI.SetCanvas(gameObject, false);
 
         BindImage(typeof(Images));
 
         Managers.Game.VTuber.Inventory.WeaponCount.BindModelEvent(UpdateWeaponImages, this);
     }
 
-    private void UpdateWeaponImages(int index)
+    #region UI Appearance Update
+
+    private void UpdateWeaponImages(int weaponIndex)
     {
-        if (index == 0) { return; }
-        index -= 1;
+        if (weaponIndex <= 0) { return; }
+        weaponIndex -= 1;
 
-        Weapon weapon = Managers.Game.VTuber.Inventory.Weapons[index];
-        SetupWeaponIcon(index, weapon.Id);
+        Weapon weapon = Managers.Game.VTuber.Inventory.Weapons[weaponIndex];
+        SetupWeaponIcon(weaponIndex, weapon.Id);
 
-        weapon.Level.BindModelEvent(level => UpdateWeaponLevelImage(level, index, weapon.Id), this);
+        weapon.Level.BindModelEvent(level => UpdateWeaponLevelImage(level, weaponIndex, weapon.Id), this);
     }
 
-    private void UpdateWeaponLevelImage(int level, int index, ItemID weaponId)
+    private void UpdateWeaponLevelImage(int level, int weaponIndex, ItemID weaponId)
     {
-        index += (int)Images.WeaponLevelNumImage_1;
+        int baseIndex = (int)Images.WeaponLevelNumImage_1;
+        int imageIndex = weaponIndex + baseIndex;
 
         WeaponType type = weaponId.GetWeaponType();
-        string path = GetNumPath(type, level);
+        string path = GetNumSpritePath(type, level);
 
-        GetImage(index).sprite = Managers.Resource.LoadSprite(path);
+        GetImage(imageIndex).sprite = Managers.Resource.LoadSprite(path);
     }
+
+    #endregion
+
+    #region Helpers
 
     private readonly static Vector3 s_defaultScale = Vector3.one;
     private readonly static Color s_defaultColor = Color.white;
-    private void SetupWeaponIcon(int index, ItemID weaponId)
+    private void SetupWeaponIcon(int weaponIndex, ItemID weaponId)
     {
-        var (icon, frame, num) = GetImages(index);
+        var (icon, frame, num) = GetWeaponImages(weaponIndex);
         WeaponType type = weaponId.GetWeaponType();
 
         SetupImage(icon, Managers.Data.Item[weaponId].IconSprite);
-        SetupImage(frame, GetFramePath(type));
-        SetupImage(num, GetNumPath(type, 1));
+        SetupImage(frame, GetFrameSpritePath(type));
+        SetupImage(num, GetNumSpritePath(type, 1));
 
         static void SetupImage(Image image, string path)
         {
@@ -98,26 +106,26 @@ public class HUDInventoryPopup : UIPopup
         }
     }
 
-    private (Image, Image, Image) GetImages(int index)
+    private (Image icon, Image frame, Image num) GetWeaponImages(int weaponIndex)
     {
-        Image icon = GetImage(index, Images.WeaponIconImage_1);
-        Image frame = GetImage(index, Images.WeaponLevelFrameImage_1);
-        Image num = GetImage(index, Images.WeaponLevelNumImage_1);
+        Image icon = GetImage(weaponIndex, Images.WeaponIconImage_1);
+        Image frame = GetImage(weaponIndex, Images.WeaponLevelFrameImage_1);
+        Image num = GetImage(weaponIndex, Images.WeaponLevelNumImage_1);
 
         return (icon, frame, num);
     }
 
-    private Image GetImage(int index, Images startIndex)
+    private Image GetImage(int itemIndex, Images baseIndex)
     {
-        return GetImage(index + (int)startIndex);
+        return GetImage(itemIndex + (int)baseIndex);
     }
 
-    private string GetFramePath(WeaponType type)
+    private string GetFrameSpritePath(WeaponType type)
     {
         return ZString.Concat("ui_level_header_", GetWeaponColor(type), 0);
     }
 
-    private string GetNumPath(WeaponType type, int level)
+    private string GetNumSpritePath(WeaponType type, int level)
     {
         return ZString.Concat("ui_digit_", GetWeaponColor(type), level);
     }
@@ -128,7 +136,9 @@ public class HUDInventoryPopup : UIPopup
         {
             case WeaponType.Starting: return "pink_";
             case WeaponType.Common: return "white_";
-            default: Debug.Assert(false, $"Invalid WeaponType: {type}"); return null;
+            default: throw new ArgumentOutOfRangeException($"Invalid WeaponType: {type}");
         }
     }
+
+    #endregion
 }
