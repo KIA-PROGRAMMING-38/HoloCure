@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace StringLiterals
 {
@@ -8,7 +8,7 @@ namespace StringLiterals
         public const string ON_EFFECT = "OnEffect";
         public const string JUMP = "Jump";
     }
-    public static class AnimParameterHash
+    public static class AnimHash
     {
         public static int IS_RUNNING = Animator.StringToHash(AnimParameterLiteral.IS_RUNNING);
         public static int ON_EFFECT = Animator.StringToHash(AnimParameterLiteral.ON_EFFECT);

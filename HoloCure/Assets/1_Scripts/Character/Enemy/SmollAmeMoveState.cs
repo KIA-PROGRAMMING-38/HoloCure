@@ -13,7 +13,7 @@ public class SmollAmeMoveState : StateMachineBehaviour
 
         if (_elapedTime >= ATTACK_COOL_TIME)
         {
-            animator.SetTrigger(AnimParameterHash.JUMP);
+            animator.SetTrigger(AnimHash.JUMP);
         }
     }
 }

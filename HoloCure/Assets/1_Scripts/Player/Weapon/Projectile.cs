@@ -24,7 +24,6 @@ public class Projectile : MonoBehaviour
     private float _hitCoolTime;
     private float _size;
     private float _durationTime;
-    private int _criticalRate;
     private float _knockBackDurationTime;
     private float _knockBackSpeed;
     private ObjectPool<Projectile> _pool;
@@ -54,7 +53,7 @@ public class Projectile : MonoBehaviour
         {
             yield return null;
 
-            yield return Util.TimeStore.GetWaitForSeconds(_durationTime);
+            yield return Util.DelayCache.GetWaitForSeconds(_durationTime);
 
             RemoveEvent();
 
@@ -69,12 +68,11 @@ public class Projectile : MonoBehaviour
     public void SetProjectileOperate(Action<Projectile> operate) => _operate = operate;
     public void SetProjectileStat(WeaponLevelData data)
     {
-        _damage = data.DamageRate * Managers.Game.VTuber.AttackPower;
+        _damage = Managers.Game.VTuber.Attack.Value;
         _hitCoolTime = data.HitCoolTime;
         _size = data.Size;
         _durationTime = data.AttackDurationTime;
         ProjectileSpeed = data.ProjectileSpeed;
-        _criticalRate = Managers.Game.VTuber.CriticalRate;
         _knockBackDurationTime = data.KnockbackDurationTime;
         _knockBackSpeed = data.KnockbackSpeed;
     }
@@ -127,7 +125,7 @@ public class Projectile : MonoBehaviour
         CircleCollider2D collier = (CircleCollider2D)_collider;
         collier.enabled = false;
         gameObject.layer = LayerNum.WEAPON;
-        GetComponent<Animator>().SetTrigger(AnimParameterHash.ON_EFFECT);
+        GetComponent<Animator>().SetTrigger(AnimHash.ON_EFFECT);
         collier.enabled = true;
         collier.offset = _efffectColliderOffset;
         collier.radius = _effectRadius;
@@ -149,14 +147,7 @@ public class Projectile : MonoBehaviour
     {
         int damage = (int)_damage + UnityEngine.Random.Range(-2, 3);
 
-        if (UnityEngine.Random.Range(0, 100) < _criticalRate)
-        {
-            enemy.GetDamage(2 * damage, true);
-        }
-        else
-        {
-            enemy.GetDamage(damage);
-        }
+        enemy.GetDamage(damage);
     }
 
     /// <summary>

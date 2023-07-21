@@ -1,2 +1,2 @@
-Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,ATK,SPD,CRT,PickUp,Haste
-1101,Ninomae Inanis,spr_Ina_idle_0,spr_InaPortrait_0,spr_Title_Ina_0,2201,75,0.9,1.5,1,0,0
+Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,Attack,Speed,Critical,PickUp,Haste
+1101,Ninomae Inanis,spr_Ina_idle_0,spr_InaPortrait_0,spr_Title_Ina_0,2201,75,9,120,1,50,0

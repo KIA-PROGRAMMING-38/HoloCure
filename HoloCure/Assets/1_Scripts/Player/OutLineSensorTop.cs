@@ -1,4 +1,4 @@
-﻿using StringLiterals;
+using StringLiterals;
 using UnityEngine;
 
 public class OutLineSensorTop : MonoBehaviour
@@ -14,8 +14,8 @@ public class OutLineSensorTop : MonoBehaviour
         if (collision.CompareTag(TagLiteral.ENEMY_BODY))
         {
             Enemy enemy = collision.transform.parent.GetComponent<Enemy>();
-            enemy.transform.position = (Vector2)enemy.transform.position + (Util.Caching.CenterWorldPos - (Vector2)enemy.transform.position) * 1.8f;
-            enemy.SetFilpX();
+            enemy.transform.position = enemy.transform.position + (Managers.Game.VTuber.transform.position - enemy.transform.position) * 1.8f;
+            enemy.OnSensor();
         }
     }
 }

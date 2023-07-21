@@ -42,7 +42,7 @@ public class GetBoxEndUI : UIBaseLegacy
     private ItemID _id;
     private void GetWeaponList(ItemID[] ids)
     {
-        Inventory inventory = Managers.Game.Player.Inventory;
+        Inventory inventory = Managers.Game.VTuber.Inventory;
 
         for (int i = 0; i < inventory.WeaponCount; ++i)
         {

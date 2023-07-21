@@ -14,7 +14,7 @@ public abstract class Weapon : MonoBehaviour
 
     protected ProjectilePool _projectilePool;
 
-    protected Vector2 initPos;
+    protected Vector3 initPos;
 
     protected virtual void Awake()
     {
@@ -67,7 +67,7 @@ public abstract class Weapon : MonoBehaviour
 
                 if (Managers.Data.WeaponLevelTable[Id][Level].AttackDelay == 0) { continue; }
 
-                yield return Util.TimeStore.GetWaitForSeconds(Managers.Data.WeaponLevelTable[Id][Level].AttackDelay);
+                yield return Util.DelayCache.GetWaitForSeconds(Managers.Data.WeaponLevelTable[Id][Level].AttackDelay);
             }
 
             StopCoroutine(_shootCoroutine);
@@ -85,12 +85,12 @@ public abstract class Weapon : MonoBehaviour
             StartCoroutine(_operateWeaponCoroutine);
             _index = 0;
             StartCoroutine(_shootCoroutine);
-            yield return Util.TimeStore.GetWaitForSeconds(_curAttackSequenceTime);
+            yield return Util.DelayCache.GetWaitForSeconds(_curAttackSequenceTime);
         }
     }
 
     /// <summary>
-    /// ¹«±â°¡ È°¼ºÈ­ µÇ¾î µ¿ÀÛÀ» ½ÃÀÛÇÏ±â Àü¿¡ ÇØµÑ ¼¼ÆÃÀÔ´Ï´Ù.
+    /// ë¬´ê¸°ê°€ í™œì„±í™” ë˜ì–´ ë™ì‘ì„ ì‹œì‘í•˜ê¸° ì „ì— í•´ë‘˜ ì„¸íŒ…ì…ë‹ˆë‹¤.
     /// </summary>
     protected virtual void BeforeOperateWeapon()
     {
@@ -122,7 +122,7 @@ public abstract class Weapon : MonoBehaviour
     protected abstract void ProjectileOperate(Projectile projectile);
 
     /// <summary>
-    /// ¹«±â¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+    /// ë¬´ê¸°ë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
     /// </summary>
     public virtual void Initialize(ItemID id)
     {
@@ -174,7 +174,7 @@ public abstract class Weapon : MonoBehaviour
 
         return collider;
     }
-    protected void SetWeaponPosWithPlayerPos() => transform.position = Util.Caching.CenterWorldPos + initPos;
+    protected void SetWeaponPosWithPlayerPos() => transform.position = Managers.Game.VTuber.transform.position + initPos;
     protected void SetProjectileRotWithMousePos(Projectile projectile) => projectile.transform.rotation = Quaternion.AngleAxis(Util.Caching.GetAngleToMouse(transform.position), Vector3.forward);
     public virtual void LevelUp()
     {

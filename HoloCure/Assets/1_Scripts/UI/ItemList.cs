@@ -1,4 +1,3 @@
-using Cysharp.Text;
 using StringLiterals;
 using System;
 using TMPro;
@@ -86,7 +85,7 @@ public class ItemList : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         _iconImage.sprite = Managers.Resource.LoadSprite(data.IconSprite);
 
         Weapon weapon = default;
-        Inventory inventory = Managers.Game.Player.Inventory;
+        Inventory inventory = Managers.Game.VTuber.Inventory;
         for (int i = 0; i < inventory.WeaponCount; ++i)
         {
             if (inventory.Weapons[i].Id != data.Id) { continue; }

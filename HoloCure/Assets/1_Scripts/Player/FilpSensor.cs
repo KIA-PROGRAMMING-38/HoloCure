@@ -15,7 +15,7 @@ public class FilpSensor : MonoBehaviour
         if (collision.CompareTag(TagLiteral.ENEMY_BODY))
         {
             Enemy enemy = collision.transform.parent.GetComponent<Enemy>();
-            enemy.SetFilpX();
+            enemy.OnSensor();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -23,7 +23,7 @@ public class FilpSensor : MonoBehaviour
         if (collision.CompareTag(TagLiteral.ENEMY_BODY))
         {
             Enemy enemy = collision.transform.parent.GetComponent<Enemy>();
-            enemy.SetFilpX();
+            enemy.OnSensor();
         }
     }
 }

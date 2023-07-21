@@ -21,7 +21,7 @@ public class ArrowRotation : MonoBehaviour
 
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            yield return Util.TimeStore.GetWaitForSeconds(0.01f);
+            yield return Util.DelayCache.GetWaitForSeconds(0.01f);
         }
     }
 }

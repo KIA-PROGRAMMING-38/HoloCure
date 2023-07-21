@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour
@@ -56,7 +56,7 @@ public class ItemManager : MonoBehaviour
     {
         if (_set.Count >= 4) { return; }
 
-        Inventory inventory = Managers.Game.Player.Inventory;
+        Inventory inventory = Managers.Game.VTuber.Inventory;
 
         if (inventory.WeaponCount >= 6) { return; }
 
@@ -99,7 +99,7 @@ public class ItemManager : MonoBehaviour
     }
     private void GetWeaponDataFromInventory()
     {
-        Inventory inventory = Managers.Game.Player.Inventory;
+        Inventory inventory = Managers.Game.VTuber.Inventory;
 
         for (int i = 0; i < inventory.WeaponCount; ++i)
         {
