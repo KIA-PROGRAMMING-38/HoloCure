@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Scripts/Object/OpenedBoxParticle.cs.meta
+guid: 76efd56857e748d41a2cffa40581fb84
+========
+guid: 14c1ae56989e9284981e863886dda105
+>>>>>>>> #110_Chore:HoloCure/Assets/Scripts/Pool/BoxPool.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

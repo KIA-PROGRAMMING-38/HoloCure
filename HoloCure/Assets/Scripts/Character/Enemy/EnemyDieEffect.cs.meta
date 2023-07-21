@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/1_Scripts/Data/ExpData.cs.meta
+<<<<<<<< HEAD:HoloCure/Assets/1_Scripts/Manager/GameManager.cs.meta
+guid: 4759de0d0e5cd054bb37a9759096fd1b
+========
+guid: e2b48eceadd67b74faba74921f06af81
+>>>>>>>> main:HoloCure/Assets/1_Scripts/Data/ExpData.cs.meta
+========
+guid: a51c24ab9c04b9f49b425cf863ba2044
+>>>>>>>> #110_Chore:HoloCure/Assets/Scripts/Character/Enemy/EnemyDieEffect.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
