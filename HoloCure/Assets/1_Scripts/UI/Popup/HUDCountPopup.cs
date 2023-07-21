@@ -1,4 +1,4 @@
-public class HUDCountPopup : UIPopup
+public class HudCountPopup : UIPopup
 {
     #region Enums
 

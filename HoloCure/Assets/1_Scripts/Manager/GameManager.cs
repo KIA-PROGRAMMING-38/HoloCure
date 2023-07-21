@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     {
         // Managers.Resouce.Instantiate("IngameEnvironment");
 
-        // Managers.UI.OpenPopupUI<HUDPopup>();
+        Managers.UI.OpenPopupUI<HudPopup>();
     }
     private void OutgameStart()
     {
