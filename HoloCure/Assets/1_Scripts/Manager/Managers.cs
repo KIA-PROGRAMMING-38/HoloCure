@@ -18,7 +18,7 @@ public class Managers : MonoBehaviour
 
         Time.timeScale = 0;
 
-        UI.OpenPopupUI<TitlePopup>();
+        UI.OpenPopup<TitlePopup>();
     }
     private void Init()
     {

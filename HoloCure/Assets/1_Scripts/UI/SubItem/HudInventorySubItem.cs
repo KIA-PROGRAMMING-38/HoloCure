@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class HudInventoryPopup : UIPopup
+public class HudInventorySubItem : UIBase
 {
     #region Enums
 

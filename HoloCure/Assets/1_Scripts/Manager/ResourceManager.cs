@@ -23,6 +23,7 @@ public class ResourceManager
     public Sprite LoadSprite(string path) => Load(Sprites, ZString.Concat(PathLiteral.SPRITE, path));
     public AnimationClip LoadAnimClip(string path, string path2 = null) => Load(AnimClips, ZString.Concat(PathLiteral.ANIM, path, path2));
     public Material LoadMaterial(string path) => Load(Materials, ZString.Concat(PathLiteral.MATERIAL, path));
+    public GameObject LoadPrefab(string path) => Load(Prefabs, ZString.Concat(PathLiteral.PREFAB, path));
     public TMP_FontAsset LoadFont(string path) => Load(Fonts, ZString.Concat(PathLiteral.Font, path));
     private T Load<T>(Dictionary<string, T> dic, string path) where T : Object
     {
@@ -37,7 +38,7 @@ public class ResourceManager
     }
     public GameObject Instantiate(string path, Transform parent = null)
     {
-        GameObject prefab = Load(Prefabs, ZString.Concat(PathLiteral.PREFAB, path));
+        GameObject prefab = LoadPrefab(path);
 
         Debug.Assert(prefab != null);
 

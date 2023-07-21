@@ -1,4 +1,4 @@
-public class HudPortraitPopup : UIPopup
+public class HudPortraitSubItem : UIBase
 {
     #region Enums
 

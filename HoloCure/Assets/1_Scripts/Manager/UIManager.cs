@@ -3,35 +3,54 @@ using UnityEngine;
 
 public class UIManager
 {
-    private int _order = -20;
+    private static readonly Vector3 s_defaultScale = Vector3.one;
+
+    private int _currentCanvasOrder = -20;
+
     private Stack<UIPopup> _popupStack = new Stack<UIPopup>();
+
     private GameObject _root;
+
     public void Init()
     {
         _root = new GameObject("UI Root");
     }
+
     public void SetCanvas(GameObject go, bool sort = true)
     {
-        Canvas canvas = go.GetComponent<Canvas>();
+        Canvas canvas = go.GetComponentAssert<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.overrideSorting = true;
 
         if (sort)
         {
-            canvas.sortingOrder = _order;
-            _order += 1;
+            canvas.sortingOrder = _currentCanvasOrder;
+            _currentCanvasOrder += 1;
         }
         else
         {
             canvas.sortingOrder = 0;
         }
     }
-    private static readonly Vector3 s_defaultScale = Vector3.one;
-    public T OpenPopupUI<T>(Transform parent = null) where T : UIPopup
+
+    public T OpenPopup<T>(Transform parent = null) where T : UIPopup
     {
-        GameObject go = Managers.Resource.Instantiate(typeof(T).Name);
-        T popup = go.GetComponent<T>();
+        T popup = SetupUI<T>(parent);
+
         _popupStack.Push(popup);
+
+        return popup;
+    }
+
+    public T OpenSubItem<T>(Transform parent = null) where T : UIBase
+    {
+        return SetupUI<T>(parent);
+    }
+
+    private T SetupUI<T>(Transform parent = null) where T : UIBase
+    {
+        GameObject prefab = Managers.Resource.LoadPrefab(typeof(T).Name);
+        GameObject go = Managers.Resource.Instantiate(prefab);
 
         if (parent != null)
         {
@@ -43,9 +62,11 @@ public class UIManager
         }
 
         go.transform.localScale = s_defaultScale;
+        go.transform.localPosition = prefab.transform.position;
 
-        return popup;
+        return go.GetComponentAssert<T>();
     }
+
     public void ClosePopupUI(UIPopup popup)
     {
         if (_popupStack.Count == 0)
@@ -62,6 +83,7 @@ public class UIManager
 
         ClosePopupUI();
     }
+
     public void ClosePopupUI()
     {
         if (_popupStack.Count == 0)
@@ -72,6 +94,14 @@ public class UIManager
 
         UIPopup popup = _popupStack.Pop();
         Managers.Resource.Destroy(popup.gameObject);
-        _order -= 1;
+        _currentCanvasOrder -= 1;
+    }
+
+    public void CloseAllPopupUI()
+    {
+        while (_popupStack.Count > 0)
+        {
+            ClosePopupUI();
+        }
     }
 }

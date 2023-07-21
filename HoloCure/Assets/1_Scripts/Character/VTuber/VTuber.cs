@@ -6,7 +6,7 @@ using UnityEngine;
 using Util;
 public class VTuber : CharacterBase
 {
-    public ReactiveProperty<int> MaxHealth { get; private set; } = new();
+    public ReactiveProperty<int> MaxHp { get; private set; } = new();
     public ReactiveProperty<int> Attack { get; private set; } = new();
     public ReactiveProperty<int> Speed { get; private set; } = new();
     public ReactiveProperty<int> Critical { get; private set; } = new();
@@ -55,8 +55,8 @@ public class VTuber : CharacterBase
     }
     private void InitStat(VTuberData data)
     {
-        MaxHealth.Value = data.Health;
-        CurHealth.Value = data.Health;
+        MaxHp.Value = data.Health;
+        CurrentHp.Value = data.Health;
         Attack.Value = data.Attack;
         Speed.Value = data.Speed;
         Critical.Value = data.Critical;
@@ -119,10 +119,10 @@ public class VTuber : CharacterBase
     {
         if (value != 0)
         {
-            MaxHealth.Value += MaxHealth.Value / value;
+            MaxHp.Value += MaxHp.Value / value;
         }
 
-        CurHealth.Value = MaxHealth.Value;
+        CurrentHp.Value = MaxHp.Value;
     }
     private void GetAttackRate(int value)
     {

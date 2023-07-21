@@ -15,13 +15,13 @@ public class GameManager : MonoBehaviour
     {
         // Managers.Resouce.Instantiate("IngameEnvironment");
 
-        Managers.UI.OpenPopupUI<HudPopup>();
+        Managers.UI.OpenPopup<HudPopup>();
     }
     private void OutgameStart()
     {
         Managers.Resource.Destroy(VTuber.gameObject);
 
-        Managers.UI.OpenPopupUI<TitlePopup>();
+        Managers.UI.OpenPopup<TitlePopup>();
     }
     private void SelectVTuber(VTuberID id)
     {
