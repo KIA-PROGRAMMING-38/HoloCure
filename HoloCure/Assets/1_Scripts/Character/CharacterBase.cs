@@ -1,30 +1,29 @@
+using UniRx;
 using UnityEngine;
 
 public abstract class CharacterBase : MonoBehaviour
 {
-    [SerializeField] protected int CurHealth;
-    [SerializeField] protected float moveSpeed;
-    protected const int DEFAULT_MOVE_SPEED = 80;
+    public ReactiveProperty<int> CurHealth;
     /// <summary>
-    /// Ä³¸¯ÅÍÀÇ ¿òÁ÷ÀÓÀÔ´Ï´Ù. ÄÁÆ®·Ñ·¯¿¡¼­ »ç¿ëÇÕ´Ï´Ù.
+    /// ìºë¦­í„°ì˜ ì›€ì§ì„ì…ë‹ˆë‹¤. ì»¨íŠ¸ë¡¤ëŸ¬ì—ì„œ ì‚¬ìš©í•©ë‹ˆë‹¤.
     /// </summary>
     public abstract void Move();
 
     /// <summary>
-    /// Ä³¸¯ÅÍÀÇ ÇöÀç Ã¼·ÂÀ» ±ğ½À´Ï´Ù. Ã¼·ÂÀÌ 0ÀÌÇÏ°¡ µÇ¸é »ç¸ÁÀ» È£ÃâÇÕ´Ï´Ù.
+    /// ìºë¦­í„°ì˜ í˜„ì¬ ì²´ë ¥ì„ ê¹ìŠµë‹ˆë‹¤. ì²´ë ¥ì´ 0ì´í•˜ê°€ ë˜ë©´ ì‚¬ë§ì„ í˜¸ì¶œí•©ë‹ˆë‹¤.
     /// </summary>
-    public virtual void GetDamage(int damage, bool isCritical = false)
+    public virtual void GetDamage(int damage)
     {
-        CurHealth -= damage;
+        CurHealth.Value -= damage;
 
-        if (CurHealth <= 0)
+        if (CurHealth.Value <= 0)
         {
             Die();
         }
     }
 
     /// <summary>
-    /// Ä³¸¯ÅÍÀÇ »ç¸ÁÀÔ´Ï´Ù. GetDamage¿¡¼­ È£ÃâµË´Ï´Ù.
+    /// ìºë¦­í„°ì˜ ì‚¬ë§ì…ë‹ˆë‹¤. GetDamageì—ì„œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     protected abstract void Die();
 }

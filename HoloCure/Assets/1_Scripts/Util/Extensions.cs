@@ -32,4 +32,17 @@ public static class Extensions
         if (expAmount >= (int)ExpType.One) { return ExpType.One; }
         return ExpType.Zero;
     }
+    public static ItemType GetItemType(this ItemID id)
+    {
+        if (ItemID.CommonNone < id && id < ItemID.EquipmentNone) { return ItemType.Weapon; }
+        if (ItemID.EquipmentNone < id && id < ItemID.StatNone) { return ItemType.Equipment; }
+        if (ItemID.StatNone < id && id < ItemID.End) { return ItemType.Stat; }
+        return ItemType.None;
+    }
+    public static WeaponType GetWeaponType(this ItemID id)
+    {
+        if (ItemID.CommonNone < id && id < ItemID.StartingNone) { return WeaponType.Common; }
+        if (ItemID.StartingNone < id && id < ItemID.EquipmentNone) { return WeaponType.Starting; }
+        return WeaponType.None;
+    }
 }

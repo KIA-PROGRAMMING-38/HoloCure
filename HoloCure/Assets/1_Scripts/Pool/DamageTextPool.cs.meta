@@ -2,8 +2,8 @@ fileFormatVersion: 2
 <<<<<<<< HEAD:HoloCure/Assets/1_Scripts/Pool/DamageTextPool.cs.meta
 guid: 75cb085fe2f5fe6468119e6560c4b4c2
 ========
-guid: 936e1a8e6c11f544d89e465dfb005669
->>>>>>>> main:HoloCure/Assets/1_Scripts/Pool/EnemyDieEffectPool.cs.meta
+guid: 7edeccddbff35c24fbd0d55e5b0cd86a
+>>>>>>>> main:HoloCure/Assets/1_Scripts/Object/OpenBoxEffect.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
