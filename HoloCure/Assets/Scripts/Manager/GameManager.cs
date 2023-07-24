@@ -50,8 +50,6 @@ public class GameManager : MonoBehaviour
 
     private void IngameStart(int stage)
     {
-        // Managers.Resouce.Instantiate("IngameEnvironment");
-
         Time.timeScale = 1.0f;
         Stage.Value = stage;
         Minutes.Value = 0;

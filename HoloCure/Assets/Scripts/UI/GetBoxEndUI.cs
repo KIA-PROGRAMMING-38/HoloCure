@@ -26,7 +26,7 @@ public class GetBoxEndUI : UIBaseLegacy
         _particles.SetActive(false);
     }
 
-    [SerializeField] private ItemList _list;
+    //[SerializeField] private ItemList _list;
     private ItemID _id;
     private void GetWeaponList(ItemID[] ids)
     {
@@ -81,7 +81,7 @@ public class GetBoxEndUI : UIBaseLegacy
     [SerializeField] private GameObject _particles;
     private void SetWeapon()
     {
-        _list.GetItemData(Managers.Data.Item[_id]);
+        //_list.GetItemData(Managers.Data.Item[_id]);
         _icons[1].sprite = _icons[0].sprite;
         _iconLights.SetActive(true);
         _particles.SetActive(true);

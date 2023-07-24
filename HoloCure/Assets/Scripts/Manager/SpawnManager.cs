@@ -50,6 +50,7 @@ public class SpawnManager : MonoBehaviour
         InitIngamePool();
         InitOffset();
 
+        Managers.Resource.Instantiate($"IngameEnvironment_{stage}", IngameContainer.transform);
         SpawnStageEnemies(stage);
     }
     private void InitIngamePool()

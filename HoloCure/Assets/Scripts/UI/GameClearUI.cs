@@ -39,7 +39,7 @@ public class GameClearUI : UIBaseLegacy
     {
         while (true)
         {
-            while (_elapsedTime < GAME_CLEAR_TIME)
+            while (_elapsedTime <= GAME_CLEAR_TIME)
             {
                 _backGround.color = Color.Lerp(START_COLOR, END_COLOR, _elapsedTime / GAME_CLEAR_TIME);
                 _gameClearText.anchoredPosition = Vector2.Lerp(_startPos, _endPos, _elapsedTime / GAME_CLEAR_TIME);

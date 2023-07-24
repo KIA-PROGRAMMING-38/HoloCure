@@ -34,19 +34,10 @@ public class LevelUpPopup : UIPopup
         IconImage_2,
         IconImage_3,
         IconImage_4,
-        TitleImage
     }
 
     enum Texts
     {
-        NameText,
-        CurrentHPText,
-        MaxHPText,
-        AttackText,
-        SpeedText,
-        CriticalText,
-        PickupText,
-        HasteText,
         ItemNameText_1,
         ItemNameText_2,
         ItemNameText_3,
@@ -63,11 +54,11 @@ public class LevelUpPopup : UIPopup
 
     enum Objects
     {
-        HighlightCursor,
         NewText_1,
         NewText_2,
         NewText_3,
-        NewText_4
+        NewText_4,
+        HighlightCursor
     }
 
     #endregion
@@ -86,6 +77,7 @@ public class LevelUpPopup : UIPopup
     }
 
     private ItemID[] _items;
+    private StatSubItem _statSubItem;
 
     public override void Init()
     {
@@ -96,7 +88,7 @@ public class LevelUpPopup : UIPopup
         BindText(typeof(Texts));
         BindObject(typeof(Objects));
 
-        SetupStatView();
+        _statSubItem = Managers.UI.OpenSubItem<StatSubItem>(transform);
         SetupItemButtons();
 
         CurrentButton = _currentButton;
@@ -169,22 +161,6 @@ public class LevelUpPopup : UIPopup
         Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.ItemButton_1, (int)Buttons.ItemButton_4);
 
         CurrentButton = nextButton;
-    }
-
-    private void SetupStatView()
-    {
-        VTuber vtuber = Managers.Game.VTuber;
-        VTuberData data = Managers.Data.VTuber[vtuber.Id.Value];
-        GetImage((int)Images.TitleImage).sprite = Managers.Resource.LoadSprite(data.TitleSprite);
-        GetText((int)Texts.NameText).text = data.Name;
-
-        GetText((int)Texts.CurrentHPText).text = vtuber.CurrentHp.Value.ToString();
-        GetText((int)Texts.MaxHPText).text = vtuber.MaxHp.Value.ToString();
-        GetText((int)Texts.AttackText).text = ZString.Concat("+", vtuber.AttackRate.Value, "%");
-        GetText((int)Texts.SpeedText).text = ZString.Concat("+", vtuber.SpeedRate.Value, "%");
-        GetText((int)Texts.CriticalText).text = ZString.Concat("+", vtuber.Critical.Value, "%");
-        GetText((int)Texts.PickupText).text = ZString.Concat("+", vtuber.PickUpRate.Value, "%");
-        GetText((int)Texts.HasteText).text = ZString.Concat("+", vtuber.Haste.Value, "%");
     }
 
     private void SetupItemButtons()
@@ -272,4 +248,9 @@ public class LevelUpPopup : UIPopup
     }
 
     #endregion
+
+    private void OnDestroy()
+    {
+        _statSubItem.CloseSubItem();
+    }
 }
