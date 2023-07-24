@@ -12,6 +12,7 @@ public abstract class OpenBoxEffect : MonoBehaviour
     private Vector3 _rotAxis;
     private float _elapsedTime;
     private float _duration;
+    private bool _isReleased;
     private void Awake() => _rectTransform = transform.GetChild(0).GetComponentAssert<RectTransform>();
     private void Start()
     {
@@ -26,6 +27,7 @@ public abstract class OpenBoxEffect : MonoBehaviour
         if (_elapsedTime > _duration)
         {
             Release();
+            _isReleased = true;
         }
     }
     public void Init()
@@ -40,6 +42,14 @@ public abstract class OpenBoxEffect : MonoBehaviour
         _rectTransform.anchoredPosition = _startPos;
         _rectTransform.rotation = default;
         _rectTransform.localScale = Vector3.one * Random.Range(0.5f, 1.5f);
+        _isReleased = false;
     }
     protected abstract void Release();
+    private void OnDisable()
+    {
+        if (_isReleased) { return; }
+
+        Release();
+        _isReleased = true;
+    }
 }

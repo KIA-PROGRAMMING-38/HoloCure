@@ -1,29 +1,38 @@
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 public class IconLights : MonoBehaviour
 {
-    private RectTransform _icon;
-    [SerializeField] private RectTransform[] _lights;
-    private void Awake() => _icon = GetComponent<RectTransform>();
+    private RectTransform[] _transforms;
     private const int DISTANCE = 100;
-    private void Start()
+    private void Awake()
     {
-        int angleStep = 360 / _lights.Length;
+        _transforms = GetComponentsInChildren<RectTransform>();
 
-        for (int i = 0; i < _lights.Length; i++)
+        int angleStep = 360 / (_transforms.Length - 1);
+
+        for (int i = 1; i < _transforms.Length; i++)
         {
             float angleRadians = angleStep * i * Mathf.Deg2Rad;
 
-            float x = _icon.rect.center.x + DISTANCE * Mathf.Cos(angleRadians);
-            float y = _icon.rect.center.y + DISTANCE * Mathf.Sin(angleRadians);
+            float x = _transforms[0].rect.center.x + DISTANCE * Mathf.Cos(angleRadians);
+            float y = _transforms[0].rect.center.y + DISTANCE * Mathf.Sin(angleRadians);
 
-            _lights[i].anchoredPosition = new Vector2(x, y);
+            _transforms[i].anchoredPosition = new Vector2(x, y);
 
-            _lights[i].localRotation = Quaternion.Euler(0, 0, -90 + angleStep * i);
+            _transforms[i].localRotation = Quaternion.Euler(0, 0, -90 + angleStep * i);
         }
     }
-    private void Update()
+
+    private void Start()
     {
-        _icon.Rotate(Vector3.forward, 0.5f);
+        this.UpdateAsObservable()
+            .Subscribe(Rotate);
+    }
+
+    private void Rotate(Unit unit)
+    {
+        _transforms[0].Rotate(Vector3.forward, 0.5f);
     }
 }

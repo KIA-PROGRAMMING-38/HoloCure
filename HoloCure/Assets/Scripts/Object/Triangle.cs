@@ -13,6 +13,7 @@ public class Triangle : MonoBehaviour
     private float _duration;
     private float _fadeStartTime;
     private const int FADE_SPEED = 3;
+    private bool _isReleased;
     private void Awake()
     {
         _rectTransform = transform.GetChild(0).GetComponentAssert<RectTransform>();
@@ -36,6 +37,7 @@ public class Triangle : MonoBehaviour
         if (_elapsedTime > _duration)
         {
             Managers.Spawn.Triangle.Release(this);
+            _isReleased = true;
         }
     }
     public void Init()
@@ -50,5 +52,14 @@ public class Triangle : MonoBehaviour
         _rectTransform.rotation = default;
         _rectTransform.localScale = Vector3.one * Random.Range(0.1f, 2);
         _canvasGroup.alpha = 1f;
+        _isReleased = false;
+    }
+
+    private void OnDisable()
+    {
+        if (_isReleased) { return; }
+
+        Managers.Spawn.Triangle.Release(this);
+        _isReleased = true;
     }
 }

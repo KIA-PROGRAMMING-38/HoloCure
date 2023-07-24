@@ -1,41 +1,23 @@
-using System.Collections;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FlashBackGround : MonoBehaviour
 {
-    private Image _image;
-    private void Awake()
+    private CanvasGroup _canvasGroup;
+    private float _elapsedTime;
+    private const float FLASH_TIME = 1.5f;
+    private void Awake() => _canvasGroup = gameObject.GetComponentAssert<CanvasGroup>();
+
+    private void Start()
     {
-        _image = GetComponent<Image>();
-        _flashCoroutine = FlashCoroutine();
+        this.UpdateAsObservable()
+            .Subscribe(Flash);
     }
 
-    private readonly Color START_COLOR = new(1, 1, 1, 0.9f);
-    private readonly Color END_COLOR = new(1, 1, 1, 0);
-    private void OnEnable()
+    private void Flash(Unit unit)
     {
-        _image.color = START_COLOR;
-        _flashTime = 0;
-        StartCoroutine(_flashCoroutine);
-    }
-
-    private float _flashTime;
-    private IEnumerator _flashCoroutine;
-    private IEnumerator FlashCoroutine()
-    {
-        while (true)
-        {
-            while (_flashTime < 1.5f)
-            {
-                _image.color = Color.Lerp(START_COLOR, END_COLOR, _flashTime / 1.5f);
-                _flashTime += Time.unscaledDeltaTime;
-                yield return null;
-            }
-
-            StopCoroutine(_flashCoroutine);
-
-            yield return null;
-        }
+        _canvasGroup.alpha = Mathf.Lerp(0.9f, 0, _elapsedTime / FLASH_TIME);
+        _elapsedTime += Time.unscaledDeltaTime;
     }
 }

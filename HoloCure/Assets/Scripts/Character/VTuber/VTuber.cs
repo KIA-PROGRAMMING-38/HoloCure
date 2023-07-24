@@ -174,6 +174,6 @@ public class VTuber : CharacterBase
     }
     public void GetBox()
     {
-        // Managers.UI.OpenPopupUI<GetBoxStartPopup>();
+        Managers.UI.OpenPopup<GetBoxPopup>();
     }
 }

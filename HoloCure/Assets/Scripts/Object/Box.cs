@@ -41,7 +41,7 @@ public class Box : MonoBehaviour
     }
     private void OnExitTrigger(Collider2D collider)
     {
-        if (collider.CompareTag(TagLiteral.SCREEN_SENSOR))
+        if (collider.CompareTag(TagLiteral.SCREEN_SENSOR) && gameObject.activeSelf)
         {
             StartCoroutine(_lookPlayerCo);
         }

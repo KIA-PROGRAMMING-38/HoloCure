@@ -2,63 +2,44 @@ using Cysharp.Text;
 using StringLiterals;
 using System;
 using TMPro;
-using UniRx;
-using UniRx.Triggers;
-using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine;
 using UnityEngine.UI;
+using UniRx.Triggers;
+using UniRx;
 
-public class LevelUpPopup : UIPopup
+public class GetBoxEndSubItem : UISubItem
 {
     #region Enums
 
     enum Buttons
     {
-        ItemButton_1,
-        ItemButton_2,
-        ItemButton_3,
-        ItemButton_4
+        TakeButton,
+        DropButton
     }
 
     enum Images
     {
-        ItemButton_1,
-        ItemButton_2,
-        ItemButton_3,
-        ItemButton_4,
-        ItemTypeImage_1,
-        ItemTypeImage_2,
-        ItemTypeImage_3,
-        ItemTypeImage_4,
-        IconImage_1,
-        IconImage_2,
-        IconImage_3,
-        IconImage_4,
+        TakeButton,
+        DropButton,
+        ItemTypeImage,
+        IconImage,
+        OnBoxIconImage
     }
 
     enum Texts
     {
-        ItemNameText_1,
-        ItemNameText_2,
-        ItemNameText_3,
-        ItemNameText_4,
-        TypeText_1,
-        TypeText_2,
-        TypeText_3,
-        TypeText_4,
-        DescriptionText_1,
-        DescriptionText_2,
-        DescriptionText_3,
-        DescriptionText_4
+        TakeText,
+        DropText,
+        ItemNameText,
+        TypeText,
+        DescriptionText
     }
 
     enum Objects
     {
-        NewText_1,
-        NewText_2,
-        NewText_3,
-        NewText_4,
-        HighlightCursor
+        NewText,
+        Cursor
     }
 
     #endregion
@@ -76,9 +57,11 @@ public class LevelUpPopup : UIPopup
         }
     }
 
-    private ItemID[] _items;
-    private StatSubItem _statSubItem;
+    private static readonly Color s_normalColor = Color.white;
+    private static readonly Color s_highlightedColor = Color.black;
 
+    private ItemID _item;
+    private StatSubItem _statSubItem;
     public override void Init()
     {
         base.Init();
@@ -89,7 +72,7 @@ public class LevelUpPopup : UIPopup
         BindObject(typeof(Objects));
 
         _statSubItem = Managers.UI.OpenSubItem<StatSubItem>(transform);
-        SetupItemButtons();
+        SetupItem();
 
         CurrentButton = _currentButton;
 
@@ -103,7 +86,9 @@ public class LevelUpPopup : UIPopup
         this.UpdateAsObservable()
             .Subscribe(OnPressKey);
 
-        Time.timeScale = 0;
+        Managers.Spawn.SpawnOpenBoxCoin();
+        Managers.Spawn.SpawnOpenBoxParticle();
+        Managers.Spawn.SpawnOpenedBoxParticle();
     }
 
     #region Event Handlers
@@ -141,14 +126,16 @@ public class LevelUpPopup : UIPopup
 
     private void SetButtonNormal(Buttons buttonIndex)
     {
-        GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("ui_menu_upgrade_window_0");
+        GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_Button_0");
+        GetText((int)buttonIndex).color = s_normalColor;
     }
 
     private void SetButtonHighlighted(Buttons buttonIndex)
     {
-        GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("ui_menu_upgrade_window_selected_0");
+        GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_Button_1");
+        GetText((int)buttonIndex).color = s_highlightedColor;
 
-        Transform cursorTransform = GetObject((int)Objects.HighlightCursor).transform;
+        Transform cursorTransform = GetObject((int)Objects.Cursor).transform;
         Transform buttonTransform = GetButton((int)buttonIndex).transform;
 
         cursorTransform.SetParent(buttonTransform, false);
@@ -158,46 +145,40 @@ public class LevelUpPopup : UIPopup
     private void SwitchNextButton(bool isUpKey)
     {
         int nextButtonIndex = isUpKey ? (int)CurrentButton - 1 : (int)CurrentButton + 1;
-        Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.ItemButton_1, (int)Buttons.ItemButton_4);
+        Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.TakeButton, (int)Buttons.DropButton);
 
         CurrentButton = nextButton;
     }
 
-    private void SetupItemButtons()
+    private void SetupItem()
     {
-        _items = Managers.Item.GetItemLists();
+        _item = Managers.Item.GetItemLists()[0];
 
-        for (int i = 0; i < _items.Length; ++i)
+        ItemType type = _item.GetItemType();
+
+        SetupCommonView(_item);
+
+        switch (type)
         {
-            SetupCommonView(_items[i], i);
-
-            ItemType type = _items[i].GetItemType();
-
-            switch (type)
-            {
-                case ItemType.Weapon: SetupWeaponView(_items[i], i); break;
-                case ItemType.Equipment: break;
-                case ItemType.Stat: SetupStatView(_items[i], i); break;
-                default: throw new ArgumentOutOfRangeException(nameof(type));
-            }
+            case ItemType.Weapon: SetupWeaponView(_item); break;
+            case ItemType.Equipment: break;
+            case ItemType.Stat: SetupStatView(_item); break;
+            default: throw new ArgumentOutOfRangeException(nameof(type));
         }
     }
 
-    private void SetupCommonView(ItemID id, int index)
+    private void SetupCommonView(ItemID id)
     {
         ItemData data = Managers.Data.Item[id];
-        int icon = index + (int)Images.IconImage_1;
-        int itemType = index + (int)Images.ItemTypeImage_1;
-        int name = index + (int)Texts.ItemNameText_1;
-        int newText = index + (int)Objects.NewText_1;
 
-        GetImage(icon).sprite = Managers.Resource.LoadSprite(data.IconSprite);
-        GetImage(itemType).sprite = Managers.Resource.LoadSprite(data.Type);
-        GetText(name).text = data.Name;
-        GetObject(newText).SetActive(false);
+        GetImage((int)Images.IconImage).sprite = Managers.Resource.LoadSprite(data.IconSprite);
+        GetImage((int)Images.OnBoxIconImage).sprite = Managers.Resource.LoadSprite(data.IconSprite);
+        GetImage((int)Images.ItemTypeImage).sprite = Managers.Resource.LoadSprite(data.Type);
+        GetText((int)Texts.ItemNameText).text = data.Name;
+        GetObject((int)Objects.NewText).SetActive(false);
     }
 
-    private void SetupWeaponView(ItemID id, int index)
+    private void SetupWeaponView(ItemID id)
     {
         Inventory inventory = Managers.Game.VTuber.Inventory;
         Weapon weapon = null;
@@ -212,26 +193,22 @@ public class LevelUpPopup : UIPopup
             : weapon.Level.Value + 1;
 
         WeaponLevelData levelData = Managers.Data.WeaponLevelTable[id][nextLevel];
-        int description = index + (int)Texts.DescriptionText_1;
-        GetText(description).text = levelData.Description;
+        GetText((int)Texts.DescriptionText).text = levelData.Description;
         if (nextLevel == 1)
         {
-            int newText = index + (int)Objects.NewText_1;
-            GetObject(newText).SetActive(true);
+            GetObject((int)Objects.NewText).SetActive(true);
         }
         else
         {
-            int itemName = index + (int)Texts.ItemNameText_1;
-            TMP_Text nameText = GetText(itemName);
+            TMP_Text nameText = GetText((int)Texts.ItemNameText);
             nameText.text = ZString.Concat(nameText.text, " LV ", nextLevel);
         }
     }
 
-    private void SetupStatView(ItemID id, int index)
+    private void SetupStatView(ItemID id)
     {
         StatData data = Managers.Data.Stat[id];
-        int description = index + (int)Texts.DescriptionText_1;
-        GetText(description).text = data.Description;
+        GetText((int)Texts.DescriptionText).text = data.Description;
     }
 
     #endregion
@@ -240,11 +217,31 @@ public class LevelUpPopup : UIPopup
 
     private void ProcessButton(Buttons button)
     {
-        Managers.Game.VTuber.Inventory.GetItem(_items[(int)button]);
+        switch (button)
+        {
+            case Buttons.TakeButton: OnClickTakeButton(); break;
+            case Buttons.DropButton: OnClickDropButton(); break;
+            default: throw new ArgumentOutOfRangeException(nameof(button));
+        }
 
-        ClosePopupUI();
+    }
+
+    private void OnClickTakeButton()
+    {
+        Managers.Game.VTuber.Inventory.GetItem(_item);
+
+        OnClickDropButton();
+    }
+
+    private void OnClickDropButton()
+    {
+        Managers.Spawn.StopSpawnOpenedBoxParticle();
 
         Time.timeScale = 1.0f;
+
+        transform.parent.GetComponentAssert<GetBoxPopup>().ClosePopupUI();
+
+        CloseSubItem();
     }
 
     #endregion

@@ -47,7 +47,7 @@ public class SelectModeSubItem : UISubItem
         BindButton(typeof(Buttons));
         BindObject(typeof(Objects));
 
-        CurrentButton = (Buttons)Index.Value;
+        CurrentButton = _currentButton;
         _selectPopup = transform.parent.GetComponentAssert<SelectPopup>();
 
         foreach (Buttons buttonIndex in Enum.GetValues(typeof(Buttons)))
@@ -63,7 +63,7 @@ public class SelectModeSubItem : UISubItem
 
     public void InitIndex(int value)
     {
-        Index.Value = value;
+        _currentButton = (Buttons)value;
     }
 
     private void OnEnterButton(PointerEventData eventData)
