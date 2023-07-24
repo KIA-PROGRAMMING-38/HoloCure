@@ -54,8 +54,37 @@ public class HudInventorySubItem : UIBase
         Managers.UI.SetCanvas(gameObject, false);
 
         BindImage(typeof(Images));
+        InitImages();
 
         Managers.Game.VTuber.Inventory.WeaponCount.BindModelEvent(UpdateWeaponImages, this);
+    }
+
+    private void InitImages()
+    {
+        GetImage((int)Images.WeaponLevelFrameImage_1).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelFrameImage_2).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelFrameImage_3).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelFrameImage_4).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelFrameImage_5).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelFrameImage_6).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelNumImage_1).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelNumImage_2).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelNumImage_3).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelNumImage_4).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelNumImage_5).gameObject.SetActive(false);
+        GetImage((int)Images.WeaponLevelNumImage_6).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelFrameImage_1).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelFrameImage_2).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelFrameImage_3).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelFrameImage_4).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelFrameImage_5).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelFrameImage_6).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelNumImage_1).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelNumImage_2).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelNumImage_3).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelNumImage_4).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelNumImage_5).gameObject.SetActive(false);
+        GetImage((int)Images.EquipmentLevelNumImage_6).gameObject.SetActive(false);
     }
 
     #region UI Appearance Update

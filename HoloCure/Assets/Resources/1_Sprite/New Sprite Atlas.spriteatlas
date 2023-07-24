@@ -349,6 +349,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5618fa8a67fce2443b4cf92761d8d725, type: 3}
   - {fileID: 21300000, guid: b49e9c8af246d3c46a3bfdd0928d2bb6, type: 3}
   - {fileID: 21300000, guid: 5f4cb6aa23cb2324bb52e3ed67c82e4b, type: 3}
+  - {fileID: 21300000, guid: a65a9eaa598cf9647a6e0dc58b3e6d1c, type: 3}
   - {fileID: 21300000, guid: 238620ba44901324598e0bd9fa2e0c46, type: 3}
   - {fileID: 21300000, guid: a0eba8ca3fabbe94a9547aca42569423, type: 3}
   - {fileID: 21300000, guid: d62ce9ca7da52874b82de180a981031c, type: 3}
@@ -820,6 +821,7 @@ SpriteAtlas:
   - spr_saved_0
   - spr_StageSelectArrows_5
   - spr_EXP_5
+  - spr_Default
   - spr_InaSpecial_0
   - spr_Title_Matsuri_0
   - spr_SmollAme_jump_7

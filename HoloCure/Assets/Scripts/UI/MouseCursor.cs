@@ -29,8 +29,6 @@ public class MouseCursor : UIBaseLegacy
         PresenterManager.TriggerUIPresenter.OnActivateGameClearUI -= ActivateUICursor;
         PresenterManager.TriggerUIPresenter.OnActivateGameClearUI += ActivateUICursor;
 
-        PresenterManager.TitleUIPresenter.OnPlayGame -= ActivateInGameCursor;
-        PresenterManager.TitleUIPresenter.OnPlayGame += ActivateInGameCursor;
         PresenterManager.TriggerUIPresenter.OnResume -= ActivateInGameCursor;
         PresenterManager.TriggerUIPresenter.OnResume += ActivateInGameCursor;
 

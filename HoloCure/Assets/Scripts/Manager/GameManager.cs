@@ -1,6 +1,8 @@
 using StringLiterals;
+using System.Collections;
 using UniRx;
 using UnityEngine;
+using Util;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,12 +16,27 @@ public class GameManager : MonoBehaviour
     public void Init()
     {
         AddEvent();
+
+        _countTimeCo = CountTimeCo();
     }
+
+    public void GameStart(VTuberID id, int mode, int stage)
+    {
+        IngameStart();
+
+        Stage.Value = stage;
+        SelectVTuber(id);
+
+        StartCoroutine(_countTimeCo);
+    }
+
     private void IngameStart()
     {
         // Managers.Resouce.Instantiate("IngameEnvironment");
 
         Managers.UI.OpenPopup<HudPopup>();
+
+        Time.timeScale = 1.0f;
     }
     private void OutgameStart()
     {
@@ -38,18 +55,36 @@ public class GameManager : MonoBehaviour
         Managers.PresenterM.InventoryPresenter.ResetInventory();
         Managers.PresenterM.CountPresenter.ResetCount();
     }
+    private IEnumerator _countTimeCo;
+    private IEnumerator CountTimeCo()
+    {
+        while (true)
+        {
+            yield return DelayCache.GetWaitForSeconds(1);
 
+            Seconds.Value += 1;
+
+            if (Seconds.Value >= 60)
+            {
+                Seconds.Value = 0;
+                Minutes.Value += 1;
+            }
+        }
+    }
+
+    public void CountDefeatedEnemies()
+    {
+        DefeatedEnemies.Value += 1;
+    }
 
     private void AddEvent()
     {
         RemoveEvent();
 
-        Managers.PresenterM.TitleUIPresenter.OnPlayGameForPlayer += SelectVTuber;
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd += OutgameStart;
     }
     private void RemoveEvent()
     {
-        Managers.PresenterM.TitleUIPresenter.OnPlayGameForPlayer -= SelectVTuber;
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= OutgameStart;
     }
     private void OnDestroy()

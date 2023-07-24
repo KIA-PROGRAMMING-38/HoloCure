@@ -31,6 +31,8 @@ public class EnemyAnimation : MonoBehaviour
     }
     private void SetDie(float rate)
     {
+        if(_enemy.CurrentHp.Value > 0) { return; }
+
         rate = 0.5f - rate;
 
         Color color = new Color(1, 1, 1, rate);
