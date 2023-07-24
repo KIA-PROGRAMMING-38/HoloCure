@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class MouseCursor : UIBaseLegacy
+public class MouseCursor : UIBase
 {
     [SerializeField] private RectTransform _cursorUI;
     [SerializeField] private RectTransform _cusorInGame;
@@ -21,16 +21,6 @@ public class MouseCursor : UIBaseLegacy
 
         _UICursorMoveCoroutine = UICursorMoveCoroutine();
         _InGameCursorMoveCoroutine = InGameCursorMoveCoroutine();
-
-        PresenterManager.TriggerUIPresenter.OnActivateDefaultUI -= ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateDefaultUI += ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateGameOverUI -= ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateGameOverUI += ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateGameClearUI -= ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateGameClearUI += ActivateUICursor;
-
-        PresenterManager.TriggerUIPresenter.OnResume -= ActivateInGameCursor;
-        PresenterManager.TriggerUIPresenter.OnResume += ActivateInGameCursor;
 
         ActivateUICursor();
     }

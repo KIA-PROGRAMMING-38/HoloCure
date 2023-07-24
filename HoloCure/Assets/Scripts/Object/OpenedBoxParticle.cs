@@ -9,6 +9,7 @@ public class OpenedBoxParticle : MonoBehaviour
     private Vector2 _endPos;
     private float _elapsedTime;
     private const int DURATION = 1;
+    private bool _isReleased;
     private void Awake() => _rectTransform = transform.GetChild(0).GetComponentAssert<RectTransform>();
     private void Start()
     {
@@ -23,6 +24,7 @@ public class OpenedBoxParticle : MonoBehaviour
         if (_elapsedTime > DURATION)
         {
             Managers.Spawn.OpenedBoxParticle.Release(this);
+            _isReleased = true;
         }
     }
     public void Init()
@@ -32,5 +34,14 @@ public class OpenedBoxParticle : MonoBehaviour
         _endPos.Set(x, 95);
         _rectTransform.anchoredPosition = _startPos;
         _elapsedTime = 0;
+        _isReleased = false;
+    }
+
+    private void OnDisable()
+    {
+        if (_isReleased) { return; }
+
+        Managers.Spawn.OpenedBoxParticle.Release(this);
+        _isReleased = true;
     }
 }

@@ -32,6 +32,8 @@ public class Exp : MonoBehaviour
     }
     private void Move(Unit unit)
     {
+        if (Time.timeScale < 1) { return; }
+
         _elapsedTime += Time.deltaTime;
         transform.position += s_floatingVec * Mathf.Sin(_elapsedTime * 5);
     }

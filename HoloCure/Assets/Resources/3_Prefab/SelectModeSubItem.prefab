@@ -170,6 +170,7 @@ RectTransform:
   - {fileID: 6072025753050292973}
   - {fileID: 6072025751672749962}
   - {fileID: 6072025752502735216}
+  - {fileID: 6072025752536524114}
   - {fileID: 6072025753007895771}
   - {fileID: 6072025752307333816}
   m_Father: {fileID: 0}
@@ -286,7 +287,7 @@ RectTransform:
   m_Children:
   - {fileID: 6072025753517525530}
   m_Father: {fileID: 6072025752100188613}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -480,13 +481,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6072025753330896361}
-  m_Father: {fileID: 6072025753007895771}
-  m_RootOrder: 1
+  m_Father: {fileID: 6072025752100188613}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 190}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 75}
+  m_SizeDelta: {x: 730, y: 204}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6072025752560758939
 GameObject:
@@ -499,6 +500,7 @@ GameObject:
   - component: {fileID: 6072025752560758938}
   - component: {fileID: 6072025752560758936}
   - component: {fileID: 6072025752560758937}
+  - component: {fileID: 251856658654273609}
   m_Layer: 5
   m_Name: STAGEMODEText
   m_TagString: Untagged
@@ -624,6 +626,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &251856658654273609
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072025752560758939}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6072025752811387505
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +649,7 @@ GameObject:
   - component: {fileID: 6072025752811387504}
   - component: {fileID: 6072025752811387510}
   - component: {fileID: 6072025752811387511}
+  - component: {fileID: 1690884260289676436}
   m_Layer: 5
   m_Name: DescriptionText
   m_TagString: Untagged
@@ -759,6 +774,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &1690884260289676436
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072025752811387505}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6072025752816667484
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,6 +797,7 @@ GameObject:
   - component: {fileID: 6072025752816667475}
   - component: {fileID: 6072025752816667473}
   - component: {fileID: 6072025752816667474}
+  - component: {fileID: 4954519060693586839}
   m_Layer: 5
   m_Name: DescriptionText
   m_TagString: Untagged
@@ -894,6 +922,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &4954519060693586839
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072025752816667484}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6072025753007895588
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,9 +966,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6072025752560758938}
-  - {fileID: 6072025752536524114}
   m_Father: {fileID: 6072025752100188613}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -1206,6 +1245,7 @@ GameObject:
   - component: {fileID: 6072025753517525530}
   - component: {fileID: 6072025753517525528}
   - component: {fileID: 6072025753517525529}
+  - component: {fileID: 1167239292890337876}
   m_Layer: 5
   m_Name: ENDLESSMODEText
   m_TagString: Untagged
@@ -1331,3 +1371,15 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &1167239292890337876
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072025753517525531}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0

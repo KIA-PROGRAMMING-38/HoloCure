@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectModeSubItem : UIBase
+public class SelectModeSubItem : UISubItem
 {
     #region Enums
 
@@ -47,7 +47,7 @@ public class SelectModeSubItem : UIBase
         BindButton(typeof(Buttons));
         BindObject(typeof(Objects));
 
-        CurrentButton = (Buttons)Index.Value;
+        CurrentButton = _currentButton;
         _selectPopup = transform.parent.GetComponentAssert<SelectPopup>();
 
         foreach (Buttons buttonIndex in Enum.GetValues(typeof(Buttons)))
@@ -63,13 +63,12 @@ public class SelectModeSubItem : UIBase
 
     public void InitIndex(int value)
     {
-        Index.Value = value;
+        _currentButton = (Buttons)value;
     }
 
     private void OnEnterButton(PointerEventData eventData)
     {
-        var nextButtonTransform = eventData.pointerEnter.transform.parent;
-        Buttons nextButton = Enum.Parse<Buttons>(nextButtonTransform.name);
+        Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
     }
@@ -128,14 +127,14 @@ public class SelectModeSubItem : UIBase
 
     private void OnClickStageModeButton()
     {
-        Managers.Resource.Destroy(gameObject);
+        CloseSubItem();
 
         _selectPopup.SetupStageSelect();
     }
 
     private void OnCancel()
     {
-        Managers.Resource.Destroy(gameObject);
+        CloseSubItem();
 
         _selectPopup.SetupIdolSelect();
     }

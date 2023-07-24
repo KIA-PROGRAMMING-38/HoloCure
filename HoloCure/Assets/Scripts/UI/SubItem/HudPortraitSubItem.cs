@@ -1,4 +1,4 @@
-public class HudPortraitSubItem : UIBase
+public class HudPortraitSubItem : UISubItem
 {
     #region Enums
 
@@ -11,7 +11,7 @@ public class HudPortraitSubItem : UIBase
 
     public override void Init()
     {
-        Managers.UI.SetCanvas(gameObject, false);
+        base.Init();
 
         BindImage(typeof(Images));
 

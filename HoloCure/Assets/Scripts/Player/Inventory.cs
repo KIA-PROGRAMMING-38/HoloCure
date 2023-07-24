@@ -7,9 +7,6 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public event Action<ItemID, Sprite> OnNewEquipmentEquip;
-    public event Action<ItemID, int> OnEquipmentLevelUp;
-
     /// <summary>
     /// 인벤토리에 장착된 무기들입니다.
     /// </summary>
@@ -34,16 +31,10 @@ public class Inventory : MonoBehaviour
     {
         RemoveEvent();
 
-        Managers.PresenterM.TriggerUIPresenter.OnSendSelectedID += GetItem;
-        OnNewEquipmentEquip += Managers.PresenterM.InventoryPresenter.UpdateNewEquipment;
-        OnEquipmentLevelUp += Managers.PresenterM.InventoryPresenter.UpdateEquipmentLevel;
-
     }
     private void RemoveEvent()
     {
-        Managers.PresenterM.TriggerUIPresenter.OnSendSelectedID -= GetItem;
-        OnNewEquipmentEquip -= Managers.PresenterM.InventoryPresenter.UpdateNewEquipment;
-        OnEquipmentLevelUp -= Managers.PresenterM.InventoryPresenter.UpdateEquipmentLevel;
+
     }
     /// <summary>
     /// 아이템을 획득하고 종류에 따라 활성화합니다.
@@ -76,8 +67,6 @@ public class Inventory : MonoBehaviour
             //VTuber.OnChangeHasteRate -= weapon.GetHaste;
             //VTuber.OnChangeHasteRate += weapon.GetHaste;
             //weapon.GetHaste(VTuber.HasteRate);
-
-            OnNewEquipmentEquip?.Invoke(id, Managers.Resource.LoadSprite(data.IconSprite));
         }
         else
         {
@@ -89,8 +78,6 @@ public class Inventory : MonoBehaviour
                 }
 
                 Weapons[i].LevelUp();
-
-                OnEquipmentLevelUp?.Invoke(id, Weapons[i].Level.Value);
 
                 break;
             }

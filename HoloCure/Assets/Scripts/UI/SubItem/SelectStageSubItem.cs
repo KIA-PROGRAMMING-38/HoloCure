@@ -5,7 +5,7 @@ using UniRx;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class SelectStageSubItem : UIBase
+public class SelectStageSubItem : UISubItem
 {
     #region Enums    
 
@@ -132,7 +132,7 @@ public class SelectStageSubItem : UIBase
 
     private void OnClickPlayButton()
     {
-        Managers.Resource.Destroy(gameObject);
+        CloseSubItem();
 
         _selectPopup.GameStart();
     }
@@ -166,7 +166,7 @@ public class SelectStageSubItem : UIBase
 
     private void OnCancelSelectStage()
     {
-        Managers.Resource.Destroy(gameObject);
+        CloseSubItem();
 
         _selectPopup.SetupModeSelect();
     }

@@ -1,5 +1,6 @@
 using StringLiterals;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 public class VTuberAnimation : MonoBehaviour
@@ -8,10 +9,15 @@ public class VTuberAnimation : MonoBehaviour
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     private float _midX;
-    private void Start() => _input.MoveVec.Subscribe(UpdateRender).AddTo(this);
-    private void UpdateRender(Vector2 moveVec)
+    private void Start()
     {
-        _animator.SetBool(AnimHash.IS_RUNNING, Time.timeScale != 0 && moveVec.magnitude > 0);
+        this.LateUpdateAsObservable()
+            .Subscribe(UpdateRender);
+    }
+
+    private void UpdateRender(Unit unit)
+    {
+        _animator.SetBool(AnimHash.IS_RUNNING, Time.timeScale != 0 && _input.MoveVec.Value.magnitude > 0);
 
         if (Time.timeScale != 0)
         {

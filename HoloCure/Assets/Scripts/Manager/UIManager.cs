@@ -42,7 +42,7 @@ public class UIManager
         return popup;
     }
 
-    public T OpenSubItem<T>(Transform parent = null) where T : UIBase
+    public T OpenSubItem<T>(Transform parent = null) where T : UISubItem
     {
         return SetupUI<T>(parent);
     }

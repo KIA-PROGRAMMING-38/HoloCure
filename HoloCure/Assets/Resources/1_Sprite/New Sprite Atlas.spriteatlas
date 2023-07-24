@@ -366,6 +366,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 5ceceb6b14f7eba499a56ba60f35e526, type: 3}
   - {fileID: 21300000, guid: 5873967b67ca3ac4ab4b8f2970dc0cc8, type: 3}
   - {fileID: 21300000, guid: 3c995a7b8010d5b4db3103b9c8d0b001, type: 3}
+  - {fileID: 21300000, guid: b42a1b7ba5ac68346b1b8aee4264888f, type: 3}
   - {fileID: 21300000, guid: bb063a8bd14ab964c9ff284c7d6d6007, type: 3}
   - {fileID: 21300000, guid: 2714eb8be7e19e24ab2242fd3c1485e2, type: 3}
   - {fileID: 21300000, guid: 5aa2df8ba549d8d41994a5cc81573b8c, type: 3}
@@ -674,7 +675,7 @@ SpriteAtlas:
   - spr_KFPAngry_2
   - spr_fubuLaser_16
   - spr_Ina_O2_run_3
-  - spr_weaponTypes_2
+  - Multishot
   - spr_Ina_O2_idle_3
   - spr_deathHeart_1
   - spr_PsychoAxe_1
@@ -780,7 +781,7 @@ SpriteAtlas:
   - menu_carselec_cursor_3
   - spr_fubuLaser_6
   - spr_InvestiGator_0
-  - spr_weaponTypes_1
+  - Ranged
   - hud_getBoxBouncing_10
   - spr_SmollAme_0
   - spr_StageSelectArrows_4
@@ -838,9 +839,10 @@ SpriteAtlas:
   - spr_HoloCureTitle_full_0
   - spr_Ina_O2_idle_2
   - spr_Ina_run_4
+  - Stat
   - hud_getBoxOpen_2
   - spr_DeadbeatGangA_1
-  - spr_weaponTypes_0
+  - Melee
   - spr_DeadbeatGangA_0
   - spr_Title_bae_0
   - spr_SmollAme_jump_3

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectIdolSubItem : UIBase
+public class SelectIdolSubItem : UISubItem
 {
     #region Enums
 
@@ -67,7 +67,6 @@ public class SelectIdolSubItem : UIBase
     }
 
     private SelectPopup _selectPopup;
-    private readonly static Vector3 CURSOR_LOCAL_POSITION = new Vector3(2, -3, 0);
 
     public override void Init()
     {
@@ -76,7 +75,7 @@ public class SelectIdolSubItem : UIBase
         BindButton(typeof(Buttons));
         BindObject(typeof(Objects));
 
-        CurrentButton = (Buttons)Index.Value;
+        CurrentButton = _currentButton;
         _selectPopup = transform.parent.GetComponentAssert<SelectPopup>();
 
         foreach (Buttons buttonIndex in Enum.GetValues(typeof(Buttons)))
@@ -92,27 +91,28 @@ public class SelectIdolSubItem : UIBase
 
     public void InitIndex(int value)
     {
-        Index.Value = value;
+        _currentButton = (Buttons)value;
     }
 
     private void OnEnterButton(PointerEventData eventData)
     {
-        var nextButtonTransform = eventData.pointerEnter.transform.parent;
-        Buttons nextButton = Enum.Parse<Buttons>(nextButtonTransform.name);
+        Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
     }
 
     private void OnClickButton(PointerEventData eventData)
     {
-        ProcessButton();
+        Buttons button = Enum.Parse<Buttons>(eventData.pointerClick.name);
+
+        ProcessButton(button);
     }
 
     private void OnKeyPress(Unit unit)
     {
         if (Input.GetButtonDown(InputLiteral.CONFIRM))
         {
-            ProcessButton();
+            ProcessButton(CurrentButton);
         }
         else if (Input.GetButtonDown(InputLiteral.VERTICAL))
         {
@@ -137,7 +137,7 @@ public class SelectIdolSubItem : UIBase
         Transform buttonTransform = GetButton((int)buttonIndex).transform;
 
         cursorTransform.SetParent(buttonTransform, false);
-        cursorTransform.localPosition = CURSOR_LOCAL_POSITION;
+        cursorTransform.localPosition = default;
     }
 
     private void SwitchVerticalButton(bool isUpKey)
@@ -168,16 +168,19 @@ public class SelectIdolSubItem : UIBase
         CurrentButton = nextButton;
     }
 
-    private void ProcessButton()
+    private void ProcessButton(Buttons button)
     {
-        Managers.Resource.Destroy(gameObject);
+        SelectIdolData data = Managers.Data.SelectIdol[(int)button];
+        if (data.IdolID == VTuberID.None) { return; }
+
+        CloseSubItem();
 
         _selectPopup.SetupModeSelect();
     }
 
     private void OnCancel()
     {
-        Managers.Resource.Destroy(gameObject);
+        CloseSubItem();
 
         _selectPopup.ReturnToTitlePopup();
     }

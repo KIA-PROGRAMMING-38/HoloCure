@@ -169,9 +169,11 @@ public class VTuber : CharacterBase
         MaxExp.Value = (int)(Mathf.Round(Mathf.Pow(4 * (Level.Value + 1), 2.1f)) - Mathf.Round(Mathf.Pow(4 * Level.Value, 2.1f)));
         Level.Value += 1;
         GetStat(ItemID.MaxHPUp, 0);
+
+        Managers.UI.OpenPopup<LevelUpPopup>();
     }
     public void GetBox()
     {
-        // Managers.UI.OpenPopupUI<GetBoxStartPopup>();
+        Managers.UI.OpenPopup<GetBoxPopup>();
     }
 }

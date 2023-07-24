@@ -1,6 +1,7 @@
 using StringLiterals;
 using System.Collections;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using Util;
 
@@ -12,35 +13,58 @@ public class GameManager : MonoBehaviour
     public ReactiveProperty<int> Coins { get; private set; } = new();
     public ReactiveProperty<int> DefeatedEnemies { get; private set; } = new();
     public VTuber VTuber { get; private set; }
-
+    private HudPopup _hudPopup;
     public void Init()
     {
-        AddEvent();
-
         _countTimeCo = CountTimeCo();
     }
 
     public void GameStart(VTuberID id, int mode, int stage)
     {
-        IngameStart();
-
-        Stage.Value = stage;
+        IngameStart(stage);
+               
         SelectVTuber(id);
 
         StartCoroutine(_countTimeCo);
+
+        this.UpdateAsObservable()
+            .Subscribe(OnPressPauseKey).AddTo(VTuber.gameObject);
+
+        static void OnPressPauseKey(Unit unit)
+        {
+            if (Time.timeScale < 1) { return; }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Managers.UI.OpenPopup<PausePopup>();
+            }
+        }
     }
 
-    private void IngameStart()
+    public void GameEnd()
     {
-        // Managers.Resouce.Instantiate("IngameEnvironment");
+        OutgameStart();
 
-        Managers.UI.OpenPopup<HudPopup>();
+        StopCoroutine(_countTimeCo);
+    }
 
+    private void IngameStart(int stage)
+    {
         Time.timeScale = 1.0f;
+        Stage.Value = stage;
+        Minutes.Value = 0;
+        Seconds.Value = 0;
+        Coins.Value = 0;
+        DefeatedEnemies.Value = 0;
+
+        _hudPopup = Managers.UI.OpenPopup<HudPopup>();
     }
     private void OutgameStart()
     {
         Managers.Resource.Destroy(VTuber.gameObject);
+        _hudPopup.ClosePopupUI();
+
+        Stage.Value = 0;
 
         Managers.UI.OpenPopup<TitlePopup>();
     }
@@ -50,10 +74,6 @@ public class GameManager : MonoBehaviour
 
         VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
         VTuber.Init(id);
-
-        Managers.PresenterM.InitPresenter.GetInitData(data);
-        Managers.PresenterM.InventoryPresenter.ResetInventory();
-        Managers.PresenterM.CountPresenter.ResetCount();
     }
     private IEnumerator _countTimeCo;
     private IEnumerator CountTimeCo()
@@ -75,20 +95,5 @@ public class GameManager : MonoBehaviour
     public void CountDefeatedEnemies()
     {
         DefeatedEnemies.Value += 1;
-    }
-
-    private void AddEvent()
-    {
-        RemoveEvent();
-
-        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += OutgameStart;
-    }
-    private void RemoveEvent()
-    {
-        Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= OutgameStart;
-    }
-    private void OnDestroy()
-    {
-        RemoveEvent();
     }
 }

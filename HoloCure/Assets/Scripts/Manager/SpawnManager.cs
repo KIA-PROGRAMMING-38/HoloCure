@@ -30,6 +30,7 @@ public class SpawnManager : MonoBehaviour
     public OpenedBoxParticlePool OpenedBoxParticle { get; private set; }
     public EnemyDieEffectPool EnemyDieEffect { get; private set; }
 
+    public GameObject OutgameContainer { get; private set; }
     public GameObject TriangleContainer { get; private set; }
     public TrianglePool Triangle { get; private set; }
     private void Start()
@@ -50,6 +51,7 @@ public class SpawnManager : MonoBehaviour
         InitIngamePool();
         InitOffset();
 
+        Managers.Resource.Instantiate($"IngameEnvironment_{stage}", IngameContainer.transform);
         SpawnStageEnemies(stage);
     }
     private void InitIngamePool()
@@ -122,7 +124,14 @@ public class SpawnManager : MonoBehaviour
     }
     private void InitOutgamePool()
     {
+        OutgameContainer = new GameObject("Outgame Containers");
+
+        TriangleContainer = new GameObject("Triangle Container");
+
+        TriangleContainer.transform.parent = OutgameContainer.transform;
+
         Triangle = new TrianglePool();
+
         Triangle.Init();
     }
     private IEnumerator SpawnEnemyCo(EnemyID id, EnemyType type)
@@ -218,6 +227,9 @@ public class SpawnManager : MonoBehaviour
     public void StopSpawnOpenedBoxParticle()
     {
         StopCoroutine(_spawnOpenedBoxParticleCo);
+
+        BoxEffectContainer.SetActive(false);
+        BoxEffectContainer.SetActive(true);
     }
     private IEnumerator _spawnOpenedBoxParticleCo;
     private IEnumerator SpawnOpenedBoxParticleCo()
@@ -243,7 +255,6 @@ public class SpawnManager : MonoBehaviour
     }
     public void SpawnTriangle(GameObject go)
     {
-        TriangleContainer = new GameObject("Triangle Container");
         TriangleContainer.transform.parent = go.transform;
         TriangleContainer.transform.localPosition = default;
 
@@ -253,8 +264,9 @@ public class SpawnManager : MonoBehaviour
     {
         StopCoroutine(_spawnTriangleCo);
 
-        Triangle.Clear();
-        Managers.Resource.Destroy(TriangleContainer);
+        TriangleContainer.SetActive(false);
+        TriangleContainer.SetActive(true);
+        TriangleContainer.transform.parent = OutgameContainer.transform;
     }
     private const float TRIANGLE_SPAWN_INTERVAL = 0.5f;
     private IEnumerator _spawnTriangleCo;
