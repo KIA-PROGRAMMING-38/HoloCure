@@ -8,11 +8,7 @@ public class GetBoxUI : UIBaseLegacy
     private void Awake() => _canvas = GetComponent<Canvas>();
     private void Start()
     {
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxUI -= ActivateGetBoxUI;
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxUI += ActivateGetBoxUI;
 
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxEndUI -= DeActivateGetBoxUI;
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxEndUI += DeActivateGetBoxUI;
     }
     private Sound _sound;
     private void ActivateGetBoxUI()

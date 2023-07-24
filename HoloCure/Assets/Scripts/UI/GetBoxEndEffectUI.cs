@@ -8,11 +8,7 @@ public class GetBoxEndEffectUI : UIBaseLegacy
     private void Awake() => _canvas = GetComponent<Canvas>();
     private void Start()
     {
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxEndUI -= ActivateGetBoxUI;
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxEndUI += ActivateGetBoxUI;
 
-        PresenterManager.TriggerUIPresenter.OnResume -= DeActivateGetBoxUI;
-        PresenterManager.TriggerUIPresenter.OnResume += DeActivateGetBoxUI;
     }
     private void ActivateGetBoxUI()
     {

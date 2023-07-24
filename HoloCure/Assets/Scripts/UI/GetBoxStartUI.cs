@@ -6,11 +6,7 @@ public class GetBoxStartUI : UIBaseLegacy
     private void Awake() => _canvas = GetComponent<Canvas>();
     private void Start()
     {
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI -= ActivateGetBoxStartUI;
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxStartUI += ActivateGetBoxStartUI;
 
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxUI -= DeActivateGetBoxStartUI;
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxUI += DeActivateGetBoxStartUI;
     }
     private void ActivateGetBoxStartUI()
     {

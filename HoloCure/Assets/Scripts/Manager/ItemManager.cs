@@ -10,9 +10,6 @@ public class ItemManager : MonoBehaviour
 
     private void Start()
     {
-        Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted -= GetItemDatas;
-        Managers.PresenterM.TriggerUIPresenter.OnItemDatasGeted += GetItemDatas;
-
         InitTotalWeight();
     }
     private void InitTotalWeight()

@@ -15,12 +15,6 @@ public class GameOverUI : UIBaseLegacy
         _startPos = _gameOverText.anchoredPosition + Vector2.up * 500;
         _endPos = _gameOverText.anchoredPosition;
         _lerpCoroutine = LerpCoroutine();
-
-        PresenterManager.TriggerUIPresenter.OnActivateGameOverUI -= ActivateGameOverUI;
-        PresenterManager.TriggerUIPresenter.OnActivateGameOverUI += ActivateGameOverUI;
-
-        PresenterManager.TriggerUIPresenter.OnGameEnd -= DeActivateGameOverUI;
-        PresenterManager.TriggerUIPresenter.OnGameEnd += DeActivateGameOverUI;
     }
     private void ActivateGameOverUI()
     {

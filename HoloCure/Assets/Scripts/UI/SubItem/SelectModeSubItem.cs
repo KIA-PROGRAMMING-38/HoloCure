@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectModeSubItem : UIBase
+public class SelectModeSubItem : UISubItem
 {
     #region Enums
 
@@ -128,14 +128,14 @@ public class SelectModeSubItem : UIBase
 
     private void OnClickStageModeButton()
     {
-        Managers.Resource.Destroy(gameObject);
+        CloseSubItem();
 
         _selectPopup.SetupStageSelect();
     }
 
     private void OnCancel()
     {
-        Managers.Resource.Destroy(gameObject);
+        CloseSubItem();
 
         _selectPopup.SetupIdolSelect();
     }

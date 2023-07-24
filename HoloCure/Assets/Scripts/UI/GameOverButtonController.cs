@@ -16,9 +16,6 @@ public class GameOverButtonController : UIBaseLegacy
 
         //_button.OnClickForController -= TriggerEventByClick;
         //_button.OnClickForController += TriggerEventByClick;
-
-        OnSelectMainMenu -= PresenterManager.TriggerUIPresenter.GameEnd;
-        OnSelectMainMenu += PresenterManager.TriggerUIPresenter.GameEnd;
          
         gameObject.SetActive(false);
     }

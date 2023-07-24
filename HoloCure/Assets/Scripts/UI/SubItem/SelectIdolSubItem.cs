@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectIdolSubItem : UIBase
+public class SelectIdolSubItem : UISubItem
 {
     #region Enums
 
@@ -105,14 +105,16 @@ public class SelectIdolSubItem : UIBase
 
     private void OnClickButton(PointerEventData eventData)
     {
-        ProcessButton();
+        Buttons button = Enum.Parse<Buttons>(eventData.pointerClick.name);
+
+        ProcessButton(button);
     }
 
     private void OnKeyPress(Unit unit)
     {
         if (Input.GetButtonDown(InputLiteral.CONFIRM))
         {
-            ProcessButton();
+            ProcessButton(CurrentButton);
         }
         else if (Input.GetButtonDown(InputLiteral.VERTICAL))
         {
@@ -168,16 +170,19 @@ public class SelectIdolSubItem : UIBase
         CurrentButton = nextButton;
     }
 
-    private void ProcessButton()
+    private void ProcessButton(Buttons button)
     {
-        Managers.Resource.Destroy(gameObject);
+        SelectIdolData data = Managers.Data.SelectIdol[(int)button];
+        if (data.IdolID == VTuberID.None) { return; }
+
+        CloseSubItem();
 
         _selectPopup.SetupModeSelect();
     }
 
     private void OnCancel()
     {
-        Managers.Resource.Destroy(gameObject);
+        CloseSubItem();
 
         _selectPopup.ReturnToTitlePopup();
     }

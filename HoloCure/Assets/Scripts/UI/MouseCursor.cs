@@ -22,16 +22,6 @@ public class MouseCursor : UIBaseLegacy
         _UICursorMoveCoroutine = UICursorMoveCoroutine();
         _InGameCursorMoveCoroutine = InGameCursorMoveCoroutine();
 
-        PresenterManager.TriggerUIPresenter.OnActivateDefaultUI -= ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateDefaultUI += ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateGameOverUI -= ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateGameOverUI += ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateGameClearUI -= ActivateUICursor;
-        PresenterManager.TriggerUIPresenter.OnActivateGameClearUI += ActivateUICursor;
-
-        PresenterManager.TriggerUIPresenter.OnResume -= ActivateInGameCursor;
-        PresenterManager.TriggerUIPresenter.OnResume += ActivateInGameCursor;
-
         ActivateUICursor();
     }
     private void ActivateUICursor()

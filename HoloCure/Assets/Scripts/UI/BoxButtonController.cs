@@ -20,8 +20,7 @@ public class BoxButtonController : UIBaseLegacy
     {
         _getKeyCoroutine = GetKeyCoroutine();
 
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxEndUI -= StartGetKeyCoroutine;
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxEndUI += StartGetKeyCoroutine;
+
 
         //for (int i = 0; i < _buttons.Length; ++i)
         //{
@@ -43,8 +42,7 @@ public class BoxButtonController : UIBaseLegacy
         //    _buttons[i].OnClickForController += TriggerEventByClick;
         //}
 
-        OnSelect -= PresenterManager.TriggerUIPresenter.DeActivateUI;
-        OnSelect += PresenterManager.TriggerUIPresenter.DeActivateUI;
+
     }
     private void StartGetKeyCoroutine()
     {

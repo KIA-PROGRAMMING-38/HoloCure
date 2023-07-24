@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class HudInventorySubItem : UIBase
+public class HudInventorySubItem : UISubItem
 {
     #region Enums
 
@@ -51,7 +51,7 @@ public class HudInventorySubItem : UIBase
 
     public override void Init()
     {
-        Managers.UI.SetCanvas(gameObject, false);
+        base.Init();
 
         BindImage(typeof(Images));
         InitImages();

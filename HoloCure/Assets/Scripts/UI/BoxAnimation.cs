@@ -20,12 +20,6 @@ public class BoxAnimation : UIBaseLegacy
     {
         _getKeyCoroutine = GetKeyCoroutine();
 
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxUI -= StartGetKeyCoroutine;
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxUI += StartGetKeyCoroutine;
-
-        OnOpen -= PresenterManager.TriggerUIPresenter.ActivateGetBoxEndUI;
-        OnOpen += PresenterManager.TriggerUIPresenter.ActivateGetBoxEndUI;
-
         gameObject.SetActive(false);
     }
     public void StartGetKeyCoroutine()
@@ -58,11 +52,11 @@ public class BoxAnimation : UIBaseLegacy
         }
     }
     /// <summary>
-    /// ¹Ú½º ½ºÇÁ¶óÀÌÆ®ÀÇ Å©±â°¡ ´Ş¶ó ¸¸µé¾îÁø ÇÔ¼öÀÔ´Ï´Ù. ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®¿¡¼­ È£ÃâµË´Ï´Ù.
+    /// ë°•ìŠ¤ ìŠ¤í”„ë¼ì´íŠ¸ì˜ í¬ê¸°ê°€ ë‹¬ë¼ ë§Œë“¤ì–´ì§„ í•¨ìˆ˜ì…ë‹ˆë‹¤. ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸ì—ì„œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     public void SetScaleOpenBox() => _rectTransform.localScale = OPEN_BOX_SCALE;
     /// <summary>
-    /// ¹Ú½º°¡ ¿ÀÇÂµÇ´Â¼ø°£ ÀÌº¥Æ®¸¦ ¹ß»ı½ÃÅ°±â À§ÇÑ ÇÔ¼öÀÔ´Ï´Ù. ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®¿¡¼­ ¶Ç´Â ÄÁÆß½Ã È£ÃâµË´Ï´Ù.
+    /// ë°•ìŠ¤ê°€ ì˜¤í”ˆë˜ëŠ”ìˆœê°„ ì´ë²¤íŠ¸ë¥¼ ë°œìƒì‹œí‚¤ê¸° ìœ„í•œ í•¨ìˆ˜ì…ë‹ˆë‹¤. ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸ì—ì„œ ë˜ëŠ” ì»¨íŒì‹œ í˜¸ì¶œë©ë‹ˆë‹¤.
     /// </summary>
     public void Open()
     {

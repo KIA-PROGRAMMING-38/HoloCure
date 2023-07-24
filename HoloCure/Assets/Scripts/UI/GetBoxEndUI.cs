@@ -10,20 +10,8 @@ public class GetBoxEndUI : UIBaseLegacy
     private void Awake() => _canvas = GetComponent<Canvas>();
     private void Start()
     {
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxEndUI -= ActivateGetBoxUI;
-        PresenterManager.TriggerUIPresenter.OnActivateGetBoxEndUI += ActivateGetBoxUI;
-
-        PresenterManager.TriggerUIPresenter.OnResume -= DeActivateGetBoxUI;
-        PresenterManager.TriggerUIPresenter.OnResume += DeActivateGetBoxUI;
-
-        PresenterManager.TriggerUIPresenter.OnGetItemDatasForBox -= GetWeaponList;
-        PresenterManager.TriggerUIPresenter.OnGetItemDatasForBox += GetWeaponList;
-
         _controller.OnSelectTake -= SelectTake;
         _controller.OnSelectTake += SelectTake;
-
-        OnSelectTake -= PresenterManager.TriggerUIPresenter.SendSelectedID;
-        OnSelectTake += PresenterManager.TriggerUIPresenter.SendSelectedID;
     }
     private void ActivateGetBoxUI()
     {

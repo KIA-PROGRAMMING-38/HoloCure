@@ -15,12 +15,6 @@ public class GameClearUI : UIBaseLegacy
         _startPos = _gameClearText.anchoredPosition + Vector2.up * 500;
         _endPos = _gameClearText.anchoredPosition;
         _lerpCoroutine = LerpCoroutine();
-
-        PresenterManager.TriggerUIPresenter.OnActivateGameClearUI -= ActivateGameClearUI;
-        PresenterManager.TriggerUIPresenter.OnActivateGameClearUI += ActivateGameClearUI;
-
-        PresenterManager.TriggerUIPresenter.OnGameEnd -= DeActivateGameClearUI;
-        PresenterManager.TriggerUIPresenter.OnGameEnd += DeActivateGameClearUI;
     }
     private void ActivateGameClearUI()
     {

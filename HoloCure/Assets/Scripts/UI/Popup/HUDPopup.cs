@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 public class HudPopup : UIPopup
 {
-    private List<UIBase> _subItems;
+    private List<UISubItem> _subItems;
     public override void Init()
     {
         Managers.UI.SetCanvas(gameObject, false);
 
-        _subItems = new List<UIBase>()
+        _subItems = new List<UISubItem>()
         {
         Managers.UI.OpenSubItem<HudExpSubItem>(transform),
         Managers.UI.OpenSubItem<HudPortraitSubItem>(transform),
@@ -21,7 +21,7 @@ public class HudPopup : UIPopup
     {
         foreach (var subItem in _subItems)
         {
-            Managers.Resource.Destroy(subItem.gameObject);
+            subItem.CloseSubItem();
         }
     }
 }
