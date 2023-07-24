@@ -195,11 +195,11 @@ public class Enemy : CharacterBase
     {
         RemoveEvent();
 
-        OnDie += Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
+        OnDie += Managers.Game.CountDefeatedEnemies;
     }
     private void RemoveEvent()
     {
-        OnDie -= Managers.PresenterM.CountPresenter.UpdateDefeatedEnemyCount;
+        OnDie -= Managers.Game.CountDefeatedEnemies;
     }
     private void OnDestroy()
     {

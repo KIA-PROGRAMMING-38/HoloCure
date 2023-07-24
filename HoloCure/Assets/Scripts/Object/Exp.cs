@@ -21,11 +21,10 @@ public class Exp : MonoBehaviour
     {
         gameObject.GetComponentAssert<CircleCollider2D>().isTrigger = true;
         _spriteRenderer = gameObject.GetComponentAssert<SpriteRenderer>();
+        _moveRandomCo = MoveRandomCo();
     }
     private void Start()
-    {
-        _moveRandomCo = MoveRandomCo();
-
+    { 
         this.UpdateAsObservable()
             .Subscribe(Move);
         this.OnTriggerStay2DAsObservable()
@@ -39,6 +38,7 @@ public class Exp : MonoBehaviour
     private void OnTrigger(Collider2D collision)
     {
         if (IsReleased) { return; }
+        if (_isSpawning) { return; }
 
         if (collision.CompareTag(TagLiteral.VTUBER))
         {
@@ -115,6 +115,7 @@ public class Exp : MonoBehaviour
     private Vector2 _startPoint;
     private Vector2 _endPoint;
     private float _spawnMoveTime;
+    private bool _isSpawning;
     /// <summary>
     /// 랜덤한 위치로 움직이는 코루틴을 실행시킵니다. 적 사망시 호출됩니다.
     /// </summary>
@@ -123,6 +124,7 @@ public class Exp : MonoBehaviour
         _startPoint = position;
         _endPoint = GetEndPoint(_startPoint);
         _spawnMoveTime = 0;
+        _isSpawning = true;
 
         StartCoroutine(_moveRandomCo);
 
@@ -157,6 +159,8 @@ public class Exp : MonoBehaviour
 
                 yield return null;
             }
+
+            _isSpawning = false;
 
             StopCoroutine(_moveRandomCo);
 

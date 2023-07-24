@@ -40,7 +40,7 @@ public class Triangle : MonoBehaviour
     }
     public void Init()
     {
-        _startPos.Set(Random.Range(-1080, 1081), 150);
+        _startPos.Set(Random.Range(-1080, 1081), 700);
         _endPos.Set(Random.Range(-1080, 1081), -1080);
         _rotSpeed = Random.Range(0, 3f);
         _elapsedTime = 0;

@@ -43,6 +43,11 @@ public class TitlePopup : UIPopup
         QuitText
     }
 
+    enum Objects
+    {
+        BG
+    }
+
     #endregion
 
     #region UI Fields and Properties
@@ -72,6 +77,9 @@ public class TitlePopup : UIPopup
         BindButton(typeof(Buttons));
         BindImage(typeof(Images));
         BindText(typeof(Texts));
+        BindObject(typeof(Objects));
+
+        CurrentButton = _currentButton;
 
         foreach (Buttons buttonIndex in Enum.GetValues(typeof(Buttons)))
         {
@@ -82,8 +90,13 @@ public class TitlePopup : UIPopup
 
         this.UpdateAsObservable()
             .Subscribe(OnPressKey);
-            
-        Managers.Spawn.SpawnTriangle();
+
+        Managers.Spawn.SpawnTriangle(GetObject((int)Objects.BG));
+    }
+
+    public void InitButton(int buttonIndex)
+    {
+        _currentButton = (Buttons)buttonIndex;
     }
 
     #region Event Handlers
@@ -134,7 +147,7 @@ public class TitlePopup : UIPopup
 
     private void SwitchNextButton(bool isUpKey)
     {
-        int nextButtonIndex = (isUpKey) ? (int)CurrentButton - 1 : (int)CurrentButton + 1;
+        int nextButtonIndex = isUpKey ? (int)CurrentButton - 1 : (int)CurrentButton + 1;
         Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.PlayButton, (int)Buttons.QuitButton);
 
         CurrentButton = nextButton;
@@ -156,9 +169,10 @@ public class TitlePopup : UIPopup
 
     private void OnClickPlayButton()
     {
-        // Managers.UI.OpenPopupUI<SelectPopup>(); SelectPopup이 구현되어야합니다.
-        Managers.UI.ClosePopupUI(this);
         Managers.Spawn.StopSpawnTriangle();
+        Managers.UI.ClosePopupUI(this);
+
+        Managers.UI.OpenPopup<SelectPopup>();
     }
 
     private void OnClickQuitButton()

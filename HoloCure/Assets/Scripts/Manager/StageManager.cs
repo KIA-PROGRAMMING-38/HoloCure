@@ -45,15 +45,10 @@ public class StageManager : MonoBehaviour
         Managers.PresenterM.TriggerUIPresenter.OnActivateGetBoxStartUI -= StopGetKeyCoroutine;
         Managers.PresenterM.TriggerUIPresenter.OnActivateGetBoxStartUI += StopGetKeyCoroutine;
 
-        Managers.PresenterM.TitleUIPresenter.OnPlayGameForStage -= StartStage;
-        Managers.PresenterM.TitleUIPresenter.OnPlayGameForStage += StartStage;
-
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= StopStage;
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd += StopStage;
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd -= Managers.PresenterM.TimePresenter.ResetTimer;
         Managers.PresenterM.TriggerUIPresenter.OnGameEnd += Managers.PresenterM.TimePresenter.ResetTimer;
-        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += Managers.PresenterM.TitleUIPresenter.ActivateMainTitleUI;
-        Managers.PresenterM.TriggerUIPresenter.OnGameEnd += Managers.PresenterM.TitleUIPresenter.ActivateMainTitleUI;
 
         Managers.PresenterM.TriggerUIPresenter.OnActivatePauseUI -= StartVolumeDownCoroutine;
         Managers.PresenterM.TriggerUIPresenter.OnActivatePauseUI += StartVolumeDownCoroutine;

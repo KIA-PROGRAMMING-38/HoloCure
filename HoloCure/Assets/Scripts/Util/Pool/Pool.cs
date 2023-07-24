@@ -7,6 +7,7 @@ namespace Util.Pool
         public T Get() => _pool.Get();
         public void Release(T element) => _pool.Release(element);
         public void Init() => _pool = new(Create, OnGet, OnRelease, OnDestroy);
+        public void Clear() => _pool.Clear();
         protected abstract T Create();
         protected virtual void OnGet(T element) => element.gameObject.SetActive(true);
 

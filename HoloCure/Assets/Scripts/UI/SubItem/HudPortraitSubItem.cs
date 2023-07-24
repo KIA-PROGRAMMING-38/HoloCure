@@ -21,6 +21,6 @@ public class HudPortraitSubItem : UIBase
     private void UpdatePortraitDisplayImage(VTuberID id)
     {
         VTuberData data = Managers.Data.VTuber[id];
-        GetImage((int)Images.PortraitDisplayImage).sprite = Managers.Resource.LoadSprite(data.DisplaySprite);
+        GetImage((int)Images.PortraitDisplayImage).sprite = Managers.Resource.LoadSprite(data.PortraitSprite);
     }
 }

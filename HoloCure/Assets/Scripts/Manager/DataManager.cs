@@ -17,6 +17,8 @@ public class DataManager
     public Dictionary<ItemID, StatData> Stat { get; private set; }
     public Dictionary<MaterialID, MaterialData> Material { get; private set; }
     public List<ExpData> Exp { get; private set; }
+    public List<SelectIdolData> SelectIdol { get; private set; }
+    public List<SelectStageData> SelectStage { get; private set; }
     public void Init()
     {
         VTuber = ParseToDict<VTuberID, VTuberData>("Assets/Resources/4_DataTable/VTuber.csv", data => data.Id);
@@ -29,7 +31,7 @@ public class DataManager
         List<WeaponLevelData> wpList = ParseToList<WeaponLevelData>("Assets/Resources/4_DataTable/WeaponLevelTable.csv");
         foreach (var wpData in wpList)
         {
-            if (false == WeaponLevelTable.ContainsKey(wpData.Id)) 
+            if (false == WeaponLevelTable.ContainsKey(wpData.Id))
             {
                 WeaponLevelTable[wpData.Id] = new List<WeaponLevelData> { new WeaponLevelData() };
                 WeaponLevelTable[wpData.Id][0].Id = wpData.Id;
@@ -41,6 +43,8 @@ public class DataManager
         Stat = ParseToDict<ItemID, StatData>("Assets/Resources/4_DataTable/Stat.csv", data => data.Id);
         Material = ParseToDict<MaterialID, MaterialData>("Assets/Resources/4_DataTable/Material.csv", data => data.Id);
         Exp = ParseToList<ExpData>("Assets/Resources/4_DataTable/Exp.csv");
+        SelectIdol = ParseToList<SelectIdolData>("Assets/Resources/4_DataTable/SelectIdol.csv");
+        SelectStage = ParseToList<SelectStageData>("Assets/Resources/4_DataTable/SelectStage.csv");
     }
     private List<T> ParseToList<T>([NotNull] string path)
     {
