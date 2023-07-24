@@ -9,7 +9,7 @@ public class Managers : MonoBehaviour
     public static GameManager Game { get; private set; }
     public static UIManager UI { get; private set; }
     public static StageManager StageM { get; private set; }
-    public static ItemManager ItemM { get; private set; }
+    public static ItemManager Item { get; private set; }
 
     private void Awake()
     {
@@ -50,8 +50,7 @@ public class Managers : MonoBehaviour
         go.transform.parent = transform;
         StageM = go.AddComponent<StageManager>();
 
-        go = new GameObject(nameof(ItemManager));
-        go.transform.parent = transform;
-        ItemM = go.AddComponent<ItemManager>();
+        Item = new ItemManager();
+        Item.Init();
     }
 }
