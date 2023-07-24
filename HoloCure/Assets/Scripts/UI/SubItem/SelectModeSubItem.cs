@@ -68,8 +68,7 @@ public class SelectModeSubItem : UISubItem
 
     private void OnEnterButton(PointerEventData eventData)
     {
-        var nextButtonTransform = eventData.pointerEnter.transform.parent;
-        Buttons nextButton = Enum.Parse<Buttons>(nextButtonTransform.name);
+        Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
     }

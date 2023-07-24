@@ -67,7 +67,6 @@ public class SelectIdolSubItem : UISubItem
     }
 
     private SelectPopup _selectPopup;
-    private readonly static Vector3 CURSOR_LOCAL_POSITION = new Vector3(2, -3, 0);
 
     public override void Init()
     {
@@ -97,8 +96,7 @@ public class SelectIdolSubItem : UISubItem
 
     private void OnEnterButton(PointerEventData eventData)
     {
-        var nextButtonTransform = eventData.pointerEnter.transform.parent;
-        Buttons nextButton = Enum.Parse<Buttons>(nextButtonTransform.name);
+        Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
     }
@@ -139,7 +137,7 @@ public class SelectIdolSubItem : UISubItem
         Transform buttonTransform = GetButton((int)buttonIndex).transform;
 
         cursorTransform.SetParent(buttonTransform, false);
-        cursorTransform.localPosition = CURSOR_LOCAL_POSITION;
+        cursorTransform.localPosition = default;
     }
 
     private void SwitchVerticalButton(bool isUpKey)
