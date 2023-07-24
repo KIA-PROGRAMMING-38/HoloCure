@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class MouseCursor : UIBaseLegacy
+public class MouseCursor : UIBase
 {
     [SerializeField] private RectTransform _cursorUI;
     [SerializeField] private RectTransform _cusorInGame;
