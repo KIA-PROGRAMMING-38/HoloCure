@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class FanBeam : Weapon
 {
@@ -6,7 +6,7 @@ public class FanBeam : Weapon
     private readonly Vector3 REVERSE_ANGLE = new(0, 0, 180);
     protected override void Shoot(int index)
     {
-        SoundPool.GetPlayAudio(SoundID.FanBeam);
+        Managers.Sound.Play(SoundID.FanBeam);
 
         Projectile projectile = _projectilePool.GetProjectileFromPool();
         if (index == 0)

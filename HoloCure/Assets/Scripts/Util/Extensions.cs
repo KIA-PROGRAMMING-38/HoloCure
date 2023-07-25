@@ -45,4 +45,11 @@ public static class Extensions
         if (ItemID.StartingNone < id && id < ItemID.EquipmentNone) { return WeaponType.Starting; }
         return WeaponType.None;
     }
+    public static SoundType GetSoundType(this SoundID id)
+    {
+        if (SoundID.BGM < id && id < SoundID.Common) { return SoundType.BGM; }
+        if (SoundID.Common < id && id < SoundID.Effect) { return SoundType.Common; }
+        if (SoundID.Effect < id && id < SoundID.End) { return SoundType.Effect; }
+        return SoundType.Max;
+    }
 }

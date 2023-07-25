@@ -59,26 +59,26 @@ public class SelectPopup : UIPopup
 
     public void SetupIdolSelect()
     {
+        int index = _selectedIdol;
         IdolSubItem = Managers.UI.OpenSubItem<SelectIdolSubItem>(transform);
-
         IdolSubItem.Index.BindModelEvent(OnIdolIndexChange, IdolSubItem);
-        IdolSubItem.InitIndex(_selectedIdol);
+        IdolSubItem.InitIndex(index);
     }
 
     public void SetupModeSelect()
     {
+        int index = _selectedMode;
         ModeSubItem = Managers.UI.OpenSubItem<SelectModeSubItem>(transform);
-
         ModeSubItem.Index.BindModelEvent(OnModeIndexChange, ModeSubItem);
-        ModeSubItem.InitIndex(_selectedMode);
+        ModeSubItem.InitIndex(index);
     }
 
     public void SetupStageSelect()
     {
+        int index = _selectedStage;
         StageSubItem = Managers.UI.OpenSubItem<SelectStageSubItem>(transform);
-
         StageSubItem.Index.BindModelEvent(OnStageIndexChange, StageSubItem);
-        StageSubItem.InitIndex(_selectedStage);
+        StageSubItem.InitIndex(index);
     }
 
     public void ReturnToTitlePopup()
@@ -96,7 +96,7 @@ public class SelectPopup : UIPopup
 
         ClosePopupUI();
 
-        Managers.Game.GameStart(_selectedIdolID, _selectedMode, _selectedStage + 1);
+        Managers.Game.InGameStart(_selectedIdolID, _selectedMode, _selectedStage + 1);
     }
 
     private void OnIdolIndexChange(int idolIndex)

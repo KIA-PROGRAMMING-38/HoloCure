@@ -128,6 +128,8 @@ public class SelectStageSubItem : UISubItem
     private void OnClickStageSelectButton()
     {
         GetObject((int)Objects.PlayButton).SetActive(true);
+
+        Managers.Sound.Play(SoundID.SelectClick);
     }
 
     private void OnClickPlayButton()
@@ -135,6 +137,8 @@ public class SelectStageSubItem : UISubItem
         CloseSubItem();
 
         _selectPopup.GameStart();
+
+        Managers.Sound.Play(SoundID.SelectClick);
     }
 
     private void OnClickStageMoveLeftButton()
@@ -146,6 +150,8 @@ public class SelectStageSubItem : UISubItem
             : Index.Value - 1;
 
         SetupStage(Index.Value);
+
+        Managers.Sound.Play(SoundID.SelectMove);
     }
 
     private void OnClickStageMoveRightButton()
@@ -157,11 +163,15 @@ public class SelectStageSubItem : UISubItem
             : Index.Value + 1;
 
         SetupStage(Index.Value);
+
+        Managers.Sound.Play(SoundID.SelectMove);
     }
 
     private void OnCancelPlay()
     {
         GetObject((int)Objects.PlayButton).SetActive(false);
+
+        Managers.Sound.Play(SoundID.ButtonBack);
     }
 
     private void OnCancelSelectStage()
@@ -169,6 +179,8 @@ public class SelectStageSubItem : UISubItem
         CloseSubItem();
 
         _selectPopup.SetupModeSelect();
+
+        Managers.Sound.Play(SoundID.ButtonBack);
     }
 
     private void SetupStage(int stageIndex)

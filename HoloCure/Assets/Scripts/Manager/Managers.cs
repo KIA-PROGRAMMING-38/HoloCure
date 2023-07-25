@@ -8,9 +8,8 @@ public class Managers : MonoBehaviour
     public static SpawnManager Spawn { get; private set; }
     public static GameManager Game { get; private set; }
     public static UIManager UI { get; private set; }
-    public static StageManager StageM { get; private set; }
     public static ItemManager Item { get; private set; }
-
+    public static SoundManager Sound { get; private set; }
     private void Awake()
     {
         Init();
@@ -18,7 +17,9 @@ public class Managers : MonoBehaviour
         Time.timeScale = 0;
 
         UI.OpenPopup<TitlePopup>();
+        Sound.Play(SoundID.TitleBGM);
     }
+
     private void Init()
     {
         Instance = this;
@@ -46,11 +47,12 @@ public class Managers : MonoBehaviour
         Spawn = go.AddComponent<SpawnManager>();
         Spawn.Init();
 
-        go = new GameObject(nameof(StageManager));
-        go.transform.parent = transform;
-        StageM = go.AddComponent<StageManager>();
-
         Item = new ItemManager();
         Item.Init();
+
+        go = new GameObject(nameof(SoundManager));
+        go.transform.parent = transform;
+        Sound = go.AddComponent<SoundManager>();
+        Sound.Init();
     }
 }

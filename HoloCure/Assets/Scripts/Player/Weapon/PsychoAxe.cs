@@ -5,7 +5,7 @@ public class PsychoAxe : Weapon
     private const int RADIUS_INCREASE_SPEED = 40;
     protected override void Shoot(int index)
     {
-        SoundPool.GetPlayAudio(SoundID.PsychoAxe);
+        Managers.Sound.Play(SoundID.PsychoAxe);
 
         Projectile projectile = _projectilePool.GetProjectileFromPool();
         projectile.SetPositionWithWeapon(transform.position);

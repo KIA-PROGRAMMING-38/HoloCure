@@ -19,6 +19,7 @@ public class DataManager
     public List<ExpData> Exp { get; private set; }
     public List<SelectIdolData> SelectIdol { get; private set; }
     public List<SelectStageData> SelectStage { get; private set; }
+    public Dictionary<SoundID, SoundData> Sound { get; private set; }
     public void Init()
     {
         VTuber = ParseToDict<VTuberID, VTuberData>("Assets/Resources/4_DataTable/VTuber.csv", data => data.Id);
@@ -45,6 +46,7 @@ public class DataManager
         Exp = ParseToList<ExpData>("Assets/Resources/4_DataTable/Exp.csv");
         SelectIdol = ParseToList<SelectIdolData>("Assets/Resources/4_DataTable/SelectIdol.csv");
         SelectStage = ParseToList<SelectStageData>("Assets/Resources/4_DataTable/SelectStage.csv");
+        Sound = ParseToDict<SoundID, SoundData>("Assets/Resources/4_DataTable/Sound.csv", data => data.Id);
     }
     private List<T> ParseToList<T>([NotNull] string path)
     {

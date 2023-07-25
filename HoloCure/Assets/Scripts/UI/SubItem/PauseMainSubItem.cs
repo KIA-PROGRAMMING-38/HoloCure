@@ -95,6 +95,8 @@ public class PauseMainSubItem : UISubItem
         Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     private void OnClickButton(PointerEventData eventData)
@@ -118,6 +120,7 @@ public class PauseMainSubItem : UISubItem
         else if (Input.GetButtonDown(InputLiteral.CANCEL))
         {
             OnClickResumeButton();
+            Managers.Sound.Play(SoundID.ButtonBack);
         }
     }
 
@@ -143,6 +146,8 @@ public class PauseMainSubItem : UISubItem
         Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.SkillsButton, (int)Buttons.QuitButton);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     #endregion
@@ -161,6 +166,8 @@ public class PauseMainSubItem : UISubItem
             case Buttons.QuitButton: OnClickQuitButton(); break;
             default: throw new ArgumentOutOfRangeException(nameof(button));
         }
+
+        Managers.Sound.Play(SoundID.ButtonClick);
     }
 
     private void OnClickSkillsButton()
@@ -191,6 +198,8 @@ public class PauseMainSubItem : UISubItem
         transform.parent.GetComponentAssert<PausePopup>().ClosePopupUI();
 
         Time.timeScale = 1.0f;
+
+        Managers.Sound.BGMVolumeUp();
     }
 
     private void OnClickQuitButton()

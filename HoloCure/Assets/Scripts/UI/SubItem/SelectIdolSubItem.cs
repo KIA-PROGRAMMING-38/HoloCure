@@ -99,6 +99,8 @@ public class SelectIdolSubItem : UISubItem
         Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.SelectMove);
     }
 
     private void OnClickButton(PointerEventData eventData)
@@ -152,6 +154,8 @@ public class SelectIdolSubItem : UISubItem
         Buttons nextButton = (Buttons)nextButtonIndex;
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.SelectMove);
     }
 
     private void SwitchHorizontalButton(bool isRightKey)
@@ -166,6 +170,8 @@ public class SelectIdolSubItem : UISubItem
         Buttons nextButton = (Buttons)nextButtonIndex;
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.SelectMove);
     }
 
     private void ProcessButton(Buttons button)
@@ -176,6 +182,8 @@ public class SelectIdolSubItem : UISubItem
         CloseSubItem();
 
         _selectPopup.SetupModeSelect();
+
+        Managers.Sound.Play(SoundID.SelectClick);
     }
 
     private void OnCancel()
@@ -183,5 +191,7 @@ public class SelectIdolSubItem : UISubItem
         CloseSubItem();
 
         _selectPopup.ReturnToTitlePopup();
+
+        Managers.Sound.Play(SoundID.ButtonBack);
     }
 }

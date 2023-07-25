@@ -13,15 +13,16 @@ public class GameManager : MonoBehaviour
     public ReactiveProperty<int> Coins { get; private set; } = new();
     public ReactiveProperty<int> DefeatedEnemies { get; private set; } = new();
     public VTuber VTuber { get; private set; }
+    public int CurrentStageTime { get => Minutes.Value * 60 + Seconds.Value; }
     private HudPopup _hudPopup;
     public void Init()
     {
         _countTimeCo = CountTimeCo();
     }
 
-    public void GameStart(VTuberID id, int mode, int stage)
+    public void InGameStart(VTuberID id, int mode, int stage)
     {
-        IngameStart(stage);
+        InitIngame(stage);
                
         SelectVTuber(id);
 
@@ -41,14 +42,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameEnd()
+    public void OutgameStart()
     {
-        OutgameStart();
+        InitOutgame();
 
         StopCoroutine(_countTimeCo);
     }
 
-    private void IngameStart(int stage)
+    private void InitIngame(int stage)
     {
         Time.timeScale = 1.0f;
         Stage.Value = stage;
@@ -58,8 +59,12 @@ public class GameManager : MonoBehaviour
         DefeatedEnemies.Value = 0;
 
         _hudPopup = Managers.UI.OpenPopup<HudPopup>();
+
+        SoundID stageBGM = SoundID.StageOneBGM + (stage - 1);
+        Managers.Sound.StopAll();
+        Managers.Sound.Play(stageBGM);
     }
-    private void OutgameStart()
+    private void InitOutgame()
     {
         Managers.Resource.Destroy(VTuber.gameObject);
         _hudPopup.ClosePopupUI();
@@ -67,11 +72,12 @@ public class GameManager : MonoBehaviour
         Stage.Value = 0;
 
         Managers.UI.OpenPopup<TitlePopup>();
+
+        Managers.Sound.StopAll();
+        Managers.Sound.Play(SoundID.TitleBGM);
     }
     private void SelectVTuber(VTuberID id)
     {
-        VTuberData data = Managers.Data.VTuber[id];
-
         VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
         VTuber.Init(id);
     }

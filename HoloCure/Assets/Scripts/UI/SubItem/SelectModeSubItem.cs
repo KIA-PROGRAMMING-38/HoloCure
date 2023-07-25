@@ -71,6 +71,8 @@ public class SelectModeSubItem : UISubItem
         Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
+
+
     }
 
     private void OnClickButton(PointerEventData eventData)
@@ -113,6 +115,8 @@ public class SelectModeSubItem : UISubItem
         Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.StageModeButton, (int)Buttons.EndlessModeButton);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.SelectMove);
     }
 
     private void ProcessButton(Buttons button)
@@ -123,6 +127,8 @@ public class SelectModeSubItem : UISubItem
             case Buttons.EndlessModeButton: break;
             default: throw new ArgumentOutOfRangeException(nameof(button));
         }
+
+        Managers.Sound.Play(SoundID.SelectClick);
     }
 
     private void OnClickStageModeButton()
@@ -137,5 +143,7 @@ public class SelectModeSubItem : UISubItem
         CloseSubItem();
 
         _selectPopup.SetupIdolSelect();
+
+        Managers.Sound.Play(SoundID.ButtonBack);
     }
 }

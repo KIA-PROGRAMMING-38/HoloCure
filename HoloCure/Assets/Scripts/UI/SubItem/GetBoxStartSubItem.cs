@@ -66,6 +66,8 @@ public class GetBoxStartSubItem : UISubItem
 
         this.UpdateAsObservable()
             .Subscribe(OnPressKey);
+
+        Managers.Sound.Play(SoundID.BoxOpenStart);
     }
 
     public void InitButton(int buttonIndex)
@@ -80,6 +82,8 @@ public class GetBoxStartSubItem : UISubItem
         Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     private void OnClickButton(PointerEventData eventData)
@@ -124,6 +128,8 @@ public class GetBoxStartSubItem : UISubItem
             case Buttons.OpenButton: OnClickOpenButton(); break;
             default: throw new ArgumentOutOfRangeException(nameof(button));
         }
+
+        Managers.Sound.Play(SoundID.ButtonClick);
     }
 
     private void OnClickOpenButton()

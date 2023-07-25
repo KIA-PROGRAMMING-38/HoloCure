@@ -26,5 +26,7 @@ public class PauseStampsSubItem : UISubItem
         Managers.UI.OpenSubItem<PauseMainSubItem>(transform.parent).InitIndex(1);
 
         CloseSubItem();
+
+        Managers.Sound.Play(SoundID.ButtonBack);
     }
 }

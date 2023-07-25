@@ -124,7 +124,7 @@ public class ItemManager
             return weapon.Id;
         }
 
-        return ItemID.None;
+        return GetStat();
     }
 
     private ItemID GetStat()

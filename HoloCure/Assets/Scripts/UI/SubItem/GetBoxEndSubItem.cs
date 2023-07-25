@@ -89,6 +89,8 @@ public class GetBoxEndSubItem : UISubItem
         Managers.Spawn.SpawnOpenBoxCoin();
         Managers.Spawn.SpawnOpenBoxParticle();
         Managers.Spawn.SpawnOpenedBoxParticle();
+
+        Managers.Sound.Play(SoundID.BoxOpenEnd);
     }
 
     #region Event Handlers
@@ -98,6 +100,8 @@ public class GetBoxEndSubItem : UISubItem
         Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     private void OnClickButton(PointerEventData eventData)
@@ -148,6 +152,8 @@ public class GetBoxEndSubItem : UISubItem
         Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.TakeButton, (int)Buttons.DropButton);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     private void SetupItem()
@@ -194,6 +200,7 @@ public class GetBoxEndSubItem : UISubItem
 
         WeaponLevelData levelData = Managers.Data.WeaponLevelTable[id][nextLevel];
         GetText((int)Texts.DescriptionText).text = levelData.Description;
+        GetText((int)Texts.TypeText).text = ">> Weapon";
         if (nextLevel == 1)
         {
             GetObject((int)Objects.NewText).SetActive(true);
@@ -209,6 +216,7 @@ public class GetBoxEndSubItem : UISubItem
     {
         StatData data = Managers.Data.Stat[id];
         GetText((int)Texts.DescriptionText).text = data.Description;
+        GetText((int)Texts.TypeText).text = ">> Stat";
     }
 
     #endregion
@@ -224,6 +232,9 @@ public class GetBoxEndSubItem : UISubItem
             default: throw new ArgumentOutOfRangeException(nameof(button));
         }
 
+        Managers.Sound.Play(SoundID.ButtonClick);
+        Managers.Sound.UnPause(SoundType.BGM);
+        Managers.Sound.BGMVolumeUp();
     }
 
     private void OnClickTakeButton()

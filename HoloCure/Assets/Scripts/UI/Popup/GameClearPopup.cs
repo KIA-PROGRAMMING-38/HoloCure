@@ -79,6 +79,9 @@ public class GameClearPopup : UIPopup
             .Subscribe(OnPressKey);
 
         Time.timeScale = 0;
+
+        Managers.Sound.Stop(SoundType.BGM);
+        Managers.Sound.Play(SoundID.GameClear);
     }
 
     private void SetupView()
@@ -101,7 +104,7 @@ public class GameClearPopup : UIPopup
     private RectTransform _rectTransform;
     private Vector2 _initPos;
     private Vector2 _startPos;
-    private const int GAME_CLEAR_TIME = 7;
+    private const int GAME_CLEAR_TIME = 4;
     private float _elapsedTime;
     private IEnumerator MoveCo()
     {
@@ -123,6 +126,8 @@ public class GameClearPopup : UIPopup
         Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     private void OnClickButton(PointerEventData eventData)
@@ -167,13 +172,15 @@ public class GameClearPopup : UIPopup
             case Buttons.MainMenuButton: OnClickMainMenuButton(); break;
             default: throw new ArgumentOutOfRangeException(nameof(button));
         }
+
+        Managers.Sound.Play(SoundID.ButtonClick);
     }
 
     private void OnClickMainMenuButton()
     {
         ClosePopupUI();
 
-        Managers.Game.GameEnd();
+        Managers.Game.OutgameStart();
     }
 
     #endregion

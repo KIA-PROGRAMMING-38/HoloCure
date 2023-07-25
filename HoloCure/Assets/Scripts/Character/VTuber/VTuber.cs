@@ -84,7 +84,7 @@ public class VTuber : CharacterBase
     }
     public override void GetDamage(int damage)
     {
-        SoundPool.GetPlayAudio(SoundID.PlayerDamaged);
+        Managers.Sound.Play(SoundID.PlayerDamaged);
 
         base.GetDamage(damage);
     }
@@ -100,7 +100,7 @@ public class VTuber : CharacterBase
 
         yield return DelayCache.GetUnscaledWaitForSeconds(3);
 
-        // Managers.UI.OpenPopupUI<GameOverPopup>();
+        Managers.UI.OpenPopup<GameOverPopup>();
     }
     public void GetStat(ItemID id, int value)
     {
@@ -148,7 +148,7 @@ public class VTuber : CharacterBase
 
         PickUpRate.Value += value;
         PickUp.Value = data.PickUp + (data.PickUp * PickUpRate.Value) / 100;
-        _objectSensor.radius = PickUpRate.Value;
+        _objectSensor.radius = PickUp.Value;
     }
     private void GetHasteRate(int value)
     {
@@ -156,6 +156,8 @@ public class VTuber : CharacterBase
     }
     public void GetExp(int value)
     {
+        Managers.Sound.Play(SoundID.GetExp);
+
         CurrentExp.Value += value;
 
         if (CurrentExp.Value >= MaxExp.Value)

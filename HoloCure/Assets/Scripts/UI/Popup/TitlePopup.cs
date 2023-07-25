@@ -106,6 +106,8 @@ public class TitlePopup : UIPopup
         Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     private void OnClickButton(PointerEventData eventData)
@@ -150,6 +152,8 @@ public class TitlePopup : UIPopup
         Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.PlayButton, (int)Buttons.QuitButton);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     #endregion
@@ -164,6 +168,8 @@ public class TitlePopup : UIPopup
             case Buttons.QuitButton: OnClickQuitButton(); break;
             default: break;
         }
+
+        Managers.Sound.Play(SoundID.ButtonClick);
     }
 
     private void OnClickPlayButton()
