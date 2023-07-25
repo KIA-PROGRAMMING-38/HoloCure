@@ -11,6 +11,8 @@ public class GetBoxOngoingSubItem : UISubItem
 
         this.UpdateAsObservable()
             .Subscribe(OnPressKey);
+
+        Managers.Sound.Play(SoundID.BoxOpenOngoing);
     }
 
     private void OnPressKey(Unit unit)

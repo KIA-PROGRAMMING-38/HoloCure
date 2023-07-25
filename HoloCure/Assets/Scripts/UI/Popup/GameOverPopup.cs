@@ -79,6 +79,9 @@ public class GameOverPopup : UIPopup
             .Subscribe(OnPressKey);
 
         Time.timeScale = 0;
+
+        Managers.Sound.Stop(SoundType.BGM);
+        Managers.Sound.Play(SoundID.GameOver);
     }
 
     private void SetupView()
@@ -101,14 +104,14 @@ public class GameOverPopup : UIPopup
     private RectTransform _rectTransform;
     private Vector2 _initPos;
     private Vector2 _startPos;
-    private const int GAME_CLEAR_TIME = 7;
+    private const int GAME_OVER_TIME = 4;
     private float _elapsedTime;
     private IEnumerator MoveCo()
     {
-        while (_elapsedTime <= GAME_CLEAR_TIME)
+        while (_elapsedTime <= GAME_OVER_TIME)
         {
-            _canvasGroup.alpha = Mathf.Lerp(0, 1f, _elapsedTime / GAME_CLEAR_TIME);
-            _rectTransform.anchoredPosition = Vector2.Lerp(_startPos, _initPos, _elapsedTime / GAME_CLEAR_TIME);
+            _canvasGroup.alpha = Mathf.Lerp(0, 1f, _elapsedTime / GAME_OVER_TIME);
+            _rectTransform.anchoredPosition = Vector2.Lerp(_startPos, _initPos, _elapsedTime / GAME_OVER_TIME);
             _elapsedTime += Time.unscaledDeltaTime;
             yield return null;
         }
@@ -123,6 +126,8 @@ public class GameOverPopup : UIPopup
         Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     private void OnClickButton(PointerEventData eventData)
@@ -167,13 +172,15 @@ public class GameOverPopup : UIPopup
             case Buttons.MainMenuButton: OnClickMainMenuButton(); break;
             default: throw new ArgumentOutOfRangeException(nameof(button));
         }
+
+        Managers.Sound.Play(SoundID.ButtonClick);
     }
 
     private void OnClickMainMenuButton()
     {
         ClosePopupUI();
 
-        Managers.Game.GameEnd();
+        Managers.Game.OutgameStart();
     }
 
     #endregion

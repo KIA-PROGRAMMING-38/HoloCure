@@ -43,9 +43,7 @@ public class Exp : MonoBehaviour
         if (_isSpawning) { return; }
 
         if (collision.CompareTag(TagLiteral.VTUBER))
-        {
-            SoundPool.GetPlayAudio(SoundID.GetExp);
-
+        {            
             ReleaseToPool();
 
             VTuber vtuber = collision.gameObject.GetComponentAssert<VTuber>();

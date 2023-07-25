@@ -17,9 +17,14 @@ public class SoundManager : MonoBehaviour
         }
 
         _audioSources[(int)SoundType.BGM].loop = true;
+    }
 
-        _volumeUpCo = VolumeUpCo();
-        _volumeDownCo = VolumeDownCo();
+    public void StopAll()
+    {
+        foreach (var audioSource in _audioSources)
+        {
+            audioSource.Stop();
+        }
     }
 
     public void Play(SoundID id)
@@ -28,7 +33,8 @@ public class SoundManager : MonoBehaviour
         SoundType type = id.GetSoundType();
 
         AudioSource audioSource = _audioSources[(int)type];
-        AudioClip audioClip = GetAudioClip(data.Name);
+        audioSource.volume = data.Volume;
+        AudioClip audioClip = GetAudioClip(data.Name);        
 
         if (type == SoundType.Effect)
         {
@@ -64,54 +70,45 @@ public class SoundManager : MonoBehaviour
         audioSource.UnPause();
     }
 
-    private AudioSource _fadeSource;
-    private float _fadeTime;
-    private const float FADE_DURATION = 0.2f;
-    private const float FADE_UP = 0.6f;
-    private const float FADE_DOWN = 0.2f;
-    private IEnumerator _volumeUpCo;
-    private IEnumerator _volumeDownCo;
-    public void VolumeUp(SoundType type)
+    private const float FADE_DURATION = 0.15f;
+    private const float MIN_VOLUME = 0.15f;
+    private IEnumerator _changeVolumeCo;
+    public void BGMVolumeUp()
     {
-        _fadeSource = _audioSources[(int)type];
-        _fadeTime = 0;
-        StartCoroutine(_volumeUpCo);
+        ChangeVolume(SoundType.BGM, true);
     }
 
-    public void VolumeDown(SoundType type)
+    public void BGMVolumeDown()
     {
-        _fadeSource = _audioSources[(int)type];
-        _fadeTime = 0;
-        StartCoroutine(_volumeDownCo);
+        ChangeVolume(SoundType.BGM, false);
     }
 
-    private IEnumerator VolumeUpCo()
+    private void ChangeVolume(SoundType type, bool increaseVolume)
     {
-        while (true)
+        AudioSource audioSource = _audioSources[(int)type];
+        if (_changeVolumeCo != null)
         {
-            while (_fadeTime < FADE_DURATION)
-            {
-                _fadeSource.volume = Mathf.Lerp(FADE_DOWN, FADE_UP, _fadeTime / FADE_DURATION);
-                _fadeTime += Time.unscaledDeltaTime;
-                yield return null;
-            }
+            StopCoroutine(_changeVolumeCo);
+        }
+        _changeVolumeCo = ChangeVolumeCo(audioSource, increaseVolume);
+        StartCoroutine(_changeVolumeCo);
+    }
 
-            StopCoroutine(_volumeUpCo);
+    private IEnumerator ChangeVolumeCo(AudioSource audioSource, bool increaseVolume)
+    {
+        SoundID currentStageBGM = SoundID.StageOneBGM + Managers.Game.Stage.Value - 1;
+        float initialVolume = Managers.Data.Sound[currentStageBGM].Volume;
+        float targetVolume = increaseVolume ? initialVolume : MIN_VOLUME;
+        float startVolume = increaseVolume ? MIN_VOLUME : initialVolume;
+        float time = 0f;
+
+        while (time < FADE_DURATION)
+        {
+            time += Time.unscaledDeltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, targetVolume, time / FADE_DURATION);
             yield return null;
         }
-    }
-
-    public IEnumerator VolumeDownCo()
-    {
-        while (_fadeTime < FADE_DURATION)
-        {
-            _fadeSource.volume = Mathf.Lerp(FADE_UP, FADE_DOWN, _fadeTime / FADE_DURATION);
-            _fadeTime += Time.unscaledDeltaTime;
-            yield return null;
-        }
-
-        StopCoroutine(_volumeDownCo);
-        yield return null;
+        audioSource.volume = targetVolume;
     }
 
     public float GetAudioClipLength(string path) => GetAudioClip(path).length;

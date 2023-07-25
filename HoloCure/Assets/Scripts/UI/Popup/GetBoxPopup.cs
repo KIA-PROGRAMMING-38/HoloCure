@@ -9,5 +9,8 @@ public class GetBoxPopup : UIPopup
         Managers.UI.OpenSubItem<GetBoxStartSubItem>(transform);
 
         Time.timeScale = 0;
+
+        Managers.Sound.Pause(SoundType.BGM);
+        Managers.Sound.BGMVolumeDown();
     }
 }

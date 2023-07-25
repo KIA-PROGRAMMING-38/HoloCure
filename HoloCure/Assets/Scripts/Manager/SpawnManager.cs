@@ -143,7 +143,7 @@ public class SpawnManager : MonoBehaviour
         switch (type)
         {
             case EnemyType.Normal:
-                while (Managers.StageM.CurrentStageTime < data.SpawnEndTime)
+                while (Managers.Game.CurrentStageTime < data.SpawnEndTime)
                 {
                     SpawnEnemy(id);
                     yield return ENEMY_SPAWN_INTERVAL;

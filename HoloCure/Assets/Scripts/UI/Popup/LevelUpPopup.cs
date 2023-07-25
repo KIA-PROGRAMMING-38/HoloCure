@@ -104,6 +104,9 @@ public class LevelUpPopup : UIPopup
             .Subscribe(OnPressKey);
 
         Time.timeScale = 0;
+
+        Managers.Sound.BGMVolumeDown();
+        Managers.Sound.Play(SoundID.LevelUp);
     }
 
     #region Event Handlers
@@ -113,6 +116,8 @@ public class LevelUpPopup : UIPopup
         Buttons nextButton = Enum.Parse<Buttons>(eventData.pointerEnter.name);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     private void OnClickButton(PointerEventData eventData)
@@ -161,6 +166,8 @@ public class LevelUpPopup : UIPopup
         Buttons nextButton = (Buttons)Mathf.Clamp(nextButtonIndex, (int)Buttons.ItemButton_1, (int)Buttons.ItemButton_4);
 
         CurrentButton = nextButton;
+
+        Managers.Sound.Play(SoundID.ButtonMove);
     }
 
     private void SetupItemButtons()
@@ -213,7 +220,9 @@ public class LevelUpPopup : UIPopup
 
         WeaponLevelData levelData = Managers.Data.WeaponLevelTable[id][nextLevel];
         int description = index + (int)Texts.DescriptionText_1;
+        int typeText = index + (int)Texts.TypeText_1;
         GetText(description).text = levelData.Description;
+        GetText(typeText).text = ">> Weapon";
         if (nextLevel == 1)
         {
             int newText = index + (int)Objects.NewText_1;
@@ -231,7 +240,9 @@ public class LevelUpPopup : UIPopup
     {
         StatData data = Managers.Data.Stat[id];
         int description = index + (int)Texts.DescriptionText_1;
+        int typeText = index + (int)Texts.TypeText_1;
         GetText(description).text = data.Description;
+        GetText(typeText).text = ">> Stat";
     }
 
     #endregion
@@ -245,6 +256,9 @@ public class LevelUpPopup : UIPopup
         ClosePopupUI();
 
         Time.timeScale = 1.0f;
+
+        Managers.Sound.Play(SoundID.ButtonClick);
+        Managers.Sound.BGMVolumeUp();
     }
 
     #endregion

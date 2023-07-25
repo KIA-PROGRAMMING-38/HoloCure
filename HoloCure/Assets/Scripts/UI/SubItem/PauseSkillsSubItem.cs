@@ -26,5 +26,7 @@ public class PauseSkillsSubItem : UISubItem
         Managers.UI.OpenSubItem<PauseMainSubItem>(transform.parent).InitIndex(0);
 
         CloseSubItem();
+
+        Managers.Sound.Play(SoundID.ButtonBack);
     }
 }

@@ -124,7 +124,7 @@ public class Enemy : CharacterBase
     /// </summary>
     public override void GetDamage(int damage)
     {
-        SoundPool.GetPlayAudio(SoundID.EnemyDamaged);
+        Managers.Sound.Play(SoundID.EnemyDamaged);
 
         Managers.Spawn.SpawnDamageText(transform.position, damage, IsCritical());
 

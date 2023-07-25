@@ -11,6 +11,8 @@ public class PausePopup : UIPopup
         Managers.UI.OpenSubItem<PauseMainSubItem>(transform);
 
         Time.timeScale = 0;
+
+        Managers.Sound.BGMVolumeDown();
     }
 
     private void OnDestroy()

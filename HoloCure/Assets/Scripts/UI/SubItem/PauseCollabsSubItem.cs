@@ -26,5 +26,7 @@ public class PauseCollabsSubItem : UISubItem
         Managers.UI.OpenSubItem<PauseMainSubItem>(transform.parent).InitIndex(2);
 
         CloseSubItem();
+
+        Managers.Sound.Play(SoundID.ButtonBack);
     }
 }
