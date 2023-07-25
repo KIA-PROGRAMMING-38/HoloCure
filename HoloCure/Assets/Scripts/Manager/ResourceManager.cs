@@ -12,6 +12,7 @@ public class ResourceManager
     public Dictionary<string, Material> Materials { get; private set; }
     public Dictionary<string, GameObject> Prefabs { get; private set; }
     public Dictionary<string, TMP_FontAsset> Fonts { get; private set; }
+    public Dictionary<string, AudioClip> AudioClips { get; private set; }
     public void Init()
     {
         Sprites = new();
@@ -19,12 +20,14 @@ public class ResourceManager
         Materials = new();
         Prefabs = new();
         Fonts = new();
+        AudioClips = new();
     }
     public Sprite LoadSprite(string path) => Load(Sprites, ZString.Concat(PathLiteral.SPRITE, path));
     public AnimationClip LoadAnimClip(string path, string path2 = null) => Load(AnimClips, ZString.Concat(PathLiteral.ANIM, path, path2));
     public Material LoadMaterial(string path) => Load(Materials, ZString.Concat(PathLiteral.MATERIAL, path));
     public GameObject LoadPrefab(string path) => Load(Prefabs, ZString.Concat(PathLiteral.PREFAB, path));
     public TMP_FontAsset LoadFont(string path) => Load(Fonts, ZString.Concat(PathLiteral.Font, path));
+    public AudioClip LoadAudioClip(string path) => Load(AudioClips, ZString.Concat(PathLiteral.SOUND, path));
     private T Load<T>(Dictionary<string, T> dic, string path) where T : Object
     {
         if (false == dic.ContainsKey(path))

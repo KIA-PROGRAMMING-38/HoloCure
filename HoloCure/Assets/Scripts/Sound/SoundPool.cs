@@ -1,35 +1,35 @@
-﻿using StringLiterals;
+using StringLiterals;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Util.Pool;
 
-public enum SoundID
-{
-    None,
-    TitleBGM,
-    StageOneBGM,
-    GameOver,
-    GameClear,
-    BoxOpenStart,
-    BoxOpen,
-    BoxOpenEnd,
-    ButtonMove,
-    ButtonClick,
-    ButtonBack,
-    CharMove,
-    CharClick,
-    SummonTentacle,
-    FanBeam,
-    HoloBomb,
-    PsychoAxe,
-    PlayerDamaged,
-    EnemyDamaged,
-    GetExp,
-    LevelUp,
-    SmollAmeJump,
-    SmollAmeAttack
-}
+//public enum SoundID
+//{
+//    None,
+//    TitleBGM,
+//    StageOneBGM,
+//    GameOver,
+//    GameClear,
+//    BoxOpenStart,
+//    BoxOpen,
+//    BoxOpenEnd,
+//    ButtonMove,
+//    ButtonClick,
+//    ButtonBack,
+//    CharMove,
+//    CharClick,
+//    SummonTentacle,
+//    FanBeam,
+//    HoloBomb,
+//    PsychoAxe,
+//    PlayerDamaged,
+//    EnemyDamaged,
+//    GetExp,
+//    LevelUp,
+//    SmollAmeJump,
+//    SmollAmeAttack
+//}
 
 public static class SoundPool
 {
@@ -73,15 +73,15 @@ public static class SoundPool
         
         // 박스 효과음
         _audioClipContainer.Add(SoundID.BoxOpenStart, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_delivery")));
-        _audioClipContainer.Add(SoundID.BoxOpen, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "bgm_chestopen1")));
+        _audioClipContainer.Add(SoundID.BoxOpenOngoing, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "bgm_chestopen1")));
         _audioClipContainer.Add(SoundID.BoxOpenEnd, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "bgm_chestopen1_short")));
 
         // 메뉴 효과음
         _audioClipContainer.Add(SoundID.ButtonMove, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_menu_select")));
         _audioClipContainer.Add(SoundID.ButtonClick, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_menu_confirm")));
         _audioClipContainer.Add(SoundID.ButtonBack, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_menu_back")));
-        _audioClipContainer.Add(SoundID.CharMove, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_charSelectWoosh")));
-        _audioClipContainer.Add(SoundID.CharClick, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_charSelected")));
+        _audioClipContainer.Add(SoundID.SelectMove, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_charSelectWoosh")));
+        _audioClipContainer.Add(SoundID.SelectClick, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_charSelected")));
 
         // 무기 효과음
         _audioClipContainer.Add(SoundID.SummonTentacle, Resources.Load<AudioClip>(Path.Combine(PathLiteral.SOUND, "snd_tentacle")));
