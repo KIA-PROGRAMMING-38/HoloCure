@@ -4,10 +4,10 @@ using Random = UnityEngine.Random;
 
 public class ItemManager
 {
-    enum ItemList { List1, List2, List3, List4 }
+    private enum ItemList { List1, List2, List3, List4 }
     private const int STARTING_WEAPON_WEIGHT = 3;
 
-    ItemID[] _items;
+    private ItemID[] _items;
 
     public void Init()
     {
@@ -65,7 +65,7 @@ public class ItemManager
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 
-        if (item == ItemID.None)
+        while (item == ItemID.None || IsAlreadySelected(item))
         {
             item = GetStat();
         }

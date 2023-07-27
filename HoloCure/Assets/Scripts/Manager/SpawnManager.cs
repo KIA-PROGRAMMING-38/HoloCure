@@ -6,13 +6,6 @@ using StringLiterals;
 
 public class SpawnManager : MonoBehaviour
 {
-    private const int WIDTH = 540;
-    private const int HEIGHT = 315;
-    private const int ENEMY_SPAWN_OFFSET_COUNT = 36;
-    private readonly WaitForSeconds ENEMY_SPAWN_INTERVAL = DelayCache.GetWaitForSeconds(1);
-
-    private Vector3[] _enemySpawnOffsets;
-
     public GameObject IngameContainer { get; private set; }
     public GameObject EnemyContainer { get; private set; }
     public GameObject DamageTextContainer { get; private set; }
@@ -20,6 +13,7 @@ public class SpawnManager : MonoBehaviour
     public GameObject BoxContainer { get; private set; }
     public GameObject BoxEffectContainer { get; private set; }
     public GameObject EnemyDieEffectContainer { get; private set; }
+    public GameObject ProjectileContainer { get; private set; }
 
     public EnemyPool Enemy { get; private set; }
     public DamageTextPool DamageText { get; private set; }
@@ -29,6 +23,7 @@ public class SpawnManager : MonoBehaviour
     public OpenBoxParticlePool OpenBoxParticle { get; private set; }
     public OpenedBoxParticlePool OpenedBoxParticle { get; private set; }
     public EnemyDieEffectPool EnemyDieEffect { get; private set; }
+    public ProjectilePool Projectile { get; private set; }
 
     public GameObject OutgameContainer { get; private set; }
     public GameObject TriangleContainer { get; private set; }
@@ -48,6 +43,8 @@ public class SpawnManager : MonoBehaviour
     {
         if (stage == 0) { return; }
 
+        Managers.Resource.Destroy(OutgameContainer);
+
         InitIngamePool();
         InitOffset();
 
@@ -64,6 +61,7 @@ public class SpawnManager : MonoBehaviour
         BoxContainer = new GameObject("Box Container");
         BoxEffectContainer = new GameObject("BoxEffect Container");
         EnemyDieEffectContainer = new GameObject("EnemyDieEffect Container");
+        ProjectileContainer = new GameObject("Projectile Container");
 
         EnemyContainer.transform.parent = IngameContainer.transform;
         DamageTextContainer.transform.parent = IngameContainer.transform;
@@ -71,6 +69,7 @@ public class SpawnManager : MonoBehaviour
         BoxContainer.transform.parent = IngameContainer.transform;
         BoxEffectContainer.transform.parent = IngameContainer.transform;
         EnemyDieEffectContainer.transform.parent = IngameContainer.transform;
+        ProjectileContainer.transform.parent = IngameContainer.transform;
 
         Enemy = new EnemyPool();
         DamageText = new DamageTextPool();
@@ -80,6 +79,7 @@ public class SpawnManager : MonoBehaviour
         OpenBoxParticle = new OpenBoxParticlePool();
         OpenedBoxParticle = new OpenedBoxParticlePool();
         EnemyDieEffect = new EnemyDieEffectPool();
+        Projectile = new ProjectilePool();
 
         Enemy.Init();
         DamageText.Init();
@@ -89,6 +89,7 @@ public class SpawnManager : MonoBehaviour
         OpenBoxParticle.Init();
         OpenedBoxParticle.Init();
         EnemyDieEffect.Init();
+        Projectile.Init();
     }
     private void InitOffset()
     {
@@ -101,18 +102,7 @@ public class SpawnManager : MonoBehaviour
             _enemySpawnOffsets[i] = new Vector3(WIDTH * Mathf.Cos(angle), HEIGHT * Mathf.Sin(angle), 0);
         }
     }
-    private void SpawnStageEnemies(int stage)
-    {
-        foreach (var pair in Managers.Data.Enemy)
-        {
-            EnemyID id = pair.Key;
-            EnemyType enemyType = id.GetEnemyType(stage);
 
-            if (enemyType == EnemyType.None) { continue; }
-
-            StartCoroutine(SpawnEnemyCo(id, enemyType));
-        }
-    }
     private void OnOutgameStart(int stage)
     {
         if (stage != 0) { return; }
@@ -134,6 +124,24 @@ public class SpawnManager : MonoBehaviour
 
         Triangle.Init();
     }
+
+    private void SpawnStageEnemies(int stage)
+    {
+        foreach (var pair in Managers.Data.Enemy)
+        {
+            EnemyID id = pair.Key;
+            EnemyType enemyType = id.GetEnemyType(stage);
+
+            if (enemyType == EnemyType.None) { continue; }
+
+            StartCoroutine(SpawnEnemyCo(id, enemyType));
+        }
+    }
+    private const int WIDTH = 540;
+    private const int HEIGHT = 315;
+    private const int ENEMY_SPAWN_OFFSET_COUNT = 36;
+    private readonly WaitForSeconds ENEMY_SPAWN_INTERVAL = DelayCache.GetWaitForSeconds(1);
+    private Vector3[] _enemySpawnOffsets;
     private IEnumerator SpawnEnemyCo(EnemyID id, EnemyType type)
     {
         EnemyData data = Managers.Data.Enemy[id];
@@ -170,7 +178,7 @@ public class SpawnManager : MonoBehaviour
     }
     public void SpawnExp(Vector2 position, int expAmount)
     {
-        while (expAmount.GetExpType() > ExpType.Max)
+        while (expAmount.GetExpType() == ExpType.Max)
         {
             Exp.Get(position, (int)ExpType.Max);
 

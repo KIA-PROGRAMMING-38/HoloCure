@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Summon Tentacle_Projectile
+  m_Name: Summon Tentacle_Launch
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -102,35 +102,35 @@ AnimationClip:
   - time: 0
     functionName: ResetCollider
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 7fddc60aee046ce4b908f7b871448cca, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.083333336
-    functionName: OnCollider
+    functionName: ActivateCollider
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 7fddc60aee046ce4b908f7b871448cca, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.25
     functionName: ResetCollider
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 7fddc60aee046ce4b908f7b871448cca, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.375
     functionName: ResetCollider
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 7fddc60aee046ce4b908f7b871448cca, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.41666666
-    functionName: OffCollider
+    functionName: DeactivateCollider
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 7fddc60aee046ce4b908f7b871448cca, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

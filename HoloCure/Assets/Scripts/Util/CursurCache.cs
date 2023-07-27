@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Util
 {
-    public class Caching : MonoBehaviour
+    public class CursurCache : MonoBehaviour
     {
         public static Vector2 MouseScreenPos => _mouseScreenPos;
         private static Vector2 _mouseScreenPos;
@@ -12,20 +12,16 @@ namespace Util
         private static Vector2 _mouseWorldPos;
 
         private static Camera _mainCamera;
-        private void Awake()
-        {
-            _mainCamera = Camera.main;
-        }
+        private void Awake() => _mainCamera = Camera.main;
         private void Start()
         {
             this.UpdateAsObservable()
                 .Subscribe(GetMousePosition);
-
-            static void GetMousePosition(Unit unit)
-            {
-                _mouseScreenPos = Input.mousePosition;
-                _mouseWorldPos = _mainCamera.ScreenToWorldPoint(_mouseScreenPos);
-            }
+        }
+        private static void GetMousePosition(Unit unit)
+        {
+            _mouseScreenPos = Input.mousePosition;
+            _mouseWorldPos = _mainCamera.ScreenToWorldPoint(_mouseScreenPos);
         }
         public static float GetAngleToMouse(Vector2 position)
         {

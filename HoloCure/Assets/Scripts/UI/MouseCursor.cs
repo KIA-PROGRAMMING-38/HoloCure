@@ -43,7 +43,7 @@ public class MouseCursor : UIBase
     {
         while (true)
         {
-            _cursorUI.anchoredPosition = _cusorUIInitPos + Util.Caching.MouseScreenPos;
+            _cursorUI.anchoredPosition = _cusorUIInitPos + Util.CursurCache.MouseScreenPos;
 
             yield return null;
         }
@@ -53,7 +53,7 @@ public class MouseCursor : UIBase
     {
         while (true)
         {
-            _cusorInGame.anchoredPosition = _cusorInGameInitPos + Util.Caching.MouseScreenPos;
+            _cusorInGame.anchoredPosition = _cusorInGameInitPos + Util.CursurCache.MouseScreenPos;
 
             yield return null;
         }
