@@ -2,32 +2,41 @@ using UnityEngine;
 
 public class SpiderCooking : Weapon
 {
-    private ParticleSystem _particleSystem;
-    protected override void Awake()
-    {
-        base.Awake();
-        _particleSystem = transform.GetChild(0).GetComponent<ParticleSystem>();
-    }
     public override void LevelUp()
     {
         base.LevelUp();
+        SetSize();
+    }
+    private void SetSize()
+    {
+        transform.GetChild(0).localScale = transform.localScale;
 
-        SetParticleSize();
+        if (Level.Value == 1) { return; }
+        _currentProjectile.transform.localScale = Vector2.one * GetWeaponLevelData().Size;
     }
-    private void SetParticleSize() => _particleSystem.transform.localScale = transform.localScale;
-    protected override void Shoot(int index)
+
+    Projectile _currentProjectile;
+    protected override void ShootProjectile(int projectileIndex)
     {
-        Projectile projectile = _projectilePool.GetProjectileFromPool();
-        projectile.ElaspedTime = 0;
+        Projectile projectile = GetProjectile();
+        _currentProjectile = projectile;
+
+        SetCollider(projectile, ColliderType.Circle);
+        projectile.Init(GetWeaponPosition(), GetWeaponLevelData(), ProjectileOperate);
     }
-    protected override void ProjectileOperate(Projectile projectile)
+
+    private float _elapsedTime;
+    private void ProjectileOperate(Projectile projectile)
     {
-        projectile.ElaspedTime += Time.deltaTime;
-        if (projectile.ElaspedTime > Managers.Data.WeaponLevelTable[Id][Level.Value].HitCoolTime)
+        WeaponLevelData data = GetWeaponLevelData();
+
+        projectile.transform.position = GetWeaponPosition();
+
+        _elapsedTime += Time.deltaTime;
+        if (_elapsedTime > data.HitCoolTime)
         {
-            projectile.ElaspedTime = 0f;
+            _elapsedTime = 0;
             projectile.ResetCollider();
         }
     }
-    protected override Collider2D SetCollider(Projectile projectile) => SetCircleCollider(projectile);
 }
