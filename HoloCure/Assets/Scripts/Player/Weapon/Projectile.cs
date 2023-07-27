@@ -66,7 +66,6 @@ public class Projectile : MonoBehaviour
         _animator.runtimeAnimatorController = overrideController;
     }
 
-
     private void Operate(Unit unit)
     {
         if (false == HasImpacted)
@@ -82,6 +81,7 @@ public class Projectile : MonoBehaviour
             CheckDuration(ImpactTime, _data.ImpactDurationTime);
         }
     }
+
     private void CheckDuration(float currentTime, float duration)
     {
         if (currentTime < duration) { return; }
@@ -119,12 +119,14 @@ public class Projectile : MonoBehaviour
         SetKnockBack(enemy);
         _hitCoolTimes.Add(enemy, Time.time);
     }
+
     private void SetKnockBack(Enemy enemy)
     {
         if (_data.KnockbackSpeed == 0 || _data.KnockbackDurationTime == 0) { return; }
 
         enemy.OnKnockBack(_data.KnockbackSpeed, _data.KnockbackDurationTime);
     }
+
     private Dictionary<Enemy, float> _hitCoolTimes = new();
     private void CheckHitCoolTime(Enemy enemy)
     {
@@ -133,6 +135,7 @@ public class Projectile : MonoBehaviour
 
         _hitCoolTimes.Remove(enemy);
     }
+
     private bool IsAlreadyDamaged(Enemy enemy) => _hitCoolTimes.ContainsKey(enemy);
 
     private static int IMPACT_HASH = Animator.StringToHash("Impact");
