@@ -1,193 +1,152 @@
-using Cysharp.Text;
 using StringLiterals;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
-using Util.Pool;
-
+using Random = UnityEngine.Random;
 public class Projectile : MonoBehaviour
 {
-    private Animator _animator;
-
-    public int ProjectileSpeed;
-
-    public float ElaspedTime;
-    public Vector2 InitPoint;
-    public Vector2 MovePoint;
-
+    public event Action<Projectile> OnImpact;
+    public bool HasImpacted { get; set; }
+    public float OperateTime { get; private set; }
+    public float ImpactTime { get; private set; }
+    public float Angle { get; set; }
+    public float Radius { get; set; }
+    public Vector2 InitPosition { get; private set; }
     public Vector2 Offset;
-    public float Angle;
-    public float Radius;
 
-    private float _damage;
-    private float _hitCoolTime;
-    private float _size;
-    private float _durationTime;
-    private float _knockBackDurationTime;
-    private float _knockBackSpeed;
-    private ObjectPool<Projectile> _pool;
-    public void SetPoolRef(ObjectPool<Projectile> pool) => _pool = pool;
-
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-        _projectileOperateSequenceCoroutine = ProjectileOperateSequenceCoroutine();
-    }
-
-    private void OnEnable()
-    {
-        _damagedEnemyContainer.Clear();
-        StartCoroutine(_projectileOperateSequenceCoroutine);
-    }
-
-    private void Update()
-    {
-        _operate.Invoke(this);
-    }
-    private void OnDisable() => StopCoroutine(_projectileOperateSequenceCoroutine);
-    private IEnumerator _projectileOperateSequenceCoroutine;
-    private IEnumerator ProjectileOperateSequenceCoroutine()
-    {
-        while (true)
-        {
-            yield return null;
-
-            yield return Util.DelayCache.GetWaitForSeconds(_durationTime);
-
-            _damagedEnemyContainer.Clear();
-
-            _pool.Release(this);
-
-            StopCoroutine(_projectileOperateSequenceCoroutine);
-
-            yield return null;
-        }
-    }
+    private WeaponLevelData _data;
     private Action<Projectile> _operate;
-    public void SetProjectileOperate(Action<Projectile> operate) => _operate = operate;
-    public void SetProjectileStat(WeaponLevelData data)
-    {
-        _damage = Managers.Game.VTuber.Attack.Value;
-        _hitCoolTime = data.HitCoolTime;
-        _size = data.Size;
-        _durationTime = data.AttackDurationTime;
-        ProjectileSpeed = data.ProjectileSpeed;
-        _knockBackDurationTime = data.KnockbackDurationTime;
-        _knockBackSpeed = data.KnockbackSpeed;
-    }
-
-    public void SetPositionWithWeapon(Vector2 weaponPos, Vector2 projectileInitPos = default)
-    {
-        transform.position = weaponPos + projectileInitPos;
-    }
-
+    private Action<Projectile> _impactOperate;
+    private Animator _animator;
     private Collider2D _collider;
-    public void SetCollider(Collider2D collider)
+
+    public void Init(Vector2 position, WeaponLevelData data, 
+        Action<Projectile> operate = null, Action<Projectile> impactOperate = null, Vector2 offset = default)
     {
-        _collider = collider;
+        _animator = gameObject.GetComponentAssert<Animator>();
+        _collider = gameObject.GetComponentAssert<Collider2D>();
+
+        transform.position = position;
+        transform.localScale = Vector2.one * data.Size;
+
+        _data = data;
+        _operate = operate;
+        _impactOperate = impactOperate;
+        InitAnim();
+
+        HasImpacted = false;
+        OperateTime = 0;
+        ImpactTime = 0;
+        Angle = 0;
+        Radius = 0;
+        InitPosition = position;
+        Offset = offset;
     }
-    public void SetAnimation(ItemData data)
+
+    private void Start()
     {
-        AnimatorOverrideController overrideController = new(_animator.runtimeAnimatorController);
+        this.UpdateAsObservable()
+            .Where(_ => gameObject.activeSelf)
+            .Subscribe(Operate);
 
-        overrideController[FileNameLiteral.PROJECTILE] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.PROJECTILE);
-        overrideController[FileNameLiteral.EFFECT] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.EFFECT);
+        this.OnTriggerEnter2DAsObservable()
+            .Where(_ => gameObject.activeSelf)
+            .Subscribe(OnTrigger);
+    }
 
+    private void InitAnim()
+    {
+        ItemData data = Managers.Data.Item[_data.Id];
+
+        var overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
+        overrideController["ProjectileLaunch"] = Managers.Resource.LoadAnimClip(data.Name, "_Launch");
+        overrideController["ProjectileImpact"] = Managers.Resource.LoadAnimClip(data.Name, "_Impact");
         _animator.runtimeAnimatorController = overrideController;
     }
 
 
-    /// <summary>
-    /// 충돌을 시작하기 위한 함수입니다, 애니메이션 이벤트에서 호출됩니다.
-    /// </summary>
-    public void OnCollider() => _collider.enabled = true;
+    private void Operate(Unit unit)
+    {
+        if (false == HasImpacted)
+        {
+            _operate?.Invoke(this);
+            OperateTime += Time.deltaTime;
+            CheckDuration(OperateTime, _data.AttackDurationTime);
+        }
+        else
+        {
+            _impactOperate?.Invoke(this);
+            ImpactTime += Time.deltaTime;
+            CheckDuration(ImpactTime, _data.ImpactDurationTime);
+        }
+    }
+    private void CheckDuration(float currentTime, float duration)
+    {
+        if (currentTime < duration) { return; }
 
-    /// <summary>
-    /// 충돌을 다시하기 위한 함수입니다, 장판형 무기와 애니메이션 이벤트에서 호출됩니다.
-    /// </summary>
+        Destroy(_collider);
+        _hitCoolTimes.Clear();
+        Managers.Spawn.Projectile.Release(this);
+    }
+
+    private void OnTrigger(Collider2D collision)
+    {
+        if (false == collision.CompareTag(TagLiteral.ENEMY)) { return; }
+
+        if (gameObject.layer == LayerNum.IMPACT) { Impact(); return; }
+
+        if (gameObject.layer != LayerNum.WEAPON) { return; }
+
+        Enemy enemy = collision.gameObject.GetComponentAssert<Enemy>();
+
+        CheckHitCoolTime(enemy);
+
+        if (IsAlreadyDamaged(enemy)) { return; }
+
+        SetDamage(enemy);
+    }
+
+    private void SetDamage(Enemy enemy)
+    {
+        int vtuberDamage = Managers.Game.VTuber.Attack.Value;
+        int weaponDamage = (int)(vtuberDamage * _data.DamageRate);
+        int totalDamage = weaponDamage + Random.Range(-2, 3);
+
+        enemy.GetDamage(totalDamage);
+
+        SetKnockBack(enemy);
+        _hitCoolTimes.Add(enemy, Time.time);
+    }
+    private void SetKnockBack(Enemy enemy)
+    {
+        if (_data.KnockbackSpeed == 0 || _data.KnockbackDurationTime == 0) { return; }
+
+        enemy.OnKnockBack(_data.KnockbackSpeed, _data.KnockbackDurationTime);
+    }
+    private Dictionary<Enemy, float> _hitCoolTimes = new();
+    private void CheckHitCoolTime(Enemy enemy)
+    {
+        if (false == IsAlreadyDamaged(enemy)) { return; }
+        if (Time.time - _hitCoolTimes[enemy] < _data.HitCoolTime) { return; }
+
+        _hitCoolTimes.Remove(enemy);
+    }
+    private bool IsAlreadyDamaged(Enemy enemy) => _hitCoolTimes.ContainsKey(enemy);
+
+    private static int IMPACT_HASH = Animator.StringToHash("Impact");
+    public void Impact()
+    {
+        _animator.SetTrigger(IMPACT_HASH);
+        OnImpact?.Invoke(this);
+    }
+
+    public void ActivateCollider() => _collider.enabled = true;
+    public void DeactivateCollider() => _collider.enabled = false;
     public void ResetCollider()
     {
         _collider.enabled = false;
         _collider.enabled = true;
-    }
-
-    /// <summary>
-    /// 충돌을 종료하기 위한 함수입니다, 애니메이션 이벤트에서 호출됩니다.
-    /// </summary>
-    public void OffCollider() => _collider.enabled = false;
-
-    /// <summary>
-    /// 애니메이션이 이펙트로 전환하기 위한 함수입니다, OnTriggerEnter2D와 애니메이션 이벤트에서 호출됩니다.
-    /// </summary>
-    public void SetAnimToEffect()
-    {
-        CircleCollider2D collier = (CircleCollider2D)_collider;
-        collier.enabled = false;
-        gameObject.layer = LayerNum.WEAPON;
-        GetComponent<Animator>().SetTrigger(AnimHash.ON_EFFECT);
-        collier.enabled = true;
-        collier.offset = _efffectColliderOffset;
-        collier.radius = _effectRadius;
-        transform.localScale = Vector2.one * _size;
-        _isEffectOn = true;
-    }
-    private bool _isEffectOn;
-    public bool IsEffectOn() => _isEffectOn;
-    public void SetEffectOff() => _isEffectOn = false;
-    private Vector2 _efffectColliderOffset;
-    public void SetEffectColliderOffset(Vector2 offset) => _efffectColliderOffset = offset;
-    private float _effectRadius;
-    public void SetEffectRadius(float radius) => _effectRadius = radius;
-
-    /// <summary>
-    /// 적에게 데미지를 줍니다.
-    /// </summary>
-    private void SetDamage(Enemy enemy)
-    {
-        int damage = (int)_damage + UnityEngine.Random.Range(-2, 3);
-
-        enemy.GetDamage(damage);
-    }
-
-    /// <summary>
-    /// 적을 넉백시킵니다.
-    /// </summary>
-    private void SetKnockBack(Enemy enemy)
-    {
-        if (_knockBackDurationTime == 0 || _knockBackSpeed == 0)
-        {
-            return;
-        }
-
-        enemy.OnKnockBack(_knockBackSpeed, _knockBackDurationTime);
-    }
-
-    /// <summary>
-    /// 피격받은 적의 피격받은 시간을 저장할 컨테이너입니다. 
-    /// </summary>
-    private Dictionary<Enemy, float> _damagedEnemyContainer = new();
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (gameObject.layer == LayerNum.BEFORE_EFFECT && collision.CompareTag(TagLiteral.ENEMY))
-        {
-            SetAnimToEffect();
-        }
-        else if (gameObject.layer == LayerNum.WEAPON && collision.CompareTag(TagLiteral.ENEMY))
-        {
-            Enemy enemy = collision.GetComponent<Enemy>();
-
-            if (_damagedEnemyContainer.ContainsKey(enemy) && Time.time - _damagedEnemyContainer[enemy] >= _hitCoolTime)
-            {
-                _damagedEnemyContainer.Remove(enemy);
-            }
-
-            if (_damagedEnemyContainer.ContainsKey(enemy)) { return; }
-
-            SetDamage(enemy);
-            SetKnockBack(enemy);
-
-            _damagedEnemyContainer.Add(enemy, Time.time);
-        }
     }
 }
