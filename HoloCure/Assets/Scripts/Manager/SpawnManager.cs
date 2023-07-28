@@ -130,8 +130,9 @@ public class SpawnManager : MonoBehaviour
         foreach (var pair in Managers.Data.Enemy)
         {
             EnemyID id = pair.Key;
-            EnemyType enemyType = id.GetEnemyType(stage);
+            if (id.GetStage() != stage) { continue; }
 
+            EnemyType enemyType = id.GetEnemyType();
             if (enemyType == EnemyType.None) { continue; }
 
             StartCoroutine(SpawnEnemyCo(id, enemyType));
@@ -158,8 +159,10 @@ public class SpawnManager : MonoBehaviour
                 }
                 break;
             case EnemyType.MiniBoss:
+                SpawnEnemy(id);
                 break;
             case EnemyType.Boss:
+                SpawnBoss(id);
                 break;
             default:
                 Debug.Assert(false, $"Invalid EnemyID | ID: {id}");
@@ -169,6 +172,13 @@ public class SpawnManager : MonoBehaviour
     private void SpawnEnemy(EnemyID id)
     {
         Enemy enemy = Enemy.Get();
+        enemy.Init(id, _enemySpawnOffsets.GetRandomElement());
+    }
+    private void SpawnBoss(EnemyID id)
+    {
+        EnemyData data = Managers.Data.Enemy[id];
+        GameObject go = Managers.Resource.Instantiate(data.Name, EnemyContainer.transform);
+        Enemy enemy = go.GetComponentAssert<Enemy>();
         enemy.Init(id, _enemySpawnOffsets.GetRandomElement());
     }
     public void SpawnDamageText(Vector2 position, int damage, bool isCritical)
