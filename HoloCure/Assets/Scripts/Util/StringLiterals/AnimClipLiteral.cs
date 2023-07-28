@@ -5,8 +5,8 @@ namespace StringLiterals
         public const string IDLE = "_Idle";
         public const string RUN = "_Run";
         public const string MOVE = "_Move";
-        public const string PROJECTILE = "_Projectile";
-        public const string EFFECT = "_Effect";
+        public const string EFFECT_1 = "_Effect1";
+        public const string EFFECT_2 = "_Effect2";
 
         public const string IDLE_UI = "_Idle_UI";
         public const string RUN_UI = "_Run_UI";

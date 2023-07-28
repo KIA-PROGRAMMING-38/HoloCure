@@ -7,7 +7,6 @@ namespace StringLiterals
         public const string MINI_BOSS = "MiniBoss";
         public const string BOSS = "Boss";
         public const string PROJECTILE = "Projectile";
-        public const string EFFECT = "Effect";
         public const string EXP = "Exp";
         public const string BOX = "Box";
         public const string OPEN_BOX_COIN = "Open Box Coin";

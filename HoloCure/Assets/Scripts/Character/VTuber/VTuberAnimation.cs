@@ -21,7 +21,7 @@ public class VTuberAnimation : MonoBehaviour
 
         if (Time.timeScale != 0)
         {
-            _spriteRenderer.flipX = Util.Caching.MouseScreenPos.x < _midX;
+            _spriteRenderer.flipX = Util.CursurCache.MouseScreenPos.x < _midX;
         }
     }
     public void Init(VTuberData data)

@@ -32,7 +32,7 @@ TagManager:
   - GridSensor
   - Grid
   - Weapon
-  - BeforeEffect
+  - Impact
   - ObjectSensor
   - Exp
   - Coin

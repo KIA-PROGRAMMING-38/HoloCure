@@ -17,7 +17,7 @@ public class ArrowRotation : MonoBehaviour
     {
         while (true)
         {
-            float angle = Util.Caching.GetAngleToMouse(transform.position);
+            float angle = Util.CursurCache.GetAngleToMouse(transform.position);
 
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 

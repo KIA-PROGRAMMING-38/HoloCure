@@ -1,44 +1,50 @@
-using StringLiterals;
-using System;
 using System.Collections;
 using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-
 public class Enemy : CharacterBase
 {
-    public event Action OnDie;
-    public event Action OnFlipSensor;
+    private static readonly Vector2 NON_FLIP_VECTOR = new Vector2(1, 1);
+    private static readonly Vector2 NON_FLIP_DIRECTION = Vector2.right;
+    private static readonly Vector2 FLIP_VECTOR = new Vector2(-1, 1);
+    private static readonly Vector2 FLIP_DIRECTION = Vector2.left;
+
+    private const float DYING_TIME = 0.7f;
+    private const int DYING_SPEED = 160;
+    public ReactiveProperty<float> FadeRate { get; private set; } = new();
 
     protected Transform body;
-    protected EnemyAnimation enemyAnimation;
+    private EnemyAnimation _enemyAnimation;
 
     protected EnemyID id;
     protected int moveSpeed;
+    private float _knockBackSpeed;
+    private float _knockBackDurationTime;
 
     private Rigidbody2D _rigidbody;
 
+    private IEnumerator _knockBackCo;
+    private IEnumerator _dyingMoveCo;
+
     protected virtual void Awake()
     {
-        body = transform.FindAssert(GameObjectLiteral.BODY);
-        enemyAnimation = body.GetComponentAssert<EnemyAnimation>();
+        body = transform.FindAssert("Body");
+        _enemyAnimation = body.GetComponentAssert<EnemyAnimation>();
 
         _rigidbody = gameObject.GetComponentAssert<Rigidbody2D>();
         _rigidbody.freezeRotation = true;
     }
+
     protected virtual void Start()
     {
-        _knockBackMoveCo = KnockBackMoveCo();
         _knockBackCo = KnockBackCo();
         _dyingMoveCo = DyingMoveCo();
     }
-    /// <summary>
-    /// 적을 초기화합니다.
-    /// </summary>
-    public void Init(EnemyID id, Vector3 offset)
+
+    public void Init(EnemyID id, Vector2 offset)
     {
-        transform.position = Managers.Game.VTuber.transform.position + offset;
+        transform.position = GetVTuberPosition() + offset;
 
         this.id = id;
 
@@ -47,162 +53,142 @@ public class Enemy : CharacterBase
         InitStat(data);
         InitRender(data);
 
-        gameObject.layer = LayerNum.ENEMY;
-
-        AddEvent();
+        gameObject.layer = false == IsNormalType()
+            ? LayerNum.BOSS
+            : LayerNum.ENEMY;
     }
+
     private void InitStat(EnemyData data)
     {
         CurrentHp.Value = data.Health;
         moveSpeed = data.Speed;
     }
+
     private void InitRender(EnemyData data)
     {
-        enemyAnimation.Init(data);
-        body.position = transform.position;
+        _enemyAnimation.Init(data);
+        body.position = Get2DPosition();
+        Flip();
     }
-    public Vector2 _moveVec;
-    public override void Move()
+    
+    public void Flip()
     {
-        _moveVec = Managers.Game.VTuber.transform.position - transform.position;
-        _rigidbody.MovePosition(_rigidbody.position + _moveVec.normalized * (moveSpeed * Time.fixedDeltaTime));
+        EnemyData data = GetEnemyData();
+        transform.localScale = GetLookDirToVTuber() == NON_FLIP_DIRECTION
+            ? data.Scale * NON_FLIP_VECTOR
+            : data.Scale * FLIP_VECTOR;
     }
 
-    private float _knockBackSpeed;
-    private float _knockBackDurationTime;
-    /// <summary>
-    /// 적을 넉백시킵니다.
-    /// </summary>
+    public override void Move()
+    {
+        Vector2 movement = GetMovement(moveSpeed);
+        _rigidbody.MovePosition(_rigidbody.position + movement);
+    }
+
+    
     public void OnKnockBack(float knockBackSpeed, float knockBackDurationTime)
     {
         _knockBackSpeed = knockBackSpeed;
         _knockBackDurationTime = knockBackDurationTime;
         StartCoroutine(_knockBackCo);
     }
-    private IEnumerator _knockBackMoveCo;
-    private IEnumerator KnockBackMoveCo()
-    {
-        while (true)
-        {
-            KnockBackMove();
 
-            yield return null;
-        }
-    }
     private void KnockBackMove()
     {
-        _rigidbody.MovePosition(_rigidbody.position - _moveVec.normalized * (30 * _knockBackSpeed * Time.fixedDeltaTime));
+        Vector2 movement = GetMovement(_knockBackSpeed);
+        _rigidbody.MovePosition(_rigidbody.position - movement);
     }
-    private IEnumerator _knockBackCo;
+    
     private IEnumerator KnockBackCo()
     {
-        EnemyData data = Managers.Data.Enemy[id];
+        EnemyData data = GetEnemyData();
 
         while (true)
         {
             moveSpeed = 0;
 
-            StartCoroutine(_knockBackMoveCo);
+            float elapsedTime = 0;
 
-            yield return Util.DelayCache.GetWaitForSeconds(_knockBackDurationTime);
-
-            StopCoroutine(_knockBackMoveCo);
-
-            StopCoroutine(_knockBackCo);
+            while (elapsedTime <= _knockBackDurationTime)
+            {
+                KnockBackMove();
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
 
             moveSpeed = data.Speed;
+
+            StopCoroutine(_knockBackCo);
 
             yield return null;
         }
     }
-    public void SetDamage(CharacterBase target)
-    {
-        target.GetDamage(Managers.Data.Enemy[id].Attack);
-    }
-    /// <summary>
-    /// 적의 피격입니다. 적의 피격 이펙트를 호출하고, 적의 현재 체력을 깎습니다. 현재 체력이 0이하가 되면 Die가 호출됩니다.
-    /// </summary>
+
+    public void SetDamage(CharacterBase target) => target.GetDamage(GetEnemyData().Attack);
+
     public override void GetDamage(int damage)
     {
+        bool isCritical = IsCritical();
+
+        Managers.Spawn.SpawnDamageText(Get2DPosition(), damage, isCritical);
+
+        base.GetDamage(isCritical ? damage * 2 : damage);
+
         Managers.Sound.Play(SoundID.EnemyDamaged);
-
-        Managers.Spawn.SpawnDamageText(transform.position, damage, IsCritical());
-
-        base.GetDamage(IsCritical() ? damage * 2 : damage);
-
-        static bool IsCritical() => Random.Range(0, 100) < Managers.Game.VTuber.Critical.Value;
     }
-    /// <summary>
-    /// 적의 사망입니다. GetDamage에서 호출됩니다.
-    /// </summary>
+
     protected override void Die()
     {
-        _dyingPoint = transform.position;
         moveSpeed = 0;
         StartCoroutine(_dyingMoveCo);
 
-        Managers.Spawn.SpawnEnemyDieEffect(transform.position);
-        Managers.Spawn.SpawnExp(transform.position, Managers.Data.Enemy[id].Exp);
+        Managers.Game.CountDefeatedEnemies();
+        Managers.Spawn.SpawnEnemyDieEffect(Get2DPosition());
+        Managers.Spawn.SpawnExp(Get2DPosition(), GetEnemyData().Exp);
+        if (false == IsNormalType())
+        {
+            Managers.Spawn.SpawnBox(Get2DPosition());
+        }
 
         gameObject.layer = LayerNum.DEAD_ENEMY;
-
-        OnDie?.Invoke();
-
-        RemoveEvent();
     }
-    private float _elapsedTime;
-    private const float DYING_TIME = 0.7f;
-    private const int DYING_SPEED = 160;
-    private Vector2 _dyingPoint;
-    public ReactiveProperty<float> FadeRate { get; private set; } = new();
-    private IEnumerator _dyingMoveCo;
-    /// <summary>
-    /// 사망시 움직이는 코루틴, 0.7초의 사망시간 이후 풀로 반환됩니다.
-    /// </summary>
+    
     private IEnumerator DyingMoveCo()
     {
         while (true)
         {
-            while (_elapsedTime < DYING_TIME)
+            float elapsedTime = 0;
+            Vector2 start = Get2DPosition();
+            Vector2 end = start - GetLookDirToVTuber() * DYING_SPEED;
+
+            while (elapsedTime < DYING_TIME)
             {
-                FadeRate.Value = _elapsedTime / DYING_TIME;
+                FadeRate.Value = elapsedTime / DYING_TIME;
 
-                body.position = Vector2.Lerp(_dyingPoint, _dyingPoint + GetLookDirToPlayer() * DYING_SPEED, FadeRate.Value);
+                body.position = Vector2.Lerp(start, end, FadeRate.Value);
 
-                _elapsedTime += Time.deltaTime;
+                elapsedTime += Time.deltaTime;
 
                 yield return null;
             }
 
             StopCoroutine(_dyingMoveCo);
 
-            _elapsedTime = 0f;
-
-            Managers.Spawn.Enemy.Release(this);
+            Release();
 
             yield return null;
         }
     }
-    private Vector2 GetLookDirToPlayer() => enemyAnimation.IsFlip == true ? Vector2.right : Vector2.left;
-    /// <summary>
-    /// 플레이어를 바라보는 방향으로 플립합니다.
-    /// </summary>
-    public void OnSensor()
-    {
-        OnFlipSensor?.Invoke();
-    }
-    private void AddEvent()
-    {
-        RemoveEvent();
 
-        OnDie += Managers.Game.CountDefeatedEnemies;
-    }
-    private void RemoveEvent()
-    {
-        OnDie -= Managers.Game.CountDefeatedEnemies;
-    }
-    private void OnDestroy()
-    {
-        RemoveEvent();
-    }
+    protected virtual void Release() => Managers.Spawn.Enemy.Release(this);
+
+    private bool IsNormalType() => id.GetEnemyType() == EnemyType.Normal;
+    private Vector2 GetMoveDirection() => (GetVTuberPosition() - Get2DPosition()).normalized;
+    private Vector2 GetMovement(float speed) => speed * Time.fixedDeltaTime * GetMoveDirection();
+    private bool IsCritical() => Random.Range(0, 100) < GetVTuber().Critical.Value;
+    private Vector2 GetLookDirToVTuber() => GetMoveDirection().x > 0 ? NON_FLIP_DIRECTION : FLIP_DIRECTION;
+    private VTuber GetVTuber() => Managers.Game.VTuber;
+    private EnemyData GetEnemyData() => Managers.Data.Enemy[id];
+    private Vector2 GetVTuberPosition() => GetVTuber().transform.position;
+    private Vector2 Get2DPosition() => transform.position;
 }
