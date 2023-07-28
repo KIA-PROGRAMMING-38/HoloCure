@@ -753,7 +753,7 @@ GameObject:
   - component: {fileID: 4440665740307482101}
   - component: {fileID: 4025919546817370669}
   m_Layer: 7
-  m_Name: VTuber Die Effect
+  m_Name: VTuberDieEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

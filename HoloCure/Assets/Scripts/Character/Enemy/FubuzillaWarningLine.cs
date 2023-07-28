@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class FubuzillaWarningLine : MonoBehaviour
 {
-    private static readonly Color START_COLOR = new Color(255, 0, 0, 0.1f);
-    private static readonly Color END_COLOR = new Color(255, 0, 0, 0.3f);
+    private static readonly Color START_COLOR = new Color(1, 0, 0, 0.1f);
+    private static readonly Color END_COLOR = new Color(1, 0, 0, 0.3f);
     private static readonly float COLOR_FADE_SPEED = 10f;
 
     private SpriteRenderer _spriteRenderer;

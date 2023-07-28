@@ -14,8 +14,6 @@ public class ArrowRotation : MonoBehaviour
     {
         if (Time.timeScale < 1) { return; }
 
-        float angle = Util.CursorCache.GetAngleToMouse(transform.position);
-
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.RotateLookCursor(transform.position);
     }
 }

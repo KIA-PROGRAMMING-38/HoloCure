@@ -97,6 +97,7 @@ public class GameOverPopup : UIPopup
         _rectTransform = GetObject((int)Objects.OverText).GetComponentAssert<RectTransform>();
         _initPos = _rectTransform.anchoredPosition;
         _startPos = _initPos + Vector2.up * 500;
+        _rectTransform.anchoredPosition = _startPos;
 
         StartCoroutine(MoveCo());
     }
