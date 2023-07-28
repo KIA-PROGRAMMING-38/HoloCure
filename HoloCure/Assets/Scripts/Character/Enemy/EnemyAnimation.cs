@@ -10,9 +10,14 @@ public class EnemyAnimation : MonoBehaviour
     private Animator _animator;
     private SpriteRenderer _bodyRenderer;
     private SpriteRenderer _shadowRenderer;
+
     private Material _defaultMaterial;
-    private readonly static Color s_defaultColor = Color.white;
-    public bool IsFlip => _bodyRenderer.flipX;
+
+    private readonly static Color DEFAULT_COLOR = Color.white;
+    private const float EFFECT_TIME = 0.1f;
+
+    private IEnumerator _getDamageEffectCo;
+
     private void Awake()
     {
         _enemy = transform.parent.GetComponentAssert<Enemy>();
@@ -22,6 +27,7 @@ public class EnemyAnimation : MonoBehaviour
 
         _defaultMaterial = _bodyRenderer.material;
     }
+
     private void Start()
     {
         _getDamageEffectCo = GetDamageEffectCo();
@@ -29,31 +35,16 @@ public class EnemyAnimation : MonoBehaviour
         _enemy.FadeRate.Subscribe(SetDie);
         _enemy.CurrentHp.Subscribe(GetDamageEffect);
     }
-    private void SetDie(float rate)
-    {
-        if(_enemy.CurrentHp.Value > 0) { return; }
 
-        rate = 0.5f - rate;
-
-        Color color = new Color(1, 1, 1, rate);
-        _bodyRenderer.color = color;
-        _shadowRenderer.color = color;
-    }
-    private void GetDamageEffect(int damage)
-    {
-        StartCoroutine(_getDamageEffectCo);
-    }
     public void Init(EnemyData data)
     {
         InitRender(data);
-        SetFlipX();
-
-        AddEvent();
     }
+
     private void InitRender(EnemyData data)
     {
-        _bodyRenderer.color = s_defaultColor;
-        _shadowRenderer.color = s_defaultColor;
+        _bodyRenderer.color = DEFAULT_COLOR;
+        _shadowRenderer.color = DEFAULT_COLOR;
 
         _bodyRenderer.sprite = Managers.Resource.LoadSprite(data.Sprite);
 
@@ -62,13 +53,23 @@ public class EnemyAnimation : MonoBehaviour
 
         _animator.runtimeAnimatorController = overrideController;
     }
-    private void SetFlipX()
+
+    private void SetDie(float rate)
     {
-        float vtuberPosX = Managers.Game.VTuber.transform.position.x;
-        _bodyRenderer.flipX = vtuberPosX < transform.parent.position.x;
+        if (_enemy.CurrentHp.Value > 0) { return; }
+
+        rate = 0.5f - rate;
+
+        Color color = new Color(1, 1, 1, rate);
+        _bodyRenderer.color = color;
+        _shadowRenderer.color = color;
     }
-    private const float EFFECT_TIME = 0.1f;
-    private IEnumerator _getDamageEffectCo;
+
+    private void GetDamageEffect(int damage)
+    {
+        StartCoroutine(_getDamageEffectCo);
+    }
+
     private IEnumerator GetDamageEffectCo()
     {
         MaterialData data = Managers.Data.Material[MaterialID.Hit];
@@ -85,19 +86,5 @@ public class EnemyAnimation : MonoBehaviour
 
             yield return null;
         }
-    }
-    private void AddEvent()
-    {
-        RemoveEvent();
-
-        _enemy.OnFlipSensor += SetFlipX;
-    }
-    private void RemoveEvent()
-    {
-        _enemy.OnFlipSensor -= SetFlipX;
-    }
-    private void OnDestroy()
-    {
-        RemoveEvent();
     }
 }

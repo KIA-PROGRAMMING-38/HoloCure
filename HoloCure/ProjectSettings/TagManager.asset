@@ -38,8 +38,8 @@ TagManager:
   - Coin
   - FilpSensor
   - MouseCursor
-  - MyBoss
-  - MyBossBody
+  - Boss
+  - BossBody
   - DeadMyBoss
   - Box
   - ScreenSensor

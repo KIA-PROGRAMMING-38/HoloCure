@@ -15,7 +15,7 @@ public class OutLineSensorBottom : MonoBehaviour
         {
             Enemy enemy = collision.transform.parent.GetComponent<Enemy>();
             enemy.transform.position = enemy.transform.position + (Managers.Game.VTuber.transform.position - enemy.transform.position) * 1.8f;
-            enemy.OnSensor();
+            enemy.Flip();
         }
     }
 }

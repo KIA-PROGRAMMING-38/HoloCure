@@ -1,4 +1,3 @@
-using StringLiterals;
 using System.Collections;
 using UniRx;
 using Unity.VisualScripting;
@@ -31,9 +30,9 @@ public class VTuber : CharacterBase
         _rigidbody = gameObject.GetComponentAssert<Rigidbody2D>();
         _rigidbody.freezeRotation = true;
 
-        _vtuberAnimation = transform.FindAssert(GameObjectLiteral.BODY).GetComponentAssert<VTuberAnimation>();
+        _vtuberAnimation = transform.FindAssert("Body").GetComponentAssert<VTuberAnimation>();
 
-        _objectSensor = transform.FindAssert(GameObjectLiteral.OBJECT_SENSOR).GetComponentAssert<CircleCollider2D>();
+        _objectSensor = transform.FindAssert("ObjectSensor").GetComponentAssert<CircleCollider2D>();
 
         _input = transform.AddComponent<PlayerInput>();
         transform.AddComponent<VTuberController>();
@@ -82,26 +81,23 @@ public class VTuber : CharacterBase
         Inventory = go.AddComponent<Inventory>();
         Inventory.Init(Id.Value);
     }
+
     public override void GetDamage(int damage)
     {
         Managers.Sound.Play(SoundID.PlayerDamaged);
 
         base.GetDamage(damage);
     }
+
     protected override void Die()
     {
-        Time.timeScale = 0;
-        StartCoroutine(DieCo());
-    }
-    private IEnumerator DieCo()
-    {
         _vtuberAnimation.gameObject.SetActive(false);
+
         Managers.Spawn.SpawnVTuberDieEffect(transform.position);
 
-        yield return DelayCache.GetUnscaledWaitForSeconds(3);
-
-        Managers.UI.OpenPopup<GameOverPopup>();
+        Managers.Game.GameOver();
     }
+    
     public void GetStat(ItemID id, int value)
     {
         switch (id)
