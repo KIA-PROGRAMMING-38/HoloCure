@@ -1,37 +1,45 @@
 using StringLiterals;
+using UniRx.Triggers;
+using UniRx;
 using UnityEngine;
 
 public class GridReposition : MonoBehaviour
 {
     private BoxCollider2D _collier;
 
-    private float gridMoveSize;
+    private float _gridMoveSize;
 
     private void Awake()
     {
         _collier = gameObject.GetComponentAssert<BoxCollider2D>();
         _collier.isTrigger = true;
-        gridMoveSize = _collier.size.x * 2;
+
+        _gridMoveSize = _collier.size.x * 2;
     }
-    private void OnTriggerExit2D(Collider2D collision)
+
+    private void Start()
     {
-        if (false == collision.CompareTag(TagLiteral.GRID_SENSOR))
-        {
-            return;
-        }
+        this.OnTriggerExit2DAsObservable()
+            .Subscribe(OnExitTrigger);
+    }
 
-        PlayerInput input = collision.transform.root.GetComponentAssert<PlayerInput>();
+    private void OnExitTrigger(Collider2D collision)
+    {
+        if (false == collision.CompareTag(TagLiteral.GRID_SENSOR)) { return; }
 
-        float offsetX = Mathf.Abs(collision.transform.root.position.x - transform.position.x);
-        float offsetY = Mathf.Abs(collision.transform.root.position.y - transform.position.y);
+        Transform playerTransform = collision.transform.root;
+        PlayerInput input = playerTransform.GetComponentAssert<PlayerInput>();
+
+        float offsetX = Mathf.Abs(playerTransform.position.x - transform.position.x);
+        float offsetY = Mathf.Abs(playerTransform.position.y - transform.position.y);
 
         if (offsetX >= offsetY)
         {
-            transform.Translate(Vector2.right * (input.MoveVec.Value.x * gridMoveSize));
+            transform.Translate(Vector2.right * (input.MoveVec.Value.x * _gridMoveSize));
         }
         if (offsetX <= offsetY)
         {
-            transform.Translate(Vector2.up * (input.MoveVec.Value.y * gridMoveSize));
+            transform.Translate(Vector2.up * (input.MoveVec.Value.y * _gridMoveSize));
         }
     }
 }

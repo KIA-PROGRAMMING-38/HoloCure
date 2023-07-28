@@ -121,16 +121,16 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: JumpStart
+    functionName: JumpReady
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: e976bc70e2d7fec44b3f64ec4a4307b7, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.41666666
-    functionName: Jump
+    functionName: JumpStart
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: e976bc70e2d7fec44b3f64ec4a4307b7, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

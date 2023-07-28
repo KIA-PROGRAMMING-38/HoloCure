@@ -12,7 +12,7 @@ public static class Utils
 
         if (recursive == false)
         {
-            return go.transform.Find(name).GetComponent<T>();
+            return go.transform.FindAssert(name).GetComponentAssert<T>();
         }
         else
         {

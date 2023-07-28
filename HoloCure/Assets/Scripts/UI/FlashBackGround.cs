@@ -12,6 +12,7 @@ public class FlashBackGround : MonoBehaviour
     private void Start()
     {
         this.UpdateAsObservable()
+            .Where(_ => gameObject.activeSelf)
             .Subscribe(Flash);
     }
 

@@ -1,76 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &569928322087828736
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 17246005303785732}
-  - component: {fileID: 4796911025108822726}
-  - component: {fileID: 4490097363986081224}
-  m_Layer: 17
-  m_Name: FilpSensor
-  m_TagString: FilpSensor
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &17246005303785732
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569928322087828736}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8393923106932366196}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &4796911025108822726
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569928322087828736}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 10, y: 1280}
-  m_EdgeRadius: 0
---- !u!114 &4490097363986081224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569928322087828736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 103e68a8945f8a94a9f9e1ff9c12e2ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1412413845888296706
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,12 +42,83 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 15}
   serializedVersion: 2
   m_Radius: 50
+--- !u!1 &1915756133394459662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2762396843985082252}
+  - component: {fileID: 2146489721825731180}
+  - component: {fileID: 1241084266213247564}
+  m_Layer: 17
+  m_Name: FlipSensor
+  m_TagString: FilpSensor
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2762396843985082252
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915756133394459662}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8393923106932366196}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2146489721825731180
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915756133394459662}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5, y: 1280}
+  m_EdgeRadius: 0
+--- !u!114 &1241084266213247564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915756133394459662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786dd982f09eb1249857171853e8cf8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2609114118787047665
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5203895822981013444}
   - component: {fileID: 8623717607576300245}
-  - component: {fileID: 3819285274149189859}
+  - component: {fileID: 5199043348003809929}
   m_Layer: 24
   m_Name: OutLineSensorRight
   m_TagString: OutLineSensor
@@ -178,7 +178,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 20, y: 1280}
   m_EdgeRadius: 0
---- !u!114 &3819285274149189859
+--- !u!114 &5199043348003809929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2609114118787047665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6068588aa65419a469db8980458ed89e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0edc13d21ab6fb14e8ddff5e06c4dad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2943493533118460292
@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7784228650427653089}
   - component: {fileID: 7245191786161564110}
-  - component: {fileID: 2484719344941997865}
+  - component: {fileID: 2289759752022271425}
   m_Layer: 24
   m_Name: OutLineSensorBottom
   m_TagString: OutLineSensor
@@ -249,7 +249,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1280, y: 20}
   m_EdgeRadius: 0
---- !u!114 &2484719344941997865
+--- !u!114 &2289759752022271425
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2943493533118460292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e35225f43ab37e3458526fa9004a1dec, type: 3}
+  m_Script: {fileID: 11500000, guid: 0edc13d21ab6fb14e8ddff5e06c4dad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3175264887851690600
@@ -271,7 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1854498710370544833}
   - component: {fileID: 5638632771698682347}
-  - component: {fileID: 8232230838759182518}
+  - component: {fileID: 7168067004287271825}
   m_Layer: 24
   m_Name: OutLineSensorTop
   m_TagString: OutLineSensor
@@ -320,7 +320,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1280, y: 20}
   m_EdgeRadius: 0
---- !u!114 &8232230838759182518
+--- !u!114 &7168067004287271825
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3175264887851690600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5d78a89adc18d547b4277d6f612d6a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 0edc13d21ab6fb14e8ddff5e06c4dad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3474434980805558791
@@ -377,7 +377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 892646613528093103}
   - component: {fileID: 3111813995864181932}
-  - component: {fileID: 66866365655979633}
+  - component: {fileID: 6032662519584891444}
   m_Layer: 24
   m_Name: OutLineSensorLeft
   m_TagString: OutLineSensor
@@ -426,7 +426,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 20, y: 1280}
   m_EdgeRadius: 0
---- !u!114 &66866365655979633
+--- !u!114 &6032662519584891444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -435,7 +435,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7348578119300219701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7803746edf8aa81409b84439895282de, type: 3}
+  m_Script: {fileID: 11500000, guid: 0edc13d21ab6fb14e8ddff5e06c4dad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8393923105846802284
@@ -532,7 +532,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8393923106241591689}
   - component: {fileID: 8393923106241591688}
-  - component: {fileID: 8393923106241591687}
   m_Layer: 10
   m_Name: GridSensor
   m_TagString: GridSensor
@@ -581,18 +580,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1280, y: 1280}
   m_EdgeRadius: 0
---- !u!114 &8393923106241591687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8393923106241591690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14636bfe6fbafea4a8f2f4953c08821e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8393923106932366197
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,7 +615,7 @@ Transform:
   - {fileID: 8393923107334999081}
   - {fileID: 8393923106241591689}
   - {fileID: 1833223705909266330}
-  - {fileID: 17246005303785732}
+  - {fileID: 2762396843985082252}
   - {fileID: 2328792017973011724}
   - {fileID: 8164634177003290758}
   m_Father: {fileID: 0}
@@ -670,7 +657,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &8393923106932366195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,7 +670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6246c56c45eb8d4c8402a9ef9dd7f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurHealth:
+  CurrentHp:
     value: 0
 --- !u!1 &8393923107167371411
 GameObject:
@@ -815,7 +802,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8393923107334999081}
   - component: {fileID: 8393923107334999079}
-  - component: {fileID: 8393923107334999080}
+  - component: {fileID: 1505783794516720057}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -890,7 +877,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8393923107334999080
+--- !u!114 &1505783794516720057
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -899,7 +886,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8393923107334999082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c1e16fd3f0ac84b99d3bb1b8cc0283, type: 3}
+  m_Script: {fileID: 11500000, guid: 613e4b843f9a8e245829791ba47f1b95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8529728854975818181
@@ -912,7 +899,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2328792017973011724}
   - component: {fileID: 8117451808155177273}
-  - component: {fileID: 9100792980252076991}
   m_Layer: 23
   m_Name: ScreenSensor
   m_TagString: ScreenSensor
@@ -961,15 +947,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 640, y: 360}
   m_EdgeRadius: 0
---- !u!114 &9100792980252076991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8529728854975818181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f4399cb802d6de4a9810103ed622b48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

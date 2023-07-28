@@ -3,31 +3,25 @@ using UnityEngine;
 using Util;
 using UniRx;
 using StringLiterals;
+using Util.Pool;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject IngameContainer { get; private set; }
-    public GameObject EnemyContainer { get; private set; }
-    public GameObject DamageTextContainer { get; private set; }
-    public GameObject ExpContainer { get; private set; }
-    public GameObject BoxContainer { get; private set; }
+    public GameObject ObjectContainer { get; private set; }
     public GameObject BoxEffectContainer { get; private set; }
-    public GameObject EnemyDieEffectContainer { get; private set; }
-    public GameObject ProjectileContainer { get; private set; }
-
-    public EnemyPool Enemy { get; private set; }
-    public DamageTextPool DamageText { get; private set; }
-    public ExpPool Exp { get; private set; }
-    public BoxPool Box { get; private set; }
-    public OpenBoxCoinPool OpenBoxCoin { get; private set; }
-    public OpenBoxParticlePool OpenBoxParticle { get; private set; }
-    public OpenedBoxParticlePool OpenedBoxParticle { get; private set; }
-    public EnemyDieEffectPool EnemyDieEffect { get; private set; }
-    public ProjectilePool Projectile { get; private set; }
-
-    public GameObject OutgameContainer { get; private set; }
     public GameObject TriangleContainer { get; private set; }
-    public TrianglePool Triangle { get; private set; }
+
+    public Pool<Enemy> Enemy { get; private set; }
+    public Pool<DamageText> DamageText { get; private set; }
+    public Pool<Box> Box { get; private set; }
+    public Pool<OpenBoxCoin> OpenBoxCoin { get; private set; }
+    public Pool<OpenBoxParticle> OpenBoxParticle { get; private set; }
+    public Pool<OpenedBoxParticle> OpenedBoxParticle { get; private set; }
+    public Pool<EnemyDieEffect> EnemyDieEffect { get; private set; }
+    public Pool<Projectile> Projectile { get; private set; }
+    public Pool<Triangle> Triangle { get; private set; }
+    public ExpPool Exp { get; private set; }
+    
     private void Start()
     {
         _spawnOpenBoxParticleCo = SpawnOpenBoxParticleCo();
@@ -43,53 +37,39 @@ public class SpawnManager : MonoBehaviour
     {
         if (stage == 0) { return; }
 
-        Managers.Resource.Destroy(OutgameContainer);
+        Managers.Resource.Destroy(ObjectContainer);
 
         InitIngamePool();
         InitOffset();
 
-        Managers.Resource.Instantiate($"IngameEnvironment_{stage}", IngameContainer.transform);
+        Managers.Resource.Instantiate($"IngameEnvironment_{stage}", ObjectContainer.transform);
         SpawnStageEnemies(stage);
     }
     private void InitIngamePool()
     {
-        IngameContainer = new GameObject("Ingame Containers");
-
-        EnemyContainer = new GameObject("Enemy Container");
-        DamageTextContainer = new GameObject("DamageText Container");
-        ExpContainer = new GameObject("Exp Container");
-        BoxContainer = new GameObject("Box Container");
+        ObjectContainer = new GameObject("Object Containers");
         BoxEffectContainer = new GameObject("BoxEffect Container");
-        EnemyDieEffectContainer = new GameObject("EnemyDieEffect Container");
-        ProjectileContainer = new GameObject("Projectile Container");
+        BoxEffectContainer.transform.parent = ObjectContainer.transform;
 
-        EnemyContainer.transform.parent = IngameContainer.transform;
-        DamageTextContainer.transform.parent = IngameContainer.transform;
-        ExpContainer.transform.parent = IngameContainer.transform;
-        BoxContainer.transform.parent = IngameContainer.transform;
-        BoxEffectContainer.transform.parent = IngameContainer.transform;
-        EnemyDieEffectContainer.transform.parent = IngameContainer.transform;
-        ProjectileContainer.transform.parent = IngameContainer.transform;
-
-        Enemy = new EnemyPool();
-        DamageText = new DamageTextPool();
+        Enemy = new Pool<Enemy>();
+        DamageText = new Pool<DamageText>();
+        Box = new Pool<Box>();
+        OpenBoxCoin = new Pool<OpenBoxCoin>();
+        OpenBoxParticle = new Pool<OpenBoxParticle>();
+        OpenedBoxParticle = new Pool<OpenedBoxParticle>();
+        EnemyDieEffect = new Pool<EnemyDieEffect>();
+        Projectile = new Pool<Projectile>();
         Exp = new ExpPool();
-        Box = new BoxPool();
-        OpenBoxCoin = new OpenBoxCoinPool();
-        OpenBoxParticle = new OpenBoxParticlePool();
-        OpenedBoxParticle = new OpenedBoxParticlePool();
-        EnemyDieEffect = new EnemyDieEffectPool();
-        Projectile = new ProjectilePool();
 
-        Enemy.Init();
-        DamageText.Init();
-        Exp.Init();
-        Box.Init();
-        OpenBoxCoin.Init();
-        OpenBoxParticle.Init();
-        OpenedBoxParticle.Init();
-        EnemyDieEffect.Init();
-        Projectile.Init();
+        Enemy.Init(ObjectContainer);
+        DamageText.Init(ObjectContainer);
+        Box.Init(ObjectContainer);
+        OpenBoxCoin.Init(BoxEffectContainer);
+        OpenBoxParticle.Init(BoxEffectContainer);
+        OpenedBoxParticle.Init(BoxEffectContainer);
+        EnemyDieEffect.Init(ObjectContainer);
+        Projectile.Init(ObjectContainer);
+        Exp.Init(ObjectContainer);
     }
     private void InitOffset()
     {
@@ -109,20 +89,17 @@ public class SpawnManager : MonoBehaviour
 
         StopAllCoroutines();
 
-        Managers.Resource.Destroy(IngameContainer);
+        Managers.Resource.Destroy(ObjectContainer);
         InitOutgamePool();
     }
     private void InitOutgamePool()
     {
-        OutgameContainer = new GameObject("Outgame Containers");
-
+        ObjectContainer = new GameObject("Object Containers");
         TriangleContainer = new GameObject("Triangle Container");
 
-        TriangleContainer.transform.parent = OutgameContainer.transform;
+        Triangle = new Pool<Triangle>();
 
-        Triangle = new TrianglePool();
-
-        Triangle.Init();
+        Triangle.Init(TriangleContainer);
     }
 
     private void SpawnStageEnemies(int stage)
@@ -177,7 +154,7 @@ public class SpawnManager : MonoBehaviour
     private void SpawnBoss(EnemyID id)
     {
         EnemyData data = Managers.Data.Enemy[id];
-        GameObject go = Managers.Resource.Instantiate(data.Name, EnemyContainer.transform);
+        GameObject go = Managers.Resource.Instantiate(data.Name, ObjectContainer.transform);
         Enemy enemy = go.GetComponentAssert<Enemy>();
         enemy.Init(id, _enemySpawnOffsets.GetRandomElement());
     }
@@ -267,7 +244,7 @@ public class SpawnManager : MonoBehaviour
     public void SpawnVTuberDieEffect(Vector2 position)
     {
         VTuberDieEffect vtuberDieEffect = Managers.Resource
-            .Instantiate(FileNameLiteral.VTUBER_DIE_EFFECT, IngameContainer.transform)
+            .Instantiate(FileNameLiteral.VTUBER_DIE_EFFECT, ObjectContainer.transform)
             .GetComponentAssert<VTuberDieEffect>();
         vtuberDieEffect.Init(position);
     }
@@ -284,7 +261,7 @@ public class SpawnManager : MonoBehaviour
 
         TriangleContainer.SetActive(false);
         TriangleContainer.SetActive(true);
-        TriangleContainer.transform.parent = OutgameContainer.transform;
+        TriangleContainer.transform.parent = ObjectContainer.transform;
     }
     private const float TRIANGLE_SPAWN_INTERVAL = 0.5f;
     private IEnumerator _spawnTriangleCo;

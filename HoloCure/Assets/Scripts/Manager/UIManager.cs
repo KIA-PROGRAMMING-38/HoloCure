@@ -7,12 +7,13 @@ public class UIManager
 
     private int _currentCanvasOrder = -20;
 
-    private Stack<UIPopup> _popupStack = new Stack<UIPopup>();
+    private Stack<UIPopup> _popupStack;
 
     private GameObject _root;
 
     public void Init()
     {
+        _popupStack = new Stack<UIPopup>();
         _root = new GameObject("UI Root");
     }
 

@@ -1,61 +1,71 @@
-using System.Collections;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 public class MouseCursor : UIBase
 {
-    [SerializeField] private RectTransform _cursorUI;
-    [SerializeField] private RectTransform _cusorInGame;
-    private Vector2 _cusorUIInitPos;
-    private Vector2 _cusorInGameInitPos;
+    private RectTransform _uiCursor;
+    private RectTransform _ingameCursor;
+
+    private Vector2 _uiOffset;
+    private Vector2 _ingameOffset;
+
+    private float _previousTimeScale;
 
     private void Awake()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
+
+        _uiCursor = transform.FindAssert("UiCursor").GetComponentAssert<RectTransform>();
+        _ingameCursor = transform.FindAssert("IngameCursor").GetComponentAssert<RectTransform>();
+
+        _uiOffset = _uiCursor.anchoredPosition;
+        _ingameOffset = _ingameCursor.anchoredPosition;
+
+        _previousTimeScale = Time.timeScale;
     }
 
     private void Start()
     {
-        _cusorUIInitPos = _cursorUI.anchoredPosition;
-        _cusorInGameInitPos = _cusorInGame.anchoredPosition;
-
-        _UICursorMoveCoroutine = UICursorMoveCoroutine();
-        _InGameCursorMoveCoroutine = InGameCursorMoveCoroutine();
-
-        ActivateUICursor();
+        this.UpdateAsObservable()
+            .Subscribe(UpdateCursor);
     }
+
+    private void UpdateCursor(Unit unit)
+    {
+        if (Time.timeScale != _previousTimeScale)
+        {
+            if (Time.timeScale < 1)
+            {
+                ActivateUICursor();
+            }
+            else
+            {
+                ActivateInGameCursor();
+            }
+        }
+
+        if (Time.timeScale < 1)
+        {
+            _uiCursor.anchoredPosition = _uiOffset + Util.CursorCache.MouseScreenPos;
+        }
+        else
+        {
+            _ingameCursor.anchoredPosition = _ingameOffset + Util.CursorCache.MouseScreenPos;
+        }
+
+        _previousTimeScale = Time.timeScale;
+    }
+
     private void ActivateUICursor()
     {
-        StopCoroutine(_InGameCursorMoveCoroutine);
-        _cusorInGame.gameObject.SetActive(false);
-        _cursorUI.gameObject.SetActive(true);
-        StartCoroutine(UICursorMoveCoroutine());
+        _ingameCursor.gameObject.SetActive(false);
+        _uiCursor.gameObject.SetActive(true);
     }
     private void ActivateInGameCursor()
     {
-        StopCoroutine(_UICursorMoveCoroutine);
-        _cursorUI.gameObject.SetActive(false);
-        _cusorInGame.gameObject.SetActive(true);
-        StartCoroutine(_InGameCursorMoveCoroutine);
-    }
-    private IEnumerator _UICursorMoveCoroutine;
-    private IEnumerator UICursorMoveCoroutine()
-    {
-        while (true)
-        {
-            _cursorUI.anchoredPosition = _cusorUIInitPos + Util.CursurCache.MouseScreenPos;
-
-            yield return null;
-        }
-    }
-    private IEnumerator _InGameCursorMoveCoroutine;
-    private IEnumerator InGameCursorMoveCoroutine()
-    {
-        while (true)
-        {
-            _cusorInGame.anchoredPosition = _cusorInGameInitPos + Util.CursurCache.MouseScreenPos;
-
-            yield return null;
-        }
+        _uiCursor.gameObject.SetActive(false);
+        _ingameCursor.gameObject.SetActive(true);
     }
 }

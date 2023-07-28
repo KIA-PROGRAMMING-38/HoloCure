@@ -12,6 +12,7 @@ public class VTuberDieEffect : MonoBehaviour
     private void Start()
     {
         this.UpdateAsObservable()
+            .Where(_ => gameObject.activeSelf)
             .Subscribe(Move);
     }
     private void Move(Unit unit)
