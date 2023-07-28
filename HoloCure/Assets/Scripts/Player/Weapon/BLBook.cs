@@ -9,26 +9,50 @@ public class BLBook : Weapon
 
         GetBooksInitPos();
     }
+
     private void GetBooksInitPos()
     {
-        _booksInitPos = new Vector2[Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount];
-        int angleDivision = 360 / Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount;
-        for (int i = 0; i < Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount; ++i)
-        {
-            float angle = i * angleDivision * Mathf.Deg2Rad;
+        WeaponLevelData data = GetWeaponLevelData();
 
-            _booksInitPos[i] = (Vector2.right * Mathf.Cos(angle) + Vector2.up * Mathf.Sin(angle)) * Managers.Data.WeaponLevelTable[Id][Level.Value].Radius;
+        _booksInitPos = new Vector2[data.ProjectileCount];
+
+        int angleStep = 360 / data.ProjectileCount;
+
+        for (int i = 0; i < data.ProjectileCount; ++i)
+        {
+            float angle = i * angleStep * Mathf.Deg2Rad;
+            _booksInitPos[i] = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * data.Radius;
         }
     }
-    protected override void Shoot(int index)
+
+    protected override void ShootProjectile(int projectileIndex)
     {
-        Projectile projectile = _projectilePool.GetProjectileFromPool();
-        projectile.SetPositionWithWeapon(transform.position, _booksInitPos[index]);
+        Projectile projectile = GetProjectile();
+        Vector2 position = GetWeaponPosition() + _booksInitPos[projectileIndex];
+
+        SetCollider(projectile, ColliderType.Circle);
+        projectile.Init(position, GetWeaponLevelData(), ProjectileOperate, offset: _booksInitPos[projectileIndex]);
     }
-    protected override void ProjectileOperate(Projectile projectile)
+
+    private void ProjectileOperate(Projectile projectile)
     {
-        projectile.transform.RotateAround(transform.position, Vector3.back, projectile.ProjectileSpeed * Time.deltaTime * 70);
-        projectile.transform.Rotate(Vector3.forward, projectile.ProjectileSpeed * Time.deltaTime * 70);
+        float angle = GetWeaponLevelData().ProjectileSpeed * Time.deltaTime;
+        projectile.Offset = GetRotateOffset(projectile.Offset, angle);
+
+        projectile.transform.position = GetWeaponPosition() + projectile.Offset;
+        projectile.transform.rotation = default;
+
+        static Vector2 GetRotateOffset(Vector2 offset, float degrees)
+        {
+            float angle = -degrees * Mathf.Deg2Rad;
+
+            float sin = Mathf.Sin(angle);
+            float cos = Mathf.Cos(angle);
+
+            float newX = (cos * offset.x) - (sin * offset.y);
+            float newY = (sin * offset.x) + (cos * offset.y);
+
+            return new Vector2(newX, newY);
+        }
     }
-    protected override Collider2D SetCollider(Projectile projectile) => SetCircleCollider(projectile);
 }

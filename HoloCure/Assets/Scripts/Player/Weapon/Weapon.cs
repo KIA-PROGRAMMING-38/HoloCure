@@ -2,207 +2,142 @@ using System.Collections;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
+using Util;
 
 public abstract class Weapon : MonoBehaviour
 {
-    public ItemID Id { get; private set; }
     public ReactiveProperty<int> Level { get; private set; } = new();
+    public ItemID Id { get; private set; }
 
-    protected SpriteRenderer weaponSpriteRenderer;
-    protected Collider2D weaponCollider;
-    protected Rigidbody2D weaponRigidbody;
-    protected Animator weaponAnimator;
+    private SpriteRenderer _spriteRenderer;
+    private Collider2D _collider;
+    private Rigidbody2D _rigidbody;
+    private Animator _animator;
 
-    protected ProjectilePool _projectilePool;
+    private float _curAttackSequenceTime;
+    private IEnumerator _attackCo;
+    private IEnumerator _attackSequenceCo;
 
-    protected Vector3 initPos;
-
-    protected virtual void Awake()
+    public void Init(ItemID id)
     {
-        weaponSpriteRenderer = GetComponent<SpriteRenderer>();
-        weaponSpriteRenderer.enabled = false;
+        InitComponents();
 
-        weaponCollider = GetComponent<Collider2D>();
-        weaponCollider.enabled = false;
-
-        weaponRigidbody = GetComponent<Rigidbody2D>();
-        weaponRigidbody.bodyType = RigidbodyType2D.Kinematic;
-
-        weaponAnimator = GetComponent<Animator>();
-        weaponAnimator.enabled = false;
-
-        initPos = transform.localPosition;
-
-        _projectilePool = new();
-        _projectilePool.Initialize(this);
-
-        _projectilePool.OnCreate -= CreateProjectile;
-        _projectilePool.OnCreate += CreateProjectile;
-
-        _projectilePool.OnGetFromPool -= BeforeOperateProjectile;
-        _projectilePool.OnGetFromPool += BeforeOperateProjectile;
-
-        _projectilePool.OnReleaseToPool -= AfterOperateProjectile;
-        _projectilePool.OnReleaseToPool += AfterOperateProjectile;
-    }
-    private void Start()
-    {
-        _shootCoroutine = ShootCoroutine();
-        _operateWeaponCoroutine = OperateWeaponCoroutine();
-        _attackSequenceCoroutine = AttackSequenceCoroutine();
-
-        StartCoroutine(_attackSequenceCoroutine);
-    }
-    private void OnDisable() => StopAllCoroutines();
-    protected abstract void Shoot(int index);
-    private int _index;
-    private IEnumerator _shootCoroutine;
-    private IEnumerator ShootCoroutine()
-    {
-        while (true)
-        {
-            while (_index < Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount)
-            {
-                Shoot(_index);
-                _index += 1;
-
-                if (Managers.Data.WeaponLevelTable[Id][Level.Value].AttackDelay == 0) { continue; }
-
-                yield return Util.DelayCache.GetWaitForSeconds(Managers.Data.WeaponLevelTable[Id][Level.Value].AttackDelay);
-            }
-
-            StopCoroutine(_shootCoroutine);
-
-            yield return null;
-        }
-    }
-
-    private IEnumerator _attackSequenceCoroutine;
-    private IEnumerator AttackSequenceCoroutine()
-    {
-        while (true)
-        {
-            BeforeOperateWeapon();
-            StartCoroutine(_operateWeaponCoroutine);
-            _index = 0;
-            StartCoroutine(_shootCoroutine);
-            yield return Util.DelayCache.GetWaitForSeconds(_curAttackSequenceTime);
-        }
-    }
-
-    /// <summary>
-    /// 무기가 활성화 되어 동작을 시작하기 전에 해둘 세팅입니다.
-    /// </summary>
-    protected virtual void BeforeOperateWeapon()
-    {
-        SetWeaponPosWithPlayerPos();
-    }
-    protected virtual void OperateWeapon()
-    {
-        SetWeaponPosWithPlayerPos();
-    }
-    private IEnumerator _operateWeaponCoroutine;
-    private IEnumerator OperateWeaponCoroutine()
-    {
-        while (true)
-        {
-            OperateWeapon();
-
-            yield return null;
-        }
-    }
-
-    protected virtual void BeforeOperateProjectile(Projectile projectile)
-    {
-        projectile.SetProjectileStat(Managers.Data.WeaponLevelTable[Id][Level.Value]);
-    }
-    protected virtual void AfterOperateProjectile(Projectile projectile)
-    {
-
-    }
-    protected abstract void ProjectileOperate(Projectile projectile);
-
-    /// <summary>
-    /// 무기를 초기화합니다.
-    /// </summary>
-    public virtual void Initialize(ItemID id)
-    {
         Id = id;
-        Level.Value = 0;
-
         LevelUp();
+
+        GetVTuber().Haste.Subscribe(ApplyHaste).AddTo(this);
     }
-    private void CreateProjectile(Projectile projectile)
+
+    private void InitComponents()
     {
-        projectile.gameObject.layer = LayerNum.WEAPON;
+        _spriteRenderer = gameObject.GetComponentAssert<SpriteRenderer>();
+        _collider = gameObject.GetComponentAssert<Collider2D>();
+        _rigidbody = gameObject.GetComponentAssert<Rigidbody2D>();
+        _animator = gameObject.GetComponentAssert<Animator>();
 
-        Collider2D collider = SetCollider(projectile);
-        projectile.SetCollider(collider);
-
-        projectile.SetAnimation(Managers.Data.Item[Id]);
-
-        projectile.transform.localScale = Vector2.one;
-
-        projectile.SetProjectileOperate(ProjectileOperate);
+        _spriteRenderer.enabled = false;
+        _collider.enabled = false;
+        _rigidbody.bodyType = RigidbodyType2D.Kinematic;
+        _animator.enabled = false;
     }
-    protected abstract Collider2D SetCollider(Projectile projectile);
-    protected CircleCollider2D SetCircleCollider(Projectile projectile)
-    {
-        CircleCollider2D mainCollider = (CircleCollider2D)weaponCollider;
-        CircleCollider2D collider = projectile.AddComponent<CircleCollider2D>();
-        collider.isTrigger = true;
-        collider.offset = mainCollider.offset;
-        collider.radius = mainCollider.radius;
 
-        return collider;
-    }
-    protected BoxCollider2D SetBoxCollider(Projectile projectile)
-    {
-        BoxCollider2D mainCollider = (BoxCollider2D)weaponCollider;
-        BoxCollider2D collider = projectile.AddComponent<BoxCollider2D>();
-        collider.isTrigger = true;
-        collider.offset = mainCollider.offset;
-        collider.size = mainCollider.size;
-
-        return collider;
-    }
-    protected PolygonCollider2D SetPolygonCollider(Projectile projectile)
-    {
-        PolygonCollider2D mainCollider = (PolygonCollider2D)weaponCollider;
-        PolygonCollider2D collider = projectile.AddComponent<PolygonCollider2D>();
-        collider.isTrigger = true;
-        collider.points = mainCollider.points;
-
-        return collider;
-    }
-    protected void SetWeaponPosWithPlayerPos() => transform.position = Managers.Game.VTuber.transform.position + initPos;
-    protected void SetProjectileRotWithMousePos(Projectile projectile) => projectile.transform.rotation = Quaternion.AngleAxis(Util.Caching.GetAngleToMouse(transform.position), Vector3.forward);
     public virtual void LevelUp()
     {
         Level.Value += 1;
 
-        SetAttackSequenceTime();
-        SetSize();
+        ApplyHaste(GetVTuber().Haste.Value);
     }
-    private float _curAttackSequenceTime;
-    private int _haste;
-    public void GetHaste(int haste)
-    {
-        _haste = haste;
 
-        SetAttackSequenceTime();
+    private void ApplyHaste(int haste)
+    {
+        float hasteRate = 1 + haste * 0.01f;
+        SetAttackSequenceTime(hasteRate);
     }
-    private void SetAttackSequenceTime()
-    {
-        _curAttackSequenceTime = Mathf.Round(Managers.Data.WeaponLevelTable[Id][Level.Value].BaseAttackSequenceTime / (1 + _haste / 100f));
 
-        if (_curAttackSequenceTime < Managers.Data.WeaponLevelTable[Id][Level.Value].MinAttackSequenceTime)
+    private void SetAttackSequenceTime(float hasteRate)
+    {
+        WeaponLevelData data = GetWeaponLevelData();
+        _curAttackSequenceTime = data.BaseAttackSequenceTime / hasteRate;
+        if (_curAttackSequenceTime < data.MinAttackSequenceTime)
         {
-            _curAttackSequenceTime = Managers.Data.WeaponLevelTable[Id][Level.Value].MinAttackSequenceTime;
+            _curAttackSequenceTime = data.MinAttackSequenceTime;
         }
     }
-    private void SetSize()
+
+    private void Start()
     {
-        transform.localScale = Vector2.one * Managers.Data.WeaponLevelTable[Id][Level.Value].Size;
+        _attackCo = AttackCo();
+        _attackSequenceCo = AttackSequenceCo();
+
+        StartCoroutine(_attackSequenceCo);
     }
+
+    private IEnumerator AttackSequenceCo()
+    {
+        while (true)
+        {
+            StartCoroutine(_attackCo);
+
+            yield return DelayCache.GetWaitForSeconds(_curAttackSequenceTime);
+        }
+    }
+
+    private IEnumerator AttackCo()
+    {
+        WeaponLevelData data = GetWeaponLevelData();
+        while (true)
+        {
+            int count = 0;
+            while (count < data.ProjectileCount)
+            {
+                ShootProjectile(count);
+                count += 1;
+
+                yield return DelayCache.GetWaitForSeconds(data.AttackDelay);
+            }
+
+            StopCoroutine(_attackCo);
+
+            yield return null;
+        }
+    }
+
+    protected abstract void ShootProjectile(int projectileIndex);
+
+    protected enum ColliderType { Circle, Box }
+    protected void SetCollider(Projectile projectile, ColliderType colliderType)
+    {
+        switch (colliderType)
+        {
+            case ColliderType.Circle:
+                SetCollider(projectile, _collider as CircleCollider2D);
+                break;
+            case ColliderType.Box:
+                SetCollider(projectile, _collider as BoxCollider2D);
+                break;
+            default: Debug.Assert(false, $"Invalid Type: Projectile-{projectile}, type-{colliderType}"); break;
+        }
+
+        static void SetCollider<T>(Projectile projectile, T weaponCollider) where T : Collider2D
+        {
+            T projectileCollider = projectile.AddComponent<T>();
+            projectileCollider.isTrigger = true;
+            projectileCollider.offset = weaponCollider.offset;
+
+            switch (projectileCollider)
+            {
+                case CircleCollider2D circle:
+                    circle.radius = (weaponCollider as CircleCollider2D).radius;
+                    break;
+                case BoxCollider2D box:
+                    box.size = (weaponCollider as BoxCollider2D).size;
+                    break;
+            }
+        }
+    }
+
+    protected Vector2 GetWeaponPosition() => transform.position;
+    protected Projectile GetProjectile() => Managers.Spawn.Projectile.Get();
+    protected WeaponLevelData GetWeaponLevelData() => Managers.Data.WeaponLevelTable[Id][Level.Value];
+    protected VTuber GetVTuber() => Managers.Game.VTuber;
 }

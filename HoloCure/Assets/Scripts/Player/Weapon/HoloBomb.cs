@@ -2,68 +2,63 @@ using UnityEngine;
 
 public class HoloBomb : Weapon
 {
-    private readonly Vector2 EFFECT_COLLIDER_OFFSET = new(0, 25);
-
-    private float _projectileRadius;
-    private float _effectRadius;
-    private float[] angles;
-    protected override void Awake()
-    {
-        base.Awake();
-        _projectileRadius = GetComponent<CircleCollider2D>().radius;
-        _effectRadius = _projectileRadius * 2.5f;
-    }
+    private float[] _angles;
     public override void LevelUp()
     {
         base.LevelUp();
-
-        transform.localScale = Vector3.one;
-
-        GetDivisionAngle();
+        GetAngles();
     }
-    private void GetDivisionAngle()
+    private void GetAngles()
     {
-        angles = new float[Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount];
-        int angleDivision = 360 / Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount;
-        for (int i = 0; i < Managers.Data.WeaponLevelTable[Id][Level.Value].ProjectileCount; ++i)
+        WeaponLevelData data = GetWeaponLevelData();
+        _angles = new float[data.ProjectileCount];
+        int angleStep = 360 / data.ProjectileCount;
+        for (int i = 0; i < data.ProjectileCount; ++i)
         {
-            angles[i] = i * angleDivision;
+            _angles[i] = i * angleStep;
         }
     }
-    protected override void Shoot(int index)
+
+    protected override void ShootProjectile(int projectileIndex)
     {
+        Projectile projectile = GetProjectile();
+        projectile.gameObject.layer = LayerNum.IMPACT;
+        projectile.OnImpact -= ProjectileOnImpact;
+        projectile.OnImpact += ProjectileOnImpact;
+
+        Quaternion rotation = Quaternion.Euler(0, 0, _angles[projectileIndex]);
+        Vector2 cursorPosition = Util.CursurCache.MouseWorldPos;
+        Vector2 weaponPosition = GetWeaponPosition();
+        Vector2 direction = (cursorPosition - weaponPosition).normalized * 50;
+        Vector2 offset = rotation * direction;
+
+        SetCollider(projectile, ColliderType.Circle);
+        projectile.Init(weaponPosition, GetWeaponLevelData(), ProjectileOperate, offset: offset);
+
         Managers.Sound.Play(SoundID.HoloBomb);
-
-        Projectile projectile = _projectilePool.GetProjectileFromPool();
-        projectile.transform.parent = transform;
-        projectile.SetPositionWithWeapon(transform.position);
-        projectile.gameObject.layer = LayerNum.BEFORE_EFFECT;
-        projectile.SetEffectOff();
-        projectile.transform.localScale = Vector3.one;
-        CircleCollider2D collider = projectile.GetComponent<CircleCollider2D>();
-        collider.enabled = true;
-        collider.offset = default;
-        collider.radius = _projectileRadius;
-        projectile.SetEffectColliderOffset(EFFECT_COLLIDER_OFFSET);
-        projectile.SetEffectRadius(_effectRadius);
-        projectile.ElaspedTime = 0;
-        projectile.InitPoint = transform.position;
-        projectile.MovePoint = projectile.InitPoint + (Vector2)(Quaternion.Euler(0,0, angles[index]) * Util.Caching.MouseWorldPos.normalized * 50);
-
-        projectile.transform.parent = default;
     }
-    protected override void OperateWeapon()
+
+    private void ProjectileOperate(Projectile projectile)
     {
+        Vector2 start = projectile.InitPosition;
+        Vector2 end = start + projectile.Offset;
+        float t = projectile.OperateTime / 0.1f;
 
+        projectile.transform.position = Vector2.Lerp(start, end, t);
+        projectile.transform.rotation = default;
     }
 
-    protected override void ProjectileOperate(Projectile projectile)
+    private void ProjectileOnImpact(Projectile projectile)
     {
-        if (false == projectile.IsEffectOn())
-        {
-            projectile.ElaspedTime += Time.deltaTime * projectile.ProjectileSpeed;
-            projectile.transform.position = Vector2.Lerp(projectile.InitPoint, projectile.MovePoint, projectile.ElaspedTime);
-        }
+        WeaponLevelData data = GetWeaponLevelData();
+
+        projectile.HasImpacted = true;
+        projectile.gameObject.layer = LayerNum.WEAPON;
+        projectile.transform.localScale = Vector2.one * data.ImpactSize;
+
+        CircleCollider2D collider = projectile.gameObject.GetComponentAssert<CircleCollider2D>();
+        collider.radius = data.Radius;
+        collider.offset = new Vector2(0, data.Radius / 2);
+        projectile.ResetCollider();
     }
-    protected override Collider2D SetCollider(Projectile projectile) => SetCircleCollider(projectile);
 }
