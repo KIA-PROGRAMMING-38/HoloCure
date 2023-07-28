@@ -69,6 +69,10 @@ public class GameManager : MonoBehaviour
             {
                 Managers.UI.OpenPopup<PausePopup>();
             }
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                Managers.Spawn.SpawnExp(new Vector2(100, 100), 1000);
+            }
         }
     }
 
