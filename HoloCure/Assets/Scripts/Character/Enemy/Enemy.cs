@@ -12,17 +12,20 @@ public class Enemy : CharacterBase
 
     private const float DYING_TIME = 0.7f;
     private const int DYING_SPEED = 160;
+
     public ReactiveProperty<float> FadeRate { get; private set; } = new();
 
     protected Transform body;
-    private EnemyAnimation _enemyAnimation;
-
+    protected EnemyData enemyData;
+    protected VTuber vtuber;
     protected EnemyID id;
+
+    private EnemyAnimation _enemyAnimation;
+    private Rigidbody2D _rigidbody;
+
     protected int moveSpeed;
     private float _knockBackSpeed;
     private float _knockBackDurationTime;
-
-    private Rigidbody2D _rigidbody;
 
     private IEnumerator _knockBackCo;
     private IEnumerator _dyingMoveCo;
@@ -30,6 +33,8 @@ public class Enemy : CharacterBase
     protected virtual void Awake()
     {
         body = transform.FindAssert("Body");
+        vtuber = Managers.Game.VTuber;
+
         _enemyAnimation = body.GetComponentAssert<EnemyAnimation>();
 
         _rigidbody = gameObject.GetComponentAssert<Rigidbody2D>();
@@ -44,39 +49,37 @@ public class Enemy : CharacterBase
 
     public void Init(EnemyID id, Vector2 offset)
     {
-        transform.position = GetVTuberPosition() + offset;
+        Vector2 vtuberPosition = vtuber.transform.position;
+        transform.position = vtuberPosition + offset;
 
         this.id = id;
 
-        EnemyData data = Managers.Data.Enemy[this.id];
+        enemyData = Managers.Data.Enemy[this.id];
 
-        InitStat(data);
-        InitRender(data);
-
-        gameObject.layer = false == IsNormalType()
-            ? LayerNum.BOSS
-            : LayerNum.ENEMY;
-    }
-
-    private void InitStat(EnemyData data)
-    {
-        CurrentHp.Value = data.Health;
-        moveSpeed = data.Speed;
-    }
-
-    private void InitRender(EnemyData data)
-    {
-        _enemyAnimation.Init(data);
-        body.position = Get2DPosition();
+        InitStat();
+        InitRender();
         Flip();
+
+        gameObject.layer = id.GetEnemyType() == EnemyType.Normal ?
+            LayerNum.ENEMY : LayerNum.BOSS;
     }
-    
+
+    private void InitStat()
+    {
+        CurrentHp.Value = enemyData.Health;
+        moveSpeed = enemyData.Speed;
+    }
+
+    private void InitRender()
+    {
+        _enemyAnimation.Init(enemyData);
+        body.position = transform.position;        
+    }
+
     public void Flip()
     {
-        EnemyData data = GetEnemyData();
-        transform.localScale = GetLookDirToVTuber() == NON_FLIP_DIRECTION
-            ? data.Scale * NON_FLIP_VECTOR
-            : data.Scale * FLIP_VECTOR;
+        transform.localScale = GetLookDirToVTuber() == NON_FLIP_DIRECTION ?
+            enemyData.Scale * NON_FLIP_VECTOR : enemyData.Scale * FLIP_VECTOR;
     }
 
     public override void Move()
@@ -85,7 +88,7 @@ public class Enemy : CharacterBase
         _rigidbody.MovePosition(_rigidbody.position + movement);
     }
 
-    
+
     public void OnKnockBack(float knockBackSpeed, float knockBackDurationTime)
     {
         _knockBackSpeed = knockBackSpeed;
@@ -98,10 +101,9 @@ public class Enemy : CharacterBase
         Vector2 movement = GetMovement(_knockBackSpeed);
         _rigidbody.MovePosition(_rigidbody.position - movement);
     }
-    
+
     private IEnumerator KnockBackCo()
     {
-        EnemyData data = GetEnemyData();
 
         while (true)
         {
@@ -116,7 +118,7 @@ public class Enemy : CharacterBase
                 yield return null;
             }
 
-            moveSpeed = data.Speed;
+            moveSpeed = enemyData.Speed;
 
             StopCoroutine(_knockBackCo);
 
@@ -124,13 +126,13 @@ public class Enemy : CharacterBase
         }
     }
 
-    public void SetDamage(CharacterBase target) => target.GetDamage(GetEnemyData().Attack);
+    public void SetDamage(CharacterBase target) => target.GetDamage(enemyData.Attack);
 
     public override void GetDamage(int damage)
     {
         bool isCritical = IsCritical();
 
-        Managers.Spawn.SpawnDamageText(Get2DPosition(), damage, isCritical);
+        Managers.Spawn.SpawnDamageText(transform.position, damage, isCritical);
 
         base.GetDamage(isCritical ? damage * 2 : damage);
 
@@ -143,22 +145,22 @@ public class Enemy : CharacterBase
         StartCoroutine(_dyingMoveCo);
 
         Managers.Game.CountDefeatedEnemies();
-        Managers.Spawn.SpawnEnemyDieEffect(Get2DPosition());
-        Managers.Spawn.SpawnExp(Get2DPosition(), GetEnemyData().Exp);
-        if (false == IsNormalType())
+        Managers.Spawn.SpawnEnemyDieEffect(transform.position);
+        Managers.Spawn.SpawnExp(transform.position, enemyData.Exp);
+        if (id.GetEnemyType() != EnemyType.Normal)
         {
-            Managers.Spawn.SpawnBox(Get2DPosition());
+            Managers.Spawn.SpawnBox(transform.position);
         }
 
         gameObject.layer = LayerNum.DEAD_ENEMY;
     }
-    
+
     private IEnumerator DyingMoveCo()
     {
         while (true)
         {
             float elapsedTime = 0;
-            Vector2 start = Get2DPosition();
+            Vector2 start = transform.position;
             Vector2 end = start - GetLookDirToVTuber() * DYING_SPEED;
 
             while (elapsedTime < DYING_TIME)
@@ -180,15 +182,23 @@ public class Enemy : CharacterBase
         }
     }
 
-    protected virtual void Release() => Managers.Spawn.Enemy.Release(this);
+    private void Release()
+    {
+        switch (id.GetEnemyType())
+        {
+            case EnemyType.Boss:
+                Managers.Resource.Destroy(gameObject);
+                break;
+            default:
+                Managers.Spawn.Enemy.Release(this);
+                break;
+        }
+    }
 
-    private bool IsNormalType() => id.GetEnemyType() == EnemyType.Normal;
-    private Vector2 GetMoveDirection() => (GetVTuberPosition() - Get2DPosition()).normalized;
     private Vector2 GetMovement(float speed) => speed * Time.fixedDeltaTime * GetMoveDirection();
-    private bool IsCritical() => Random.Range(0, 100) < GetVTuber().Critical.Value;
-    private Vector2 GetLookDirToVTuber() => GetMoveDirection().x > 0 ? NON_FLIP_DIRECTION : FLIP_DIRECTION;
-    private VTuber GetVTuber() => Managers.Game.VTuber;
-    private EnemyData GetEnemyData() => Managers.Data.Enemy[id];
-    private Vector2 GetVTuberPosition() => GetVTuber().transform.position;
-    private Vector2 Get2DPosition() => transform.position;
+    private Vector2 GetMoveDirection() => (vtuber.transform.position - transform.position).normalized;
+
+    private bool IsCritical() => Random.Range(0, 100) < vtuber.Critical.Value;
+
+    private Vector2 GetLookDirToVTuber() => vtuber.transform.position.x > transform.position.x ? NON_FLIP_DIRECTION : FLIP_DIRECTION;
 }

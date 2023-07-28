@@ -19,7 +19,7 @@ public class SmollAme : Enemy
     private GameObject[] _shadows;
     private GameObject _attackEffect;
 
-    private SmollAmeAnimationEvent _animation;
+    private SmollAmeAnimationEvent _animationEvent;
     private BoxCollider2D _bodyCollider;
     private CapsuleCollider2D _attackCollider;
 
@@ -37,7 +37,7 @@ public class SmollAme : Enemy
         };
         _attackEffect = transform.FindAssert("AttackEffect").gameObject;
 
-        _animation = body.GetComponentAssert<SmollAmeAnimationEvent>();
+        _animationEvent = body.GetComponentAssert<SmollAmeAnimationEvent>();
         _bodyCollider = gameObject.GetComponentAssert<BoxCollider2D>();
         _attackCollider = gameObject.GetComponentAssert<CapsuleCollider2D>();
 
@@ -55,11 +55,9 @@ public class SmollAme : Enemy
         _chaseCo = ChaseCo();
     }
 
-    protected override void Release()
+    private void OnDestroy()
     {
         Managers.Game.GameClear();
-
-        Managers.Resource.Destroy(gameObject);
     }
 
     private void HandleJumpReady() => moveSpeed = 0;
@@ -183,20 +181,20 @@ public class SmollAme : Enemy
     {
         RemoveEvent();
 
-        _animation.OnJumpReady += HandleJumpReady;
-        _animation.OnJumpStart += HandleJumpStart;
-        _animation.OnAttackReady += HandleAttackReady;
-        _animation.OnAttackStart += HandleAttackStart;
-        _animation.OnAttackEnd += HandleAttackEnd;
-        _animation.OnAttackRelease += HandleAttackRelease;
+        _animationEvent.OnJumpReady += HandleJumpReady;
+        _animationEvent.OnJumpStart += HandleJumpStart;
+        _animationEvent.OnAttackReady += HandleAttackReady;
+        _animationEvent.OnAttackStart += HandleAttackStart;
+        _animationEvent.OnAttackEnd += HandleAttackEnd;
+        _animationEvent.OnAttackRelease += HandleAttackRelease;
     }
     private void RemoveEvent()
     {
-        _animation.OnJumpReady -= HandleJumpReady;
-        _animation.OnJumpStart -= HandleJumpStart;
-        _animation.OnAttackReady -= HandleAttackReady;
-        _animation.OnAttackStart -= HandleAttackStart;
-        _animation.OnAttackEnd -= HandleAttackEnd;
-        _animation.OnAttackRelease -= HandleAttackRelease;
+        _animationEvent.OnJumpReady -= HandleJumpReady;
+        _animationEvent.OnJumpStart -= HandleJumpStart;
+        _animationEvent.OnAttackReady -= HandleAttackReady;
+        _animationEvent.OnAttackStart -= HandleAttackStart;
+        _animationEvent.OnAttackEnd -= HandleAttackEnd;
+        _animationEvent.OnAttackRelease -= HandleAttackRelease;
     }
 }
