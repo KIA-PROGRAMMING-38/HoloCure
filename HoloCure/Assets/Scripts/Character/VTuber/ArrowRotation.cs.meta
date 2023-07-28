@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:HoloCure/Assets/Scripts/Character/Enemy/FubuzillaAnimationEvent.cs.meta
-guid: d2cd0265bca634d49bc0c1fcd2ba8a0c
-========
 guid: 613e4b843f9a8e245829791ba47f1b95
->>>>>>>> #135_Rrefactor:HoloCure/Assets/Scripts/Character/VTuber/ArrowRotation.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
