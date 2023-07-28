@@ -14,8 +14,8 @@ public static class LayerNum
     public const int COIN = 16;
     public const int FILP_SENSOR = 17;
     public const int MOUSE_CURSOR = 18;
-    public const int MY_BOSS = 19;
-    public const int MY_BOSS_BODY = 20;
+    public const int BOSS = 19;
+    public const int BOSS_BODY = 20;
     public const int DEAD_MY_BOSS = 21;
     public const int BOX = 22;
     public const int SCREEN_SENSOR = 23;

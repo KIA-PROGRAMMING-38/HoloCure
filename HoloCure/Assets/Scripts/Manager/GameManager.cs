@@ -15,15 +15,38 @@ public class GameManager : MonoBehaviour
     public VTuber VTuber { get; private set; }
     public int CurrentStageTime { get => Minutes.Value * 60 + Seconds.Value; }
     private HudPopup _hudPopup;
+
+    private IEnumerator _countTimeCo;
     public void Init()
     {
         _countTimeCo = CountTimeCo();
     }
 
+    public void GameClear()
+    {
+        Time.timeScale = 0;
+
+        Managers.UI.OpenPopup<GameClearPopup>();
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0;
+
+        StartCoroutine(GameOverCo());
+    }
+
+    private IEnumerator GameOverCo()
+    {
+        yield return DelayCache.GetUnscaledWaitForSeconds(3);
+
+        Managers.UI.OpenPopup<GameOverPopup>();
+    }
+
     public void InGameStart(VTuberID id, int mode, int stage)
     {
         InitIngame(stage);
-               
+
         SelectVTuber(id);
 
         StartCoroutine(_countTimeCo);
@@ -68,6 +91,7 @@ public class GameManager : MonoBehaviour
         Managers.Sound.StopAll();
         Managers.Sound.Play(stageBGM);
     }
+
     private void InitOutgame()
     {
         Managers.Resource.Destroy(VTuber.gameObject);
@@ -80,12 +104,13 @@ public class GameManager : MonoBehaviour
         Managers.Sound.StopAll();
         Managers.Sound.Play(SoundID.TitleBGM);
     }
+
     private void SelectVTuber(VTuberID id)
     {
         VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
         VTuber.Init(id);
     }
-    private IEnumerator _countTimeCo;
+
     private IEnumerator CountTimeCo()
     {
         while (true)

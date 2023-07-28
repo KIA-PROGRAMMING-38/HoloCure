@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     private IEnumerator _attackCo;
     private const float ATTACK_INTERVAL = 0.2f;
     private void Awake() => _enemy = gameObject.GetComponentAssert<Enemy>();
+
     private void Start()
     {
         _attackCo = AttackCo();
@@ -23,21 +24,23 @@ public class EnemyController : MonoBehaviour
         this.OnTriggerExit2DAsObservable()
             .Subscribe(StopAttack);
     }
+
     private void Move(Unit unit) => _enemy.Move();
+
     private void StartAttack(Collider2D collision)
     {
-        if (collision.CompareTag(TagLiteral.VTUBER))
-        {
-            StartCoroutine(_attackCo);
-        }
+        if (false == collision.CompareTag(TagLiteral.VTUBER)) { return; }
+
+        StartCoroutine(_attackCo);
     }
+
     private void StopAttack(Collider2D collision)
     {
-        if (collision.CompareTag(TagLiteral.VTUBER))
-        {
-            StopCoroutine(_attackCo);
-        }
+        if (false == collision.CompareTag(TagLiteral.VTUBER)) { return; }
+
+        StopCoroutine(_attackCo);
     }
+
     private IEnumerator AttackCo()
     {
         while (true)
