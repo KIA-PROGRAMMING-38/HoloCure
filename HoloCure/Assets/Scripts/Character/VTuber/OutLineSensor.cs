@@ -26,7 +26,7 @@ public class OutLineSensor : MonoBehaviour
 
     private void RepositionEnemy(Transform enemyTransform, Transform vtuberTransform)
     {
-        enemyTransform.position += (enemyTransform.position - vtuberTransform.position) * FACTOR;
+        enemyTransform.position += (vtuberTransform.position - enemyTransform.position) * FACTOR;
     }
 }
 
