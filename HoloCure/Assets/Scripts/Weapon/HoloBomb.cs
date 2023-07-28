@@ -6,14 +6,13 @@ public class HoloBomb : Weapon
     public override void LevelUp()
     {
         base.LevelUp();
-        GetAngles();
+        SetAngles();
     }
-    private void GetAngles()
+    private void SetAngles()
     {
-        WeaponLevelData data = GetWeaponLevelData();
-        _angles = new float[data.ProjectileCount];
-        int angleStep = 360 / data.ProjectileCount;
-        for (int i = 0; i < data.ProjectileCount; ++i)
+        _angles = new float[weaponData.ProjectileCount];
+        int angleStep = 360 / weaponData.ProjectileCount;
+        for (int i = 0; i < weaponData.ProjectileCount; ++i)
         {
             _angles[i] = i * angleStep;
         }
@@ -21,19 +20,19 @@ public class HoloBomb : Weapon
 
     protected override void ShootProjectile(int projectileIndex)
     {
-        Projectile projectile = GetProjectile();
+        Projectile projectile = Managers.Spawn.Projectile.Get();
         projectile.gameObject.layer = LayerNum.IMPACT;
         projectile.OnImpact -= ProjectileOnImpact;
         projectile.OnImpact += ProjectileOnImpact;
 
         Quaternion rotation = Quaternion.Euler(0, 0, _angles[projectileIndex]);
         Vector2 cursorPosition = Util.CursorCache.MouseWorldPos;
-        Vector2 weaponPosition = GetWeaponPosition();
-        Vector2 direction = (cursorPosition - weaponPosition).normalized * 50;
-        Vector2 offset = rotation * direction;
+        Vector2 projectileInitPosition = GetWeapon2DPosition();
+        Vector2 direction = (cursorPosition - projectileInitPosition).normalized;
+        Vector2 offset = rotation * direction * 50;
 
-        SetCollider(projectile, ColliderType.Circle);
-        projectile.Init(weaponPosition, GetWeaponLevelData(), ProjectileOperate, offset: offset);
+        projectile.Init(projectileInitPosition, weaponData, weaponCollider,
+            ProjectileOperate, offset: offset);
 
         Managers.Sound.Play(SoundID.HoloBomb);
     }
@@ -50,15 +49,14 @@ public class HoloBomb : Weapon
 
     private void ProjectileOnImpact(Projectile projectile)
     {
-        WeaponLevelData data = GetWeaponLevelData();
-
         projectile.HasImpacted = true;
         projectile.gameObject.layer = LayerNum.WEAPON;
-        projectile.transform.localScale = Vector2.one * data.ImpactSize;
+        projectile.transform.localScale = Vector2.one * weaponData.ImpactSize;
+        projectile.transform.rotation = default;
 
         CircleCollider2D collider = projectile.gameObject.GetComponentAssert<CircleCollider2D>();
-        collider.radius = data.Radius;
-        collider.offset = new Vector2(0, data.Radius / 2);
+        collider.radius = weaponData.Radius;
+        collider.offset = new Vector2(0, weaponData.Radius / 2);
         projectile.ResetCollider();
     }
 }

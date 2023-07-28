@@ -5,13 +5,12 @@ public class FanBeam : Weapon
     private static readonly Vector3 REVERSE_ANGLE = new Vector3(0, 0, 180);
     protected override void ShootProjectile(int projectileIndex)
     {
-        Projectile projectile = GetProjectile();
-        Vector2 position = GetWeaponPosition();
+        Projectile projectile = Managers.Spawn.Projectile.Get();
+        Vector2 projectileInitPosition = GetWeapon2DPosition();
 
-        SetCollider(projectile, ColliderType.Box);
-        projectile.Init(position, GetWeaponLevelData());
+        projectile.Init(projectileInitPosition, weaponData, weaponCollider);
 
-        projectile.transform.RotateLookCursor(position);
+        projectile.transform.RotateLookCursor(projectileInitPosition);
         if (projectileIndex != 0)
         {
             projectile.transform.Rotate(REVERSE_ANGLE);

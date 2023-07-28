@@ -4,18 +4,18 @@ public class SummonTentacle : Weapon
 {
     protected override void ShootProjectile(int projectileIndex)
     {
-        Projectile projectile = GetProjectile();
-        Vector2 position = GetWeaponPosition();
+        Projectile projectile = Managers.Spawn.Projectile.Get();
+        Vector2 projectileInitPosition = GetWeapon2DPosition();
 
-        SetCollider(projectile, ColliderType.Box);
-        projectile.Init(position, GetWeaponLevelData(), ProjectileOperate);
-        projectile.transform.RotateLookCursor(position);
+        projectile.Init(projectileInitPosition, weaponData, weaponCollider, 
+            ProjectileOperate);
+        projectile.transform.RotateLookCursor(projectileInitPosition);
 
         Managers.Sound.Play(SoundID.SummonTentacle);
     }
 
     private void ProjectileOperate(Projectile projectile)
     {
-        projectile.transform.position = GetWeaponPosition();
+        projectile.transform.position = GetWeapon2DPosition();
     }
 }

@@ -4,20 +4,19 @@ public class PsychoAxe : Weapon
 {
     protected override void ShootProjectile(int projectileIndex)
     {
-        Projectile projectile = GetProjectile();
+        Projectile projectile = Managers.Spawn.Projectile.Get();
+        Vector2 projectileInitPosition = GetWeapon2DPosition();
 
-        SetCollider(projectile, ColliderType.Circle);
-        projectile.Init(GetWeaponPosition(), GetWeaponLevelData(), ProjectileOperate);
+        projectile.Init(projectileInitPosition, weaponData, weaponCollider,
+            ProjectileOperate);
 
         Managers.Sound.Play(SoundID.PsychoAxe);
     }
 
     private void ProjectileOperate(Projectile projectile)
     {
-        WeaponLevelData data = GetWeaponLevelData();
-
-        projectile.Angle += data.ProjectileSpeed * Time.deltaTime * Mathf.Rad2Deg;
-        projectile.Radius += data.Radius * Time.deltaTime;
+        projectile.Angle += weaponData.ProjectileSpeed * Time.deltaTime * Mathf.Rad2Deg;
+        projectile.Radius += weaponData.Radius * Time.deltaTime;
         projectile.Offset.Set(Mathf.Sin(projectile.Angle), Mathf.Cos(projectile.Angle));
         Vector2 offset = projectile.Offset * projectile.Radius;
 

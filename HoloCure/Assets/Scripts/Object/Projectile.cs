@@ -19,22 +19,32 @@ public class Projectile : MonoBehaviour
     private WeaponLevelData _data;
     private Action<Projectile> _operate;
     private Action<Projectile> _impactOperate;
-    private Animator _animator;
-    private Collider2D _collider;
 
-    public void Init(Vector2 position, WeaponLevelData data, 
-        Action<Projectile> operate = null, Action<Projectile> impactOperate = null, Vector2 offset = default)
+    private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
+    private Collider2D _collider;
+    private BoxCollider2D _boxCollider;
+    private CircleCollider2D _circleCollider;
+
+    private void Awake()
     {
         _animator = gameObject.GetComponentAssert<Animator>();
-        _collider = gameObject.GetComponentAssert<Collider2D>();
+        _spriteRenderer =gameObject.GetComponentAssert<SpriteRenderer>();
+        _boxCollider = gameObject.GetComponentAssert<BoxCollider2D>();
+        _circleCollider = gameObject.GetComponentAssert<CircleCollider2D>();
+    }
 
+    public void Init(Vector2 position, WeaponLevelData data, Collider2D collider,
+        Action<Projectile> operate = null, Action<Projectile> impactOperate = null, Vector2 offset = default)
+    {
         transform.position = position;
         transform.localScale = Vector2.one * data.Size;
 
         _data = data;
         _operate = operate;
         _impactOperate = impactOperate;
-        InitAnim();
+        InitRender();
+        InitCollider(collider);
 
         HasImpacted = false;
         OperateTime = 0;
@@ -56,7 +66,7 @@ public class Projectile : MonoBehaviour
             .Subscribe(OnTrigger);
     }
 
-    private void InitAnim()
+    private void InitRender()
     {
         ItemData data = Managers.Data.Item[_data.Id];
 
@@ -64,6 +74,30 @@ public class Projectile : MonoBehaviour
         overrideController["ProjectileLaunch"] = Managers.Resource.LoadAnimClip(data.Name, "_Launch");
         overrideController["ProjectileImpact"] = Managers.Resource.LoadAnimClip(data.Name, "_Impact");
         _animator.runtimeAnimatorController = overrideController;
+
+        _spriteRenderer.color = Color.white;
+    }
+    private void InitCollider(Collider2D collider)
+    {
+        switch (collider)
+        {
+            case CircleCollider2D circle:
+                _circleCollider.enabled = true;
+                _boxCollider.enabled = false;
+                _collider = _circleCollider;
+
+                _circleCollider.offset = circle.offset;
+                _circleCollider.radius = circle.radius;
+                break;
+            case BoxCollider2D box:
+                _boxCollider.enabled = true;
+                _circleCollider.enabled = false;
+                _collider = _boxCollider;
+
+                _boxCollider.offset = box.offset;
+                _boxCollider.size = box.size;
+                break;
+        }
     }
 
     private void Operate(Unit unit)
@@ -86,7 +120,6 @@ public class Projectile : MonoBehaviour
     {
         if (currentTime < duration) { return; }
 
-        Destroy(_collider);
         _hitCoolTimes.Clear();
         Managers.Spawn.Projectile.Release(this);
     }
