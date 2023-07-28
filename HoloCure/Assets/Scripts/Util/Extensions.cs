@@ -16,15 +16,22 @@ public static class Extensions
         => array[Random.Range(0, array.Length)];
     public static T GetRandomElement<T>(this T[] array, int start, int end)
         => array[Random.Range(start, end)];
-    public static EnemyType GetEnemyType(this EnemyID id, int stage)
-    {
-        id -= stage * 1000;
 
-        if (EnemyID.Normal < id && id < EnemyID.MiniBoss) { return EnemyType.Normal; }
-        if (EnemyID.MiniBoss < id && id < EnemyID.Boss) { return EnemyType.MiniBoss; }
-        if (EnemyID.Boss < id && id < EnemyID.End) { return EnemyType.Boss; }
+    private const int ENEMY_DISTINGUISH_VALUE = 1000;
+    public static EnemyType GetEnemyType(this EnemyID id)
+    {
+        int enemy = (int)id % ENEMY_DISTINGUISH_VALUE;
+        int normal = (int)EnemyID.Normal % ENEMY_DISTINGUISH_VALUE;
+        int miniBoss = (int)EnemyID.MiniBoss % ENEMY_DISTINGUISH_VALUE;
+        int boss = (int)EnemyID.Boss % ENEMY_DISTINGUISH_VALUE;
+        int end = (int)EnemyID.End % ENEMY_DISTINGUISH_VALUE;
+
+        if (normal < enemy && enemy < miniBoss) { return EnemyType.Normal; }
+        if (miniBoss < enemy && enemy < boss) { return EnemyType.MiniBoss; }
+        if (boss < enemy && enemy < end) { return EnemyType.Boss; }
         return EnemyType.None;
     }
+    public static int GetStage(this EnemyID id) => (id - EnemyID.None) / ENEMY_DISTINGUISH_VALUE;
     public static ExpType GetExpType(this int expAmount)
     {
         if (expAmount >= (int)ExpType.Max) { return ExpType.Max; }
