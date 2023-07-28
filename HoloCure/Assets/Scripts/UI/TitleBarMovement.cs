@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class TitleBarMovement : MonoBehaviour
 {
-    private RectTransform _rectTransform;
     private readonly Vector2 MOVE_SPEED = new Vector2(-0.5f, 0);
     private readonly Vector2 MOVE_POINT = new Vector2(-40, 0);
-    private void Awake() => _rectTransform = gameObject.GetComponent<RectTransform>();
-    private void Start() => this.UpdateAsObservable().Subscribe(Move);
+    private RectTransform _rectTransform;
+    private void Awake() => _rectTransform = gameObject.GetComponentAssert<RectTransform>();
+
+    private void Start()
+    {
+        this.UpdateAsObservable()
+            .Where(_ => gameObject.activeSelf)
+            .Subscribe(Move);
+    }
+
     private void Move(Unit unit)
     {
         _rectTransform.anchoredPosition += MOVE_SPEED;

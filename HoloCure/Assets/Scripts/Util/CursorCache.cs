@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Util
 {
-    public class CursurCache : MonoBehaviour
+    public class CursorCache : MonoBehaviour
     {
         public static Vector2 MouseScreenPos => _mouseScreenPos;
         private static Vector2 _mouseScreenPos;

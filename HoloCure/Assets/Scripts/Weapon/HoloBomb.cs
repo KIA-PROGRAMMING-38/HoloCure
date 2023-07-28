@@ -27,7 +27,7 @@ public class HoloBomb : Weapon
         projectile.OnImpact += ProjectileOnImpact;
 
         Quaternion rotation = Quaternion.Euler(0, 0, _angles[projectileIndex]);
-        Vector2 cursorPosition = Util.CursurCache.MouseWorldPos;
+        Vector2 cursorPosition = Util.CursorCache.MouseWorldPos;
         Vector2 weaponPosition = GetWeaponPosition();
         Vector2 direction = (cursorPosition - weaponPosition).normalized * 50;
         Vector2 offset = rotation * direction;

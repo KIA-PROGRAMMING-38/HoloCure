@@ -20,8 +20,11 @@ public class Box : MonoBehaviour
         _lookPlayerCo = LookPlayerCo();
 
         this.OnTriggerEnter2DAsObservable()
+            .Where(_ => gameObject.activeSelf)
             .Subscribe(OnEnterTrigger);
+
         this.OnTriggerExit2DAsObservable()
+            .Where(_ => gameObject.activeSelf)
             .Subscribe(OnExitTrigger);
     }
     private void OnEnterTrigger(Collider2D collider)

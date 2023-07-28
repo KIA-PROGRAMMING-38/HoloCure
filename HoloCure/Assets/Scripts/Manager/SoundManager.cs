@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    private AudioSource[] _audioSources = new AudioSource[(int)SoundType.Max];
+    private AudioSource[] _audioSources;
 
     public void Init()
     {
+        _audioSources = new AudioSource[(int)SoundType.Max];
+
         string[] soundTypeNames = Enum.GetNames(typeof(SoundType));
         for (int i = 0; i < _audioSources.Length; ++i)
         {

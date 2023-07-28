@@ -11,11 +11,14 @@ public class Flash : MonoBehaviour
 
     private CanvasGroup _canvasGroup;
     private void Awake() => _canvasGroup = gameObject.GetComponentAssert<CanvasGroup>();
+
     private void Start()
     {
         this.UpdateAsObservable()
+            .Where(_ => gameObject.activeSelf)
             .Subscribe(FlashCursor);
     }
+
     private void FlashCursor(Unit unit)
     {
         _canvasGroup.alpha = Mathf.Lerp(START_ALPHA, END_ALPHA, Mathf.Sin(_elapsedTime * FLASH_SPEED));

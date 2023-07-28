@@ -32,7 +32,7 @@ public class Inventory : MonoBehaviour
         {
             ItemData data = Managers.Data.Item[id];
 
-            Weapon weapon = Managers.Resource.Instantiate(data.Name, transform).GetComponent<Weapon>();
+            Weapon weapon = Managers.Resource.Instantiate(data.Name, transform).GetComponentAssert<Weapon>();
             weapon.Init(id);
 
             Weapons[WeaponCount.Value] = weapon;

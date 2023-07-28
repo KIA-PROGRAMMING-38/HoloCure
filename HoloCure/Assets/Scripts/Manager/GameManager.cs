@@ -7,18 +7,25 @@ using Util;
 
 public class GameManager : MonoBehaviour
 {
-    public ReactiveProperty<int> Stage { get; private set; } = new();
-    public ReactiveProperty<int> Minutes { get; private set; } = new();
-    public ReactiveProperty<int> Seconds { get; private set; } = new();
-    public ReactiveProperty<int> Coins { get; private set; } = new();
-    public ReactiveProperty<int> DefeatedEnemies { get; private set; } = new();
+    public ReactiveProperty<int> Stage { get; private set; }
+    public ReactiveProperty<int> Minutes { get; private set; }
+    public ReactiveProperty<int> Seconds { get; private set; }
+    public ReactiveProperty<int> Coins { get; private set; }
+    public ReactiveProperty<int> DefeatedEnemies { get; private set; }
     public VTuber VTuber { get; private set; }
     public int CurrentStageTime { get => Minutes.Value * 60 + Seconds.Value; }
+
     private HudPopup _hudPopup;
 
     private IEnumerator _countTimeCo;
     public void Init()
     {
+        Stage = new ReactiveProperty<int>();
+        Minutes = new ReactiveProperty<int>();
+        Seconds = new ReactiveProperty<int>();
+        Coins = new ReactiveProperty<int>();
+        DefeatedEnemies = new ReactiveProperty<int>();
+
         _countTimeCo = CountTimeCo();
     }
 
@@ -62,10 +69,6 @@ public class GameManager : MonoBehaviour
             {
                 Managers.UI.OpenPopup<PausePopup>();
             }
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                Managers.Spawn.SpawnExp(new Vector2(100, 100), 1000);
-            }
         }
     }
 
@@ -107,7 +110,7 @@ public class GameManager : MonoBehaviour
 
     private void SelectVTuber(VTuberID id)
     {
-        VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponent<VTuber>();
+        VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponentAssert<VTuber>();
         VTuber.Init(id);
     }
 

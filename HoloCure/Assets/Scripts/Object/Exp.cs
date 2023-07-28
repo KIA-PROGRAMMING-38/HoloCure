@@ -26,8 +26,11 @@ public class Exp : MonoBehaviour
     private void Start()
     { 
         this.UpdateAsObservable()
+            .Where(_ => gameObject.activeSelf)
             .Subscribe(Move);
+
         this.OnTriggerStay2DAsObservable()
+            .Where(_ => gameObject.activeSelf)
             .Subscribe(OnTrigger);
     }
     private void Move(Unit unit)

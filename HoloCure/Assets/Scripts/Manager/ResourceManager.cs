@@ -15,12 +15,12 @@ public class ResourceManager
     public Dictionary<string, AudioClip> AudioClips { get; private set; }
     public void Init()
     {
-        Sprites = new();
-        AnimClips = new();
-        Materials = new();
-        Prefabs = new();
-        Fonts = new();
-        AudioClips = new();
+        Sprites = new Dictionary<string, Sprite>();
+        AnimClips = new Dictionary<string, AnimationClip>();
+        Materials = new Dictionary<string, Material>();
+        Prefabs = new Dictionary<string, GameObject>();
+        Fonts = new Dictionary<string, TMP_FontAsset>();
+        AudioClips = new Dictionary<string, AudioClip>();
     }
     public Sprite LoadSprite(string path) => Load(Sprites, ZString.Concat(PathLiteral.SPRITE, path));
     public AnimationClip LoadAnimClip(string path, string path2 = null) => Load(AnimClips, ZString.Concat(PathLiteral.ANIM, path, path2));
