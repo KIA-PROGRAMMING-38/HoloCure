@@ -6,29 +6,35 @@ namespace Util
 {
     public class CursorCache : MonoBehaviour
     {
-        public static Vector2 MouseScreenPos => _mouseScreenPos;
-        private static Vector2 _mouseScreenPos;
-        public static Vector2 MouseWorldPos => _mouseWorldPos;
-        private static Vector2 _mouseWorldPos;
+        public static Vector2 CursorScreenPosition => _cursorScreenPosition;
+        private static Vector2 _cursorScreenPosition;
+        public static Vector2 CursorWorldPosition => _cursorWorldPosition;
+        private static Vector2 _cursorWorldPosition;
 
         private static Camera _mainCamera;
         private void Awake() => _mainCamera = Camera.main;
+
         private void Start()
         {
             this.UpdateAsObservable()
-                .Subscribe(GetMousePosition);
+                .Subscribe(SetCursorPosition);
         }
-        private static void GetMousePosition(Unit unit)
+
+        private static void SetCursorPosition(Unit unit)
         {
-            _mouseScreenPos = Input.mousePosition;
-            _mouseWorldPos = _mainCamera.ScreenToWorldPoint(_mouseScreenPos);
+            _cursorScreenPosition = Input.mousePosition;
+            _cursorWorldPosition = _mainCamera.ScreenToWorldPoint(_cursorScreenPosition);
         }
-        public static float GetAngleToMouse(Vector2 position)
+
+        public static float GetAngleToCursor(Vector2 position)
         {
-            Vector2 direction = _mouseWorldPos - position;
+            Vector2 direction = _cursorWorldPosition - position;
 
             return Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         }
+
+        public static Vector2 GetDirectionToCursor(Vector2 position) => (_cursorWorldPosition - position).normalized;
+
         public static void SetCameraRotationDefault() => _mainCamera.transform.rotation = default;
     }
 }
