@@ -22,16 +22,17 @@ public enum SoundID
     ButtonBack,
     SelectMove,
     SelectClick,
-    SummonTentacle,
-    FanBeam,
-    HoloBomb,
-    PsychoAxe,
     PlayerDamaged,
     EnemyDamaged,
     GetExp,
     LevelUp,
     SmollAmeJump,
     SmollAmeAttack,
+    FanBeam,
+    HoloBomb,
+    PsychoAxe,
+    SummonTentacle,
+    ScytheSwing,
     End = 3400
 }
 public enum SoundType { BGM, Common, Effect, Max };
