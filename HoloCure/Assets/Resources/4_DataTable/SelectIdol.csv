@@ -1,5 +1,5 @@
 IdolID,StartingWeaponID,TitleSprite,IconSprite,DisplaySprite,VtuberName,MaxHp,Attack,Speed,Critical,WeaponName,WeaponDescription
-1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
+1103,2203,spr_Title_Ame_0,spr_Ameweapon_0,spr_Ame_idle_0,Amelia Watson,75,1.3,1.35,10,Pistol Shot,Shoots 3 Projectiles forward.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1101,2201,spr_Title_Ina_0,spr_SummonTentacleIcon_0,spr_Ina_idle_0,Ninomae Inanis,75,0.9,1.5,1,Summon Tentacle,A tentacle shoots out in front.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
