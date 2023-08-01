@@ -5,7 +5,7 @@ public class PsychoAxe : Weapon
     protected override void ShootProjectile(int projectileIndex)
     {
         Projectile projectile = Managers.Spawn.Projectile.Get();
-        Vector2 projectileInitPosition = GetWeapon2DPosition();
+        Vector2 projectileInitPosition = weapon2DPosition;
 
         projectile.Init(projectileInitPosition, weaponData, weaponCollider,
             ProjectileOperate);

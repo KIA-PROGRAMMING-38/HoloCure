@@ -14,6 +14,6 @@ public class ArrowRotation : MonoBehaviour
     {
         if (Time.timeScale < 1) { return; }
 
-        transform.RotateLookCursor(transform.position);
+        transform.RotateLookCursor();
     }
 }

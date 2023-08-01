@@ -25,6 +25,7 @@ public class Projectile : MonoBehaviour
     private Collider2D _collider;
     private BoxCollider2D _boxCollider;
     private CircleCollider2D _circleCollider;
+    private PolygonCollider2D _polygonCollider;
 
     private void Awake()
     {
@@ -32,6 +33,7 @@ public class Projectile : MonoBehaviour
         _spriteRenderer =gameObject.GetComponentAssert<SpriteRenderer>();
         _boxCollider = gameObject.GetComponentAssert<BoxCollider2D>();
         _circleCollider = gameObject.GetComponentAssert<CircleCollider2D>();
+        _polygonCollider = gameObject.GetComponentAssert<PolygonCollider2D>();
     }
 
     public void Init(Vector2 position, WeaponLevelData data, Collider2D collider,
@@ -84,18 +86,28 @@ public class Projectile : MonoBehaviour
             case CircleCollider2D circle:
                 _circleCollider.enabled = true;
                 _boxCollider.enabled = false;
+                _polygonCollider.enabled = false;
                 _collider = _circleCollider;
 
                 _circleCollider.offset = circle.offset;
                 _circleCollider.radius = circle.radius;
                 break;
             case BoxCollider2D box:
-                _boxCollider.enabled = true;
                 _circleCollider.enabled = false;
+                _boxCollider.enabled = true;
+                _polygonCollider.enabled = false;
                 _collider = _boxCollider;
 
                 _boxCollider.offset = box.offset;
                 _boxCollider.size = box.size;
+                break;
+            case PolygonCollider2D polygon:
+                _circleCollider.enabled = false;
+                _boxCollider.enabled = false;
+                _polygonCollider.enabled = true;
+                _collider = _polygonCollider;
+
+                _polygonCollider.points = polygon.points;
                 break;
         }
     }

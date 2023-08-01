@@ -21,7 +21,7 @@ public class SpiderCooking : Weapon
     protected override void ShootProjectile(int projectileIndex)
     {
         Projectile projectile = Managers.Spawn.Projectile.Get();
-        Vector2 projectileInitPosition = GetWeapon2DPosition();
+        Vector2 projectileInitPosition = weapon2DPosition;
         
         _currentProjectile = projectile;
 
@@ -32,7 +32,7 @@ public class SpiderCooking : Weapon
     private float _elapsedTime;
     private void ProjectileOperate(Projectile projectile)
     {
-        projectile.transform.position = GetWeapon2DPosition();
+        projectile.transform.position = weapon2DPosition;
 
         _elapsedTime += Time.deltaTime;
         if (_elapsedTime > weaponData.HitCoolTime)
