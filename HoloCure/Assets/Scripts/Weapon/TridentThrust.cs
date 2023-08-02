@@ -13,6 +13,21 @@ public class TridentThrust : Weapon
         SetAngle();
     }
 
+    private void SetAngle()
+    {
+        int projectileCount = weaponData.ProjectileCount;
+        _angles = new float[projectileCount];
+
+        float centerAngle = projectileCount % 2 == 0 ? ANGLE_BETWEEN_PROJECTILES / 2 : 0f;
+        float totalAngle = ANGLE_BETWEEN_PROJECTILES * (projectileCount / 2);
+
+        for (int projectileIndex = 0; projectileIndex < projectileCount; ++projectileIndex)
+        {
+            float currentAngle = ANGLE_BETWEEN_PROJECTILES * projectileIndex;
+            _angles[projectileIndex] = centerAngle - totalAngle + currentAngle;
+        }
+    }
+
     protected override void ShootProjectile(int projectileIndex)
     {
         Projectile projectile = Managers.Spawn.Projectile.Get();
@@ -28,25 +43,9 @@ public class TridentThrust : Weapon
             projectile.transform.RotateLookCursor();
             _centerShootRotation = projectile.transform.rotation;
         }
-        projectile.transform.rotation = _centerShootRotation * Quaternion.AngleAxis(_angles[projectileIndex], Vector3.forward);
+        projectile.transform.rotation = _centerShootRotation * Quaternion.AngleAxis(_angles[projectileIndex], Vector3.back);
 
         Managers.Sound.Play(SoundID.TridentThrust);
-    }
-
-    private void SetAngle()
-    {
-        int projectileCount = weaponData.ProjectileCount;
-        _angles = new float[projectileCount];
-
-        float centerAngle = projectileCount % 2 == 0 ? ANGLE_BETWEEN_PROJECTILES / 2 : 0f;
-        float totalAngle = ANGLE_BETWEEN_PROJECTILES * (projectileCount / 2);
-
-        for (int i = 0; i < projectileCount; ++i)
-        {
-            int projectileIndex = projectileCount - 1 - i;
-            float currentAngle = ANGLE_BETWEEN_PROJECTILES * i;
-            _angles[projectileIndex] = centerAngle - totalAngle + currentAngle;
-        }
     }
 
     private void ProjectileOperate(Projectile projectile)
