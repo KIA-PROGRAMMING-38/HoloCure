@@ -66,7 +66,7 @@ public class DamageText : MonoBehaviour
         if (isCritical)
         {
             _text.font = _criticalFont;
-            _text.text = ZString.Concat(damage, "!");
+            _text.text = ZString.Concat(damage * 2, "!");
         }
         else
         {
