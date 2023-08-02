@@ -165,7 +165,7 @@ public class SpawnManager : MonoBehaviour
     }
     public void SpawnExp(Vector2 position, int expAmount)
     {
-        while (expAmount.GetExpType() == ExpType.Max)
+        while (expAmount > (int)ExpType.Max)
         {
             Exp.Get(position, (int)ExpType.Max);
 

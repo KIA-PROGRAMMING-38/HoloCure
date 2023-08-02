@@ -7,8 +7,8 @@ using Random = UnityEngine.Random;
 
 public static class Extensions
 {
-    public static void RotateLookCursor(this Transform transform) 
-        => transform.rotation = Quaternion.AngleAxis(CursorCache.GetAngleToCursor(transform.position), Vector3.forward);
+    public static void RotateLookCursor(this Transform transform, float angle = default) 
+        => transform.rotation = Quaternion.AngleAxis(CursorCache.GetAngleToCursor(transform.position) + angle, Vector3.forward);
     public static Vector2 GetPositionToCursor(this Vector2 position, float distance) 
         => CursorCache.GetDirectionToCursor(position) * distance;
     public static void BindViewEvent(this UIBehaviour view, Action<PointerEventData> action, ViewEvent type, Component component)

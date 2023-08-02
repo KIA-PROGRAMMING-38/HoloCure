@@ -68,8 +68,8 @@ public class Exp : MonoBehaviour
         {
             Exp exp = collision.gameObject.GetComponentAssert<Exp>();
 
-            if (ExpAmount.GetExpType() >= ExpType.Max) { return; }
-            if (exp.ExpAmount.GetExpType() >= ExpType.Max) { return; }
+            if (ExpAmount.GetExpType() == ExpType.Max) { return; }
+            if (exp.ExpAmount.GetExpType() == ExpType.Max) { return; }
 
             exp.ReleaseToPool();
             ReleaseToPool();
