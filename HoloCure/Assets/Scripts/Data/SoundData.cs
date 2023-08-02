@@ -35,6 +35,7 @@ public enum SoundID
     ScytheSwing,
     PistolShot,
     TridentThrust,
+    PhoenixSword,
     End = 3400
 }
 public enum SoundType { BGM, Common, Effect, Max };
