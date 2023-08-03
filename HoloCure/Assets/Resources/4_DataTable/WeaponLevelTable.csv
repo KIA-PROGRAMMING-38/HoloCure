@@ -55,10 +55,17 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,ProjectileCoun
 2203,5,Reduce the time between attacks by <color=green>25%</color>.,1,0.3,4,1.38,0.1,0.33,1,2,0,270,0,0,0,0
 2203,6,Increase damage by <color=green>40%</color>.,1,0.3,4,1.932,0.1,0.33,1,2,0,270,0,0,0,0
 2203,7,Shoot <color=green>2</color> additional shots.,1,0.3,6,1.932,0.1,0.33,1,2,0,270,0,0,0,0
-2204,1,Mid ranged stab attack in front.,1.17,0.3,1,1.6,0,0.33,1.25,0.5,0,0,0,0,0,0
-2204,2,Increase damage by <color=green>20%</color>.,1.17,0.3,1,1.92,0,0.33,1.25,0.5,0,0,0,0,0,0
-2204,3,"Stab one extra time, forming a <color=green>V</color> shape.",1.17,0.3,2,1.92,0.05,0.33,1.25,0.5,0,0,0,0,15,0
-2204,4,Reduce the time between attacks by <color=green>15%</color>.,0.93,0.3,2,1.92,0.05,0.33,1.25,0.5,0,0,0,0,15,0
-2204,5,Increase damage by <color=green>40%</color>.,0.93,0.3,2,2.688,0.05,0.33,1.25,0.5,0,0,0,0,15,0
-2204,6,Increase attack area by <color=green>25%</color>.,0.93,0.3,2,2.688,0.05,0.33,1.5625,0.5,0,0,0,0,15,0
-2204,7,"Thrust <color=green>3</color> times, in a fork-like shape.",0.93,0.3,3,2.688,0.05,0.33,1.5625,0.5,0,0,0,0,30,0
+2204,1,Mid ranged stab attack in front.,1.17,0.3,1,1.6,0,0.33,1.25,0.423,0,0,0,0,0,0
+2204,2,Increase damage by <color=green>20%</color>.,1.17,0.3,1,1.92,0,0.33,1.25,0.423,0,0,0,0,0,0
+2204,3,"Stab one extra time, forming a <color=green>V</color> shape.",1.17,0.3,2,1.92,0.05,0.33,1.25,0.423,0,0,0,0,0,0
+2204,4,Reduce the time between attacks by <color=green>15%</color>.,0.93,0.3,2,1.92,0.05,0.33,1.25,0.423,0,0,0,0,0,0
+2204,5,Increase damage by <color=green>40%</color>.,0.93,0.3,2,2.688,0.05,0.33,1.25,0.423,0,0,0,0,0,0
+2204,6,Increase attack area by <color=green>25%</color>.,0.93,0.3,2,2.688,0.05,0.33,1.5625,0.423,0,0,0,0,0,0
+2204,7,"Thrust <color=green>3</color> times, in a fork-like shape.",0.93,0.3,3,2.688,0.05,0.33,1.5625,0.423,0,0,0,0,0,0
+2205,1,Short ranged slash in front.,1.17,0.3,1,1.3,0,0.33,0.8,0.5,0,0,0,0,0,0
+2205,2,Increase damage by <color=green>20%</color>.,1.17,0.3,1,1.56,0,0.33,0.8,0.5,0,0,0,0,0,0
+2205,3,Increase attack area by <color=green>25%</color>.,1.17,0.3,1,1.56,0,0.33,1,0.5,0,0,0,0,0,0
+2205,4,Reduce the time between attacks by <color=green>15%</color>.,1,0.3,1,1.56,0,0.33,1,0.5,0,0,0,0,0,0
+2205,5,Increase damage by <color=green>20%</color>.,1,0.3,1,1.872,0,0.33,1,0.5,0,0,0,0,0,0
+2205,6,Increase damage by <color=green>30%</color>.,1,0.3,1,2.4336,0,0.33,1,0.5,0,0,0,0,0,0
+2205,7,Increase damage by <color=green>40%</color>.,1,0.3,1,3.40704,0,0.33,1,0.5,0,0,0,0,0,0
