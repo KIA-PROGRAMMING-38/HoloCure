@@ -48,11 +48,11 @@ public class MouseCursor : UIBase
 
         if (Time.timeScale < 1)
         {
-            _uiCursor.anchoredPosition = _uiOffset + Util.CursorCache.MouseScreenPos;
+            _uiCursor.anchoredPosition = _uiOffset + Util.CursorCache.CursorScreenPosition;
         }
         else
         {
-            _ingameCursor.anchoredPosition = _ingameOffset + Util.CursorCache.MouseScreenPos;
+            _ingameCursor.anchoredPosition = _ingameOffset + Util.CursorCache.CursorScreenPosition;
         }
 
         _previousTimeScale = Time.timeScale;
