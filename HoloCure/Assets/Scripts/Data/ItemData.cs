@@ -12,6 +12,8 @@ public enum ItemID
     ScytheSwing,
     PistolShot,
     TridentThrust,
+    PhoenixSword,
+    BirdFeather,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,

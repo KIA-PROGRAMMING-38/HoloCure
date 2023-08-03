@@ -69,3 +69,10 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,ProjectileCoun
 2205,5,Increase damage by <color=green>20%</color>.,1,0.3,1,1.872,0,0.33,1,0.5,0,0,0,0,0,0
 2205,6,Increase damage by <color=green>30%</color>.,1,0.3,1,2.4336,0,0.33,1,0.5,0,0,0,0,0,0
 2205,7,Increase damage by <color=green>40%</color>.,1,0.3,1,3.40704,0,0.33,1,0.5,0,0,0,0,0,0
+2206,1,Shoot a bunch of feathers at a spread. Pierces through targets.,1.5,0.3,2,1.1,0.08,0.33,1,0.5,0,500,0,0,0,0
+2206,2,Increase damage by <color=green>20%</color>.,1.5,0.3,2,1.32,0.08,0.33,1,0.5,0,500,0,0,0,0
+2206,3,Increase damage by <color=green>20%</color>.,1.5,0.3,2,1.584,0.08,0.33,1,0.5,0,500,0,0,0,0
+2206,4,Shoot <color=green>1</color> additional feather.,1.5,0.3,3,1.584,0.08,0.33,1,0.5,0,500,0,0,0,0
+2206,5,Reduce the time between attacks by <color=green>30%</color>.,1.05,0.3,3,1.584,0.08,0.33,1,0.5,0,500,0,0,0,0
+2206,6,Shoot <color=green>1</color> additional feathers.,1.05,0.3,4,1.584,0.08,0.33,1,0.5,0,500,0,0,0,0
+2206,7,Shoot <color=green>2</color> additional feathers.,1.05,0.3,6,1.584,0.08,0.33,1,0.5,0,500,0,0,0,0
