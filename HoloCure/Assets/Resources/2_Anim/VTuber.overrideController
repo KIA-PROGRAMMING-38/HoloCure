@@ -8,7 +8,6 @@ AnimatorOverrideController:
   m_PrefabAsset: {fileID: 0}
   m_Name: VTuber
   m_Controller: {fileID: 9100000, guid: a4477de7ff73c3843ba6c4c8d9ebdbc3, type: 2}
-  m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: ecf369f895477f24da82b81d58c42693, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 84b62e0b4664fbd428eed5cd99aeb182, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: c5a0fc9978ed9a242a6a0232b9b79d60, type: 2}
