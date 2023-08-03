@@ -13,7 +13,6 @@ public abstract class Weapon : MonoBehaviour
     protected Collider2D weaponCollider;
 
     private SpriteRenderer _spriteRenderer;
-    private Rigidbody2D _rigidbody;
     private Animator _animator;
 
     private float _curAttackSequenceTime;
@@ -36,12 +35,10 @@ public abstract class Weapon : MonoBehaviour
     {
         _spriteRenderer = gameObject.GetComponentAssert<SpriteRenderer>();
         weaponCollider = gameObject.GetComponentAssert<Collider2D>();
-        _rigidbody = gameObject.GetComponentAssert<Rigidbody2D>();
         _animator = gameObject.GetComponentAssert<Animator>();
 
         _spriteRenderer.enabled = false;
         weaponCollider.enabled = false;
-        _rigidbody.bodyType = RigidbodyType2D.Kinematic;
         _animator.enabled = false;
     }
 
