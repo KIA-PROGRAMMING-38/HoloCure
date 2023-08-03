@@ -2,12 +2,15 @@ using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Util;
 using Random = UnityEngine.Random;
 
 public static class Extensions
 {
-    public static void RotateLookCursor(this Transform transform, Vector2 startPosition)
-        => transform.rotation = Quaternion.AngleAxis(Util.CursorCache.GetAngleToMouse(startPosition), Vector3.forward);
+    public static void RotateLookCursor(this Transform transform) 
+        => transform.rotation = Quaternion.AngleAxis(CursorCache.GetAngleToCursor(transform.position), Vector3.forward);
+    public static Vector2 GetPositionToCursor(this Vector2 position, float distance) 
+        => CursorCache.GetDirectionToCursor(position) * distance;
     public static void BindViewEvent(this UIBehaviour view, Action<PointerEventData> action, ViewEvent type, Component component)
         => UIBase.BindViewEvent(view, action, type, component);
     public static void BindModelEvent<T>(this ReactiveProperty<T> model, Action<T> action, Component component)

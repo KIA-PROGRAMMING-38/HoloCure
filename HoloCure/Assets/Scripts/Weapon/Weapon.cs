@@ -8,6 +8,7 @@ public abstract class Weapon : MonoBehaviour
     public ReactiveProperty<int> Level { get; private set; } = new();
     public ItemID Id { get; private set; }
 
+    protected Vector2 weapon2DPosition => transform.position + Vector3.left * transform.localPosition.x;
     protected WeaponLevelData weaponData;
     protected Collider2D weaponCollider;
 
@@ -106,6 +107,4 @@ public abstract class Weapon : MonoBehaviour
     }
 
     protected abstract void ShootProjectile(int projectileIndex);
-
-    protected Vector2 GetWeapon2DPosition() => transform.position;
 }
