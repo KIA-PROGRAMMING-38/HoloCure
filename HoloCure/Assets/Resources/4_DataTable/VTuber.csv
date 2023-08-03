@@ -2,3 +2,4 @@ Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,Attack,
 1101,Ninomae Inanis,spr_Ina_idle_0,spr_InaPortrait_0,spr_Title_Ina_0,2201,75,9,120,1,50,0
 1102,Calliope Mori,spr_Calli_idle_0,spr_Calli_portrait_0,spr_Title_Calli_0,2202,70,11,104,10,50,0
 1103,Amelia Watson,spr_Ame_idle_0,spr_Ame_portrait_0,spr_Title_Ame_0,2203,75,13,108,10,50,0
+1104,Gawr Gura,spr_Gura_idle_0,spr_Gura_portrait_0,spr_Title_Gura_0,2204,65,11,112,5,50,0

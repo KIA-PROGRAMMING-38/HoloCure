@@ -68,8 +68,8 @@ public class Exp : MonoBehaviour
         {
             Exp exp = collision.gameObject.GetComponentAssert<Exp>();
 
-            if (ExpAmount.GetExpType() >= ExpType.Max) { return; }
-            if (exp.ExpAmount.GetExpType() >= ExpType.Max) { return; }
+            if (ExpType.Max == Utils.ConvertToExpType(ExpAmount)) { return; }
+            if (ExpType.Max == Utils.ConvertToExpType(exp.ExpAmount)) { return; }
 
             exp.ReleaseToPool();
             ReleaseToPool();
@@ -92,7 +92,7 @@ public class Exp : MonoBehaviour
         _accumulatedSpeed = 100f;
         _elapsedTime = 0;
 
-        ExpType type = ExpAmount.GetExpType();
+        ExpType type = Utils.ConvertToExpType(expAmount);
         _spriteRenderer.sprite = GetSprite(type);
 
         static Sprite GetSprite(ExpType type)
