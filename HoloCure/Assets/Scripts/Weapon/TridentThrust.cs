@@ -3,7 +3,7 @@ using UnityEngine;
 public class TridentThrust : Weapon
 {
     private const float ANGLE_BETWEEN_PROJECTILES = 15f;
-    private float[] _angles;
+    private float[] _angles = new float[Managers.Data.WeaponLevelTable[ItemID.TridentThrust][7].ProjectileCount + 2];
     private Vector2 _cursorDirectedOffset;
     private Quaternion _centerShootRotation;
 
@@ -16,7 +16,6 @@ public class TridentThrust : Weapon
     private void SetAngle()
     {
         int projectileCount = weaponData.ProjectileCount;
-        _angles = new float[projectileCount];
 
         float centerAngle = projectileCount % 2 == 0 ? ANGLE_BETWEEN_PROJECTILES / 2 : 0f;
         float totalAngle = ANGLE_BETWEEN_PROJECTILES * (projectileCount / 2);

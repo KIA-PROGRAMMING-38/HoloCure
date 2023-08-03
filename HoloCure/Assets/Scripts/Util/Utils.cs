@@ -30,4 +30,14 @@ public static class Utils
     {
         return FindChild<Transform>(go, name, recursive).gameObject;
     }
+
+    public static ExpType ConvertToExpType(int expAmount)
+    {
+        if (expAmount >= (int)ExpType.Max) { return ExpType.Max; }
+        if (expAmount >= (int)ExpType.Four) { return ExpType.Four; }
+        if (expAmount >= (int)ExpType.Three) { return ExpType.Three; }
+        if (expAmount >= (int)ExpType.Two) { return ExpType.Two; }
+        if (expAmount >= (int)ExpType.One) { return ExpType.One; }
+        return ExpType.Zero;
+    }
 }
