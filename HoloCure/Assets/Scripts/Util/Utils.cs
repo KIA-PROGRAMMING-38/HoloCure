@@ -40,4 +40,45 @@ public static class Utils
         if (expAmount >= (int)ExpType.One) { return ExpType.One; }
         return ExpType.Zero;
     }
+
+    public static void SetAnglesFromCircle(float[] array, int count)
+    {
+        int angleStep = 360 / count;
+        for (int i = 0; i < count; ++i)
+        {
+            array[i] = i * angleStep;
+        }
+    }
+
+    public static void SetAnglesFromCenter(float[] array, int count, float angle)
+    {
+        float centerAngle = count % 2 == 0 ? angle / 2 : 0f;
+        float totalAngle = angle * (count / 2);
+
+        for (int i = 0; i < count; ++i)
+        {
+            float currentAngle = angle * i;
+            array[i] = centerAngle - totalAngle + currentAngle;
+        }
+    }
+
+    public static Vector2 GetCounterClockwiseVector(float angle)
+    {
+        float radAngle = angle * Mathf.Deg2Rad;
+
+        float cos = Mathf.Cos(radAngle);
+        float sin = Mathf.Sin(radAngle);
+
+        return new Vector2(cos, sin);
+    }
+
+    public static Vector2 GetClockwiseVector(float angle)
+    {
+        float radAngle = angle * Mathf.Deg2Rad;
+
+        float sin = Mathf.Sin(radAngle);
+        float cos = Mathf.Cos(radAngle);
+
+        return new Vector2(sin, cos);
+    }
 }
