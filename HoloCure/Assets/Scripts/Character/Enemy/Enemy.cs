@@ -60,7 +60,7 @@ public class Enemy : CharacterBase
         InitRender();
         Flip();
 
-        gameObject.layer = id.GetEnemyType() == EnemyType.Normal ?
+        gameObject.layer = id.ConvertToEnemyType() == EnemyType.Normal ?
             LayerNum.ENEMY : LayerNum.BOSS;
     }
 
@@ -147,7 +147,7 @@ public class Enemy : CharacterBase
         Managers.Game.CountDefeatedEnemies();
         Managers.Spawn.SpawnEnemyDieEffect(transform.position);
         Managers.Spawn.SpawnExp(transform.position, enemyData.Exp);
-        if (id.GetEnemyType() != EnemyType.Normal)
+        if (id.ConvertToEnemyType() != EnemyType.Normal)
         {
             Managers.Spawn.SpawnBox(transform.position);
         }
@@ -184,7 +184,7 @@ public class Enemy : CharacterBase
 
     private void Release()
     {
-        switch (id.GetEnemyType())
+        switch (id.ConvertToEnemyType())
         {
             case EnemyType.Boss:
                 Managers.Resource.Destroy(gameObject);

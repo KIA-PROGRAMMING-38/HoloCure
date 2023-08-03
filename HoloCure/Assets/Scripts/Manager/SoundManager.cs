@@ -32,7 +32,7 @@ public class SoundManager : MonoBehaviour
     public void Play(SoundID id)
     {
         SoundData data = Managers.Data.Sound[id];
-        SoundType type = id.GetSoundType();
+        SoundType type = id.ConvertToSoundType();
 
         AudioSource audioSource = _audioSources[(int)type];
         audioSource.volume = data.Volume;

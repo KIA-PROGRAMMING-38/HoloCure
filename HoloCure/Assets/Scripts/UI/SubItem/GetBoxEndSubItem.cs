@@ -160,7 +160,7 @@ public class GetBoxEndSubItem : UISubItem
     {
         _item = Managers.Item.GetItemLists()[0];
 
-        ItemType type = _item.GetItemType();
+        ItemType type = _item.ConvertToItemType();
 
         SetupCommonView(_item);
 
