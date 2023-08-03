@@ -14,6 +14,7 @@ public enum ItemID
     TridentThrust,
     PhoenixSword,
     BirdFeather,
+    Orbit,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,
