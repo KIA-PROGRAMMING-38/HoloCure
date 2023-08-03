@@ -107,9 +107,9 @@ public class SpawnManager : MonoBehaviour
         foreach (var pair in Managers.Data.Enemy)
         {
             EnemyID id = pair.Key;
-            if (id.GetStage() != stage) { continue; }
+            if (id.ConvertToStageNumber() != stage) { continue; }
 
-            EnemyType enemyType = id.GetEnemyType();
+            EnemyType enemyType = id.ConvertToEnemyType();
             if (enemyType == EnemyType.None) { continue; }
 
             StartCoroutine(SpawnEnemyCo(id, enemyType));
@@ -165,7 +165,7 @@ public class SpawnManager : MonoBehaviour
     }
     public void SpawnExp(Vector2 position, int expAmount)
     {
-        while (expAmount.GetExpType() == ExpType.Max)
+        while (expAmount > (int)ExpType.Max)
         {
             Exp.Get(position, (int)ExpType.Max);
 

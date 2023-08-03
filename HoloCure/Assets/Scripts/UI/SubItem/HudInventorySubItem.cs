@@ -105,7 +105,7 @@ public class HudInventorySubItem : UISubItem
         int baseIndex = (int)Images.WeaponLevelNumImage_1;
         int imageIndex = weaponIndex + baseIndex;
 
-        WeaponType type = weaponId.GetWeaponType();
+        WeaponType type = weaponId.ConvertToWeaponType();
         string path = GetNumSpritePath(type, level);
 
         GetImage(imageIndex).sprite = Managers.Resource.LoadSprite(path);
@@ -120,7 +120,7 @@ public class HudInventorySubItem : UISubItem
     private void SetupWeaponIcon(int weaponIndex, ItemID weaponId)
     {
         var (icon, frame, num) = GetWeaponImages(weaponIndex);
-        WeaponType type = weaponId.GetWeaponType();
+        WeaponType type = weaponId.ConvertToWeaponType();
 
         SetupImage(icon, Managers.Data.Item[weaponId].IconSprite);
         SetupImage(frame, GetFrameSpritePath(type));

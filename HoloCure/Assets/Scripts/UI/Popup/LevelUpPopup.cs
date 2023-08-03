@@ -178,7 +178,7 @@ public class LevelUpPopup : UIPopup
         {
             SetupCommonView(_items[i], i);
 
-            ItemType type = _items[i].GetItemType();
+            ItemType type = _items[i].ConvertToItemType();
 
             switch (type)
             {

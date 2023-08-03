@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour
 
     public void GetItem(ItemID id)
     {
-        ItemType type = id.GetItemType();
+        ItemType type = id.ConvertToItemType();
         switch (type)
         {
             case ItemType.Weapon: GetWeapon(id); break;
