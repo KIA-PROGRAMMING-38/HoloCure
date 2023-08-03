@@ -26,7 +26,7 @@ public class BLBook : Weapon
     protected override void ShootProjectile(int projectileIndex)
     {
         Projectile projectile = Managers.Spawn.Projectile.Get();
-        Vector2 projectileInitPosition = GetWeapon2DPosition() + _projectileOffsets[projectileIndex];
+        Vector2 projectileInitPosition = weapon2DPosition + _projectileOffsets[projectileIndex];
 
         projectile.Init(projectileInitPosition, weaponData, weaponCollider,
             ProjectileOperate, offset: _projectileOffsets[projectileIndex]);
@@ -37,7 +37,7 @@ public class BLBook : Weapon
         float angle = weaponData.ProjectileSpeed * Time.deltaTime;
         projectile.Offset = GetNextOffset(projectile.Offset, angle);
 
-        projectile.transform.position = GetWeapon2DPosition() + projectile.Offset;
+        projectile.transform.position = weapon2DPosition + projectile.Offset;
         projectile.transform.rotation = default;
 
         static Vector2 GetNextOffset(Vector2 offset, float degrees)

@@ -6,11 +6,11 @@ public class FanBeam : Weapon
     protected override void ShootProjectile(int projectileIndex)
     {
         Projectile projectile = Managers.Spawn.Projectile.Get();
-        Vector2 projectileInitPosition = GetWeapon2DPosition();
+        Vector2 projectileInitPosition = weapon2DPosition;
 
         projectile.Init(projectileInitPosition, weaponData, weaponCollider);
 
-        projectile.transform.RotateLookCursor(projectileInitPosition);
+        projectile.transform.RotateLookCursor();
         if (projectileIndex != 0)
         {
             projectile.transform.Rotate(REVERSE_ANGLE);
