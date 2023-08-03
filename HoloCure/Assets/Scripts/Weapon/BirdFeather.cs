@@ -3,7 +3,7 @@ using UnityEngine;
 public class BirdFeather : Weapon
 {
     private const float ANGLE_BETWEEN_PROJECTILES = 5f;
-    private float[] _angles;
+    private float[] _angles = new float[Managers.Data.WeaponLevelTable[ItemID.BirdFeather][7].ProjectileCount + 2];
     private Quaternion _centerShootRotation;
 
     public override void LevelUp()
@@ -15,7 +15,6 @@ public class BirdFeather : Weapon
     private void SetAngle()
     {
         int projectileCount = weaponData.ProjectileCount;
-        _angles = new float[projectileCount];
 
         float centerAngle = projectileCount % 2 == 0 ? ANGLE_BETWEEN_PROJECTILES / 2 : 0f;
         float totalAngle = ANGLE_BETWEEN_PROJECTILES * (projectileCount / 2);
