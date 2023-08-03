@@ -33,12 +33,12 @@ public abstract class Weapon : MonoBehaviour
 
     private void InitComponents()
     {
-        _spriteRenderer = gameObject.GetComponentAssert<SpriteRenderer>();
         weaponCollider = gameObject.GetComponentAssert<Collider2D>();
+        _spriteRenderer = gameObject.GetComponentAssert<SpriteRenderer>();
         _animator = gameObject.GetComponentAssert<Animator>();
 
-        _spriteRenderer.enabled = false;
         weaponCollider.enabled = false;
+        _spriteRenderer.enabled = false;
         _animator.enabled = false;
     }
 
@@ -88,11 +88,11 @@ public abstract class Weapon : MonoBehaviour
     {
         while (true)
         {
-            int count = 0;
-            while (count < weaponData.ProjectileCount)
+            int strikeIndex = 0;
+            while (strikeIndex < weaponData.StrikeCount)
             {
-                ShootProjectile(count);
-                count += 1;
+                PerformStrike(strikeIndex);
+                strikeIndex += 1;
 
                 yield return DelayCache.GetWaitForSeconds(weaponData.AttackDelay);
             }
@@ -103,5 +103,5 @@ public abstract class Weapon : MonoBehaviour
         }
     }
 
-    protected abstract void ShootProjectile(int projectileIndex);
+    protected abstract void PerformStrike(int strikeIndex);
 }

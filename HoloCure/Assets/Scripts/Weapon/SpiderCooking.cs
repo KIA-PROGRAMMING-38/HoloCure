@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpiderCooking : Weapon
 {
-    private Projectile _currentProjectile;
+    private WeaponStrike _currentStrike;
 
     public override void LevelUp()
     {
@@ -15,30 +15,30 @@ public class SpiderCooking : Weapon
         transform.GetChild(0).localScale = Vector2.one * weaponData.Size;
 
         if (Level.Value == 1) { return; }
-        _currentProjectile.transform.localScale = Vector2.one * weaponData.Size;
+        _currentStrike.transform.localScale = Vector2.one * weaponData.Size;
     }
 
-    protected override void ShootProjectile(int projectileIndex)
+    protected override void PerformStrike(int strikeIndex)
     {
-        Projectile projectile = Managers.Spawn.Projectile.Get();
-        Vector2 projectileInitPosition = weapon2DPosition;
+        WeaponStrike strike = Managers.Spawn.Strike.Get();
+        Vector2 strikeInitPosition = weapon2DPosition;
         
-        _currentProjectile = projectile;
+        _currentStrike = strike;
 
-        projectile.Init(projectileInitPosition, weaponData, weaponCollider,
-            ProjectileOperate);
+        strike.Init(strikeInitPosition, weaponData, weaponCollider,
+            StrikeOperate);
     }
 
     private float _elapsedTime;
-    private void ProjectileOperate(Projectile projectile)
+    private void StrikeOperate(WeaponStrike strike)
     {
-        projectile.transform.position = weapon2DPosition;
+        strike.transform.position = weapon2DPosition;
 
         _elapsedTime += Time.deltaTime;
         if (_elapsedTime > weaponData.HitCoolTime)
         {
             _elapsedTime = 0;
-            projectile.ResetCollider();
+            strike.ResetCollider();
         }
     }
 }

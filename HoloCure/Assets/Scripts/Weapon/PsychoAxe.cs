@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class PsychoAxe : Weapon
 {
-    protected override void ShootProjectile(int projectileIndex)
+    protected override void PerformStrike(int strikeIndex)
     {
-        Projectile projectile = Managers.Spawn.Projectile.Get();
-        Vector2 projectileInitPosition = weapon2DPosition;
+        WeaponStrike strike = Managers.Spawn.Strike.Get();
+        Vector2 strikeInitPosition = weapon2DPosition;
 
-        projectile.Init(projectileInitPosition, weaponData, weaponCollider,
-            ProjectileOperate);
+        strike.Init(strikeInitPosition, weaponData, weaponCollider,
+            StrikeOperate);
 
         Managers.Sound.Play(SoundID.PsychoAxe);
     }
 
-    private void ProjectileOperate(Projectile projectile)
+    private void StrikeOperate(WeaponStrike strike)
     {
-        projectile.Angle += weaponData.ProjectileSpeed * Time.deltaTime * Mathf.Rad2Deg;
-        projectile.Radius += weaponData.Radius * Time.deltaTime;
-        projectile.Offset.Set(Mathf.Sin(projectile.Angle), Mathf.Cos(projectile.Angle));
-        Vector2 offset = projectile.Offset * projectile.Radius;
+        strike.Angle += weaponData.StrikeSpeed * Time.deltaTime;
+        strike.Radius += weaponData.Radius * Time.deltaTime;
+        Vector2 direction = Utils.GetClockwiseVector(strike.Angle);
+        Vector2 nextSpiralOffset = direction * strike.Radius;
 
-        projectile.transform.position = projectile.InitPosition + offset;
+        strike.transform.position = strike.InitPosition + nextSpiralOffset;
     }
 }

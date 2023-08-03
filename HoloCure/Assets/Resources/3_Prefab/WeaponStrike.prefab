@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8318712543328354802}
   - component: {fileID: -9154090100257972422}
   m_Layer: 12
-  m_Name: Projectile
+  m_Name: WeaponStrike
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

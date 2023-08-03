@@ -18,7 +18,7 @@ public class SpawnManager : MonoBehaviour
     public Pool<OpenBoxParticle> OpenBoxParticle { get; private set; }
     public Pool<OpenedBoxParticle> OpenedBoxParticle { get; private set; }
     public Pool<EnemyDieEffect> EnemyDieEffect { get; private set; }
-    public Pool<Projectile> Projectile { get; private set; }
+    public Pool<WeaponStrike> Strike { get; private set; }
     public Pool<Triangle> Triangle { get; private set; }
     public ExpPool Exp { get; private set; }
     
@@ -58,7 +58,7 @@ public class SpawnManager : MonoBehaviour
         OpenBoxParticle = new Pool<OpenBoxParticle>();
         OpenedBoxParticle = new Pool<OpenedBoxParticle>();
         EnemyDieEffect = new Pool<EnemyDieEffect>();
-        Projectile = new Pool<Projectile>();
+        Strike = new Pool<WeaponStrike>();
         Exp = new ExpPool();
 
         Enemy.Init(ObjectContainer);
@@ -68,7 +68,7 @@ public class SpawnManager : MonoBehaviour
         OpenBoxParticle.Init(BoxEffectContainer);
         OpenedBoxParticle.Init(BoxEffectContainer);
         EnemyDieEffect.Init(ObjectContainer);
-        Projectile.Init(ObjectContainer);
+        Strike.Init(ObjectContainer);
         Exp.Init(ObjectContainer);
     }
     private void InitOffset()
@@ -244,7 +244,7 @@ public class SpawnManager : MonoBehaviour
     public void SpawnVTuberDieEffect(Vector2 position)
     {
         VTuberDieEffect vtuberDieEffect = Managers.Resource
-            .Instantiate(FileNameLiteral.VTUBER_DIE_EFFECT, ObjectContainer.transform)
+            .Instantiate(nameof(VTuberDieEffect), ObjectContainer.transform)
             .GetComponentAssert<VTuberDieEffect>();
         vtuberDieEffect.Init(position);
     }
