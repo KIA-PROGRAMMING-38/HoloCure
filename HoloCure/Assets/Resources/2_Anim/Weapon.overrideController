@@ -8,4 +8,6 @@ AnimatorOverrideController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Weapon
   m_Controller: {fileID: 9100000, guid: a1ab5de01afeb0541bf60187cd79ca61, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 7338f3dd0ff9ddc40935cb26f9aedaa9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6dd5c65cb901e884293fe1a6fc6cc90b, type: 2}
