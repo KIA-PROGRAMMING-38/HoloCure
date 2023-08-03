@@ -107,9 +107,9 @@ public class SpawnManager : MonoBehaviour
         foreach (var pair in Managers.Data.Enemy)
         {
             EnemyID id = pair.Key;
-            if (id.GetStage() != stage) { continue; }
+            if (id.ConvertToStageNumber() != stage) { continue; }
 
-            EnemyType enemyType = id.GetEnemyType();
+            EnemyType enemyType = id.ConvertToEnemyType();
             if (enemyType == EnemyType.None) { continue; }
 
             StartCoroutine(SpawnEnemyCo(id, enemyType));
