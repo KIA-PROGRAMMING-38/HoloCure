@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BrightStar : CursorTargetingRangedWeapon
 {
-    private const float ANGLE_BETWEEN_STRIKES = 40f;
+    private const float ANGLE_BETWEEN_STRIKES = 30f;
     private float _strikeMoveTime;
     private void Awake()
     {
