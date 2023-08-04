@@ -15,7 +15,7 @@ Id,Name,IconSprite,Type
 2209,Bright Star,spr_SoraWeapon_0,Multishot
 2210,Fox Tail,spr_FubukiWeapon_0,Melee
 2211,Tarot Cards,spr_MioWeapon_0,Multishot
-2212,Orayo,spr_KoronePortrait_0,Multishot
+2212,Orayo,spr_KoroneWeapon_0,Multishot
 2401,Max HP Up,hud_HPicon_0,Stat
 2402,ATK Up,hud_atkicon_0,Stat
 2403,SPD Up,hud_spdicon_0,Stat
