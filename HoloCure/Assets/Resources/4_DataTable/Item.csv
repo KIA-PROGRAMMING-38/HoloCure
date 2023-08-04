@@ -11,6 +11,7 @@ Id,Name,IconSprite,Type
 2205,Phoenix Sword,spr_KiaraWeapon_0,Melee
 2206,Bird Feather,spr_MumeiWeapon_0,Multishot
 2207,Orbit,spr_SanaWeapon_0,Multishot
+2208,Clock Hands,spr_KroniiWeapon_0,Melee
 2401,Max HP Up,hud_HPicon_0,Stat
 2402,ATK Up,hud_atkicon_0,Stat
 2403,SPD Up,hud_spdicon_0,Stat

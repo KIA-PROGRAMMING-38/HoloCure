@@ -38,6 +38,7 @@ public enum SoundID
     PhoenixSword,
     BirdFeather,
     Orbit,
+    ClockHands,
     End = 3400
 }
 public enum SoundType { BGM, Common, Effect, Max };

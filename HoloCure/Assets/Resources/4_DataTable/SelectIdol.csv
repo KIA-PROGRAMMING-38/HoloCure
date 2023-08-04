@@ -5,7 +5,7 @@ IdolID,StartingWeaponID,TitleSprite,IconSprite,DisplaySprite,VtuberName,MaxHp,At
 1105,2205,spr_Title_Kiara_0,spr_KiaraWeapon_0,spr_Kiara_idle_0,Takanashi Kiara,90,1,1.4,5,Phoenix Sword,Short ranged slash in front.
 1102,2202,spr_Title_Calli_0,spr_CalliWeapon_0,spr_Calli_idle_0,Calliope Mori,70,1.1,1.3,10,Scythe Swing,Swings in a half circle arc in front.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
-1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
+1108,2208,spr_Title_Kronii_0,spr_KroniiWeapon_0,spr_Kroni_idle_0,Ouro Kronii,70,1.2,1.35,3,Clock Hands,Stab forward with a large clock hand.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1106,2206,spr_Title_Mumei_0,spr_MumeiWeapon_0,spr_Mumei_idle_0,Nanashi Mumei,60,0.8,1.4,5,Bird Feather,Shoot a bunch of feathers at a spread. Pierces through targets.
 1107,2207,spr_Title_Sana_0,spr_SanaWeapon_0,spr_Sana_idle_0,Tsukumo Sana,80,0.8,1.3,1,Orbit,Create an orbiting planet. Hits multiple targets.
