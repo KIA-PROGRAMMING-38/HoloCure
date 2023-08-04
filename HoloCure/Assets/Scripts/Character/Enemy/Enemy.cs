@@ -1,6 +1,7 @@
 using System.Collections;
 using UniRx;
 using UnityEngine;
+using Util;
 using Random = UnityEngine.Random;
 
 public class Enemy : CharacterBase
@@ -99,7 +100,7 @@ public class Enemy : CharacterBase
     private void KnockBackMove()
     {
         Vector2 movement = GetMovement(_knockBackSpeed);
-        _rigidbody.MovePosition(_rigidbody.position - movement);
+        transform.Translate(-movement);
     }
 
     private IEnumerator KnockBackCo()
@@ -115,7 +116,7 @@ public class Enemy : CharacterBase
             {
                 KnockBackMove();
                 elapsedTime += Time.deltaTime;
-                yield return null;
+                yield return DelayCache.GetWaitForSeconds(Time.deltaTime);
             }
 
             moveSpeed = enemyData.Speed;
@@ -171,7 +172,7 @@ public class Enemy : CharacterBase
 
                 elapsedTime += Time.deltaTime;
 
-                yield return null;
+                yield return DelayCache.GetWaitForSeconds(Time.deltaTime);
             }
 
             StopCoroutine(_dyingMoveCo);
