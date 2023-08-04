@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1383914473957057373}
   - component: {fileID: 3651573707240666267}
   - component: {fileID: 3281376674960696788}
-  - component: {fileID: 1749307552415809228}
+  - component: {fileID: -4806956579972924787}
   m_Layer: 0
   m_Name: Tarot Cards
   m_TagString: Untagged
@@ -134,7 +134,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1749307552415809228
+--- !u!114 &-4806956579972924787
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,6 +143,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6001265991762718778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 727515c2a0437a945bb20b2cf757d58b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8da48cdc3376ef34ab636f062bb1ceb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
