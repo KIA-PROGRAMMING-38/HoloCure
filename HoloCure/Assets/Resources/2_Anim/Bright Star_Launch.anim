@@ -21,17 +21,17 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 9d718fa02e1192a4a8f09d32b106ec0f, type: 3}
-    - time: 0.083333336
+    - time: 0.041666668
       value: {fileID: 21300000, guid: 25e3cf40c402fb74cbf29e6ae6f684b4, type: 3}
-    - time: 0.16666667
+    - time: 0.083333336
       value: {fileID: 21300000, guid: 3be4cf7d9d7c23f4d86108d80a51a741, type: 3}
-    - time: 0.25
+    - time: 0.125
       value: {fileID: 21300000, guid: 9210849a727476f44bfef756f39eacc9, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 12
+  m_SampleRate: 24
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -55,7 +55,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.33333334
+    m_StopTime: 0.16666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -74,4 +74,32 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0
+    functionName: ResetCollider
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 7fddc60aee046ce4b908f7b871448cca, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.041666668
+    functionName: ResetCollider
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 7fddc60aee046ce4b908f7b871448cca, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.083333336
+    functionName: ResetCollider
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 7fddc60aee046ce4b908f7b871448cca, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.125
+    functionName: ResetCollider
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 7fddc60aee046ce4b908f7b871448cca, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
