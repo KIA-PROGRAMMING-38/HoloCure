@@ -41,6 +41,7 @@ public enum SoundID
     ClockHands,
     BrightStar,
     FoxTail,
+    TarotCards,
     End = 3400
 }
 public enum SoundType { BGM, Common, Effect, Max };
