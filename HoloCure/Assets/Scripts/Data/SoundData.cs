@@ -39,6 +39,7 @@ public enum SoundID
     BirdFeather,
     Orbit,
     ClockHands,
+    BrightStar,
     End = 3400
 }
 public enum SoundType { BGM, Common, Effect, Max };
