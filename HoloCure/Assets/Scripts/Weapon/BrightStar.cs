@@ -14,7 +14,7 @@ public class BrightStar : CursorTargetingRangedWeapon
     {
         strike.transform.rotation = centerStrikeRotation * Quaternion.AngleAxis(angles[strikeIndex], Vector3.back);
 
-        Managers.Sound.Play(SoundID.BirdFeather);
+        Managers.Sound.Play(SoundID.BrightStar);
     }
 
     protected override void StrikeOperate(WeaponStrike strike)
