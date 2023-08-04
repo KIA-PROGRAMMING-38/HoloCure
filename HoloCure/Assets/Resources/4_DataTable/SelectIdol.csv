@@ -13,7 +13,7 @@ IdolID,StartingWeaponID,TitleSprite,IconSprite,DisplaySprite,VtuberName,MaxHp,At
 1110,2210,spr_Title_Fubuki_0,spr_FubukiWeapon_0,spr_Fubuki_idle_0,Shirakami Fubuki,55,1,1.5,5,Fox Tail,Swipes Tail in front at close range
 1111,2211,spr_Title_Mio_0,spr_MioWeapon_0,spr_Mio_idle_0,Ookami Mio,70,0.9,1.4,1,Tarot Cards,Throw a card that quickly returns back.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
-1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
+1112,2212,spr_Title_Korone_0,spr_KoronePortrait_0,spr_Korone_idle_0,Inugami Korone,60,1,1.4,1,Orayo,Punch towards the front.
 1109,2209,spr_Title_Sora_0,spr_SoraWeapon_0,spr_Sora_idle_0,Tokino Sora,65,1,1.4,3,Bright Star,Shoot forward a spinning star.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
