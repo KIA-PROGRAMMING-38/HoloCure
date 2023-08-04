@@ -17,6 +17,7 @@ public enum ItemID
     Orbit,
     ClockHands,
     BrightStar,
+    FoxTail,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,
