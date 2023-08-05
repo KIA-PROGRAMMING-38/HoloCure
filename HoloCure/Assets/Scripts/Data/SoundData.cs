@@ -45,6 +45,7 @@ public enum SoundID
     Orayo,
     DivaSong,
     HighSpecPistol,
+    AxeSwing,
     End = 3400
 }
 public enum SoundType { BGM, Common, Effect, Max };

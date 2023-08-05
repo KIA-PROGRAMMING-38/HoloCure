@@ -18,6 +18,7 @@ Id,Name,IconSprite,Type
 2212,Orayo,spr_KoroneWeapon_0,Multishot
 2213,Diva Song,spr_AZKiWeapon_0,Ranged
 2214,High Spec Pistol,spr_RobocoWeapon_0,Multishot
+2215,Axe Swing,spr_SuiseiWeapon_0,Melee
 2401,Max HP Up,hud_HPicon_0,Stat
 2402,ATK Up,hud_atkicon_0,Stat
 2403,SPD Up,hud_spdicon_0,Stat
