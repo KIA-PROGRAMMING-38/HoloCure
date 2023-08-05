@@ -20,6 +20,7 @@ public enum ItemID
     FoxTail,
     TarotCards,
     Orayo,
+    DivaSong,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,

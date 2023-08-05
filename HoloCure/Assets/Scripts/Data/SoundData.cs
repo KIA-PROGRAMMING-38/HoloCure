@@ -43,6 +43,7 @@ public enum SoundID
     FoxTail,
     TarotCards,
     Orayo,
+    DivaSong,
     End = 3400
 }
 public enum SoundType { BGM, Common, Effect, Max };

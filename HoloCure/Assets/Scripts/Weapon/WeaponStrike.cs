@@ -14,6 +14,7 @@ public class WeaponStrike : MonoBehaviour
     public float Angle { get; set; }
     public float Radius { get; set; }
     public Vector2 InitPosition { get; private set; }
+    public Quaternion Rotation { get; set; }
     public Vector2 Offset;
 
     private WeaponLevelData _data;
