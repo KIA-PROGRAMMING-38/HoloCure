@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 943654700715238321}
   - component: {fileID: 3368522362377260750}
   - component: {fileID: 207895947608632389}
-  - component: {fileID: 2177418521868767533}
+  - component: {fileID: 2652355241795159457}
   m_Layer: 0
   m_Name: Axe Swing
   m_TagString: Untagged
@@ -148,7 +148,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2177418521868767533
+--- !u!114 &2652355241795159457
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,6 +157,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8829836947581130630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a262e27c2b90ef45b1d6a5d7afd6d09, type: 3}
+  m_Script: {fileID: 11500000, guid: caee18bc4137fce44a00b4ff6b7687c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
