@@ -1,9 +1,10 @@
 using UnityEngine;
+using Util;
 
 public class RevolvingWeapon : Weapon
 {
-    protected float[] angles = new float[MAX_STRIKE_COUNT];
-    protected Vector2[] strikeRevolvingOffsets = new Vector2[MAX_STRIKE_COUNT];
+    protected float[] angles = new float[Define.MAX_STRIKE_COUNT];
+    protected Vector2[] strikeRevolvingOffsets = new Vector2[Define.MAX_STRIKE_COUNT];
 
     public override void LevelUp()
     {

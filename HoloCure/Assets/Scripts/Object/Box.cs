@@ -3,6 +3,7 @@ using System.Collections;
 using UniRx.Triggers;
 using UniRx;
 using UnityEngine;
+using Util;
 
 public class Box : MonoBehaviour
 {
@@ -57,7 +58,7 @@ public class Box : MonoBehaviour
         while (true)
         {
             _pointer.rotation = Quaternion.AngleAxis(GetAngle(), Vector3.forward);
-            _pointer.position = Physics2D.Raycast(transform.position, -_direction, short.MaxValue, 1 << LayerNum.SCREEN_SENSOR).point;
+            _pointer.position = Physics2D.Raycast(transform.position, -_direction, short.MaxValue, 1 << Define.Layer.SCREEN_SENSOR).point;
 
             yield return null;
         }

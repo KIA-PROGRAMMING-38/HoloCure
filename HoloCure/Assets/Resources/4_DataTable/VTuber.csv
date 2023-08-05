@@ -12,4 +12,4 @@ Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,Attack,
 1111,Ookami Mio,spr_Mio_idle_0,spr_MioPortrait_0,spr_Title_Mio_0,2211,70,9,112,1,50,0
 1112,Inugami Korone,spr_Korone_idle_0,spr_KoronePortrait_0,spr_Title_Korone_0,2212,60,10,112,1,50,0
 1113,AZKi,spr_AZKi_idle_0,spr_AZKiPortrait_0,spr_Title_Azki_0,2213,75,11,108,3,50,0
-1114,Roboco-san,spr_Roboco_idle_0,spr_RobocoPortrait_0,spr_Title_Roboco_0,2214,75,10,112,5,50,0
+1114,Roboco,spr_Roboco_idle_0,spr_RobocoPortrait_0,spr_Title_Roboco_0,2214,75,10,112,5,50,0

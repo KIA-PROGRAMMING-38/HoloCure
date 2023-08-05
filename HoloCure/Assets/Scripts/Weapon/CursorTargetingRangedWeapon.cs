@@ -1,9 +1,10 @@
 using UnityEngine;
+using Util;
 
 public class CursorTargetingRangedWeapon : Weapon
 {
     protected float angleBetweenStrikes;
-    protected float[] angles = new float[MAX_STRIKE_COUNT];
+    protected float[] angles = new float[Define.MAX_STRIKE_COUNT];
     protected Quaternion centerStrikeRotation;
 
     public override void LevelUp()

@@ -15,9 +15,10 @@ public class VTuberAnimation : MonoBehaviour
             .Subscribe(UpdateRender);
     }
 
+    private static readonly int IS_RUNNING_HASH = Animator.StringToHash("IsRunning");
     private void UpdateRender(Unit unit)
     {
-        _animator.SetBool(AnimHash.IS_RUNNING, Time.timeScale != 0 && _input.MoveVec.Value.magnitude > 0);
+        _animator.SetBool(IS_RUNNING_HASH, Time.timeScale != 0 && _input.MoveVec.Value.magnitude > 0);
 
         if (Time.timeScale != 0)
         {
@@ -33,8 +34,8 @@ public class VTuberAnimation : MonoBehaviour
 
         _spriteRenderer.sprite = Managers.Resource.LoadSprite(data.DisplaySprite);
         var overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
-        overrideController[FileNameLiteral.IDLE] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.IDLE);
-        overrideController[FileNameLiteral.RUN] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.RUN);
+        overrideController["Idle"] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.IDLE);
+        overrideController["Run"] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.RUN);
 
         _animator.runtimeAnimatorController = overrideController;
     }

@@ -9,14 +9,5 @@ namespace StringLiterals
         public const string MATERIAL = "5_Material/";
         public const string Font = "6_Font/";
         public const string SOUND = "7_Sound/";
-
-        public const string CHARACTER = "Character/";
-        public const string VTUBER = "VTuber/";
-        public const string ENEMY = "Enemy/";
-        public const string WEAPON = "Weapon/";
-        public const string OBJECT = "Object/";
-        public const string UI = "UI/";
-
-        public const string SLASH = "/";
     }
 }

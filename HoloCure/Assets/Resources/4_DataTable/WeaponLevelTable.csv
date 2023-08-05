@@ -131,4 +131,4 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2214,4,Reduce the time between attacks by <color=green>15%</color>.,1.13,0.3,5,0.72,0.08,0.33,0.2,2,0,270,0,0,0,0
 2214,5,Increase damage by <color=green>20%</color>.,1.13,0.3,5,0.864,0.08,0.33,0.2,2,0,270,0,0,0,0
 2214,6,Shoot <color=green>one</color> more bullet.,1.13,0.3,6,0.864,0.08,0.33,0.2,2,0,270,0,0,0,0
-2214,7,Gun becomes a piercing <color=green>blast</color>.,1.13,0.3,1,2.6,0,0.33,2,2,0,300,0,0,0,0
+2214,7,Gun becomes a piercing <color=green>blast</color>.,1.13,0.3,1,2.6,0,0.33,2,2,0,600,0,0,0,0

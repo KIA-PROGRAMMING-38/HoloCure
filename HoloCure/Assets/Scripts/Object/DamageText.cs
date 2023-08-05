@@ -27,9 +27,9 @@ public class DamageText : MonoBehaviour
     {
         _text = gameObject.GetComponentInChildrenAssert<TMP_Text>();
         _canvasGroup = gameObject.GetComponentInChildrenAssert<CanvasGroup>();
-        _defaultFont = Managers.Resource.LoadFont(FileNameLiteral.DEFAULT_DAMAGE_TEXT_FONT);
-        _criticalFont = Managers.Resource.LoadFont(FileNameLiteral.CRITICAL_DAMAGE_TEXT_FONT);
-    }
+        _defaultFont = Managers.Resource.LoadFont("Default Damage Text Font");
+        _criticalFont = Managers.Resource.LoadFont("Critical Damage Text Font");
+}
     private void Start()
     {
         this.UpdateAsObservable()
