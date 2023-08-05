@@ -17,7 +17,7 @@ IdolID,StartingWeaponID,TitleSprite,IconSprite,DisplaySprite,VtuberName,MaxHp,At
 1109,2209,spr_Title_Sora_0,spr_SoraWeapon_0,spr_Sora_idle_0,Tokino Sora,65,1,1.4,3,Bright Star,Shoot forward a spinning star.
 1113,2213,spr_Title_Azki_0,spr_AZKiWeapon_0,spr_AZKi_idle_0,AZKi,75,1.1,1.35,3,Diva Song,Send a flying music note in front.
 1114,2214,spr_Title_Roboco_0,spr_RobocoWeapon_0,spr_Roboco_idle_0,Roboco,75,1,1.4,5,High Spec Pistol,Shoots a few times in aimed direction.
-1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
+1115,2215,spr_Title_Suisei_0,spr_SuiseiWeapon_0,spr_Suisei_idle_0,Hoshimachi Suisei,70,1.3,1.3,10,Axe Swing,Swing a bloody axe in an arc in front.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
