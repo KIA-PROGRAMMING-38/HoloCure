@@ -13,7 +13,7 @@ public class HoloBomb : Weapon
     protected override void PerformStrike(int strikeIndex)
     {
         WeaponStrike strike = Managers.Spawn.Strike.Get();
-        strike.gameObject.layer = LayerNum.IMPACT;
+        strike.gameObject.layer = Define.Layer.IMPACT;
         strike.OnImpact -= StrikeOnImpact;
         strike.OnImpact += StrikeOnImpact;
 
@@ -41,7 +41,7 @@ public class HoloBomb : Weapon
     private void StrikeOnImpact(WeaponStrike strike)
     {
         strike.HasImpacted = true;
-        strike.gameObject.layer = LayerNum.WEAPON;
+        strike.gameObject.layer = Define.Layer.WEAPON;
         strike.transform.localScale = Vector2.one * weaponData.ImpactSize;
         strike.transform.rotation = default;
 

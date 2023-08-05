@@ -1,4 +1,5 @@
 using UnityEngine;
+using Util;
 
 public class TridentThrust : CursorTargetingMeleeWeapon
 {
@@ -8,7 +9,7 @@ public class TridentThrust : CursorTargetingMeleeWeapon
 
     private void Awake()
     {
-        int strikeMaxCount = Managers.Data.WeaponLevelTable[ItemID.TridentThrust][7].StrikeCount + 2;
+        int strikeMaxCount = Managers.Data.WeaponLevelTable[ItemID.TridentThrust][Define.ITEM_MAX_LEVEL].StrikeCount + 2;
         _angles = new float[strikeMaxCount];
     }
 

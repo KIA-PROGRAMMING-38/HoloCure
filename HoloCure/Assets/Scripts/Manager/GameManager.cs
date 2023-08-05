@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
 
     private void SelectVTuber(VTuberID id)
     {
-        VTuber = Managers.Resource.Instantiate(FileNameLiteral.VTUBER).GetComponentAssert<VTuber>();
+        VTuber = Managers.Resource.Instantiate(nameof(VTuber)).GetComponentAssert<VTuber>();
         VTuber.Init(id);
     }
 

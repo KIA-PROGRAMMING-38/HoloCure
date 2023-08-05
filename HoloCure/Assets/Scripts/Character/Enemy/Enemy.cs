@@ -61,10 +61,18 @@ public class Enemy : CharacterBase
         InitRender();
         Flip();
 
-        gameObject.layer = id.ConvertToEnemyType() == EnemyType.Normal ?
-            LayerNum.ENEMY : LayerNum.BOSS;
+        if (id.ConvertToEnemyType() == EnemyType.Normal)
+        {
+            gameObject.layer = Define.Layer.ENEMY;
+            body.gameObject.layer = Define.Layer.ENEMY_BODY;
+        }
+        else
+        {
+            gameObject.layer = Define.Layer.BOSS;
+            body.gameObject.layer = Define.Layer.BOSS_BODY;
+        }
     }
-
+    
     private void InitStat()
     {
         CurrentHp.Value = enemyData.Health;
@@ -153,7 +161,7 @@ public class Enemy : CharacterBase
             Managers.Spawn.SpawnBox(transform.position);
         }
 
-        gameObject.layer = LayerNum.DEAD_ENEMY;
+        gameObject.layer = Define.Layer.DEAD_ENEMY;
     }
 
     private IEnumerator DyingMoveCo()

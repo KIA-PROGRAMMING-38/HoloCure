@@ -44,7 +44,7 @@ public enum SoundID
     TarotCards,
     Orayo,
     DivaSong,
-    HiSpecPistol,
+    HighSpecPistol,
     End = 3400
 }
 public enum SoundType { BGM, Common, Effect, Max };

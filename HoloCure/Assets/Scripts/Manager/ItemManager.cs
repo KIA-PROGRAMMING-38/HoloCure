@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Util;
 using Random = UnityEngine.Random;
 
 public class ItemManager
@@ -81,7 +82,7 @@ public class ItemManager
         {
             Weapon weapon = inventory.Weapons[i];
             if (weapon.Id != id) { continue; }
-            if (weapon.Level.Value < 7) { break; };
+            if (weapon.Level.Value < Define.ITEM_MAX_LEVEL) { break; };
             id = GetWeaponFromInventory();
         }
 
@@ -119,7 +120,7 @@ public class ItemManager
         for (int i = 0; i < inventory.WeaponCount.Value; ++i)
         {
             Weapon weapon = inventory.Weapons[i];
-            if (weapon.Level.Value >= 7) { continue; }
+            if (weapon.Level.Value >= Define.ITEM_MAX_LEVEL) { continue; }
 
             return weapon.Id;
         }

@@ -21,7 +21,7 @@ public enum ItemID
     TarotCards,
     Orayo,
     DivaSong,
-    HiSpecPistol,
+    HighSpecPistol,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,
