@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2590271084113620909}
   - component: {fileID: 1317066095645809325}
   - component: {fileID: 8647257144565252516}
-  - component: {fileID: 7272296172817130580}
+  - component: {fileID: -6122557288461652625}
   m_Layer: 0
   m_Name: Dual Katana
   m_TagString: Untagged
@@ -142,7 +142,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7272296172817130580
+--- !u!114 &-6122557288461652625
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,6 +151,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2264239724104728841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a262e27c2b90ef45b1d6a5d7afd6d09, type: 3}
+  m_Script: {fileID: 11500000, guid: 391225e82f356ad489c0abfa73400c6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
