@@ -24,6 +24,7 @@ public enum ItemID
     HighSpecPistol,
     AxeSwing,
     RedHeart,
+    KapuKapu,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,

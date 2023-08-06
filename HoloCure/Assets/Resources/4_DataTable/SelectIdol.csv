@@ -20,7 +20,7 @@ IdolID,StartingWeaponID,TitleSprite,IconSprite,DisplaySprite,VtuberName,MaxHp,At
 1115,2215,spr_Title_Suisei_0,spr_SuiseiWeapon_0,spr_Suisei_idle_0,Hoshimachi Suisei,70,1.3,1.3,10,Axe Swing,Swing a bloody axe in an arc in front.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1116,2216,spr_Title_Haato_0,spr_HaatoWeapon_0,spr_Haato_idle_0,Akai Haato,55,0.9,1.45,5,Red Heart,Create big red hearts. Hearts knock enemies back.
-1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
+1117,2217,spr_Title_Mel_0,spr_MelWeapon_0,spr_Mel_idle_0,Yozora Mel,75,1.1,1.4,2,Kapu Kapu,Bite targets in front
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,

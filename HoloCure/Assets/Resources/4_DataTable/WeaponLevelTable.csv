@@ -145,4 +145,11 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2216,4,Add an <color=green>additional</color> heart.,1.5,0.3,3,0.96,0,0.33,1.2,0.75,0,350,0.08,90,50,0
 2216,5,Hearts last <color=green>0.33</color> second longer.,1.5,0.3,3,0.96,0,0.33,1.2,1.08,0,350,0.08,90,50,0
 2216,6,Increase damage by <color=green>25%</color>.,1.5,0.3,3,1.2,0,0.33,1.2,1.08,0,350,0.08,90,50,0
-2216,7,Increase damage by <color=green>30%</color>.,1.5,0.3,3,1.56,0,0.33,1.2,1.08,0,350,0.08,90,45,0
+2216,7,Increase damage by <color=green>30%</color>.,1.5,0.3,3,1.56,0,0.33,1.2,1.08,0,350,0.08,90,50,0
+2217,1,Bite targets in front,1.33,0.3,1,1.5,0,0.5,0.7,0.5,0,0,0,0,0,0
+2217,2,Increase damage by <color=green>20%</color>.,1.33,0.3,1,1.8,0,0.5,0.7,0.5,0,0,0,0,0,0
+2217,3,Reduce delay of attack by <color=green>10%</color>.,1.2,0.3,1,1.8,0,0.5,0.7,0.5,0,0,0,0,0,0
+2217,4,Increase size of bite by <color=green>15%</color>.,1.2,0.3,1,1.8,0,0.5,0.8,0.5,0,0,0,0,0,0
+2217,5,Reduce delay of attack by <color=green>15%</color>.,1,0.3,1,1.8,0,0.5,0.8,0.5,0,0,0,0,0,0
+2217,6,Increase damage by <color=green>25%</color>.,1,0.3,1,2.25,0,0.5,0.8,0.5,0,0,0,0,0,0
+2217,7,"Take a <color=green>second</color>, larger bite.",1,0.3,2,2.25,0.4,0.5,0.8,0.5,0,0,0,0,0,0
