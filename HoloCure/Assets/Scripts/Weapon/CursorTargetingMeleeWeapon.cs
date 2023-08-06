@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class CursorTargetingMeleeWeapon : Weapon
 {
-    private Vector2 _cursorDirectedOffset;
+    protected Vector2 cursorDirectedOffset;
     protected override void PerformStrike(int strikeIndex)
     {
         WeaponStrike strike = Managers.Spawn.Strike.Get();
 
-        _cursorDirectedOffset = weapon2DPosition.GetPositionToCursor(transform.localPosition.x);
-        Vector2 strikeInitPosition = weapon2DPosition + _cursorDirectedOffset;
+        cursorDirectedOffset = weapon2DPosition.GetPositionToCursor(transform.localPosition.x);
+        Vector2 strikeInitPosition = weapon2DPosition + cursorDirectedOffset;
 
         strike.Init(strikeInitPosition, weaponData, weaponCollider,
             StrikeOperate);
@@ -20,7 +20,7 @@ public class CursorTargetingMeleeWeapon : Weapon
 
     protected virtual void StrikeOperate(WeaponStrike strike)
     {
-        strike.transform.position = weapon2DPosition + _cursorDirectedOffset;
+        strike.transform.position = weapon2DPosition + cursorDirectedOffset;
 
         SetupStrikeOnOperate(strike);
     }
