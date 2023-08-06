@@ -17,3 +17,4 @@ Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,Attack,
 1116,Akai Haato,spr_Haato_idle_0,spr_HaatoPortrait_0,spr_Title_Haato_0,2216,55,9,116,5,50,0
 1117,Yozora Mel,spr_Mel_idle_0,spr_MelPortrait_0,spr_Title_Mel_0,2217,75,11,112,2,50,0
 1118,Oozora Subaru,spr_Subaru_idle_0,spr_SubaruPortrait_0,spr_Title_Subaru_0,2218,60,11,120,5,50,0
+1119,Yuzuki Choco,spr_Choco_idle_0,spr_ChocoPortrait_0,spr_Title_Choco_0,2219,65,11,112,10,50,0
