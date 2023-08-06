@@ -14,3 +14,4 @@ Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,Attack,
 1113,AZKi,spr_AZKi_idle_0,spr_AZKiPortrait_0,spr_Title_Azki_0,2213,75,11,108,3,50,0
 1114,Roboco,spr_Roboco_idle_0,spr_RobocoPortrait_0,spr_Title_Roboco_0,2214,75,10,112,5,50,0
 1115,Hoshimachi Suisei,spr_Suisei_idle_0,spr_SuiseiPortrait_0,spr_Title_Suisei_0,2215,70,13,104,10,50,0
+1116,Akai Haato,spr_Haato_idle_0,spr_HaatoPortrait_0,spr_Title_Haato_0,2216,55,9,116,5,50,0

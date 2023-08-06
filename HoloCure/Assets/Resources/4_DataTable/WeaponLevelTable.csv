@@ -139,3 +139,10 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2215,5,Increased damage by <color=green>30%</color>.,1.33,0.3,1,2,0,0.33,1.2,0.333,0,0,0,0,0,0
 2215,6,Increase attack area by <color=green>20%</color>.,1.33,0.3,1,2,0,0.33,1.44,0.333,0,0,0,0,0,0
 2215,7,Reduce time between attacks by <color=green>20%</color> and increased damage by <color=green>30%</color>.,1,0.3,1,2.6,0,0.33,1.44,0.333,0,0,0,0,0,0
+2216,1,Create big red hearts. Hearts knock enemies back.,1.5,0.3,2,0.8,0,0.33,0.8,0.75,0,350,0.08,90,40,0
+2216,2,Increase damage by <color=green>20%</color>.,1.5,0.3,2,0.96,0,0.33,0.8,0.75,0,350,0.08,90,40,0
+2216,3,Increase size of hearts by <color=green>50%</color>.,1.5,0.3,2,0.96,0,0.33,1.2,0.75,0,350,0.08,90,50,0
+2216,4,Add an <color=green>additional</color> heart.,1.5,0.3,3,0.96,0,0.33,1.2,0.75,0,350,0.08,90,50,0
+2216,5,Hearts last <color=green>0.33</color> second longer.,1.5,0.3,3,0.96,0,0.33,1.2,1.08,0,350,0.08,90,50,0
+2216,6,Increase damage by <color=green>25%</color>.,1.5,0.3,3,1.2,0,0.33,1.2,1.08,0,350,0.08,90,50,0
+2216,7,Hearts <color=green>spiral out</color> at the end.,1.5,0.3,3,1.2,0,0.33,1.2,1.2,0,350,0.08,90,45,0
