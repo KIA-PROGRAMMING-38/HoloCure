@@ -23,6 +23,7 @@ public enum ItemID
     DivaSong,
     HighSpecPistol,
     AxeSwing,
+    RedHeart,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,
