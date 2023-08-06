@@ -26,6 +26,7 @@ public enum ItemID
     RedHeart,
     KapuKapu,
     BaseballPitch,
+    LoveNeedle,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,
