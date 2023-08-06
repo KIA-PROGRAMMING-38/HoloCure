@@ -27,6 +27,7 @@ public enum ItemID
     KapuKapu,
     BaseballPitch,
     LoveNeedle,
+    MurasakiBolt,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,
