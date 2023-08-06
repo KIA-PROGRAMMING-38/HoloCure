@@ -23,7 +23,7 @@ IdolID,StartingWeaponID,TitleSprite,IconSprite,DisplaySprite,VtuberName,MaxHp,At
 1117,2217,spr_Title_Mel_0,spr_MelWeapon_0,spr_Mel_idle_0,Yozora Mel,75,1.1,1.4,2,Kapu Kapu,Bite targets in front
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
-1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
+1118,2218,spr_Title_Subaru_0,spr_SubaruWeapon_0,spr_Subaru_idle_0,Oozora Subaru,60,1.1,1.5,5,Baseball Pitch,Throws a very fast baseball in front.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
