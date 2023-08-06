@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6247399000136219269}
   - component: {fileID: 1297201272240568752}
   - component: {fileID: 7326061164081856562}
-  - component: {fileID: 5861725790877524974}
+  - component: {fileID: -3710461680105747024}
   m_Layer: 0
   m_Name: Kapu Kapu
   m_TagString: Untagged
@@ -134,7 +134,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5861725790877524974
+--- !u!114 &-3710461680105747024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,6 +143,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7647579016873770838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a262e27c2b90ef45b1d6a5d7afd6d09, type: 3}
+  m_Script: {fileID: 11500000, guid: abdf22b4476cbb942adcbbe71bea6593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
