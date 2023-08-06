@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9023897444329977897}
   - component: {fileID: 7715374801255925115}
   - component: {fileID: 2798894432068573675}
-  - component: {fileID: 6633142057686501033}
+  - component: {fileID: -7204485656570507902}
   m_Layer: 0
   m_Name: Red Heart
   m_TagString: Untagged
@@ -124,7 +124,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6633142057686501033
+--- !u!114 &-7204485656570507902
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,6 +133,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3950103964356730474}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b1d35d093bb2804fbe6d16110877e6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 15c4ba347bbb3b0469ca6281277498f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
