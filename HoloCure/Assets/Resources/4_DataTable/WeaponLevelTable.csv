@@ -145,4 +145,4 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2216,4,Add an <color=green>additional</color> heart.,1.5,0.3,3,0.96,0,0.33,1.2,0.75,0,350,0.08,90,50,0
 2216,5,Hearts last <color=green>0.33</color> second longer.,1.5,0.3,3,0.96,0,0.33,1.2,1.08,0,350,0.08,90,50,0
 2216,6,Increase damage by <color=green>25%</color>.,1.5,0.3,3,1.2,0,0.33,1.2,1.08,0,350,0.08,90,50,0
-2216,7,Hearts <color=green>spiral out</color> at the end.,1.5,0.3,3,1.2,0,0.33,1.2,1.2,0,350,0.08,90,45,0
+2216,7,Increase damage by <color=green>30%</color>.,1.5,0.3,3,1.56,0,0.33,1.2,1.08,0,350,0.08,90,45,0
