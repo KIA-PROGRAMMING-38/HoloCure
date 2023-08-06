@@ -19,3 +19,4 @@ Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,Attack,
 1118,Oozora Subaru,spr_Subaru_idle_0,spr_SubaruPortrait_0,spr_Title_Subaru_0,2218,60,11,120,5,50,0
 1119,Yuzuki Choco,spr_Choco_idle_0,spr_ChocoPortrait_0,spr_Title_Choco_0,2219,65,11,112,10,50,0
 1120,Murasaki Shion,spr_Shion_idle_0,spr_ShionPortrait_0,spr_Title_Shion_0,2220,50,13,108,5,50,0
+1121,Nakiri Ayame,spr_Ayame_idle_0,spr_AyamePort_0,spr_Title_Ayame_0,2221,60,13,104,10,50,0
