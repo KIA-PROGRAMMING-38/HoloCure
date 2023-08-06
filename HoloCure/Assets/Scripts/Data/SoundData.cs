@@ -48,6 +48,7 @@ public enum SoundID
     AxeSwing,
     RedHeart,
     KapuKapu,
+    BaseballPitch,
     End = 3400
 }
 public enum SoundType { BGM, Common, Effect, Max };

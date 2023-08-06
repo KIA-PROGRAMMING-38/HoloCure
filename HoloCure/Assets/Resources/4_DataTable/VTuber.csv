@@ -16,3 +16,4 @@ Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,Attack,
 1115,Hoshimachi Suisei,spr_Suisei_idle_0,spr_SuiseiPortrait_0,spr_Title_Suisei_0,2215,70,13,104,10,50,0
 1116,Akai Haato,spr_Haato_idle_0,spr_HaatoPortrait_0,spr_Title_Haato_0,2216,55,9,116,5,50,0
 1117,Yozora Mel,spr_Mel_idle_0,spr_MelPortrait_0,spr_Title_Mel_0,2217,75,11,112,2,50,0
+1118,Oozora Subaru,spr_Subaru_idle_0,spr_SubaruPortrait_0,spr_Title_Subaru_0,2218,60,11,120,5,50,0
