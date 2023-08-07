@@ -167,7 +167,7 @@ public class WeaponStrike : MonoBehaviour
 
     private void SetKnockBack(Enemy enemy)
     {
-        if (_data.KnockbackSpeed == 0 || _data.KnockbackDurationTime == 0) { return; }
+        if (_data.KnockbackSpeed == 0 && _data.KnockbackDurationTime == 0) { return; }
 
         enemy.OnKnockBack(_data.KnockbackSpeed, _data.KnockbackDurationTime);
     }

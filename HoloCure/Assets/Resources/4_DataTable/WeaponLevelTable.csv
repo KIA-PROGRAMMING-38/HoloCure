@@ -83,3 +83,10 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2207,5,Increase area of attack by <color=green>30%</color> and range by <color=green>30%</color>.,1.5,0.3,1,2.0748,0,0.33,1.56,0.83,0,440,0,0,80,0
 2207,6,Reduces the time between attack by <color=green>10%</color>.,1.33,0.3,1,2.0748,0,0.33,1.56,0.83,0,440,0,0,80,0
 2207,7,Create a <color=green>second</color> planet and knocks back targets.,1.33,0.3,2,2.0748,0,0.33,1.56,0.83,0,440,0.17,90,80,0
+2208,1,Stab forward with a large clock hand.,1.5,0.3,1,1.68,0,0.75,1.2,0.75,0,0,0,0,0,0
+2208,2,Increase area of attack by <color=green>20%</color>.,1.5,0.3,1,1.68,0,0.75,1.44,0.75,0,0,0,0,0,0
+2208,3,Increase damage by <color=green>30%</color>.,1.5,0.3,1,2.184,0,0.75,1.44,0.75,0,0,0,0,0,0
+2208,4,Reduce the time between attack by <color=green>10%</color>.,1.35,0.3,1,2.184,0,0.75,1.44,0.75,0,0,0,0,0,0
+2208,5,Increase area of attack by <color=green>30%</color>.,1.35,0.3,1,2.184,0,0.75,1.872,0.75,0,0,0,0,0,0
+2208,6,Reduce time between attack by <color=green>15%</color>.,1.15,0.3,1,2.184,0,0.75,1.872,0.75,0,0,0,0,0,0
+2208,7,Increase damage by <color=green>50%</color> and stops targets for <color=green>0.5</color> seconds.,1.15,0.3,1,3.276,0,0.75,1.872,0.75,0,0,0.5,0,0,0

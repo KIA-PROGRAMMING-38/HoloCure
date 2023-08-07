@@ -15,6 +15,7 @@ public enum ItemID
     PhoenixSword,
     BirdFeather,
     Orbit,
+    ClockHands,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,
