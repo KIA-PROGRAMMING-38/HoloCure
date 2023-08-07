@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Scripts/Weapon/ClockHands.cs.meta
 guid: 57da3ede52fc0ad4f9d3a175f57569a3
+========
+guid: 12a169affc8ab604db77d56b17fdd687
+>>>>>>>> main:HoloCure/Assets/Scripts/Weapon/DivaSong.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

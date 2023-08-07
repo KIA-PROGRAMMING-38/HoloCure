@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Resources/3_Prefab/Axe Swing.prefab.meta
 guid: 8915f474fdcec504b926e40366f02bb7
+========
+guid: aa1e18832674f5e4e9882570db152864
+>>>>>>>> main:HoloCure/Assets/Resources/3_Prefab/Bright Star.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
