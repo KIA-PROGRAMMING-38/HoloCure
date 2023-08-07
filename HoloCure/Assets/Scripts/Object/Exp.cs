@@ -1,9 +1,9 @@
-using StringLiterals;
 using System;
 using System.Collections;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Util;
 using Random = UnityEngine.Random;
 
 public class Exp : MonoBehaviour
@@ -15,7 +15,7 @@ public class Exp : MonoBehaviour
 
     private float _accumulatedSpeed;
     private float _elapsedTime;
-    private readonly static Vector3 s_floatingVec = new Vector3(0, 0.075f, 0);
+    private readonly static Vector3 FLOATING_VECTOR = new Vector3(0, 0.075f, 0);
 
     private void Awake()
     {
@@ -38,14 +38,14 @@ public class Exp : MonoBehaviour
         if (Time.timeScale < 1) { return; }
 
         _elapsedTime += Time.deltaTime;
-        transform.position += s_floatingVec * Mathf.Sin(_elapsedTime * 5);
+        transform.position += FLOATING_VECTOR * Mathf.Sin(_elapsedTime * 5);
     }
     private void OnTrigger(Collider2D collision)
     {
         if (IsReleased) { return; }
         if (_isSpawning) { return; }
 
-        if (collision.CompareTag(TagLiteral.VTUBER))
+        if (collision.CompareTag(Define.Tag.VTUBER))
         {            
             ReleaseToPool();
 
@@ -56,7 +56,7 @@ public class Exp : MonoBehaviour
             return;
         }
 
-        if (collision.CompareTag(TagLiteral.OBJECT_SENSOR))
+        if (collision.CompareTag(Define.Tag.OBJECT_SENSOR))
         {
             MoveToPlayer();
 
@@ -64,7 +64,7 @@ public class Exp : MonoBehaviour
         }
 
 
-        if (collision.CompareTag(TagLiteral.EXP))
+        if (collision.CompareTag(Define.Tag.EXP))
         {
             Exp exp = collision.gameObject.GetComponentAssert<Exp>();
 

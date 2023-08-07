@@ -1,7 +1,7 @@
-using StringLiterals;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Util;
 
 public class PauseStampsSubItem : UISubItem
 {
@@ -15,7 +15,7 @@ public class PauseStampsSubItem : UISubItem
 
     private void OnKeyPress(Unit unit)
     {
-        if (Input.GetButtonDown(InputLiteral.CANCEL))
+        if (Input.GetButtonDown(Define.Input.CANCEL))
         {
             OnCancel();
         }

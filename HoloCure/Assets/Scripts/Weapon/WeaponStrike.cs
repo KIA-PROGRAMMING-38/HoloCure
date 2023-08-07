@@ -1,4 +1,3 @@
-using StringLiterals;
 using System;
 using System.Collections.Generic;
 using UniRx;
@@ -140,7 +139,7 @@ public class WeaponStrike : MonoBehaviour
 
     private void OnTrigger(Collider2D collision)
     {
-        if (false == collision.CompareTag(TagLiteral.ENEMY)) { return; }
+        if (false == collision.CompareTag(Define.Tag.ENEMY)) { return; }
 
         if (gameObject.layer == Define.Layer.IMPACT) { Impact(); return; }
 

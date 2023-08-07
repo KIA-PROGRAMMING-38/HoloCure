@@ -115,8 +115,8 @@ public class HudInventorySubItem : UISubItem
 
     #region Helpers
 
-    private readonly static Vector3 s_defaultScale = Vector3.one;
-    private readonly static Color s_defaultColor = Color.white;
+    private readonly static Vector3 DEFAULT_SCALE = Vector3.one;
+    private readonly static Color DEFAULT_COLOR = Color.white;
     private void SetupWeaponIcon(int weaponIndex, ItemID weaponId)
     {
         var (icon, frame, num) = GetWeaponImages(weaponIndex);
@@ -129,8 +129,8 @@ public class HudInventorySubItem : UISubItem
         static void SetupImage(Image image, string path)
         {
             image.gameObject.SetActive(true);
-            image.gameObject.GetComponentAssert<RectTransform>().localScale = s_defaultScale;
-            image.color = s_defaultColor;
+            image.gameObject.GetComponentAssert<RectTransform>().localScale = DEFAULT_SCALE;
+            image.color = DEFAULT_COLOR;
             image.sprite = Managers.Resource.LoadSprite(path);
         }
     }

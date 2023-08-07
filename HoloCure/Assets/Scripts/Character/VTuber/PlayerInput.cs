@@ -1,7 +1,7 @@
-using StringLiterals;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Util;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour
     }
     private void UpdateMoveVec(Unit unit)
     {
-        _moveVec.Set(Input.GetAxisRaw(InputLiteral.HORIZONTAL), Input.GetAxisRaw(InputLiteral.VERTICAL));
+        _moveVec.Set(Input.GetAxisRaw(Define.Input.HORIZONTAL), Input.GetAxisRaw(Define.Input.VERTICAL));
         MoveVec.Value = _moveVec;
     }
 }

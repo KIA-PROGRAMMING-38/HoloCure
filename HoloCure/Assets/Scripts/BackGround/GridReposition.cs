@@ -1,7 +1,7 @@
-using StringLiterals;
-using UniRx.Triggers;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
+using Util;
 
 public class GridReposition : MonoBehaviour
 {
@@ -25,7 +25,7 @@ public class GridReposition : MonoBehaviour
 
     private void OnExitTrigger(Collider2D collision)
     {
-        if (false == collision.CompareTag(TagLiteral.GRID_SENSOR)) { return; }
+        if (false == collision.CompareTag(Define.Tag.GRID_SENSOR)) { return; }
 
         Transform playerTransform = collision.transform.root;
         PlayerInput input = playerTransform.GetComponentAssert<PlayerInput>();

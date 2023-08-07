@@ -1,5 +1,4 @@
 using Cysharp.Text;
-using StringLiterals;
 using TMPro;
 using UniRx;
 using UniRx.Triggers;
@@ -40,7 +39,7 @@ public class DamageText : MonoBehaviour
     {
         _elapsedTime += Time.deltaTime;
 
-        transform.position = Util.BezierCurve.Quadratic(_startPoint, _wayPoint, _endPoint, _elapsedTime / FLOATING_TIME);
+        transform.position = Utils.BezierCurve.Quadratic(_startPoint, _wayPoint, _endPoint, _elapsedTime / FLOATING_TIME);
 
         if (_elapsedTime >= FADE_START_TIME)
         {

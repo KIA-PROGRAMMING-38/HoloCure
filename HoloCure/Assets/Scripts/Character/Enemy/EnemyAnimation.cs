@@ -1,8 +1,7 @@
-using StringLiterals;
 using System.Collections;
+using UniRx;
 using UnityEngine;
 using Util;
-using UniRx;
 
 public class EnemyAnimation : MonoBehaviour
 {

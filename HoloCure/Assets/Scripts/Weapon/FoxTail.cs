@@ -3,14 +3,8 @@ using Util;
 
 public class FoxTail : CursorTargetingMeleeWeapon
 {
-    private float[] _angles;
+    private float[] _angles = new float[Define.MAX_STRIKE_COUNT];
     private Quaternion _firstStrikeRotation;
-
-    private void Awake()
-    {
-        int strikeMaxCount = Managers.Data.WeaponLevelTable[ItemID.TridentThrust][Define.ITEM_MAX_LEVEL].StrikeCount + 2;
-        _angles = new float[strikeMaxCount];
-    }
 
     public override void LevelUp()
     {

@@ -1,4 +1,3 @@
-using StringLiterals;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -34,8 +33,8 @@ public class VTuberAnimation : MonoBehaviour
 
         _spriteRenderer.sprite = Managers.Resource.LoadSprite(data.DisplaySprite);
         var overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
-        overrideController["Idle"] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.IDLE);
-        overrideController["Run"] = Managers.Resource.LoadAnimClip(data.Name, AnimClipLiteral.RUN);
+        overrideController["Idle"] = Managers.Resource.LoadAnimClip(data.Name, "_Idle");
+        overrideController["Run"] = Managers.Resource.LoadAnimClip(data.Name, "_Run");
 
         _animator.runtimeAnimatorController = overrideController;
     }

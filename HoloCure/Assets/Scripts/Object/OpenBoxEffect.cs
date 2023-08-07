@@ -23,7 +23,7 @@ public abstract class OpenBoxEffect : MonoBehaviour
     private void Move(Unit unit)
     {
         _elapsedTime += Time.unscaledDeltaTime;
-        _rectTransform.anchoredPosition = BezierCurve.Quadratic(_startPos, _wayPos, _endPos, _elapsedTime / _duration);
+        _rectTransform.anchoredPosition = Utils.BezierCurve.Quadratic(_startPos, _wayPos, _endPos, _elapsedTime / _duration);
         _rectTransform.Rotate(_rotAxis);
         if (_elapsedTime > _duration)
         {

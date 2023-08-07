@@ -1,10 +1,10 @@
-using StringLiterals;
 using System;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Util;
 
 public class SelectModeSubItem : UISubItem
 {
@@ -84,16 +84,16 @@ public class SelectModeSubItem : UISubItem
 
     private void OnKeyPress(Unit unit)
     {
-        if (Input.GetButtonDown(InputLiteral.CONFIRM))
+        if (Input.GetButtonDown(Define.Input.CONFIRM))
         {
             ProcessButton(CurrentButton);
         }
-        else if (Input.GetButtonDown(InputLiteral.VERTICAL))
+        else if (Input.GetButtonDown(Define.Input.VERTICAL))
         {
-            bool isUpKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
+            bool isUpKey = Input.GetAxisRaw(Define.Input.VERTICAL) == 1;
             SwitchVerticalButton(isUpKey);
         }
-        else if (Input.GetButtonDown(InputLiteral.CANCEL))
+        else if (Input.GetButtonDown(Define.Input.CANCEL))
         {
             OnCancel();
         }

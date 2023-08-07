@@ -1,8 +1,8 @@
 using Cysharp.Text;
-using StringLiterals;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Util;
 using Object = UnityEngine.Object;
 
 public class ResourceManager
@@ -22,12 +22,12 @@ public class ResourceManager
         Fonts = new Dictionary<string, TMP_FontAsset>();
         AudioClips = new Dictionary<string, AudioClip>();
     }
-    public Sprite LoadSprite(string path) => Load(Sprites, ZString.Concat(PathLiteral.SPRITE, path));
-    public AnimationClip LoadAnimClip(string path, string path2 = null) => Load(AnimClips, ZString.Concat(PathLiteral.ANIM, path, path2));
-    public Material LoadMaterial(string path) => Load(Materials, ZString.Concat(PathLiteral.MATERIAL, path));
-    public GameObject LoadPrefab(string path) => Load(Prefabs, ZString.Concat(PathLiteral.PREFAB, path));
-    public TMP_FontAsset LoadFont(string path) => Load(Fonts, ZString.Concat(PathLiteral.Font, path));
-    public AudioClip LoadAudioClip(string path) => Load(AudioClips, ZString.Concat(PathLiteral.SOUND, path));
+    public Sprite LoadSprite(string path) => Load(Sprites, ZString.Concat(Define.Path.SPRITE, path));
+    public AnimationClip LoadAnimClip(string path, string path2 = null) => Load(AnimClips, ZString.Concat(Define.Path.ANIM, path, path2));
+    public Material LoadMaterial(string path) => Load(Materials, ZString.Concat(Define.Path.MATERIAL, path));
+    public GameObject LoadPrefab(string path) => Load(Prefabs, ZString.Concat(Define.Path.PREFAB, path));
+    public TMP_FontAsset LoadFont(string path) => Load(Fonts, ZString.Concat(Define.Path.Font, path));
+    public AudioClip LoadAudioClip(string path) => Load(AudioClips, ZString.Concat(Define.Path.SOUND, path));
     private T Load<T>(Dictionary<string, T> dic, string path) where T : Object
     {
         if (false == dic.ContainsKey(path))

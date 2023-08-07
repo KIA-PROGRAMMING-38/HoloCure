@@ -1,7 +1,7 @@
-using StringLiterals;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Util;
 
 public class GetBoxOngoingSubItem : UISubItem
 {
@@ -17,7 +17,7 @@ public class GetBoxOngoingSubItem : UISubItem
 
     private void OnPressKey(Unit unit)
     {
-        if (Input.GetButtonDown(InputLiteral.CONFIRM)|| Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetButtonDown(Define.Input.CONFIRM)|| Input.GetKeyDown(KeyCode.Mouse0))
         {
             OpenBox();
         }

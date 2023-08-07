@@ -1,8 +1,8 @@
-using StringLiterals;
 using System.Collections;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Util;
 
 public class EnemyController : MonoBehaviour
 {
@@ -29,14 +29,14 @@ public class EnemyController : MonoBehaviour
 
     private void StartAttack(Collider2D collision)
     {
-        if (false == collision.CompareTag(TagLiteral.VTUBER)) { return; }
+        if (false == collision.CompareTag(Define.Tag.VTUBER)) { return; }
 
         StartCoroutine(_attackCo);
     }
 
     private void StopAttack(Collider2D collision)
     {
-        if (false == collision.CompareTag(TagLiteral.VTUBER)) { return; }
+        if (false == collision.CompareTag(Define.Tag.VTUBER)) { return; }
 
         StopCoroutine(_attackCo);
     }

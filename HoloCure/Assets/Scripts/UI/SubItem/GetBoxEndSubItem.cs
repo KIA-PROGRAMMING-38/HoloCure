@@ -1,12 +1,12 @@
 using Cysharp.Text;
-using StringLiterals;
 using System;
 using TMPro;
-using UnityEngine.EventSystems;
-using UnityEngine;
-using UnityEngine.UI;
-using UniRx.Triggers;
 using UniRx;
+using UniRx.Triggers;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using Util;
 
 public class GetBoxEndSubItem : UISubItem
 {
@@ -57,8 +57,8 @@ public class GetBoxEndSubItem : UISubItem
         }
     }
 
-    private static readonly Color s_normalColor = Color.white;
-    private static readonly Color s_highlightedColor = Color.black;
+    private static readonly Color NORMAL_COLOR = Color.white;
+    private static readonly Color HIGHLIGHTED_COLOR = Color.black;
 
     private ItemID _item;
     private StatSubItem _statSubItem;
@@ -113,13 +113,13 @@ public class GetBoxEndSubItem : UISubItem
 
     private void OnPressKey(Unit unit)
     {
-        if (Input.GetButtonDown(InputLiteral.CONFIRM))
+        if (Input.GetButtonDown(Define.Input.CONFIRM))
         {
             ProcessButton(CurrentButton);
         }
-        else if (Input.GetButtonDown(InputLiteral.VERTICAL))
+        else if (Input.GetButtonDown(Define.Input.VERTICAL))
         {
-            bool isUpKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
+            bool isUpKey = Input.GetAxisRaw(Define.Input.VERTICAL) == 1;
             SwitchNextButton(isUpKey);
         }
     }
@@ -131,13 +131,13 @@ public class GetBoxEndSubItem : UISubItem
     private void SetButtonNormal(Buttons buttonIndex)
     {
         GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_Button_0");
-        GetText((int)buttonIndex).color = s_normalColor;
+        GetText((int)buttonIndex).color = NORMAL_COLOR;
     }
 
     private void SetButtonHighlighted(Buttons buttonIndex)
     {
         GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_Button_1");
-        GetText((int)buttonIndex).color = s_highlightedColor;
+        GetText((int)buttonIndex).color = HIGHLIGHTED_COLOR;
 
         Transform cursorTransform = GetObject((int)Objects.Cursor).transform;
         Transform buttonTransform = GetButton((int)buttonIndex).transform;

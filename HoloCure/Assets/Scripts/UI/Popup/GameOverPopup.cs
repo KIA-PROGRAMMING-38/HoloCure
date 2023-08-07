@@ -1,4 +1,3 @@
-using StringLiterals;
 using System;
 using System.Collections;
 using UniRx;
@@ -6,6 +5,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Util;
 
 public class GameOverPopup : UIPopup
 {
@@ -50,8 +50,8 @@ public class GameOverPopup : UIPopup
         }
     }
 
-    private static readonly Color s_normalColor = Color.white;
-    private static readonly Color s_highlightedColor = Color.black;
+    private static readonly Color NORMAL_COLOR = Color.white;
+    private static readonly Color HIGHLIGHTED_COLOR = Color.black;
 
     #endregion
 
@@ -140,7 +140,7 @@ public class GameOverPopup : UIPopup
 
     private void OnPressKey(Unit unit)
     {
-        if (Input.GetButtonDown(InputLiteral.CONFIRM))
+        if (Input.GetButtonDown(Define.Input.CONFIRM))
         {
             ProcessButton(CurrentButton);
         }
@@ -153,13 +153,13 @@ public class GameOverPopup : UIPopup
     private void SetButtonNormal(Buttons buttonIndex)
     {
         GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_OptionButton_0");
-        GetText((int)buttonIndex).color = s_normalColor;
+        GetText((int)buttonIndex).color = NORMAL_COLOR;
     }
 
     private void SetButtonHighlighted(Buttons buttonIndex)
     {
         GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_OptionButton_1");
-        GetText((int)buttonIndex).color = s_highlightedColor;
+        GetText((int)buttonIndex).color = HIGHLIGHTED_COLOR;
     }
 
     #endregion

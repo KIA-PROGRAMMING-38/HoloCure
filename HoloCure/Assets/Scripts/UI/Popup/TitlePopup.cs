@@ -1,10 +1,10 @@
-using StringLiterals;
 using System;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Util;
 
 public class TitlePopup : UIPopup
 {
@@ -65,8 +65,8 @@ public class TitlePopup : UIPopup
         }
     }
 
-    private static readonly Color s_normalColor = Color.white;
-    private static readonly Color s_highlightedColor = Color.black;
+    private static readonly Color NORMAL_COLOR = Color.white;
+    private static readonly Color HIGHLIGHTED_COLOR = Color.black;
 
     #endregion
 
@@ -119,13 +119,13 @@ public class TitlePopup : UIPopup
 
     private void OnPressKey(Unit unit)
     {
-        if (Input.GetButtonDown(InputLiteral.CONFIRM))
+        if (Input.GetButtonDown(Define.Input.CONFIRM))
         {
             ProcessButton(CurrentButton);
         }
-        else if (Input.GetButtonDown(InputLiteral.VERTICAL))
+        else if (Input.GetButtonDown(Define.Input.VERTICAL))
         {
-            bool isUpKey = Input.GetAxisRaw(InputLiteral.VERTICAL) == 1;
+            bool isUpKey = Input.GetAxisRaw(Define.Input.VERTICAL) == 1;
             SwitchNextButton(isUpKey);
         }
     }
@@ -137,13 +137,13 @@ public class TitlePopup : UIPopup
     private void SetButtonNormal(Buttons buttonIndex)
     {
         GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_OptionButton_0");
-        GetText((int)buttonIndex).color = s_normalColor;
+        GetText((int)buttonIndex).color = NORMAL_COLOR;
     }
 
     private void SetButtonHighlighted(Buttons buttonIndex)
     {
         GetImage((int)buttonIndex).sprite = Managers.Resource.LoadSprite("hud_OptionButton_1");
-        GetText((int)buttonIndex).color = s_highlightedColor;
+        GetText((int)buttonIndex).color = HIGHLIGHTED_COLOR;
     }
 
     private void SwitchNextButton(bool isUpKey)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UIManager
 {
-    private static readonly Vector3 s_defaultScale = Vector3.one;
+    private static readonly Vector3 DEFAULT_SCALE = Vector3.one;
 
     private int _currentCanvasOrder = -20;
 
@@ -62,7 +62,7 @@ public class UIManager
             go.transform.SetParent(_root.transform);
         }
 
-        go.transform.localScale = s_defaultScale;
+        go.transform.localScale = DEFAULT_SCALE;
         go.transform.localPosition = prefab.transform.position;
 
         return go.GetComponentAssert<T>();

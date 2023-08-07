@@ -1,9 +1,9 @@
-using StringLiterals;
 using System;
-using UniRx.Triggers;
 using UniRx;
-using UnityEngine.EventSystems;
+using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using Util;
 
 public class SelectStageSubItem : UISubItem
 {
@@ -74,16 +74,16 @@ public class SelectStageSubItem : UISubItem
 
     private void OnKeyPress(Unit unit)
     {
-        if (Input.GetButtonDown(InputLiteral.CONFIRM))
+        if (Input.GetButtonDown(Define.Input.CONFIRM))
         {
             ProcessButton(IsPlayButtonActive() ? Buttons.PlayButton : Buttons.StageSelectButton);
         }
-        else if (Input.GetButtonDown(InputLiteral.HORIZONTAL))
+        else if (Input.GetButtonDown(Define.Input.HORIZONTAL))
         {
-            bool isRightKey = Input.GetAxisRaw(InputLiteral.HORIZONTAL) == 1;
+            bool isRightKey = Input.GetAxisRaw(Define.Input.HORIZONTAL) == 1;
             SwitchHorizontalButton(isRightKey);
         }
-        else if (Input.GetButtonDown(InputLiteral.CANCEL))
+        else if (Input.GetButtonDown(Define.Input.CANCEL))
         {
             if (IsPlayButtonActive())
             {

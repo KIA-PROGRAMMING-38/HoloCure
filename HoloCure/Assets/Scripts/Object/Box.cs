@@ -1,7 +1,6 @@
-using StringLiterals;
 using System.Collections;
-using UniRx.Triggers;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using Util;
 
@@ -30,13 +29,13 @@ public class Box : MonoBehaviour
     }
     private void OnEnterTrigger(Collider2D collider)
     {
-        if (collider.CompareTag(TagLiteral.VTUBER))
+        if (collider.CompareTag(Define.Tag.VTUBER))
         {
             collider.gameObject.GetComponentAssert<VTuber>().GetBox();
 
             Managers.Spawn.Box.Release(this);
         }
-        if (collider.CompareTag(TagLiteral.SCREEN_SENSOR))
+        if (collider.CompareTag(Define.Tag.SCREEN_SENSOR))
         {
             StopCoroutine(_lookPlayerCo);
             _pointer.position = (Vector2)transform.position + _initPos;
@@ -45,7 +44,7 @@ public class Box : MonoBehaviour
     }
     private void OnExitTrigger(Collider2D collider)
     {
-        if (collider.CompareTag(TagLiteral.SCREEN_SENSOR) && gameObject.activeSelf)
+        if (collider.CompareTag(Define.Tag.SCREEN_SENSOR) && gameObject.activeSelf)
         {
             StartCoroutine(_lookPlayerCo);
         }

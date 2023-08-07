@@ -1,8 +1,7 @@
 using System.Collections;
+using UniRx;
 using UnityEngine;
 using Util;
-using UniRx;
-using StringLiterals;
 using Util.Pool;
 
 public class SpawnManager : MonoBehaviour

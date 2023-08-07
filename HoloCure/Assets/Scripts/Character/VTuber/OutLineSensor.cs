@@ -1,7 +1,7 @@
-using StringLiterals;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Util;
 
 public class OutLineSensor : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class OutLineSensor : MonoBehaviour
 
     private void OnTrigger(Collider2D collision)
     {
-        if (false == collision.CompareTag(TagLiteral.ENEMY_BODY)) { return; }
+        if (false == collision.CompareTag(Define.Tag.ENEMY_BODY)) { return; }
 
         Enemy enemy = collision.transform.parent.GetComponentAssert<Enemy>();
         VTuber vtuber = Managers.Game.VTuber;

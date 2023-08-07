@@ -1,4 +1,3 @@
-using StringLiterals;
 using System.Collections;
 using UniRx;
 using UniRx.Triggers;

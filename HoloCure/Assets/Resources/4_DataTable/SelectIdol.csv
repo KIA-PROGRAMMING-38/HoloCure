@@ -2,7 +2,7 @@ IdolID,StartingWeaponID,TitleSprite,IconSprite,DisplaySprite,VtuberName,MaxHp,At
 1103,2203,spr_Title_Ame_0,spr_Ameweapon_0,spr_Ame_idle_0,Amelia Watson,75,1.3,1.35,10,Pistol Shot,Shoots 3 Projectiles forward.
 1104,2204,spr_Title_Gura_0,spr_GuraWeapon_0,spr_Gura_idle_0,Gawr Gura,65,1.1,1.4,5,Trident Thrust,Mid ranged stab attack in front.
 1101,2201,spr_Title_Ina_0,spr_SummonTentacleIcon_0,spr_Ina_idle_0,Ninomae Inanis,75,0.9,1.5,1,Summon Tentacle,A tentacle shoots out in front.
-1105,2205,spr_Title_Kiara_0,spr_KiaraWeapon_0,spr_Kiara_idle_0,Takanashi Kiara,90,1,1.4,5,Phoenix Sword,Short ranged slash in front.
+1105,2205,spr_Title_Kiara_0,spr_KiaraWeapon_0,spr_Kiara_idle_0,Takanashi Kiara,90,1.0,1.4,5,Phoenix Sword,Short ranged slash in front.
 1102,2202,spr_Title_Calli_0,spr_CalliWeapon_0,spr_Calli_idle_0,Calliope Mori,70,1.1,1.3,10,Scythe Swing,Swings in a half circle arc in front.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1108,2208,spr_Title_Kronii_0,spr_KroniiWeapon_0,spr_Kroni_idle_0,Ouro Kronii,70,1.2,1.35,3,Clock Hands,Stab forward with a large clock hand.
@@ -10,13 +10,13 @@ IdolID,StartingWeaponID,TitleSprite,IconSprite,DisplaySprite,VtuberName,MaxHp,At
 1106,2206,spr_Title_Mumei_0,spr_MumeiWeapon_0,spr_Mumei_idle_0,Nanashi Mumei,60,0.8,1.4,5,Bird Feather,Shoot a bunch of feathers at a spread. Pierces through targets.
 1107,2207,spr_Title_Sana_0,spr_SanaWeapon_0,spr_Sana_idle_0,Tsukumo Sana,80,0.8,1.3,1,Orbit,Create an orbiting planet. Hits multiple targets.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
-1110,2210,spr_Title_Fubuki_0,spr_FubukiWeapon_0,spr_Fubuki_idle_0,Shirakami Fubuki,55,1,1.5,5,Fox Tail,Swipes Tail in front at close range
+1110,2210,spr_Title_Fubuki_0,spr_FubukiWeapon_0,spr_Fubuki_idle_0,Shirakami Fubuki,55,1.0,1.5,5,Fox Tail,Swipes Tail in front at close range
 1111,2211,spr_Title_Mio_0,spr_MioWeapon_0,spr_Mio_idle_0,Ookami Mio,70,0.9,1.4,1,Tarot Cards,Throw a card that quickly returns back.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
-1112,2212,spr_Title_Korone_0,spr_KoroneWeapon_0,spr_Korone_idle_0,Inugami Korone,60,1,1.4,1,Orayo,Punch towards the front.
-1109,2209,spr_Title_Sora_0,spr_SoraWeapon_0,spr_Sora_idle_0,Tokino Sora,65,1,1.4,3,Bright Star,Shoot forward a spinning star.
+1112,2212,spr_Title_Korone_0,spr_KoroneWeapon_0,spr_Korone_idle_0,Inugami Korone,60,1.0,1.4,1,Orayo,Punch towards the front.
+1109,2209,spr_Title_Sora_0,spr_SoraWeapon_0,spr_Sora_idle_0,Tokino Sora,65,1.0,1.4,3,Bright Star,Shoot forward a spinning star.
 1113,2213,spr_Title_Azki_0,spr_AZKiWeapon_0,spr_AZKi_idle_0,AZKi,75,1.1,1.35,3,Diva Song,Send a flying music note in front.
-1114,2214,spr_Title_Roboco_0,spr_RobocoWeapon_0,spr_Roboco_idle_0,Roboco,75,1,1.4,5,High Spec Pistol,Shoots a few times in aimed direction.
+1114,2214,spr_Title_Roboco_0,spr_RobocoWeapon_0,spr_Roboco_idle_0,Roboco,75,1.0,1.4,5,High Spec Pistol,Shoots a few times in aimed direction.
 1115,2215,spr_Title_Suisei_0,spr_SuiseiWeapon_0,spr_Suisei_idle_0,Hoshimachi Suisei,70,1.3,1.3,10,Axe Swing,Swing a bloody axe in an arc in front.
 1000,2000,spr_Default,spr_Default,spr_Default,,0,0,0,0,,
 1116,2216,spr_Title_Haato_0,spr_HaatoWeapon_0,spr_Haato_idle_0,Akai Haato,55,0.9,1.45,5,Red Heart,Create big red hearts. Hearts knock enemies back.

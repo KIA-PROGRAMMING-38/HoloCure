@@ -3,7 +3,7 @@ using Util;
 
 public class HoloBomb : Weapon
 {
-    private float[] _angles;
+    private float[] _angles = new float[Define.MAX_STRIKE_COUNT];
     public override void LevelUp()
     {
         base.LevelUp();

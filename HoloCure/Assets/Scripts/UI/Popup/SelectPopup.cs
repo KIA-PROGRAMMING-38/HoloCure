@@ -1,4 +1,3 @@
-using StringLiterals;
 using System.Collections;
 using UnityEngine;
 
@@ -192,14 +191,14 @@ public class SelectPopup : UIPopup
 
         static AnimatorOverrideController SetDefaultAnim(AnimatorOverrideController overrideController)
         {
-            overrideController[AnimClipLiteral.IDLE_EMPTY] = Managers.Resource.LoadAnimClip(AnimClipLiteral.IDLE_EMPTY);
-            overrideController[AnimClipLiteral.RUN_EMPTY] = Managers.Resource.LoadAnimClip(AnimClipLiteral.RUN_EMPTY);
+            overrideController["Idle_Empty"] = Managers.Resource.LoadAnimClip("Idle_Empty");
+            overrideController["Run_Empty"] = Managers.Resource.LoadAnimClip("Run_Empty");
             return overrideController;
         }
         static AnimatorOverrideController SetIdolAnim(AnimatorOverrideController overrideController, SelectIdolData data)
         {
-            overrideController[AnimClipLiteral.IDLE_EMPTY] = Managers.Resource.LoadAnimClip(data.VtuberName, AnimClipLiteral.IDLE_UI);
-            overrideController[AnimClipLiteral.RUN_EMPTY] = Managers.Resource.LoadAnimClip(data.VtuberName, AnimClipLiteral.RUN_UI);
+            overrideController["Idle_Empty"] = Managers.Resource.LoadAnimClip(data.VtuberName, "_Idle_UI");
+            overrideController["Run_Empty"] = Managers.Resource.LoadAnimClip(data.VtuberName, "_Run_UI");
             return overrideController;
         }
     }
