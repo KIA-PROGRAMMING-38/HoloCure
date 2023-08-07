@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Util;
 using Random = UnityEngine.Random;
 public class WeaponStrike : MonoBehaviour
 {
@@ -141,9 +142,9 @@ public class WeaponStrike : MonoBehaviour
     {
         if (false == collision.CompareTag(TagLiteral.ENEMY)) { return; }
 
-        if (gameObject.layer == LayerNum.IMPACT) { Impact(); return; }
+        if (gameObject.layer == Define.Layer.IMPACT) { Impact(); return; }
 
-        if (gameObject.layer != LayerNum.WEAPON) { return; }
+        if (gameObject.layer != Define.Layer.WEAPON) { return; }
 
         Enemy enemy = collision.gameObject.GetComponentAssert<Enemy>();
 

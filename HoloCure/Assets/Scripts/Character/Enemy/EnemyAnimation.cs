@@ -49,7 +49,7 @@ public class EnemyAnimation : MonoBehaviour
         _bodyRenderer.sprite = Managers.Resource.LoadSprite(data.Sprite);
 
         var overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
-        overrideController[FileNameLiteral.MOVE] = Managers.Resource.LoadAnimClip(data.Name);
+        overrideController["Move"] = Managers.Resource.LoadAnimClip(data.Name);
 
         _animator.runtimeAnimatorController = overrideController;
     }

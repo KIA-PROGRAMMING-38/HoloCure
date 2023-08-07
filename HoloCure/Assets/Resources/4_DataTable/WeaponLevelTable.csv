@@ -125,3 +125,10 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2213,5,Increase damage by <color=green>25%</color> and speed by <color=green>25%</color>.,1,0.3,1,1.8,0,0.33,1.3,1,0,250,0,0,0,0
 2213,6,Reduce time between attacks by <color=green>25%</color>.,0.75,0.3,1,1.8,0,0.33,1.3,1,0,250,0,0,0,0
 2213,7,Increase damage by <color=green>40%</color>.,0.75,0.3,1,2.52,0,0.33,1.3,1,0,250,0,0,0,0
+2214,1,Shoots a few times in aimed direction.,1.33,0.3,4,0.6,0.08,0.33,0.2,2,0,270,0,0,0,0
+2214,2,Shoot <color=green>one</color> more bullet.,1.33,0.3,5,0.6,0.08,0.33,0.2,2,0,270,0,0,0,0
+2214,3,Increase damage by <color=green>20%</color>.,1.33,0.3,5,0.72,0.08,0.33,0.2,2,0,270,0,0,0,0
+2214,4,Reduce the time between attacks by <color=green>15%</color>.,1.13,0.3,5,0.72,0.08,0.33,0.2,2,0,270,0,0,0,0
+2214,5,Increase damage by <color=green>20%</color>.,1.13,0.3,5,0.864,0.08,0.33,0.2,2,0,270,0,0,0,0
+2214,6,Shoot <color=green>one</color> more bullet.,1.13,0.3,6,0.864,0.08,0.33,0.2,2,0,270,0,0,0,0
+2214,7,Gun becomes a piercing <color=green>blast</color>.,1.13,0.3,1,2.6,0,0.33,2,2,0,600,0,0,0,0
