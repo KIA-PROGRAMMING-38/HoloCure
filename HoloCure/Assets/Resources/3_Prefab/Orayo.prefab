@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8110080734835164694}
   - component: {fileID: 8110080734835164695}
   - component: {fileID: 8110080734835164688}
-  - component: {fileID: 8110080734835164689}
+  - component: {fileID: -6291022566057215641}
   m_Layer: 0
   m_Name: Orayo
   m_TagString: Untagged
@@ -134,7 +134,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8110080734835164689
+--- !u!114 &-6291022566057215641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,6 +143,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8110080734835164690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 727515c2a0437a945bb20b2cf757d58b, type: 3}
+  m_Script: {fileID: 11500000, guid: 73468be501e7dd84bbd4e6cc9ccd2923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
