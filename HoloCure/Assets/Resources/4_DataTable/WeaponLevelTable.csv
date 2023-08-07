@@ -167,3 +167,10 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2219,5,Reduce time between attacks by <color=green>15%</color> and increase damage by <color=green>20%</color>.,1.27,0.3,2,2.16,0.12,0.5,1.2,0.5,0,400,0,0,0,0
 2219,6,Stab <color=green>3</color> times with needle and needle fires <color=green>25%</color> farther.,1.27,0.3,3,2.16,0.12,0.5,1.2,0.5,0,500,0,0,0,0
 2219,7,Increase damage by <color=green>30%</color>.,1.27,0.3,3,2.802,0.12,0.5,1.2,0.5,0,500,0,0,0,0
+2220,1,Fires a quick magic bolt in front.,1.08,0.3,1,1.4,0,0.5,1,0.25,0,500,0,0,0,0
+2220,2,Shoot <color=green>2</color> magic blast.,1.08,0.3,2,1.4,0,0.5,1,0.25,0,500,0,0,0,0
+2220,3,Shoot <color=green>3</color> magic blasts.,1.08,0.3,3,1.4,0,0.5,1,0.25,0,500,0,0,0,0
+2220,4,Increase damage and speed by <color=green>20%</color>.,1.08,0.3,3,1.68,0,0.5,1,0.25,0,600,0,0,0,0
+2220,5,Reduce time between attacks by <color=green>20%</color>.,0.87,0.3,3,1.68,0,0.5,1,0.25,0,600,0,0,0,0
+2220,6,Increase damage by <color=green>20%</color>.,0.87,0.3,3,2.016,0,0.5,1,0.25,0,600,0,0,0,0
+2220,7,Shoot <color=green>5</color> magic blasts.,0.87,0.3,5,2.016,0,0.5,1,0.25,0,600,0,0,0,0
