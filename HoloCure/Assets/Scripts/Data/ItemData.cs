@@ -22,6 +22,7 @@ public enum ItemID
     Orayo,
     DivaSong,
     HighSpecPistol,
+    AxeSwing,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,

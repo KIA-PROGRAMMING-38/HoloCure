@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Scripts/Weapon/ClockHands.cs.meta
 guid: 57da3ede52fc0ad4f9d3a175f57569a3
+========
+guid: 6a262e27c2b90ef45b1d6a5d7afd6d09
+>>>>>>>> main:HoloCure/Assets/Scripts/Weapon/CursorTargetingMeleeWeapon.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

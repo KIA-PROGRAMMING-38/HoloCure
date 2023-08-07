@@ -132,3 +132,10 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2214,5,Increase damage by <color=green>20%</color>.,1.13,0.3,5,0.864,0.08,0.33,0.2,2,0,270,0,0,0,0
 2214,6,Shoot <color=green>one</color> more bullet.,1.13,0.3,6,0.864,0.08,0.33,0.2,2,0,270,0,0,0,0
 2214,7,Gun becomes a piercing <color=green>blast</color>.,1.13,0.3,1,2.6,0,0.33,2,2,0,600,0,0,0,0
+2215,1,Swing a bloody axe in an arc in front.,1.5,0.3,1,1.2,0,0.33,1,0.333,0,0,0,0,0,0
+2215,2,Increased damage by <color=green>30%</color>.,1.5,0.3,1,1.56,0,0.33,1,0.333,0,0,0,0,0,0
+2215,3,Increase attack area by <color=green>20%</color>.,1.5,0.3,1,1.56,0,0.33,1.2,0.333,0,0,0,0,0,0
+2215,4,Reduce time between attacks by <color=green>10%</color>.,1.33,0.3,1,1.56,0,0.33,1.2,0.333,0,0,0,0,0,0
+2215,5,Increased damage by <color=green>30%</color>.,1.33,0.3,1,2,0,0.33,1.2,0.333,0,0,0,0,0,0
+2215,6,Increase attack area by <color=green>20%</color>.,1.33,0.3,1,2,0,0.33,1.44,0.333,0,0,0,0,0,0
+2215,7,Reduce time between attacks by <color=green>20%</color> and increased damage by <color=green>30%</color>.,1,0.3,1,2.6,0,0.33,1.44,0.333,0,0,0,0,0,0
