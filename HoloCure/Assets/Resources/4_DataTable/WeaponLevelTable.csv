@@ -111,3 +111,10 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2211,5,Throw cards farther and increased damage by <color=green>40%</color>.,1.13,0.3,3,2,0.03,0.25,1,1,0,500,0,0,0,0
 2211,6,Throw <color=green>4</color> tarot cards.,1.13,0.3,4,2,0.03,0.25,1,1,0,500,0,0,0,0
 2211,7,Throw <color=green>5</color> tarot cards.,1.13,0.3,5,2,0.03,0.25,1,1,0,500,0,0,0,0
+2212,1,Punch towards the front.,1,0.3,2,0.85,0.05,0.2,1,0.2,0,400,0,0,0,0
+2212,2,Increase attack area by <color=green>25%</color>.,1,0.3,2,0.85,0.05,0.2,1.25,0.2,0,400,0,0,0,0
+2212,3,Increase damage by <color=green>30%</color>.,1,0.3,2,1.1,0.05,0.2,1.25,0.2,0,400,0,0,0,0
+2212,4,Increase amount of punches by <color=green>1</color>.,1,0.3,3,1.1,0.05,0.2,1.25,0.2,0,400,0,0,0,0
+2212,5,Increase attack area by <color=green>25%</color>. Widen Korone's punch range slightly.,1,0.3,3,1.1,0.05,0.2,1.5625,0.2,0,600,0,0,0,0
+2212,6,Increase amount of punches by <color=green>2</color>.,1,0.3,5,1.1,0.05,0.2,1.5625,0.2,0,600,0,0,0,0
+2212,7,Reduce delay between combination punches by <color=green>30%</color>.,0.7,0.2,5,1.1,0.03,0.2,1.5625,0.2,0,600,0,0,0,0

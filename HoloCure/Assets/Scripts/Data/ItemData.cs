@@ -19,6 +19,7 @@ public enum ItemID
     BrightStar,
     FoxTail,
     TarotCards,
+    Orayo,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,
