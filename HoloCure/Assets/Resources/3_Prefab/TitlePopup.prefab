@@ -819,6 +819,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3570832683246263273}
+  - component: {fileID: 2089858119070055849}
   m_Layer: 5
   m_Name: Characters
   m_TagString: Untagged
@@ -875,6 +876,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &2089858119070055849
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3570832683246263272}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &3570832683265216383
 GameObject:
   m_ObjectHideFlags: 0
@@ -5379,6 +5401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5264967333914743156}
   - component: {fileID: 5264967333914743147}
+  - component: {fileID: 7183190412448152157}
   m_Layer: 5
   m_Name: Bars
   m_TagString: Untagged
@@ -5483,6 +5506,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 410796e78c6c99d498e1810812697a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!223 &7183190412448152157
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5264967333914743157}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &5264967333917575767
 GameObject:
   m_ObjectHideFlags: 0
@@ -5950,6 +5994,7 @@ GameObject:
   - component: {fileID: 5264967334072648869}
   - component: {fileID: 5264967334072649563}
   - component: {fileID: 5264967334072648868}
+  - component: {fileID: 2532360814454734318}
   m_Layer: 5
   m_Name: BG
   m_TagString: Untagged
@@ -6015,6 +6060,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!223 &2532360814454734318
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5264967334072648870}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &5264967334143635177
 GameObject:
   m_ObjectHideFlags: 0
