@@ -174,3 +174,10 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2220,5,Reduce time between attacks by <color=green>20%</color>.,0.87,0.3,3,1.68,0,0.5,1,0.25,0,600,0,0,0,0
 2220,6,Increase damage by <color=green>20%</color>.,0.87,0.3,3,2.016,0,0.5,1,0.25,0,600,0,0,0,0
 2220,7,Shoot <color=green>5</color> magic blasts.,0.87,0.3,5,2.016,0,0.5,1,0.25,0,600,0,0,0,0
+2221,1,Slashes twice in front.,1.67,0.3,2,1,0.08,0.5,0.9,0.25,0,0,0,0,0,0
+2221,2,Increase damage by <color=green>20%</color>.,1.67,0.3,2,1.2,0.08,0.5,0.9,0.25,0,0,0,0,0,0
+2221,3,Increase size by <color=green>10%</color>.,1.67,0.3,2,1.2,0.08,0.5,1,0.25,0,0,0,0,0,0
+2221,4,Reduce time between attacks by <color=green>15%</color>.,1.42,0.3,2,1.2,0.08,0.5,1,0.25,0,0,0,0,0,0
+2221,5,Increase size by <color=green>20%</color>.,1.42,0.3,2,1.2,0.08,0.5,1.2,0.25,0,0,0,0,0,0
+2221,6,Increase damage by <color=green>20%</color>.,1.42,0.3,2,1.44,0.08,0.5,1.2,0.25,0,0,0,0,0,0
+2221,7,Reduce time between attacks by <color=green>20%</color> and increase damage by <color=green>20%</color>.,1.136,0.3,2,1.728,0.08,0.5,1.2,0.25,0,0,0,0,0,0
