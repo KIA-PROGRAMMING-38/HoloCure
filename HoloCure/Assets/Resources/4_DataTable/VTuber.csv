@@ -7,5 +7,6 @@ Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,Attack,
 1106,Nanashi Mumei,spr_Mumei_idle_0,spr_MumeiPortrait_0,spr_Title_Mumei_0,2206,60,8,112,5,50,0
 1107,Tsukumo Sana,spr_Sana_idle_0,spr_SanaPortrait_0,spr_Title_Sana_0,2207,80,8,104,1,50,0
 1108,Ouro Kronii,spr_Kroni_idle_0,spr_KroniiPortrait_0,spr_Title_Kronii_0,2208,70,12,108,3,50,0
-1109,Tokino Sora,spr_Sora_idle_0,spr_SoraPortrait_0,spr_Title_Sora_0,2209,65,1,112,3,50,0
+1109,Tokino Sora,spr_Sora_idle_0,spr_SoraPortrait_0,spr_Title_Sora_0,2209,65,10,112,3,50,0
 1110,Shirakami Fubuki,spr_Fubuki_idle_0,spr_FubukiPortrait_0,spr_Title_Fubuki_0,2210,55,10,120,5,50,0
+1111,Ookami Mio,spr_Mio_idle_0,spr_MioPortrait_0,spr_Title_Mio_0,2211,70,9,112,1,50,0
