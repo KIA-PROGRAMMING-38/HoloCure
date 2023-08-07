@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 910587865621701134}
   - component: {fileID: 3799380242967378072}
   - component: {fileID: 1197020586081206830}
-  - component: {fileID: 8238791816634274329}
+  - component: {fileID: -3244176633144258588}
   m_Layer: 0
   m_Name: Love Needle
   m_TagString: Untagged
@@ -141,7 +141,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8238791816634274329
+--- !u!114 &-3244176633144258588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,6 +150,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1863611384153510076}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 727515c2a0437a945bb20b2cf757d58b, type: 3}
+  m_Script: {fileID: 11500000, guid: e14a221daa5d10346883c73e1db8fa07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
