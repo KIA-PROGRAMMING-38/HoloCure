@@ -6,7 +6,11 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:HoloCure/Assets/Resources/2_Anim/Fox Tail_Impact.anim
   m_Name: Fox Tail_Impact
+========
+  m_Name: Orayo_Impact
+>>>>>>>> main:HoloCure/Assets/Resources/2_Anim/Orayo_Impact.anim
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
