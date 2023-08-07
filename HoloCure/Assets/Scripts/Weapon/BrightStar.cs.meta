@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Scripts/Weapon/BrightStar.cs.meta
 guid: e12ae893a917beb44acf1c296cc28b10
+========
+guid: 12a169affc8ab604db77d56b17fdd687
+>>>>>>>> main:HoloCure/Assets/Scripts/Weapon/DivaSong.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
