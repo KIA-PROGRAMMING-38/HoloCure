@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5252626716646900202}
   - component: {fileID: 4805982172995758038}
   - component: {fileID: 6548718715669486110}
-  - component: {fileID: -3417349385988715942}
+  - component: {fileID: 2242948368868263363}
   m_Layer: 0
   m_Name: Fox Tail
   m_TagString: Untagged
@@ -124,7 +124,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-3417349385988715942
+--- !u!114 &2242948368868263363
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,6 +133,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5002649415435631044}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a262e27c2b90ef45b1d6a5d7afd6d09, type: 3}
+  m_Script: {fileID: 11500000, guid: 62551717795b6234a8fc954e6721847e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
