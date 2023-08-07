@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Resources/3_Prefab/Axe Swing.prefab.meta
 guid: 8915f474fdcec504b926e40366f02bb7
+========
+guid: dd1281d425544364eb1b8944465fa749
+>>>>>>>> main:HoloCure/Assets/Resources/3_Prefab/Baseball Pitch.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

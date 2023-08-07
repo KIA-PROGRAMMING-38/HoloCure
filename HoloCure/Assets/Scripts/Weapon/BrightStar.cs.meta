@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Scripts/Weapon/BrightStar.cs.meta
 guid: e12ae893a917beb44acf1c296cc28b10
+========
+guid: 727515c2a0437a945bb20b2cf757d58b
+>>>>>>>> main:HoloCure/Assets/Scripts/Weapon/CursorTargetingRangedWeapon.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

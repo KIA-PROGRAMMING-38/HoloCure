@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Scripts/Weapon/BaseballPitch.cs.meta
 guid: 1ca9f011726ad014e86bf5b6ce9b799a
+========
+guid: 6a262e27c2b90ef45b1d6a5d7afd6d09
+>>>>>>>> main:HoloCure/Assets/Scripts/Weapon/CursorTargetingMeleeWeapon.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
