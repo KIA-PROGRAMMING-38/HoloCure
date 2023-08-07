@@ -46,14 +46,14 @@ public class WeaponLevelData
     public string Description { get; set; }
     public float BaseAttackSequenceTime { get; set; }
     public float MinAttackSequenceTime { get; set; }
-    public int ProjectileCount { get; set; }
+    public int StrikeCount { get; set; }
     public float DamageRate { get; set; }
     public float AttackDelay { get; set; }
     public float HitCoolTime { get; set; }
     public float Size { get; set; }
     public float AttackDurationTime { get; set; }
     public float ImpactDurationTime { get; set; }
-    public float ProjectileSpeed { get; set; }
+    public float StrikeSpeed { get; set; }
     public float KnockbackDurationTime { get; set; }
     public float KnockbackSpeed { get; set; }
     public int Radius { get; set; }

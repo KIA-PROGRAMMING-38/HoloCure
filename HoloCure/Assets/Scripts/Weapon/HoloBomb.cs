@@ -1,4 +1,5 @@
 using UnityEngine;
+using Util;
 
 public class HoloBomb : Weapon
 {
@@ -6,57 +7,47 @@ public class HoloBomb : Weapon
     public override void LevelUp()
     {
         base.LevelUp();
-        SetAngles();
-    }
-    private void SetAngles()
-    {
-        _angles = new float[weaponData.ProjectileCount];
-        int angleStep = 360 / weaponData.ProjectileCount;
-        for (int i = 0; i < weaponData.ProjectileCount; ++i)
-        {
-            _angles[i] = i * angleStep;
-        }
+        Utils.SetAnglesFromCircle(_angles, weaponData.StrikeCount);
     }
 
-    protected override void ShootProjectile(int projectileIndex)
+    protected override void PerformStrike(int strikeIndex)
     {
-        Projectile projectile = Managers.Spawn.Projectile.Get();
-        projectile.gameObject.layer = LayerNum.IMPACT;
-        projectile.OnImpact -= ProjectileOnImpact;
-        projectile.OnImpact += ProjectileOnImpact;
+        WeaponStrike strike = Managers.Spawn.Strike.Get();
+        strike.gameObject.layer = LayerNum.IMPACT;
+        strike.OnImpact -= StrikeOnImpact;
+        strike.OnImpact += StrikeOnImpact;
 
-        Quaternion rotation = Quaternion.Euler(0, 0, _angles[projectileIndex]);
-        Vector2 cursorPosition = Util.CursorCache.CursorWorldPosition;
-        Vector2 projectileInitPosition = weapon2DPosition;
-        Vector2 direction = (cursorPosition - projectileInitPosition).normalized;
-        Vector2 offset = rotation * direction * 50;
+        Quaternion rotation = Quaternion.Euler(0, 0, _angles[strikeIndex]);
+        Vector2 strikeInitPosition = weapon2DPosition;
+        Vector2 direction = CursorCache.GetDirectionToCursor(strikeInitPosition);
+        Vector2 offset = rotation * direction * weaponData.Radius;
 
-        projectile.Init(projectileInitPosition, weaponData, weaponCollider,
-            ProjectileOperate, offset: offset);
+        strike.Init(strikeInitPosition, weaponData, weaponCollider,
+            StrikeOperate, offset: offset);
 
         Managers.Sound.Play(SoundID.HoloBomb);
     }
 
-    private void ProjectileOperate(Projectile projectile)
+    private void StrikeOperate(WeaponStrike strike)
     {
-        Vector2 start = projectile.InitPosition;
-        Vector2 end = start + projectile.Offset;
-        float t = projectile.OperateTime / 0.1f;
+        Vector2 start = strike.InitPosition;
+        Vector2 end = start + strike.Offset;
+        float t = strike.OperateTime / 0.1f;
 
-        projectile.transform.position = Vector2.Lerp(start, end, t);
-        projectile.transform.rotation = default;
+        strike.transform.position = Vector2.Lerp(start, end, t);
+        strike.transform.rotation = default;
     }
 
-    private void ProjectileOnImpact(Projectile projectile)
+    private void StrikeOnImpact(WeaponStrike strike)
     {
-        projectile.HasImpacted = true;
-        projectile.gameObject.layer = LayerNum.WEAPON;
-        projectile.transform.localScale = Vector2.one * weaponData.ImpactSize;
-        projectile.transform.rotation = default;
+        strike.HasImpacted = true;
+        strike.gameObject.layer = LayerNum.WEAPON;
+        strike.transform.localScale = Vector2.one * weaponData.ImpactSize;
+        strike.transform.rotation = default;
 
-        CircleCollider2D collider = projectile.gameObject.GetComponentAssert<CircleCollider2D>();
+        CircleCollider2D collider = strike.gameObject.GetComponentAssert<CircleCollider2D>();
         collider.radius = weaponData.Radius;
         collider.offset = new Vector2(0, weaponData.Radius / 2);
-        projectile.ResetCollider();
+        strike.ResetCollider();
     }
 }

@@ -5,9 +5,9 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using Random = UnityEngine.Random;
-public class Projectile : MonoBehaviour
+public class WeaponStrike : MonoBehaviour
 {
-    public event Action<Projectile> OnImpact;
+    public event Action<WeaponStrike> OnImpact;
     public bool HasImpacted { get; set; }
     public float OperateTime { get; private set; }
     public float ImpactTime { get; private set; }
@@ -17,8 +17,8 @@ public class Projectile : MonoBehaviour
     public Vector2 Offset;
 
     private WeaponLevelData _data;
-    private Action<Projectile> _operate;
-    private Action<Projectile> _impactOperate;
+    private Action<WeaponStrike> _operate;
+    private Action<WeaponStrike> _impactOperate;
 
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -37,7 +37,7 @@ public class Projectile : MonoBehaviour
     }
 
     public void Init(Vector2 position, WeaponLevelData data, Collider2D collider,
-        Action<Projectile> operate = null, Action<Projectile> impactOperate = null, Vector2 offset = default)
+        Action<WeaponStrike> operate = null, Action<WeaponStrike> impactOperate = null, Vector2 offset = default)
     {
         transform.position = position;
         transform.localScale = Vector2.one * data.Size;
@@ -73,8 +73,8 @@ public class Projectile : MonoBehaviour
         ItemData data = Managers.Data.Item[_data.Id];
 
         var overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
-        overrideController["ProjectileLaunch"] = Managers.Resource.LoadAnimClip(data.Name, "_Launch");
-        overrideController["ProjectileImpact"] = Managers.Resource.LoadAnimClip(data.Name, "_Impact");
+        overrideController["Launch"] = Managers.Resource.LoadAnimClip(data.Name, "_Launch");
+        overrideController["Impact"] = Managers.Resource.LoadAnimClip(data.Name, "_Impact");
         _animator.runtimeAnimatorController = overrideController;
 
         _spriteRenderer.color = Color.white;
@@ -133,7 +133,7 @@ public class Projectile : MonoBehaviour
         if (currentTime < duration) { return; }
 
         _hitCoolTimes.Clear();
-        Managers.Spawn.Projectile.Release(this);
+        Managers.Spawn.Strike.Release(this);
     }
 
     private void OnTrigger(Collider2D collision)

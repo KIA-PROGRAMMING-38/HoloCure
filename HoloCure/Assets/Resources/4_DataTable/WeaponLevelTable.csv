@@ -1,4 +1,4 @@
-Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,ProjectileCount,DamageRate,AttackDelay,HitCoolTime,Size,AttackDurationTime,ImpactDurationTime,ProjectileSpeed,KnockbackDurationTime,KnockbackSpeed,Radius,ImpactSize
+Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,DamageRate,AttackDelay,HitCoolTime,Size,AttackDurationTime,ImpactDurationTime,StrikeSpeed,KnockbackDurationTime,KnockbackSpeed,Radius,ImpactSize
 2101,1,"Create an area of miasma around, dealing slow damage to enemies inside.",10,10,1,0.9,0,0.75,1.1,10.02,0,0,0,0,0,0
 2101,2,Increase area by <color=green>15%</color>.,10,10,1,0.9,0,0.75,1.265,10.02,0,0,0,0,0,0
 2101,3,Increase damage by <color=green>30%</color>.,10,10,1,1.17,0,0.75,1.265,10.02,0,0,0,0,0,0
@@ -13,13 +13,13 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,ProjectileCoun
 2102,5,Reduce the time between attacks by <color=green>20%</color>.,1.6,0.3,2,1.7,0.08,0.33,1,10.5,1.34,7,0,0,50,2.04
 2102,6,Increase explosion size by <color=green>20%</color>.,1.6,0.3,2,1.9872,0.08,0.33,1,10.5,1.34,7,0,0,50,2.04
 2102,7,Throw <color=green>3</color> bombs.,1.6,0.3,3,1.9872,0.08,0.33,1,10.5,1.34,7,0,0,50,2.04
-2103,1,Throw an axe that spirals outward from the player.,4,0.3,1,1.2,0,0.83,1,3,0,0.1,0,0,40,0
-2103,2,Increase size of axe by <color=green>20%</color>. Increase damage of axe by <color=green>20%</color>.,4,0.3,1,1.56,0,0.83,1.2,3,0,0.1,0,0,40,0
-2103,3,Reduce delay between attacks by <color=green>20%</color>.,3.2,0.3,1,1.56,0,0.83,1.2,3,0,0.1,0,0,40,0
-2103,4,"Increase damage by <color=green>33%</color>, and size by <color=green>20%</color>.",3.2,0.3,1,2.07,0,0.83,1.44,3,0,0.1,0,0,40,0
-2103,5,Lasts <color=green>1</color> second longer.,3.2,0.3,1,2.07,0,0.83,1.44,4,0,0.1,0,0,40,0
-2103,6,Increase attack size by <color=green>50%</color>.,3.2,0.3,1,2.07,0,0.83,2.16,4,0,0.1,0,0,40,0
-2103,7,Increase damage by <color=green>50%</color>.,3.2,0.3,1,3.11,0,0.83,2.16,4,0,0.1,0,0,40,0
+2103,1,Throw an axe that spirals outward from the player.,4,0.3,1,1.2,0,0.83,1,3,0,300,0,0,40,0
+2103,2,Increase size of axe by <color=green>20%</color>. Increase damage of axe by <color=green>20%</color>.,4,0.3,1,1.56,0,0.83,1.2,3,0,300,0,0,40,0
+2103,3,Reduce delay between attacks by <color=green>20%</color>.,3.2,0.3,1,1.56,0,0.83,1.2,3,0,300,0,0,40,0
+2103,4,"Increase damage by <color=green>33%</color>, and size by <color=green>20%</color>.",3.2,0.3,1,2.07,0,0.83,1.44,3,0,300,0,0,40,0
+2103,5,Lasts <color=green>1</color> second longer.,3.2,0.3,1,2.07,0,0.83,1.44,4,0,300,0,0,40,0
+2103,6,Increase attack size by <color=green>50%</color>.,3.2,0.3,1,2.07,0,0.83,2.16,4,0,300,0,0,40,0
+2103,7,Increase damage by <color=green>50%</color>.,3.2,0.3,1,3.11,0,0.83,2.16,4,0,300,0,0,40,0
 2104,1,Repels targets with orbiting BL Books.,6,5,3,1.4,0,0.33,1,2,0,210,0.08,60,50,0
 2104,2,Add <color=green>1</color> additional book.,6,5,4,1.4,0,0.33,1,2,0,210,0.08,60,50,0
 2104,3,Increase damage by <color=green>30%</color> and increase duration by <color=green>1</color> second.,6,5,4,1.82,0,0.33,1,5,0,210,0.08,60,50,0

@@ -1,53 +1,13 @@
 using UnityEngine;
 
-public class BirdFeather : Weapon
+public class BirdFeather : CursorTargetingRangedWeapon
 {
-    private const float ANGLE_BETWEEN_PROJECTILES = 5f;
-    private float[] _angles = new float[Managers.Data.WeaponLevelTable[ItemID.BirdFeather][7].ProjectileCount + 2];
-    private Quaternion _centerShootRotation;
-
-    public override void LevelUp()
+    private const float ANGLE_BETWEEN_STRIKES = 5f;
+    private void Awake() => angleBetweenStrikes = ANGLE_BETWEEN_STRIKES;
+    protected override void SetupStrikeOnPerform(WeaponStrike strike, int strikeIndex)
     {
-        base.LevelUp();
-        SetAngle();
-    }
-
-    private void SetAngle()
-    {
-        int projectileCount = weaponData.ProjectileCount;
-
-        float centerAngle = projectileCount % 2 == 0 ? ANGLE_BETWEEN_PROJECTILES / 2 : 0f;
-        float totalAngle = ANGLE_BETWEEN_PROJECTILES * (projectileCount / 2);
-
-        for (int projectileIndex = 0; projectileIndex < projectileCount; ++projectileIndex)
-        {
-            float currentAngle = ANGLE_BETWEEN_PROJECTILES * projectileIndex;
-            _angles[projectileIndex] = centerAngle - totalAngle + currentAngle;
-        }
-    }
-
-    protected override void ShootProjectile(int projectileIndex)
-    {
-        Projectile projectile = Managers.Spawn.Projectile.Get();
-        Vector2 projectileInitPosition = weapon2DPosition;
-
-        projectile.Init(projectileInitPosition, weaponData, weaponCollider,
-            ProjectileOperate);
-
-        if (projectileIndex == 0)
-        {
-            projectile.transform.RotateLookCursor();
-            _centerShootRotation = projectile.transform.rotation;
-        }
-        projectile.transform.rotation = _centerShootRotation * Quaternion.AngleAxis(_angles[projectileIndex], Vector3.back);
+        strike.transform.rotation = centerStrikeRotation * Quaternion.AngleAxis(angles[strikeIndex], Vector3.back);
 
         Managers.Sound.Play(SoundID.BirdFeather);
-    }
-
-    private void ProjectileOperate(Projectile projectile)
-    {
-        Vector2 direction = projectile.transform.right;
-        Vector3 translation = direction * (weaponData.ProjectileSpeed * Time.deltaTime);
-        projectile.transform.position += translation;
     }
 }

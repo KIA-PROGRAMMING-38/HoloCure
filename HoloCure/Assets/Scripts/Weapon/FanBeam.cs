@@ -1,21 +1,18 @@
 using UnityEngine;
 
-public class FanBeam : Weapon
+public class FanBeam : CursorTargetingRangedWeapon
 {
-    private static readonly Vector3 REVERSE_ANGLE = new Vector3(0, 0, 180);
-    protected override void ShootProjectile(int projectileIndex)
+    private const float ANGLE_BETWEEN_STRIKES = 180f;
+    private void Awake() => angleBetweenStrikes = ANGLE_BETWEEN_STRIKES;
+    protected override void SetupStrikeOnPerform(WeaponStrike strike, int strikeIndex)
     {
-        Projectile projectile = Managers.Spawn.Projectile.Get();
-        Vector2 projectileInitPosition = weapon2DPosition;
-
-        projectile.Init(projectileInitPosition, weaponData, weaponCollider);
-
-        projectile.transform.RotateLookCursor();
-        if (projectileIndex != 0)
-        {
-            projectile.transform.Rotate(REVERSE_ANGLE);
-        }
+        strike.transform.rotation = centerStrikeRotation * Quaternion.AngleAxis(angles[strikeIndex], Vector3.back);
 
         Managers.Sound.Play(SoundID.FanBeam);
+    }
+
+    protected override void StrikeOperate(WeaponStrike strike)
+    {
+
     }
 }
