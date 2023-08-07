@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8715229416072761399}
   - component: {fileID: 3443620882231697509}
   - component: {fileID: 8007843964559227539}
-  - component: {fileID: 8245268801871415530}
+  - component: {fileID: 2692088386882077204}
   m_Layer: 0
   m_Name: Murasaki Bolt
   m_TagString: Untagged
@@ -134,7 +134,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8245268801871415530
+--- !u!114 &2692088386882077204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,6 +143,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2301201980484699956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 727515c2a0437a945bb20b2cf757d58b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9624dd0643538c448871af3dedfc673a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
