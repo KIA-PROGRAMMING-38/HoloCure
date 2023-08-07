@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Scripts/Weapon/AxeSwing.cs.meta
 guid: caee18bc4137fce44a00b4ff6b7687c5
+========
+guid: 6a262e27c2b90ef45b1d6a5d7afd6d09
+>>>>>>>> main:HoloCure/Assets/Scripts/Weapon/CursorTargetingMeleeWeapon.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
