@@ -25,6 +25,7 @@ public enum ItemID
     AxeSwing,
     RedHeart,
     KapuKapu,
+    BaseballPitch,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Scripts/Weapon/BaseballPitch.cs.meta
+guid: 1ca9f011726ad014e86bf5b6ce9b799a
+========
+guid: 727515c2a0437a945bb20b2cf757d58b
+>>>>>>>> main:HoloCure/Assets/Scripts/Weapon/CursorTargetingRangedWeapon.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
