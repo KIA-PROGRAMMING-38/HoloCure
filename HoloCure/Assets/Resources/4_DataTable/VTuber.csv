@@ -5,3 +5,4 @@ Id,Name,DisplaySprite,PortraitSprite,TitleSprite,StartingWeaponId,Health,Attack,
 1104,Gawr Gura,spr_Gura_idle_0,spr_Gura_portrait_0,spr_Title_Gura_0,2204,65,11,112,5,50,0
 1105,Takanashi Kiara,spr_Kiara_idle_0,spr_KiaraPortrait_0,spr_Title_Kiara_0,2205,90,10,112,5,50,0
 1106,Nanashi Mumei,spr_Mumei_idle_0,spr_MumeiPortrait_0,spr_Title_Mumei_0,2206,60,8,112,5,50,0
+1107,Tsukumo Sana,spr_Sana_idle_0,spr_SanaPortrait_0,spr_Title_Sana_0,2207,80,8,104,1,50,0

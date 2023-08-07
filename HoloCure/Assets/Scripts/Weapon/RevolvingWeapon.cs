@@ -16,7 +16,7 @@ public class RevolvingWeapon : Weapon
     {
         for (int strikeIndex = 0; strikeIndex < weaponData.StrikeCount; ++strikeIndex)
         {
-            Vector2 direction = Utils.GetClockwiseVector(angles[strikeIndex]);
+            Vector2 direction = Utils.GetCounterClockwiseVector(angles[strikeIndex]);
             strikeRevolvingOffsets[strikeIndex] = direction * weaponData.Radius;
         }
     }
