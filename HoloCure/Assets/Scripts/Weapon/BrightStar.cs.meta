@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Scripts/Weapon/BrightStar.cs.meta
 guid: e12ae893a917beb44acf1c296cc28b10
+========
+guid: 57da3ede52fc0ad4f9d3a175f57569a3
+>>>>>>>> main:HoloCure/Assets/Scripts/Weapon/ClockHands.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
