@@ -66,6 +66,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 461add302b292a241beb61cbc8ff7902, type: 3}
   - {fileID: 21300000, guid: 1d115f30122a79140929017fdc7e655a, type: 3}
   - {fileID: 21300000, guid: d6ca3f405f815234d98a504824f3fbef, type: 3}
+  - {fileID: 21300000, guid: 25e3cf40c402fb74cbf29e6ae6f684b4, type: 3}
   - {fileID: 21300000, guid: 3f128950cc932d74f8020d50084649b0, type: 3}
   - {fileID: 21300000, guid: 573fba504f6f77b4aa19e0191c9e6e9d, type: 3}
   - {fileID: 21300000, guid: 6d1c1260fbb002a4892a853cefd7b75b, type: 3}
@@ -624,6 +625,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8e22709adfefa4e429ccc60c4e1c7a89, type: 3}
   - {fileID: 21300000, guid: c49bd19aa9f144d40a2b23d2fad1d6e9, type: 3}
   - {fileID: 21300000, guid: c056a29a4a792a74f8283a355ccb3e4d, type: 3}
+  - {fileID: 21300000, guid: 9210849a727476f44bfef756f39eacc9, type: 3}
   - {fileID: 21300000, guid: 81cad59a711f70240b5bf58622bed762, type: 3}
   - {fileID: 21300000, guid: 321d6c9a445dfd348a66b546c899c866, type: 3}
   - {fileID: 21300000, guid: 5f4cb6aa23cb2324bb52e3ed67c82e4b, type: 3}
@@ -800,6 +802,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: fc4f1a7db67ba524395edeb43a183197, type: 3}
   - {fileID: 21300000, guid: a7c5ae7d2f55e994abb4dbefd8c8578c, type: 3}
   - {fileID: 21300000, guid: 24585f7d941041d45a824a1192bddd6b, type: 3}
+  - {fileID: 21300000, guid: 3be4cf7d9d7c23f4d86108d80a51a741, type: 3}
   - {fileID: 21300000, guid: aef5c88d50c9716448c635ffc592d9a8, type: 3}
   - {fileID: 21300000, guid: baf49a8dbb75c514a996505db3818b09, type: 3}
   - {fileID: 21300000, guid: 49a06d8d27afbb746852c2af4464fe9c, type: 3}
@@ -966,6 +969,7 @@ SpriteAtlas:
   - spr_AZKi_idle_0
   - spr_BLBookIcon_0
   - spr_bombExplode_9
+  - spr_SoraStar_1
   - spr_Suisei_idle_2
   - spr_SmollAme_jump_1
   - spr_AyameOniSlash_4
@@ -1524,6 +1528,7 @@ SpriteAtlas:
   - spr_AZKi_idle_2
   - spr_Mel_run_5
   - spr_AyamePort_0
+  - spr_SoraStar_3
   - spr_ShionWeapon_0
   - spr_Robo_bullet_1
   - spr_EXP_5
@@ -1700,6 +1705,7 @@ SpriteAtlas:
   - spr_Ame_run_4
   - spr_bombExplode_10
   - hud_HUD_HP_green_1
+  - spr_SoraStar_2
   - BG_newgrass_0
   - spr_CalliSlash1_9
   - spr_Bloom_0

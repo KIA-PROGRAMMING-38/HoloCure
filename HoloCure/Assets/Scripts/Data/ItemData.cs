@@ -16,6 +16,7 @@ public enum ItemID
     BirdFeather,
     Orbit,
     ClockHands,
+    BrightStar,
     EquipmentNone = 2300,
     StatNone = 2400,
     MaxHPUp,
