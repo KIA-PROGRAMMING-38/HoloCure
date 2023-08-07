@@ -97,3 +97,10 @@ Id,Level,Description,BaseAttackSequenceTime,MinAttackSequenceTime,StrikeCount,Da
 2209,5,Increase size by <color=green>30%</color>.,1.25,0.3,2,1,0,0.17,1.3,1.5,0,300,0.08,120,0,0
 2209,6,Shoot <color=green>3</color> stars.,1.25,0.3,3,1,0,0.17,1.3,1.5,0,300,0.08,120,0,0
 2209,7,Reduces the time between attack by <color=green>20%</color>.,1,0.3,3,1,0,0.17,1.3,1.5,0,300,0.08,120,0,0
+2210,1,Swipes Tail in front at close range,1.17,0.3,1,1.5,0,0.17,1,0.2,0,0,0,0,0,0
+2210,2,Increase damage by <color=green>20%</color>.,1.17,0.3,1,1.8,0,0.17,1,0.2,0,0,0,0,0,0
+2210,3,Increase attack area by <color=green>20%</color>.,1.17,0.3,1,1.8,0,0.17,1.2,0.2,0,0,0,0,0,0
+2210,4,Swing tail in front and back,1.17,0.3,2,1.8,0.17,0.17,1.2,0.2,0,0,0,0,0,0
+2210,5,Reduce time between attacks by <color=green>15%</color>.,0.98,0.3,2,1.8,0.17,0.17,1.2,0.2,0,0,0,0,0,0
+2210,6,Increase attack area by <color=green>20%</color>.,0.98,0.3,2,1.8,0.17,0.17,1.44,0.2,0,0,0,0,0,0
+2210,7,Increase damage by <color=green>40%</color>.,0.98,0.3,2,2.52,0.17,0.17,1.44,0.2,0,0,0,0,0,0

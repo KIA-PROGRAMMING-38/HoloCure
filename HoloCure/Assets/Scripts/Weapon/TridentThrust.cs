@@ -22,7 +22,6 @@ public class TridentThrust : CursorTargetingMeleeWeapon
     {
         if(strikeIndex == 0)
         {
-            strike.transform.RotateLookCursor();
             _centerStrikeRotation = strike.transform.rotation;
         }
         strike.transform.rotation = _centerStrikeRotation * Quaternion.AngleAxis(_angles[strikeIndex], Vector3.back);
