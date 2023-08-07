@@ -5,6 +5,7 @@ using Util;
 
 public abstract class Weapon : MonoBehaviour
 {
+    protected const int MAX_STRIKE_COUNT = 10;
     public ReactiveProperty<int> Level { get; private set; } = new();
     public ItemID Id { get; private set; }
 

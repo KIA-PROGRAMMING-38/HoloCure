@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:HoloCure/Assets/Resources/3_Prefab/Bright Star.prefab.meta
 guid: aa1e18832674f5e4e9882570db152864
+========
+guid: 478dae941930c204f89b78d3186a1034
+>>>>>>>> main:HoloCure/Assets/Resources/3_Prefab/Clock Hands.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
