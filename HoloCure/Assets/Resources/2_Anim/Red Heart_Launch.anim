@@ -6,11 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<<< HEAD:HoloCure/Assets/Resources/2_Anim/Axe Swing_Impact.anim
-  m_Name: Axe Swing_Impact
-========
-  m_Name: Fox Tail_Impact
->>>>>>>> main:HoloCure/Assets/Resources/2_Anim/Fox Tail_Impact.anim
+  m_Name: Red Heart_Launch
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -24,12 +20,14 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 0}
+      value: {fileID: 21300000, guid: 0f319a9984cbde2478e5f67a330ec2d2, type: 3}
+    - time: 2
+      value: {fileID: 21300000, guid: 0f319a9984cbde2478e5f67a330ec2d2, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 100
+  m_SampleRate: 1
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -44,13 +42,14 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 0}
+    - {fileID: 21300000, guid: 0f319a9984cbde2478e5f67a330ec2d2, type: 3}
+    - {fileID: 21300000, guid: 0f319a9984cbde2478e5f67a330ec2d2, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.01
+    m_StopTime: 3
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

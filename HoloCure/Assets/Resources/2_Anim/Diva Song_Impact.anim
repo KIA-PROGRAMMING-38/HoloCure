@@ -9,8 +9,8 @@ AnimationClip:
 <<<<<<<< HEAD:HoloCure/Assets/Resources/2_Anim/Diva Song_Impact.anim
   m_Name: Diva Song_Impact
 ========
-  m_Name: Launch
->>>>>>>> main:HoloCure/Assets/Resources/2_Anim/Launch.anim
+  m_Name: Impact
+>>>>>>>> main:HoloCure/Assets/Resources/2_Anim/Impact.anim
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
